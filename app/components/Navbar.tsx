@@ -45,9 +45,9 @@ export default function Navbar() {
     };
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50">
+        <header className="fixed top-0 left-0 right-0 z-50 mx-6">
             <div className="mx-auto w-full max-w-[1920px]">
-                <nav className="mx-6 my-6 h-[50px] bg-[#181F30] flex items-center justify-between border border-[#FFFFFF1A] rounded-[210px] pl-[26px] pr-[9px]">
+                <nav className="my-6 h-[50px] bg-[#181F30] flex items-center justify-between border border-[#FFFFFF1A] rounded-[210px] pl-[26px] pr-[9px]">
                     {/* Logo */}
                     <Link href="/">
                         <Image src='/assets/logo.svg' alt="Logo" width={34.94} height={30} />
