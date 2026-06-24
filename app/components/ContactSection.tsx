@@ -27,7 +27,7 @@ export default function ContactSection() {
     ];
 
     return (
-        <section className="relative w-full pt-[170px] pb-[120px] px-6">
+        <section className="relative w-full pt-[170px] px-6">
             {/* Ellipse 6 – left glow */}
             <div
                 aria-hidden="true"

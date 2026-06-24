@@ -9,6 +9,7 @@ import ArticlesSection from "./components/ArticlesSection";
 import FAQ from "./components/FAQ";
 import PricingSection from "./components/PricingSection";
 import ContactSection from "./components/ContactSection";
+import TestimonialsSection from "./components/TestimonialsSection";
 
 export default function Home() {
   return (
@@ -43,6 +44,7 @@ export default function Home() {
 
       {/* <CTA /> */}
       <ContactSection/>
+      <TestimonialsSection />
       <FAQ />
     </main>
   );
