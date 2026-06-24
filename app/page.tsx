@@ -5,6 +5,7 @@ import GlobalMarketInsights from "./components/GlobalMarketInsights";
 import StatsSection from "./components/StatsSection";
 import MarketsSection from "./components/MarketsSection";
 import IntelligenceSection from "./components/IntelligenceSection";
+import ArticlesSection from "./components/ArticlesSection";
 import FAQ from "./components/FAQ";
 
 export default function Home() {
@@ -13,71 +14,30 @@ export default function Home() {
       <Navbar />
       <Hero />
 
-      {/* LogoSlider + GlobalMarketInsights — shared left/right glow */}
+      {/* LogoSlider + GlobalMarketInsights */}
       <div className="relative">
-        <div
-          aria-hidden="true"
-          className="absolute pointer-events-none"
-          style={{
-            width: "977px", height: "625px",
-            left: "-300px", top: "350px",
-            background: "rgba(34, 126, 217, 0.4)",
-            filter: "blur(250px)",
-            transform: "rotate(-26.89deg)",
-            zIndex: 0,
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="absolute pointer-events-none"
-          style={{
-            width: "977px", height: "625px",
-            right: "-300px", top: "350px",
-            background: "rgba(34, 126, 217, 0.4)",
-            filter: "blur(250px)",
-            transform: "rotate(-26.89deg)",
-            zIndex: 0,
-          }}
-        />
+        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", left: "-300px", top: "350px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", transform: "rotate(-26.89deg)", zIndex: 0 }} />
+        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", right: "-300px", top: "350px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", transform: "rotate(-26.89deg)", zIndex: 0 }} />
         <div className="relative" style={{ zIndex: 1 }}>
           <LogoSlider />
           <GlobalMarketInsights />
         </div>
       </div>
 
-      {/* Stats + Markets + Intelligence — Figma Ellipse 1 & 2 glows */}
+      {/* Stats + Markets + Intelligence */}
       <div className="relative">
-        {/* Left glow — Ellipse 1 */}
-        <div
-          aria-hidden="true"
-          className="absolute pointer-events-none"
-          style={{
-            width: "977px", height: "625px",
-            left: "-758px", top: "0px",
-            background: "rgba(34, 126, 217, 0.4)",
-            filter: "blur(250px)",
-            zIndex: 0,
-          }}
-        />
-        {/* Right glow — Ellipse 2 */}
-        <div
-          aria-hidden="true"
-          className="absolute pointer-events-none"
-          style={{
-            width: "977px", height: "625px",
-            right: "-400px", top: "0px",
-            background: "rgba(34, 126, 217, 0.4)",
-            filter: "blur(250px)",
-            transform: "rotate(-26.89deg)",
-            zIndex: 0,
-          }}
-        />
+        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", left: "-758px", top: "0px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", zIndex: 0 }} />
+        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", right: "-400px", top: "0px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", transform: "rotate(-26.89deg)", zIndex: 0 }} />
         <div className="relative" style={{ zIndex: 1 }}>
           <StatsSection />
           <MarketsSection />
           <IntelligenceSection />
         </div>
       </div>
+
+      {/* Articles — glows inside component */}
+      <ArticlesSection />
+
       <FAQ />
     </main>
   );
