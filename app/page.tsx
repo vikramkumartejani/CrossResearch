@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import LogoSlider from "./components/LogoSlider";
 import GlobalMarketInsights from "./components/GlobalMarketInsights";
+import FAQ from "./components/FAQ";
 
 export default function Home() {
   return (
@@ -45,6 +46,7 @@ export default function Home() {
           <GlobalMarketInsights />
         </div>
       </div>
+      <FAQ />
     </main>
   );
 }
