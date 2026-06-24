@@ -127,6 +127,22 @@ export default function TestimonialsSection() {
 
     return (
         <section className="relative w-full py-[170px]">
+            {/* Ellipse 7 – right glow */}
+            <div
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    width: '700px',
+                    height: '446.65px',
+                    right: '-318px',
+                    top: '25%',
+                    background: 'rgba(34, 126, 217, 0.4)',
+                    filter: 'blur(150px)',
+                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                }}
+            />
             {/* Header */}
             <div className="px-6 mb-20">
                 <div className="relative z-10 mx-auto max-w-[1560px]">
@@ -160,13 +176,13 @@ export default function TestimonialsSection() {
             <div className="w-full overflow-hidden" style={{ position: 'relative', height: '492px' }}>
                 {/* Left fade */}
                 <div aria-hidden="true" style={{
-                    position: 'absolute', top: 0, left: 0, width: '217px', height: '100%',
+                    position: 'absolute', top: 0, left: 0, width: '120px', height: '100%',
                     background: 'linear-gradient(to right, #070711 0%, transparent 100%)',
                     zIndex: 10, pointerEvents: 'none',
                 }} />
                 {/* Right fade */}
                 <div aria-hidden="true" style={{
-                    position: 'absolute', top: 0, right: 0, width: '217px', height: '100%',
+                    position: 'absolute', top: 0, right: 0, width: '120px', height: '100%',
                     background: 'linear-gradient(to left, #070711 0%, transparent 100%)',
                     zIndex: 10, pointerEvents: 'none',
                 }} />

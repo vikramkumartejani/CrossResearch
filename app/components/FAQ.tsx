@@ -61,10 +61,10 @@ export default function FAQ() {
                 aria-hidden="true"
                 style={{
                     position: 'absolute',
-                    width: '977.2px',
+                    width: '800px',
                     height: '446.65px',
                     right: '-318px',
-                    top: '0%',
+                    top: '20%',
                     transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
                     background: 'rgba(34, 126, 217, 0.4)',
                     filter: 'blur(250px)',
