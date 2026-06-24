@@ -23,7 +23,7 @@ const FEATURES = [
 
 export default function GlobalMarketInsights() {
     return (
-        <section className="relative w-full pb-20 pt-[50px] px-6">
+        <section className="relative w-full pt-[50px] px-6">
             {/* Content */}
             <div className="relative z-10 mx-auto max-w-[1640px]">
 
