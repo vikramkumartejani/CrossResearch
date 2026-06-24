@@ -148,7 +148,7 @@ export default function ArticlesSection() {
                             className="bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-[30px] flex items-start flex-col rounded-[50px] overflow-hidden transition-all duration-200"
                         >
                             {/* Thumbnail — tall */}
-                            <div className="relative flex-shrink-0 w-[708px] min-h-[550px] bg-[#FFFFFF0D] rounded-[40px]">
+                            <div className="relative flex-shrink-0 w-full max-w-[708px] min-h-[550px] bg-[#FFFFFF0D] rounded-[40px]">
                                 <div className="absolute bottom-6 right-6 flex items-center gap-2">
                                     <span className="bg-[#FFFFFF0D] px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/50">
                                         {article.category}

@@ -28,6 +28,38 @@ export default function ContactSection() {
 
     return (
         <section className="relative w-full pt-[170px] pb-[120px] px-6">
+            {/* Ellipse 6 – left glow */}
+            <div
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    width: '977.2px',
+                    height: '446.65px',
+                    left: '-400px',
+                    top: '200px',
+                    background: 'rgba(34, 126, 217, 0.4)',
+                    filter: 'blur(250px)',
+                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                }}
+            />
+            {/* Ellipse 5 – right glow */}
+            <div
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    width: '977.2px',
+                    height: '446.65px',
+                    right: '-400px',
+                    top: '100px',
+                    background: 'rgba(34, 126, 217, 0.4)',
+                    filter: 'blur(250px)',
+                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                }}
+            />
             <div className="relative z-10 mx-auto max-w-[1560px]">
 
                 {/* Badge */}
