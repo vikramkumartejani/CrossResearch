@@ -2,12 +2,14 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background: #070711;
   font-family: var(--font-dm-sans), Arial, sans-serif;
   color: #ffffff;
+  overflow-x: hidden;
 }
 
 .font-inter {
