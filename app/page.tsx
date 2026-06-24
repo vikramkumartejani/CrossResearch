@@ -7,6 +7,7 @@ import MarketsSection from "./components/MarketsSection";
 import IntelligenceSection from "./components/IntelligenceSection";
 import ArticlesSection from "./components/ArticlesSection";
 import FAQ from "./components/FAQ";
+import PricingSection from "./components/PricingSection";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
 
       {/* Articles — glows inside component */}
       <ArticlesSection />
+      <PricingSection/>
 
       <FAQ />
     </main>
