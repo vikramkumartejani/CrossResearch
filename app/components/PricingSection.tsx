@@ -241,7 +241,7 @@ export default function PricingSection() {
     const plans = PLANS[billing];
 
     return (
-        <section className="relative w-full py-[170px] px-6">
+        <section className="relative w-full pt-[170px] px-6">
             {/* Left glow */}
             <div
                 aria-hidden="true"
