@@ -6,6 +6,8 @@ import StatsSection from "./components/StatsSection";
 import MarketsSection from "./components/MarketsSection";
 import IntelligenceSection from "./components/IntelligenceSection";
 import FAQ from "./components/FAQ";
+import CTA from "./components/CTA";
+import ContactSection from "./components/ContactSection";
 
 export default function Home() {
   return (
@@ -79,6 +81,8 @@ export default function Home() {
         </div>
       </div>
       <FAQ />
+      <CTA />
+      <ContactSection />
     </main>
   );
 }
