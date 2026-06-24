@@ -108,12 +108,12 @@ export default function CircularProgress({
           xmlns="http://www.w3.org/2000/svg"
           className="absolute top-0 left-0"
         />
-        <div className="absolute inset-0 flex items-center justify-center text-white font-medium text-[20px] leading-none pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center text-white font-medium text-[18.62px] leading-none pointer-events-none">
           <span ref={labelRef}>0%</span>
         </div>
       </div>
       <span
-        className="text-white/60 text-[15px] leading-[22px] text-center font-normal"
+        className="text-white/60 text-[16px] leading-[24px] text-center font-normal"
         dangerouslySetInnerHTML={{ __html: label }}
       />
     </div>

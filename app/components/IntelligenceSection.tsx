@@ -40,6 +40,7 @@ export default function IntelligenceSection() {
               alt="Market intelligence dashboard"
               width={778}
               height={435}
+              className="w-full h-full"
             />
           </div>
 
@@ -67,15 +68,15 @@ export default function IntelligenceSection() {
               <CircularProgress
                 target={85}
                 label="Research and bias correct"
-                duration={1800}
+                duration={4000}
                 delay={0}
                 triggered={triggered}
               />
               <CircularProgress
                 target={99}
-                label={"Client<br/>satisfaction"}
-                duration={2000}
-                delay={300}
+                label={"Client satisfaction"}
+                duration={4000}
+                delay={0}
                 triggered={triggered}
               />
             </div>
