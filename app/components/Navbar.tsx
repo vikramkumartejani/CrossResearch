@@ -83,7 +83,7 @@ export default function Navbar() {
                                 {/* Dropdown */}
                                 {link.hasDropdown && openDropdown === link.label && (
                                     <div
-                                        className="absolute left-0 top-full mt-1 py-1.5 rounded-lg min-w-[176px] bg-[#1C2437] border border-[#ffffff12]"
+                                        className="absolute left-0 top-full mt-1 py-1.5 rounded-lg min-w-[176px] bg-[#1C2437]/80 border border-[#ffffff12]"
                                         role="menu"
                                         onMouseEnter={() => {
                                             if (closeTimer.current) clearTimeout(closeTimer.current);
