@@ -5,6 +5,7 @@ import GlobalMarketInsights from "./components/GlobalMarketInsights";
 import StatsSection from "./components/StatsSection";
 import MarketsSection from "./components/MarketsSection";
 import IntelligenceSection from "./components/IntelligenceSection";
+import FAQ from "./components/FAQ";
 
 export default function Home() {
   return (
@@ -77,6 +78,7 @@ export default function Home() {
           <IntelligenceSection />
         </div>
       </div>
+      <FAQ />
     </main>
   );
 }
