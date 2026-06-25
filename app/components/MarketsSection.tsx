@@ -90,7 +90,7 @@ export default function MarketsSection() {
                     </div>
 
                     {/* Right: dashboard image */}
-                    <div className="max-w-[809px] px-6 py-8 bg-[#FFFFFF03] rounded-[45px] border border-[#FFFFFF0D] flex items-center justify-center backdrop-blur-[131.948px] relative z-10">
+                    <div className="max-w-[809px] px-4.5 h-[497px] py-8 bg-[#FFFFFF03] rounded-[45px] border border-[#FFFFFF0D] flex items-center justify-center backdrop-blur-[131.948px] relative z-10">
                         <Image
                             src="/assets/markets.png"
                             alt="Market intelligence dashboard"

@@ -31,16 +31,16 @@ export default function IntelligenceSection() {
       <div className="mx-auto max-w-[1560px]">
         <div
           ref={sectionRef}
-          className="relative border border-[#FFFFFF0D] bg-[#FFFFFF05] rounded-[80px] py-[92px] pl-[49px] pr-[82px] overflow-hidden gap-[54px] flex flex-col lg:flex-row"
+          className="relative border border-[#FFFFFF0D] bg-[#FFFFFF05] rounded-[80px] pt-[92px] pb-[91px] pl-[49px] pr-20 overflow-hidden gap-[54px] flex flex-col lg:flex-row justify-between"
         >
           {/* Left: charts image */}
-          <div className="relative z-20 isolate max-w-[809px] px-6 py-8 bg-[#FFFFFF]/1 rounded-[45px] border border-[#FFFFFF0D] backdrop-blur-[131.948px]">
+          <div className="relative z-20 max-w-[809px] h-[497px] px-5 py-8 bg-[#FFFFFF]/1 rounded-[45px] border border-[#FFFFFF0D] backdrop-blur-[131.948px]">
             <Image
               src="/assets/our-features.png"
               alt="Market intelligence dashboard"
               width={778}
               height={435}
-              className="w-full h-full"
+              // className="w-full h-full"
             />
           </div>
 
@@ -55,7 +55,7 @@ export default function IntelligenceSection() {
               Our features
             </div>
 
-            <h2 className="mt-5 mb-7 font-medium text-[54px] leading-[59px] mb-6 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
+            <h2 className="mt-5 mb-7 font-medium text-[48px] leading-[53px] mb-7 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
               We develop intelligent finance systems
             </h2>
 
@@ -122,13 +122,13 @@ export default function IntelligenceSection() {
             }} />
           </div>
 
-          <div className="w-[150px] h-[150px]">
+          <div className="w-[296px] h-fit absolute -right-10 bottom-0">
             <Image
               src="/assets/card-dot-img.svg"
               alt=""
               width={296}
               height={391}
-              className="absolute -right-10 bottom-0 object-cover"
+              className=" object-cover"
               aria-hidden="true"
             />
           </div>
