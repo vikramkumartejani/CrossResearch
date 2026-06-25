@@ -10,10 +10,12 @@ import FAQ from "./components/FAQ";
 import PricingSection from "./components/PricingSection";
 import ContactSection from "./components/ContactSection";
 import TestimonialsSection from "./components/TestimonialsSection";
+import Footer from "./components/Footer";
+import CTA from "./components/CTA";
 
 export default function Home() {
   return (
-    <main style={{ overflowX: "hidden" }}>
+    <main>
       <Navbar />
       <Hero />
 
@@ -40,12 +42,31 @@ export default function Home() {
 
       {/* Articles — glows inside component */}
       <ArticlesSection />
-      <PricingSection/>
+      <PricingSection />
 
-      {/* <CTA /> */}
-      <ContactSection/>
+      <ContactSection />
       <TestimonialsSection />
       <FAQ />
+
+      {/* CTA + Footer share one relative wrapper — Ellipse 11 spans the boundary */}
+      <div className="relative">
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none"
+          style={{
+            width: "600px",
+            height: "600px",
+            right: "-10%",
+            top: "25%",
+            background: "rgba(34, 126, 217, 0.4)",
+            filter: "blur(250px)",
+            zIndex: 0,
+          }}
+        />
+
+        <CTA />
+        <Footer />
+      </div>
     </main>
   );
 }

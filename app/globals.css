@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
+.footer-chart {
+  mix-blend-mode: color-dodge;
+  isolation: auto;
+}
+
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
   overflow-x: hidden;
 }
 
@@ -9,7 +15,8 @@ body {
   background: #070711;
   font-family: var(--font-dm-sans), Arial, sans-serif;
   color: #ffffff;
-  overflow-x: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 .font-inter {

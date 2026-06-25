@@ -72,6 +72,22 @@ export default function FAQ() {
                     zIndex: 0,
                 }}
             />
+            {/* Ellipse 9 – left-bottom glow */}
+            <div
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    width: '777.2px',
+                    height: '380.65px',
+                    left: '-476px',
+                    bottom: '100px',
+                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
+                    background: 'rgba(34, 126, 217, 0.4)',
+                    filter: 'blur(200px)',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                }}
+            />
             {/* Content */}
             <div className="relative z-10 mx-auto max-w-[1640px]">
                 <div className="flex items-start justify-between">
