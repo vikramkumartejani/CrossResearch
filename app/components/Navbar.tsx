@@ -47,14 +47,14 @@ export default function Navbar() {
     return (
         <header className="fixed top-0 left-0 right-0 z-50 mx-6">
             <div className="mx-auto w-full max-w-[1920px]">
-                <nav className="my-6 h-[50px] bg-[#181F30] flex items-center justify-between border border-[#FFFFFF1A] rounded-[210px] pl-[26px] pr-[9px]">
+                <nav className="my-6 h-[50px] bg-[#181F30] relative flex items-center justify-between border border-[#FFFFFF1A] rounded-[210px] pl-[26px] pr-[9px]">
                     {/* Logo */}
                     <Link href="/">
                         <Image src='/assets/logo.svg' alt="Logo" width={34.94} height={30} />
                     </Link>
 
-                    {/* Desktop nav links */}
-                    <ul className="h-full hidden lg:flex items-center gap-8" role="navigation" aria-label="Main navigation">
+                    {/* Desktop nav links — absolutely centred */}
+                    <ul className="absolute left-1/2 -translate-x-1/2 h-full hidden lg:flex items-center gap-8" role="navigation" aria-label="Main navigation">
                         {NAV_LINKS.map((link) => (
                             <li
                                 key={link.label}
