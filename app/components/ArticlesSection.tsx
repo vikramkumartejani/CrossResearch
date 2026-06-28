@@ -50,19 +50,19 @@ export default function ArticlesSection() {
             <div
                 aria-hidden="true"
                 className="absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977px] lg:h-[446px]
-                            -left-48 md:-left-64 lg:-left-[512px]
-                            top-[300px] sm:top-[220px]
-                            -rotate-[20.7deg] bg-[rgba(34,126,217,0.4)]
-                            blur-[160px] md:blur-[200px] lg:blur-[250px]"
+                            -left-90 md:-left-64 lg:-left-[512px]
+                            top-[50px] sm:top-[220px]
+                            sm:-rotate-[20.7deg] bg-[rgba(34,126,217,0.4)]
+                            blur-[70px] md:blur-[200px] lg:blur-[250px]"
             />
 
             {/* Right glow */}
-            <div
+            {/* <div
                 aria-hidden="true"
                 className="absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977px] lg:h-[446px]
                             -right-40 lg:-right-[400px] top-[-100px] sm:top-0 -rotate-[20.7deg] bg-[rgba(34,126,217,0.4)]
                             blur-[160px] md:blur-[200px] lg:blur-[250px]"
-            />
+            /> */}
 
             <div className="relative z-10 mx-auto max-w-[1560px]">
                 {/* Header */}

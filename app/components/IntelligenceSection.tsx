@@ -36,7 +36,7 @@ export default function IntelligenceSection() {
           {/* Left: charts image */}
           <div className="relative z-20 max-w-[809px] lg:h-[497px] p-3 sm:px-5 sm:py-8 bg-[#FFFFFF]/1 rounded-[20px] sm:rounded-[45px] border border-[#FFFFFF0D] backdrop-blur-[131.948px] flex items-center justify-center">
             <Image
-              src="/assets/our-features.png"
+              src="/assets/our-features.webp"
               alt="Market intelligence dashboard"
               width={778}
               height={435}

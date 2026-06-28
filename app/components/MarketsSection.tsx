@@ -6,11 +6,57 @@ export default function MarketsSection() {
         <section className="w-full px-4 sm:px-6 pb-10 sm:pb-20">
             <div className="mx-auto max-w-[1560px]">
                 <div className="rounded-[40px] lg:rounded-[60px] xl:rounded-[80px] bg-[#FFFFFF05] border border-[#FFFFFF0D] p-6 sm:p-10 xl:pl-[90px] xl:pr-6 xl:pt-[81px] xl:pb-[102px] flex flex-col xl:flex-row justify-between gap-8 sm:gap-6 items-center overflow-hidden relative">
-
+                    <div
+                        aria-hidden="true"
+                        className="block xl:hidden absolute pointer-events-none"
+                        style={{
+                            width: "295.95px",
+                            height: "391.44px",
+                            right: "-150px",
+                            bottom: "-200px",
+                            zIndex: 0,
+                        }}
+                    >
+                        <div className="absolute blur-[100px] sm:blur-[70.41px]" style={{
+                            width: "225.24px", height: "353.14px",
+                            left: "-60px", top: "-40px",
+                            background: "#6DB7FF",
+                            transform: "rotate(-56.09deg)",
+                            borderRadius: "50%",
+                        }} />
+                        <div className="absolute sm:block hidden" style={{
+                            width: "162.55px", height: "347.66px",
+                            left: "-20px", top: "-47px",
+                            background: "#6294FF",
+                            mixBlendMode: "plus-lighter",
+                            filter: "blur(198.11px)",
+                            transform: "rotate(-56.09deg)",
+                            borderRadius: "50%",
+                        }} />
+                        <div className="absolute sm:block hidden" style={{
+                            width: "151.6px", height: "337.54px",
+                            left: "-40px", top: "-10px",
+                            background: "#0F4274",
+                            mixBlendMode: "plus-lighter",
+                            filter: "blur(198.11px)",
+                            transform: "rotate(-56.09deg)",
+                            borderRadius: "50%",
+                        }} />
+                    </div>
+                    <div className="w-[296px] h-fit absolute -right-10 bottom-0 xl:hidden block">
+                        <Image
+                            src="/assets/card-dot-img.svg"
+                            alt=""
+                            width={296}
+                            height={391}
+                            className=" object-cover lg:opacity-100 opacity-60"
+                            aria-hidden="true"
+                        />
+                    </div>
                     {/* ── Top-left corner glow (Group 4) ── */}
                     <div
                         aria-hidden="true"
-                        className="absolute pointer-events-none"
+                        className="xl:block hidden absolute pointer-events-none"
                         style={{
                             width: "300px",
                             height: "250px",
@@ -89,10 +135,11 @@ export default function MarketsSection() {
                     {/* Right: dashboard image */}
                     <div className="max-w-[809px] p-3 sm:px-4.5 lg:h-[497px] sm:py-8 bg-[#FFFFFF03] rounded-[20px] sm:rounded-[45px] border border-[#FFFFFF0D] flex items-center justify-center backdrop-blur-[131.948px] relative z-10">
                         <Image
-                            src="/assets/markets.png"
+                            src="/assets/markets.webp"
                             alt="Market intelligence dashboard"
                             width={778}
                             height={435}
+                             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 600px, 778px"
                         />
                     </div>
                 </div>
