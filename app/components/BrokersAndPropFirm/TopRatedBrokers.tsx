@@ -41,7 +41,7 @@ const BROKERS: BrokerCardData[] = [
     { id: 'tmgm', name: 'TMGM', logo: '/assets/fxpro.svg', rating: 4.5, minDeposit: '$100', leverage: '1:500', spread: 'Low', ctaLink: '#', },
 ];
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 6;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -53,7 +53,7 @@ export default function TopRatedBrokers() {
     const sliced = BROKERS.slice(start, start + itemsPerPage);
 
     return (
-        <div className='px-4 sm:px-6 pt-[65px] pb-[170px]'>
+        <div className='px-4 sm:px-6 pt-[65px] pb-[65px]'>
             <div className='max-w-[1560px] mx-auto'>
 
                 {/* Badge */}

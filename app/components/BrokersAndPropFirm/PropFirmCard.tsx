@@ -82,11 +82,11 @@ export default function PropFirmCard({ firm }: { firm: PropFirmCardData }) {
                 </div>
 
                 {/* Most Popular badge */}
-                {/* {mostPopular && (
-                    <div className="bg-[#88C4FF1A] border border-[#88C4FF66] text-[#88C4FF] text-[13px] font-medium px-4 py-1.5 rounded-full">
+                {mostPopular && (
+                    <div className="flex items-center justify-center bg-[#88C4FF] border border-dashed border-white text-black text-[14px] leading-[15px] font-semibold px-6 h-[43px] rounded-[60px]">
                         Most Popular
                     </div>
-                )} */}
+                )}
             </div>
 
             <div className='pt-8 px-10 pb-10'>

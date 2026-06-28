@@ -50,12 +50,14 @@ interface HeroProps {
 
 const TopLine = () => {
     return (
-        <svg
-            width="1920"
-            height="488"
-            viewBox="0 0 1920 488"
+         <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 1920 630"
+            preserveAspectRatio="xMidYMid meet"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            style={{ display: "block" }}
         >
             <line y1="0.5" x2="1920" y2="0.5" stroke="white" strokeOpacity="0.05" />
             <line x1="180" y1="118.5" x2="1740" y2="118.5" stroke="white" strokeOpacity="0.05" />

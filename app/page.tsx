@@ -10,7 +10,6 @@ import FAQ from "./components/FAQ";
 import PricingSection from "./components/Home/PricingSection";
 import ContactSection from "./components/Home/ContactSection";
 import TestimonialsSection from "./components/Home/TestimonialsSection";
-import Footer from "./components/Footer";
 import CTA from "./components/Home/CTA";
 
 export default function Home() {

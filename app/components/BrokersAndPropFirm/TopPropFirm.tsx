@@ -7,8 +7,8 @@ import Pagination from './Pagination';
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const PROP_FIRMS: PropFirmCardData[] = [
-    { id: 'ftmo', name: 'FTMO', logo: '/assets/funding-traders.png', rating: 4.5, challengeFee: '$99', accountSize: '$100,000', profitSplit: '80%', ctaLink: '#' },
-    { id: 'my-forex-funds', name: 'My Forex Funds', logo: '/assets/funding-traders.png', rating: 4.7, challengeFee: '$74', accountSize: '$200,000', profitSplit: '85%', ctaLink: '#', mostPopular: true },
+    { id: 'ftmo', name: 'FTMO', logo: '/assets/funding-traders.png', rating: 4.5, challengeFee: '$99', accountSize: '$100,000', profitSplit: '80%', ctaLink: '#', mostPopular: true },
+    { id: 'my-forex-funds', name: 'My Forex Funds', logo: '/assets/funding-traders.png', rating: 4.7, challengeFee: '$74', accountSize: '$200,000', profitSplit: '85%', ctaLink: '#' },
     { id: 'funding-traders', name: 'Funding Traders', logo: '/assets/funding-traders.png', rating: 4.4, challengeFee: '$85', accountSize: '$300,000', profitSplit: '95%', ctaLink: '#' },
     { id: 'blueberry-funded', name: 'Blueberry Funded', logo: '/assets/funding-traders.png', rating: 4.8, challengeFee: '$74', accountSize: '$150,000', profitSplit: '80%', ctaLink: '#' },
     { id: 'the5ers', name: 'The5ers', logo: '/assets/funding-traders.png', rating: 4.6, challengeFee: '$39', accountSize: '$50,000', profitSplit: '100%', ctaLink: '#' },
@@ -25,11 +25,9 @@ const PROP_FIRMS: PropFirmCardData[] = [
     { id: 'traders-with-edge', name: 'Traders With Edge', logo: '/assets/funding-traders.png', rating: 4.7, challengeFee: '$89', accountSize: '$200,000', profitSplit: '80%', ctaLink: '#' },
     { id: 'audacity-capital', name: 'Audacity Capital', logo: '/assets/funding-traders.png', rating: 4.2, challengeFee: '$149', accountSize: '$500,000', profitSplit: '85%', ctaLink: '#' },
     { id: 'city-traders', name: 'City Traders Imperium', logo: '/assets/funding-traders.png', rating: 4.5, challengeFee: '$69', accountSize: '$100,000', profitSplit: '80%', ctaLink: '#' },
-    { id: 'brightfunded', name: 'BrightFunded', logo: '/assets/funding-traders.png', rating: 4.6, challengeFee: '$59', accountSize: '$200,000', profitSplit: '90%', ctaLink: '#' },
-    { id: 'thetradingpit', name: 'The Trading Pit', logo: '/assets/funding-traders.png', rating: 4.7, challengeFee: '$99', accountSize: '$250,000', profitSplit: '80%', ctaLink: '#' },
 ];
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 6;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -41,7 +39,7 @@ export default function TopPropFirm() {
     const sliced = PROP_FIRMS.slice(start, start + itemsPerPage);
 
     return (
-        <div className='px-4 sm:px-6 pt-[65px] pb-[170px]'>
+        <div className='px-4 sm:px-6 pt-[65px] pb-[65px]'>
             <div className='max-w-[1560px] mx-auto'>
 
                 {/* Badge */}
