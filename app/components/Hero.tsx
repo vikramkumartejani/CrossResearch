@@ -4,9 +4,9 @@ import ButtonGlow from "./Svgs/ButtonGlow";
 
 export default function Hero() {
     return (
-        <section className="relative w-full overflow-hidden px-6" aria-labelledby="hero-heading">
+        <section className="relative w-full overflow-hidden px-4 sm:px-6" aria-labelledby="hero-heading">
             {/* Background: top-lines SVG */}
-            <div className="absolute inset-x-0 top-[96px] z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+            <div className="absolute inset-x-0 top-16 sm:top-[96px] z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <TopLine />
             </div>
             <div className="absolute inset-x-0 -top-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -14,22 +14,22 @@ export default function Hero() {
             </div>
 
             {/* Content wrapper */}
-            <div className="mt-[136px] max-w-[1920px] bg-[#0F0F18] rounded-[60px] relative z-10 mx-auto px-6 pt-[76px] flex flex-col items-center justify-center">
+            <div className="mt-24 sm:mt-32 xl:mt-[136px] max-w-[1920px] bg-[#0F0F18] rounded-t-[40px] 2xl:rounded-[60px] relative z-10 mx-auto px-5 sm:px-6 pt-8 sm:pt-16 lg:pt-[76px] flex flex-col items-center justify-center">
 
                 {/* Heading */}
-                <h1 className="text-center font-normal text-[73.18px] leading-[88px] tracking-[-2.93px] mb-6 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                    Institutional-Grade Market <br /> Intelligence for Serious Traders
+                <h1 className="mb-4 sm:mb-6 text-center font-normal text-3xl sm:text-5xl md:text-6xl lg:text-[73px] leading-tight md:leading-tight lg:leading-[88px] tracking-tight lg:tracking-[-2.93px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
+                    Institutional-Grade Market <br className="xl:block hidden" /> Intelligence for Serious Traders
                 </h1>
 
                 {/* Subheading */}
-                <p className="mb-6 text-white/70 text-[20px] leading-[32px] font-inter font-normal max-w-[849px] mx-auto text-center">
+                <p className="mb-6 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-inter font-normal max-w-[849px] mx-auto text-center">
                     Access proprietary algorithms, macro intelligence, and market regime
                     tools trusted by advanced traders for precise, data-driven market
                     decisions worldwide.
                 </p>
 
                 {/* CTA row */}
-                <div className="flex items-center gap-6 mb-[118px]">
+                <div className="flex items-center sm:flex-row flex-col gap-6 mb-14 sm:mb-20 2xl:mb-[118px]">
                     <button
                         type="button"
                         aria-label="Get Access Now"
@@ -39,7 +39,7 @@ export default function Hero() {
                     </button>
 
                     {/* Avatars + trusted text */}
-                    <div className="flex items-center gap-5">
+                    <div className="flex items-center gap-2.5 sm:gap-5">
                         {/* Overlapping avatar stack */}
                         <div className="flex items-center">
                             {[
@@ -51,7 +51,7 @@ export default function Hero() {
                             ].map((src, i) => (
                                 <div
                                     key={i}
-                                    className="w-[35px] h-[35px] rounded-full border border-white overflow-hidden -ml-3.5 first:ml-0"
+                                    className="w-8 sm:w-[35px] h-8 sm:h-[35px] rounded-full border border-white overflow-hidden -ml-4.5 sm:-ml-3.5 first:ml-0"
                                     style={{ zIndex: i + 1 }}
                                 >
                                     <Image
@@ -67,7 +67,7 @@ export default function Hero() {
                         </div>
 
                         {/* Text */}
-                        <p className="text-white/60 text-[24px] leading-[29px] font-normal whitespace-nowrap">
+                        <p className="text-white/60 text-[16px] sm:text-[24px] leading-[20px] sm:leading-[29px] font-normal whitespace-nowrap">
                             Trusted by{' '}
                             <span className="text-[#88C4FF] font-bold">10,000+</span>
                             {' '}traders
@@ -75,8 +75,8 @@ export default function Hero() {
                     </div>
                 </div>
 
-                <div className="bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-t-[80px] h-[956px] py-[60px] w-full max-w-[1521px] mx-auto">
-                    <h2 className="text-[80px] leading-[140%] font-medium text-center">H 1323</h2>
+                <div className="bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-t-[40px] sm:rounded-t-[60px] 2xl:rounded-t-[80px] h-[600px] xl:h-[956px] py-[60px] w-full max-w-[1521px] mx-auto">
+                    <h2 className="text-[60px] sm:text-[80px] sm:leading-[140%] font-medium text-center">H 1323</h2>
                 </div>
             </div>
         </section>

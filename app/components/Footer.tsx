@@ -116,46 +116,43 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
     return (
-        <footer className="relative w-full bg-[#FFFFFF03] border-t border-[#FFFFFF0D] px-6 overflow-hidden">
+        <footer className="relative w-full bg-[#FFFFFF03] border-t border-[#FFFFFF0D] px-4 sm:px-6 overflow-hidden">
             {/* Ellipse 15 — bottom-left glow */}
-            <div aria-hidden="true" className="absolute overflow-hidden pointer-events-none" style={{
+            <div aria-hidden="true" className="absolute overflow-hidden pointer-events-none blur-[160px] sm:blur-[250px]" style={{
                 width: '865px', height: '473px',
                 left: '-20%', bottom: '-20%',
                 background: 'rgba(34, 126, 217, 0.4)',
-                filter: 'blur(250px)',
                 transform: 'rotate(-18.58deg)',
                 zIndex: 0,
             }} />
 
-            {/* Ellipse 10 — bottom-right glow */}
-            <div aria-hidden="true" className="absolute overflow-hidden pointer-events-none" style={{
+            <div aria-hidden="true" className="absolute overflow-hidden pointer-events-none blur-[160px] sm:blur-[250px]" style={{
                 width: '977.2px', height: '446.65px',
                 right: '-20%', bottom: '-20%',
                 background: 'rgba(34, 126, 217, 0.4)',
-                filter: 'blur(250px)',
                 transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
                 zIndex: 0,
             }} />
 
             <div className="relative z-10 mx-auto max-w-[1640px]">
-                <div className="flex items-start justify-between pt-[60px] gap-10">
+                <div className="flex flex-col xl:flex-row items-start justify-between pt-10 sm:pt-[60px] gap-8 sm:gap-10">
                     {/* Left — logo, tagline, socials, legal */}
-                    <div className="max-w-[714px] flex flex-col">
+                    <div className="w-full xl:max-w-[714px] flex flex-col">
                         {/* Full logo */}
-                        <Image src="/assets/full-logo.svg" alt="CrossResearch" width={332} height={42} />
+                        <Image src="/assets/full-logo.svg" alt="CrossResearch" width={332} height={42} className='w-[250px] sm:w-[332px]' />
 
-                        <p className="my-5 text-white/60 max-w-[468px] text-[18px] leading-[27px] font-normal">
+                        <p className="my-5 text-white/60 max-w-[468px] text-[16px] sm:text-[18px] leading-6 sm:leading-[27px] font-normal">
                             Institutional – Grade Market Intelligence For Retail Traders
                         </p>
 
                         {/* Social icons */}
-                        <div className="max-w-[288px] mb-[60px] flex flex-wrap gap-3">
+                        <div className="xl:max-w-[288px] mb-6 sm:mb-[60px] flex flex-wrap gap-3">
                             {SOCIAL_LINKS.map((s) => (
                                 <a
                                     key={s.label}
                                     href={s.href}
                                     aria-label={s.label}
-                                    className="w-12 h-12 border border-[#FFFFFF0D] bg-[#FFFFFF0D] rounded-full flex items-center justify-center hover:opacity-80 transition-opacity"
+                                    className="w-11 sm:w-12 h-11 sm:h-12 border border-[#FFFFFF0D] bg-[#FFFFFF0D] rounded-full flex items-center justify-center hover:opacity-80 transition-opacity"
                                 >
                                     {s.icon}
                                 </a>
@@ -163,28 +160,28 @@ export default function Footer() {
                         </div>
 
                         {/* Legal & Disclaimer */}
-                        <div className="flex flex-col gap-[28.25px]">
-                            <h4 className="text-white text-[20px] font-semibold leading-[30px]">Legal &amp; Disclaimer</h4>
-                            <p className="text-white/60 text-[16px] font-normal leading-[24px]">
+                        <div className="flex flex-col gap-4 sm:gap-[28.25px]">
+                            <h4 className="text-white text-[18px] sm:text-[20px] font-semibold leading-5 sm:leading-[30px]">Legal &amp; Disclaimer</h4>
+                            <p className="text-white/60 text-[14px] sm:text-[16px] font-normal leading-[24px]">
                                 Trading and investing involve substantial risk of loss and are not suitable for all investors. Past performance is not indicative of future results.
                             </p>
-                            <p className="text-white/60 text-[16px] font-normal leading-[24px]">
+                            <p className="text-white/60 text-[14px] sm:text-[16px] font-normal leading-5 sm:leading-[24px]">
                                 The content, research, analysis, forecasts, and tools provided by CrossResearch are for informational and educational purposes only and do not constitute investment advice, financial advice, or a recommendation to buy or sell any security or asset.
                             </p>
-                            <p className="text-white/60 text-[16px] font-normal leading-[24px]">
+                            <p className="text-white/60 text-[14px] sm:text-[16px] font-normal leading-5 sm:leading-[24px]">
                                 No guarantee is made that users will achieve profits or avoid losses. All investment decisions are made solely by the user, who assumes full responsibility for any resulting outcomes. Use of this platform constitutes acceptance of our Terms of Service.
                             </p>
-                            <p className="text-white/60 text-[16px] font-normal leading-[24px]">
+                            <p className="text-white/60 text-[14px] sm:text-[16px] font-normal leading-5 sm:leading-[24px]">
                                 Market data is provided "as is" without warranty of any kind. <strong className="text-white">CrossResearch</strong> shall not be liable for any losses, damages, or trading decisions made based on the information provided.
                             </p>
                         </div>
                     </div>
 
                     {/* Right — nav columns + newsletter + footer image */}
-                    <div className="max-w-[835px] flex flex-col flex-1">
+                    <div className="w-full xl:max-w-[835px] flex flex-col lg:flex-1">
 
                         {/* Nav columns */}
-                        <div className="mb-[34px] flex items-start justify-between max-w-[765px]">
+                        <div className="mb-7 sm:mb-[34px] grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 lg:flex lg:items-start lg:justify-between lg:max-w-[765px]">
                             {NAV_COLS.map((col) => (
                                 <div key={col.heading} className="flex flex-col gap-3">
                                     <h4 className="text-white text-[16px] font-medium leading-[24px]">{col.heading}</h4>
@@ -205,17 +202,17 @@ export default function Footer() {
                         </div>
 
                         {/* Newsletter */}
-                        <div className="mb-[17px] rounded-[20px] bg-[#FFFFFF08] px-6 py-5">
-                            <div className="flex items-center justify-between gap-[38px]">
-                                <div className='max-w-[221px]'>
+                        <div className="w-full mb-[17px] rounded-[20px] bg-[#FFFFFF08] px-4 sm:px-6 py-5">
+                            <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                                <div className='w-full sm:max-w-[221px]'>
                                     <h4 className="text-white text-[18px] font-semibold leading-[27px] mb-4">Newsletter</h4>
                                     <p className="text-white/60 text-[12px] leading-[18px]">
                                         Stay updated with the latest market insights, product updates, and exclusive content.
                                     </p>
                                 </div>
 
-                                <div className="flex items-center gap-2 flex-1">
-                                    <div className="max-w-[318px] h-[53px] flex items-center gap-2 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-full px-5 flex-1">
+                                <div className="w-full flex flex-col sm:flex-row items-center gap-4">
+                                    <div className="w-full h-12 sm:h-[53px] flex items-center gap-2 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-full px-4 sm:px-5 flex-1">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4.75026 6.25L3.83616 6.8594C3.18087 7.29626 2.85323 7.51469 2.67567 7.84781C2.4981 8.18093 2.49942 8.57245 2.50205 9.35545C2.50522 10.2981 2.51398 11.2587 2.53824 12.2306C2.5958 14.5365 2.62458 15.6895 3.47238 16.5373C4.32018 17.3852 5.48873 17.4143 7.82581 17.4728C9.27978 17.5091 10.7208 17.5091 12.1747 17.4728C14.5119 17.4143 15.6804 17.3852 16.5282 16.5373C17.376 15.6895 17.4048 14.5365 17.4623 12.2306C17.4866 11.2587 17.4953 10.2981 17.4985 9.35545C17.5011 8.57245 17.5024 8.18092 17.3249 7.84781C17.1473 7.51469 16.8197 7.29626 16.1643 6.8594L15.2502 6.25" stroke="#A5A5A5" strokeWidth="1.08" strokeLinejoin="round" />
                                             <path d="M2.5 8.5L7.68477 11.6109C8.81275 12.2877 9.37675 12.626 10 12.626C10.6232 12.626 11.1872 12.2877 12.3152 11.6109L17.5 8.5" stroke="#A5A5A5" strokeWidth="1.08" strokeLinejoin="round" />
@@ -225,12 +222,12 @@ export default function Footer() {
                                         <input
                                             type="email"
                                             placeholder="Enter Your Email"
-                                            className="bg-transparent text-white text-[14px] font-normal outline-none placeholder:text-white/60 w-full"
+                                            className="bg-transparent h-12 sm:h-[53px] w-full text-white text-[14px] font-normal outline-none placeholder:text-white/60 w-full"
                                         />
                                     </div>
                                     <button
                                         type="button"
-                                        className="w-[195px] bg-white text-[#070711] text-[16px] leading-[19px] font-inter font-medium px-6 h-[53px] rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap"
+                                        className="sm:w-[140px] w-full bg-white text-[#070711] text-[16px] leading-[19px] font-inter font-medium px-6 h-12 sm:h-[53px] rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap"
                                     >
                                         Subscribe
                                     </button>
@@ -257,14 +254,14 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="border-t border-[#FFFFFF1A] py-8 flex items-center justify-between">
-                    <p className="text-white/70 font-normal text-[18px] leading-[27px] flex items-center gap-2">
+                <div className="border-t border-[#FFFFFF1A] py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-white/70 font-normal text-[16px] sm:text-[18px] leading-[27px] flex items-center gap-2">
                         © 2026 <Image src="/assets/logo.svg" alt="" width={16.06} height={13} /> All Rights Reserved.
                     </p>
                     <div className="flex items-center gap-3 text-white/70">
-                        <Link href="#" className="hover:text-white text-[18px] leading-[27px] font-normal transition-colors">Terms &amp; Conditions</Link>
+                        <Link href="#" className="hover:text-white text-[16px] sm:text-[18px] leading-[27px] font-normal transition-colors">Terms &amp; Conditions</Link>
                         <span>|</span>
-                        <Link href="#" className="hover:text-white text-[18px] leading-[27px] font-normal transition-colors">Privacy Policy</Link>
+                        <Link href="#" className="hover:text-white text-[16px] sm:text-[18px] leading-[27px] font-normal transition-colors">Privacy Policy</Link>
                     </div>
                 </div>
 

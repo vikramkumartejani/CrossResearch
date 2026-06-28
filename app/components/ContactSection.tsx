@@ -27,43 +27,26 @@ export default function ContactSection() {
     ];
 
     return (
-        <section className="relative w-full pt-[170px] px-6">
+        <section className="relative w-full pt-20 lg:pt-[120px] xl:pt-[170px] px-4 sm:px-6">
             {/* Ellipse 6 – left glow */}
             <div
                 aria-hidden="true"
-                style={{
-                    position: 'absolute',
-                    width: '977.2px',
-                    height: '446.65px',
-                    left: '-400px',
-                    top: '200px',
-                    background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
-                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
-                    pointerEvents: 'none',
-                    zIndex: 0,
-                }}
+                className="absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977.2px] lg:h-[446.65px]
+                        -left-48 md:-left-64 lg:-left-[400px] top-[400px] sm:top-[200px] -rotate-[20.4deg] bg-[#227ED966]
+                       blur-[160px] md:blur-[200px] lg:blur-[250px]"
             />
+
             {/* Ellipse 5 – right glow */}
             <div
                 aria-hidden="true"
-                style={{
-                    position: 'absolute',
-                    width: '977.2px',
-                    height: '446.65px',
-                    right: '-400px',
-                    top: '100px',
-                    background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
-                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
-                    pointerEvents: 'none',
-                    zIndex: 0,
-                }}
+                className="absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977.2px] lg:h-[446.65px]
+                        -right-40 md:-right-56 lg:-right-[400px] top-0 sm:top-[100px] -rotate-[20.4deg] bg-[#227ED966]
+                        blur-[160px] md:blur-[200px] lg:blur-[250px]"
             />
             <div className="relative z-10 mx-auto max-w-[1560px]">
 
                 {/* Badge */}
-                <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[18px] leading-[22px] font-normal font-inter">
+                <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                         <circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" />
                         <circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" />
@@ -73,37 +56,37 @@ export default function ContactSection() {
                 </div>
 
                 {/* Heading row */}
-                <div className="flex items-center justify-between gap-10 mb-16">
-                    <h2 className="text-left font-normal text-[54px] leading-[62px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                        Drop Us a Message <br /> Get in touch!
+                <div className="flex lg:flex-row flex-col items-start lg:items-center justify-between gap-6 lg:gap-10 mb-10 lg:mb-16">
+                    <h2 className="text-left font-normal text-3xl sm:text-4xl md:text-5xl xl:text-[54px] leading-tight xl:leading-[62px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
+                        Drop Us a Message <br className='sm:block hidden' /> Get in touch!
                     </h2>
-                    <p className="text-white/70 text-[20px] leading-[32px] font-normal max-w-[596px]">
+                    <p className="text-white/70 text-[14px] sm:text-[20px] leading-5 sm:leading-[32px] font-normal max-w-[596px]">
                         Drop us a message and connect with our team for support, inquiries, or collaboration opportunities anytime.
                     </p>
                 </div>
 
                 {/* Booking card */}
-                <div className="border border-[#FFFFFF0D] bg-[#FFFFFF05] rounded-[80px] p-6 overflow-hidden">
-                    <div className='bg-[#FFFFFF08] rounded-[60px]'>
-                        <div className="grid grid-cols-1 lg:grid-cols-[353px_1fr_474px]">
+                <div className="border border-[#FFFFFF0D] bg-[#FFFFFF05] rounded-[40px] sm:rounded-[60px] lg:rounded-[80px] p-4 sm:p-6 overflow-hidden">
+                    <div className='bg-[#FFFFFF08] rounded-[40px] sm:rounded-[60px]'>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[300px_1fr_400px] 2xl:grid-cols-[353px_1fr_474px]">
                             {/* ── Col 1 : Profile ── */}
-                            <div className="border-r border-[#FFFFFF0D] pl-10 py-10 flex flex-col">
+                            <div className="lg:border-r border-[#FFFFFF0D] pl-5 sm:pl-10 py-5 sm:py-10 flex flex-col">
                                 {/* Avatar */}
-                                <div className="mb-10 w-[60px] h-[60px] rounded-full flex items-center justify-center">
+                                <div className="mb-8 sm:mb-10 w-[60px] h-[60px] rounded-full flex items-center justify-center">
                                     <Image src='/assets/profile.svg' alt='profile' width={60} height={60} />
                                 </div>
 
                                 <div className='mb-6'>
                                     <p className="text-white/60 text-[16px] leading-[18px] mb-2 font-normal">Alex Fisher</p>
-                                    <h3 className="text-white text-[24px] font-semibold leading-[26px] mb-3">
+                                    <h3 className="text-white text-[20px] sm:text-[24px] font-semibold leading-[26px] mb-3">
                                         Design Workshop
                                     </h3>
-                                    <p className="text-white/60 text-[16px] font-normal leading-[21px]">
-                                        A Longer Chat To Run Through <br /> Design.
+                                    <p className="text-white/60 text-[14px] sm:text-[16px] font-normal leading-[21px]">
+                                        A Longer Chat To Run Through <br className='sm:block hidden' /> Design.
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col gap-4">
+                                <div className="flex flex-col gap-2.5 sm:gap-4">
                                     {/* Duration */}
                                     <div className="flex items-center gap-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -134,10 +117,10 @@ export default function ContactSection() {
                             </div>
 
                             {/* ── Col 2 : Calendar ── */}
-                            <div className="border-r border-[#FFFFFF0D] py-10 pl-[57px] pr-[43px]">
+                            <div className="xl:border-r border-[#FFFFFF0D] p-5 sm:py-10 sm:pl-10 2xl:pl-[57px] sm:pr-10 2xl:pr-[43px]">
                                 {/* Month nav */}
-                                <div className="flex items-center justify-between mb-[26px]">
-                                    <h3 className="text-white text-[24px] leading-[26px] font-semibold">
+                                <div className="flex items-center justify-between mb-5 sm:mb-[26px]">
+                                    <h3 className="text-white text-[20px] sm:text-[24px] leading-[26px] font-semibold">
                                         Nov <span className="text-white/60 font-normal text-[14px]">2026</span>
                                     </h3>
                                     <div className="flex gap-2.5">
@@ -161,7 +144,7 @@ export default function ContactSection() {
                                 </div>
 
                                 {/* Day headers */}
-                                <div className="grid grid-cols-7 gap-[35.67px] mb-[15px]">
+                                <div className="grid grid-cols-7 gap-4 sm:gap-[35.67px] mb-4 sm:mb-[15px]">
                                     {daysOfWeek.map((d) => (
                                         <div key={d} className="text-center text-white/60 text-[14px] leading-[15px] font-normal">
                                             {d}
@@ -170,7 +153,7 @@ export default function ContactSection() {
                                 </div>
 
                                 {/* Date cells */}
-                                <div className="grid grid-cols-7 gap-[35.67px] gap-y-[33px]">
+                                <div className="grid grid-cols-7 gap-4 sm:gap-[35.67px] gap-y-4 sm:gap-y-[33px]">
                                     {calendarDates.flat().map((date, i) => {
                                         const colIndex = i % 7; // 0=SUN, 6=SAT
                                         const isWeekend = colIndex === 0 || colIndex === 6;
@@ -184,7 +167,7 @@ export default function ContactSection() {
                                                 onClick={() => isWeekday && setSelectedDate(date!)}
                                                 disabled={!date || isUnavailable}
                                                 className={[
-                                                    "h-9 w-[53px] mx-auto text-[14px] rounded-lg leading-[15px] font-normal transition-all",
+                                                    "h-8 sm:h-9 w-9 sm:w-[53px] mx-auto text-[13px] sm:text-[14px] rounded-lg leading-[15px] font-normal transition-all",
                                                     !date ? "invisible" : "",
                                                     isUnavailable ? "text-white/30 cursor-not-allowed" : "",
                                                     isSelected
@@ -202,17 +185,17 @@ export default function ContactSection() {
                             </div>
 
                             {/* ── Col 3 : Times + Get in touch ── */}
-                            <div className="flex flex-col pt-10 pb-[35.5px] pr-10 pl-[52px]">
+                            <div className="flex flex-col p-5 sm:pt-10 sm:pb-[35.5px] sm:pr-10 sm:pl-10 2xl:pl-[52px]">
                                 {/* Available Times */}
-                                <h4 className="text-white text-[18px] leading-[20px] font-semibold mb-4">Available Times</h4>
+                                <h4 className="text-white text-[16px] sm:text-[18px] leading-[20px] font-semibold mb-4">Available Times</h4>
 
-                                <div className="mb-7 grid grid-cols-3 gap-3">
+                                <div className="mb-5 sm:mb-7 grid grid-cols-3 gap-3">
                                     {availableTimes.map((t) => (
                                         <button
                                             key={t}
                                             onClick={() => setSelectedTime(t)}
                                             className={[
-                                                "px-2 py-3 rounded-lg text-[14px] leading-[15px] font-normal transition-all whitespace-nowrap cursor-pointer border border-[#FFFFFF0D]",
+                                                "px-2 py-2.5 sm:py-3 rounded-lg text-[13px] sm:text-[14px] leading-[15px] font-normal transition-all whitespace-nowrap cursor-pointer border border-[#FFFFFF0D]",
                                                 selectedTime === t
                                                     ? "bg-[#88C4FF] text-black font-semibold"
                                                     : "bg-[#FFFFFF08] text-white",
@@ -225,9 +208,9 @@ export default function ContactSection() {
 
                                 {/* Get in touch */}
                                 <div>
-                                    <h4 className="text-white text-[18px] leading-[20px] font-semibold mb-3">Get in touch</h4>
+                                    <h4 className="text-white text-[16px] sm:text-[18px] leading-[20px] font-semibold mb-3">Get in touch</h4>
                                     <p className="text-white/60 text-[14px] leading-[18px] font-normal mb-5">
-                                        Contact us for expert guidance and answers<br />to your questions
+                                        Contact us for expert guidance and answers<br className='sm:block hidden' />to your questions
                                     </p>
 
                                     {/* Social icons */}

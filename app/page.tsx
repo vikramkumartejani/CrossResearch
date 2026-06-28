@@ -19,20 +19,47 @@ export default function Home() {
       <Navbar />
       <Hero />
 
-      {/* LogoSlider + GlobalMarketInsights */}
       <div className="relative">
-        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", left: "-300px", top: "350px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", transform: "rotate(-26.89deg)", zIndex: 0 }} />
-        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", right: "-300px", top: "350px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", transform: "rotate(-26.89deg)", zIndex: 0 }} />
+        {/* Left glow */}
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none z-0 w-[500px] h-[320px] md:w-[700px] md:h-[450px] lg:w-[977px] lg:h-[625px]
+                    -left-36 md:-left-48 lg:-left-[300px] top-20 sm:top-56 md:top-72 lg:top-[350px]
+                    -rotate-[26.89deg]
+                    blur-[160px] md:blur-[200px] lg:blur-[250px]
+                    bg-[rgba(34,126,217,0.4)]"
+        />
+
+        {/* Right glow */}
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none z-0 w-[500px] h-[320px] md:w-[700px] md:h-[450px] lg:w-[977px] lg:h-[625px]
+                    -right-36 md:-right-48 lg:-right-[300px] top-120 sm:top-56 md:top-72 lg:top-[350px]
+                    -rotate-[26.89deg]
+                    blur-[160px] md:blur-[200px] lg:blur-[250px]
+                    bg-[rgba(34,126,217,0.4)]"
+        />
         <div className="relative" style={{ zIndex: 1 }}>
           <LogoSlider />
           <GlobalMarketInsights />
         </div>
       </div>
 
-      {/* Stats + Markets + Intelligence */}
       <div className="relative">
-        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", left: "-758px", top: "0px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", zIndex: 0 }} />
-        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: "977px", height: "625px", right: "-400px", top: "0px", background: "rgba(34, 126, 217, 0.4)", filter: "blur(250px)", transform: "rotate(-26.89deg)", zIndex: 0 }} />
+        {/* Left glow */}
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none z-0 w-[500px] h-[320px] md:w-[700px] md:h-[450px] lg:w-[977px] lg:h-[625px]
+                    -left-40 sm:-left-56 md:-left-72 lg:-left-[758px] top-0 bg-[rgba(34,126,217,0.4)]
+                    blur-[160px] md:blur-[200px] lg:blur-[250px]"
+        />
+
+        <div
+          aria-hidden="true"
+          className="absolute pointer-events-none z-0 w-[500px] h-[320px] md:w-[700px] md:h-[450px] lg:w-[977px] lg:h-[625px]
+                    -right-40 md:-right-56 lg:-right-[400px] top-[800px] sm:top-0 -rotate-[26.89deg] bg-[rgba(34,126,217,0.4)]
+                    blur-[160px] md:blur-[200px] lg:blur-[250px]"
+        />
         <div className="relative" style={{ zIndex: 1 }}>
           <StatsSection />
           <MarketsSection />
@@ -40,7 +67,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Articles — glows inside component */}
       <ArticlesSection />
       <PricingSection />
 
@@ -48,22 +74,13 @@ export default function Home() {
       <TestimonialsSection />
       <FAQ />
 
-      {/* CTA + Footer share one relative wrapper — Ellipse 11 spans the boundary */}
       <div className="relative">
         <div
           aria-hidden="true"
-          className="absolute pointer-events-none"
-          style={{
-            width: "600px",
-            height: "600px",
-            right: "-10%",
-            top: "25%",
-            background: "rgba(34, 126, 217, 0.4)",
-            filter: "blur(250px)",
-            zIndex: 0,
-          }}
+          className="absolute pointer-events-none z-0 w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] 
+                    -right-[20%] sm:-right-[10%] top-[25%] bg-[#227ED966]
+                    blur-[150px] md:blur-[200px] lg:blur-[250px]"
         />
-
         <CTA />
         <Footer />
       </div>

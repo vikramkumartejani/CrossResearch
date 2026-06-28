@@ -55,46 +55,30 @@ export default function FAQ() {
     };
 
     return (
-        <section className="relative w-full pb-[170px] px-6">
+        <section className="relative w-full pb-20 lg:pb-[120px] xl:pb-[170px] px-4 sm:px-6">
+
             {/* Ellipse 10 – right glow */}
             <div
                 aria-hidden="true"
-                style={{
-                    position: 'absolute',
-                    width: '800px',
-                    height: '446.65px',
-                    right: '-318px',
-                    top: '20%',
-                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
-                    background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
-                    pointerEvents: 'none',
-                    zIndex: 0,
-                }}
+                className="absolute pointer-events-none z-0 w-[450px] h-[250px] md:w-[600px] md:h-[340px] lg:w-[800px] lg:h-[446.65px]
+                            -right-40 md:-right-56 lg:-right-[318px] top-[18%] sm:top-[19%] md:top-[20%] lg:top-[20%] -rotate-[20.4deg] bg-[#227ED966]
+                            blur-[150px] md:blur-[200px] lg:blur-[250px]"
             />
-            {/* Ellipse 9 – left-bottom glow */}
-            <div
+
+          <div
                 aria-hidden="true"
-                style={{
-                    position: 'absolute',
-                    width: '777.2px',
-                    height: '380.65px',
-                    left: '-476px',
-                    bottom: '100px',
-                    transform: 'matrix(0.94, -0.35, 0.35, 0.94, 0, 0)',
-                    background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(200px)',
-                    pointerEvents: 'none',
-                    zIndex: 0,
-                }}
+                className="absolute pointer-events-none z-0 w-[420px] h-[210px] md:w-[580px] md:h-[290px] lg:w-[777.2px] lg:h-[380.65px]
+                           -left-40 md:-left-56 lg:-left-[476px] bottom-10 sm:bottom-16 md:bottom-20 lg:bottom-[100px] -rotate-[20.4deg] bg-[#227ED966]
+                            blur-[160px] lg:blur-[200px]"
             />
+
             {/* Content */}
             <div className="relative z-10 mx-auto max-w-[1640px]">
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between lg:flex-row flex-col gap-10">
 
                     {/* Left column */}
-                    <div className="flex flex-col gap-10 max-w-[600px]">
-                        <div className="bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[18px] leading-[22px] font-normal font-inter w-fit">
+                    <div className="flex flex-col gap-6 lg:gap-10 max-w-[600px]">
+                        <div className="bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter w-fit">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" />
                                 <circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" />
@@ -103,17 +87,17 @@ export default function FAQ() {
                             Help And Support
                         </div>
 
-                        <h2 className="text-left font-normal text-[54px] leading-[70px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
+                        <h2 className="text-left font-normal text-3xl sm:text-4xl md:text-5xl xl:text-[54px] leading-tight xl:leading-[70px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
                             Frequently Asked <br /> Questions and Answers
                         </h2>
 
-                        <p className="text-left font-inter text-white/70 text-[20px] leading-[32px] font-normal max-w-[501px]">
+                        <p className="text-left font-inter text-white/70 text-[14px] sm:text-[20px] leading-5 sm:leading-[32px] font-normal max-w-[501px]">
                             Frequently asked questions and answers to help you understand our services better.
                         </p>
                     </div>
 
                     {/* Right column – FAQ accordion */}
-                    <div className="flex flex-col gap-6 max-w-[944px]">
+                    <div className="flex flex-col gap-6 lg:max-w-[700px] xl:max-w-[944px]">
                         {FAQS.map((faq: FaqItem) => {
                             const isOpen = openId === faq.id;
                             const answerId = `${faq.id}-answer`;
@@ -121,16 +105,16 @@ export default function FAQ() {
                             return (
                                 <div
                                     key={faq.id}
-                                    className="bg-[#FFFFFF08] border border-[#FFFFFF0D] p-6 rounded-[24px] overflow-hidden"
+                                    className="bg-[#FFFFFF08] border border-[#FFFFFF0D] p-5 sm:p-6 rounded-[24px] overflow-hidden"
                                 >
                                     <button
                                         type="button"
                                         onClick={() => toggle(faq.id)}
                                         aria-expanded={isOpen}
                                         aria-controls={answerId}
-                                        className="w-full flex items-center justify-between gap-4 cursor-pointer"
+                                        className="w-full flex items-center justify-between gap-2.5 sm:gap-4 cursor-pointer"
                                     >
-                                        <h3 className="text-[27px] leading-[41px] font-normal text-white text-left">
+                                        <h3 className="text-[18px] sm:text-[27px] leading-6 sm:leading-[41px] font-normal text-white text-left">
                                             {faq.question}
                                         </h3>
 
@@ -168,7 +152,7 @@ export default function FAQ() {
                                             transition: 'max-height 0.3s ease',
                                         }}
                                     >
-                                        <p className="pt-4 text-[18px] leading-[27px] font-medium text-white/50">
+                                        <p className="pt-4 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-medium text-white/60">
                                             {faq.answer}
                                         </p>
                                     </div>

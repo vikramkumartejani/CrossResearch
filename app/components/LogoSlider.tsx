@@ -15,14 +15,14 @@ const LOGO_FILTER = "brightness(0) invert(1) brightness(0.60)";
 
 export default function LogoSlider() {
     return (
-        <div className="w-full overflow-hidden py-[120px] relative" aria-label="Trusted data partners">
+        <div className="w-full overflow-hidden py-7 sm:py-14 2xl:py-[120px] relative" aria-label="Trusted data partners">
             <div className="logo-slider-track">
                 {/* Track 1 */}
                 <div className="flex flex-shrink-0 items-center">
                     {LOGOS.map((logo) => (
                         <div
                             key={`a-${logo.name}`}
-                            className="flex-shrink-0 flex items-center justify-center px-10"
+                            className="flex-shrink-0 flex items-center justify-center px-5 sm:px-10"
                             aria-label={logo.name}
                         >
                             <Image
@@ -41,7 +41,7 @@ export default function LogoSlider() {
                     {LOGOS.map((logo) => (
                         <div
                             key={`b-${logo.name}`}
-                            className="flex-shrink-0 flex items-center justify-center px-10"
+                            className="flex-shrink-0 flex items-center justify-center px-5 sm:px-10"
                         >
                             <Image
                                 src={logo.src}

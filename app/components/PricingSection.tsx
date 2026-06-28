@@ -118,7 +118,7 @@ function CheckIcon() {
 function SideCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
     const isStarter = plan.id === "starter";
     return (
-        <div className="flex flex-col p-6 h-full bg-[#FFFFFF08] rounded-[48px]">
+        <div className="flex flex-col p-4 sm:p-6 h-full bg-[#FFFFFF08] rounded-[40px] sm:rounded-[48px]">
             <div className="flex flex-col h-full">
                 <div
                     className="bg-[#FFFFFF08] border border-[#0000000D] rounded-[32px] p-6 mb-8"
@@ -130,12 +130,12 @@ function SideCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
                     }}
                 >
                     {/* Name */}
-                    <p className="text-white text-[18px] font-inter font-semibold leading-[22px] capitalize mb-2">
+                    <p className="text-white text-[16px] sm:text-[18px] font-inter font-semibold leading-5 sm:leading-[22px] capitalize mb-2">
                         {plan.name}
                     </p>
 
                     {/* Subtitle */}
-                    <p className="text-white/50 text-[16px] leading-[24px] font-normal mb-9">
+                    <p className="text-white/50 text-[14px] sm:text-[16px] leading-[22px] sm:leading-[24px] font-normal mb-9">
                         {plan.sub}
                     </p>
 
@@ -146,9 +146,9 @@ function SideCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
                 </div>
 
                 {/* Features */}
-                <ul className="flex flex-col gap-5 flex-1 px-6 mb-8">
+                <ul className="flex flex-col gap-4 sm:gap-5 flex-1 px-4 sm:px-6 mb-8">
                     {plan.features.map((f) => (
-                        <li key={f} className="flex items-start gap-3 text-white/50 text-[18px] font-medium leading-[27px]">
+                        <li key={f} className="flex items-start gap-3 text-white/50 text-[16px] sm:text-[18px] font-medium leading-6 sm:leading-[27px]">
                             <CheckIcon />
                             {f}
                         </li>
@@ -156,7 +156,7 @@ function SideCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
                 </ul>
 
                 {/* CTA */}
-                <Link href={plan.ctaHref} className="flex items-center justify-center text-center h-[62px] rounded-[102px] border border-[#00000005] bg-[#FFFFFF0D] text-white/60 text-[18px] leading-[22px] font-inter font-semibold transition-all duration-200 hover:bg-white hover:text-black">
+                <Link href={plan.ctaHref} className="flex items-center justify-center text-center h-[50px] sm:h-[62px] rounded-[102px] border border-[#00000005] bg-[#FFFFFF0D] text-white/60 text-[16px] sm:text-[18px] leading-[22px] font-inter font-semibold transition-all duration-200 hover:bg-white hover:text-black">
                     {plan.cta}
                 </Link>
             </div>
@@ -167,21 +167,21 @@ function SideCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
 /** Center featured card (Gold) */
 function FeaturedCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
     return (
-        <div className="bg-[#FFFFFF0D] flex flex-col rounded-[55px] mt-[-28px] mb-[-28px] p-4 pt-5 overflow-hidden">
+        <div className="bg-[#FFFFFF0D] flex flex-col rounded-[40px] sm:rounded-[55px] lg:mt-[-28px] lg:mb-[-28px] p-4 pt-5 overflow-hidden">
             {/* Top label */}
             {plan.priceNote && (
-                <div className="text-white text-[18px] leading-[27px] font-semibold text-center mb-5">
+                <div className="text-white text-[16px] sm:text-[18px] leading-[27px] font-semibold text-center mb-5">
                     {plan.priceNote}
                 </div>
             )}
 
-            <div className="bg-[#FFFFFF08] rounded-[40px] py-6 px-[25px]">
+            <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[40px] py-5 sm:py-6 px-4 sm:px-[25px]">
                 {/* White header block — name + price */}
-                <div className="p-6 bg-[#F4F4F4] rounded-[32px]">
-                    <p className="text-black text-[18px] leading-[22px] font-semibold mb-1">
+                <div className="p-6 bg-[#F4F4F4] rounded-[30px] sm:rounded-[32px]">
+                    <p className="text-black text-[16px] sm:text-[18px] leading-5 sm:leading-[22px] font-semibold mb-1">
                         {plan.name}
                     </p>
-                    <p className="text-black/50 text-[16px] leading-[24px] font-normal mb-10">
+                    <p className="text-black/50 leading-[14px] sm:text-[16px] leading-5 sm:leading-[24px] font-normal mb-10">
                         {plan.sub}
                     </p>
 
@@ -216,9 +216,9 @@ function FeaturedCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
                         </div>
 
                         {/* Features */}
-                        <ul className="flex flex-col gap-5 flex-1 mb-[91px]">
+                        <ul className="flex flex-col gap-5 flex-1 mb-8 lg:mb-[91px]">
                             {plan.features.map((f) => (
-                                <li key={f} className="flex items-start gap-3 text-white/50 text-[18px] font-medium leading-[27px]">
+                                <li key={f} className="flex items-start gap-3 text-white/50 text-[16px] sm:text-[18px] font-medium leading-6 sm:leading-[27px]">
                                     <CheckIcon />
                                     {f}
                                 </li>
@@ -227,7 +227,7 @@ function FeaturedCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
                     </div>
 
                     {/* CTA */}
-                    <Link href={plan.ctaHref} className="flex items-center justify-center text-center h-[62px] bg-white border border-[#00000005] rounded-full text-[18px] font-bold text-black font-inter transition-all duration-200 hover:bg-white/10 hover:text-white">
+                    <Link href={plan.ctaHref} className="flex items-center justify-center text-center h-[50px] sm:h-[62px] bg-white border border-[#00000005] rounded-full text-[16px] sm:text-[18px] font-bold text-black font-inter transition-all duration-200 hover:bg-white/10 hover:text-white">
                         {plan.cta}
                     </Link>
                 </div>
@@ -241,28 +241,20 @@ export default function PricingSection() {
     const plans = PLANS[billing];
 
     return (
-        <section className="relative w-full pt-[170px] px-6">
-            {/* Left glow */}
+        <section className="relative w-full pt-20 sm:pt-[120px] lg:pt-[170px] px-4 sm:px-6">
             <div
                 aria-hidden="true"
-                className="absolute pointer-events-none"
-                style={{
-                    width: "977.2px",
-                    height: "446.65px",
-                    left: "-512px",
-                    top: "300px",
-                    background: "#227ED966",
-                    filter: "blur(250px)",
-                    transform: "matrix(0.94, -0.35, 0.35, 0.94, 0, 0)",
-                    zIndex: 0,
-                }}
+                className="absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977.2px] lg:h-[446.65px]
+                            -left-48 md:-left-64 lg:-left-[512px]
+                            top-40 md:top-56 lg:top-[300px] -rotate-[20.4deg] bg-[#227ED966]
+                            blur-[160px] md:blur-[200px] lg:blur-[250px]"
             />
 
             <div className="relative z-10 mx-auto max-w-[1440px]">
                 {/* Header */}
-                <div className="flex flex-col items-center text-center mb-[108]">
+                <div className="flex flex-col items-center text-center mb-10 lg:mb-20 xl:mb-[108]">
                     {/* Badge */}
-                    <div className="bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[18px] leading-[22px] font-normal font-inter">
+                    <div className="bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" />
                             <circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" />
@@ -272,13 +264,13 @@ export default function PricingSection() {
                     </div>
 
                     {/* Heading */}
-                    <h2 className="text-center font-medium text-[54px] leading-[70px] my-6 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                        Choose your trading research <br />
+                    <h2 className="my-5 sm:my-6 text-center font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-tight lg:leading-[70px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
+                        Choose your trading research <br className="sm:block hidden" />
                         plan and start your financial journey
                     </h2>
 
                     {/* Subheading */}
-                    <p className="mb-8 text-center text-white/70 text-[20px] leading-[32px] font-normal max-w-[821px] mx-auto">
+                    <p className="mb-6 sm:mb-8 text-center text-white/70 text-[14px] sm:text-[20px] leading-5 sm:leading-[32px] font-normal max-w-[821px] mx-auto">
                         Our articles provide deep insights into global market trends, helping you understand movements and make informed, confident financial decisions always.
                     </p>
 
@@ -290,19 +282,19 @@ export default function PricingSection() {
                     >
                         {/* Sliding pill */}
                         <div
-                            className="absolute top-1 h-[51px] w-[140px] rounded-full bg-[#F4F4F4] transition-all duration-300 ease-in-out"
+                            className="absolute top-1 h-12 sm:h-[51px] w-[140px] rounded-full bg-[#F4F4F4] transition-all duration-300 ease-in-out"
                             style={{ left: billing === "monthly" ? "4px" : "144px" }}
                         />
                         <button
                             onClick={() => setBilling("monthly")}
-                            className="relative z-10 cursor-pointer w-[140px] h-[51px] rounded-full text-[18px] font-medium transition-colors duration-300"
+                            className="relative z-10 cursor-pointer w-[140px] h-12 sm:h-[51px] rounded-full text-[18px] font-medium transition-colors duration-300"
                             style={{ color: billing === "monthly" ? "#000000" : "rgba(255,255,255,0.5)" }}
                         >
                             Monthly
                         </button>
                         <button
                             onClick={() => setBilling("annual")}
-                            className="relative z-10 cursor-pointer w-[140px] h-[51px] rounded-full text-[18px] font-medium transition-colors duration-300"
+                            className="relative z-10 cursor-pointer w-[140px] h-12 sm:h-[51px] rounded-full text-[18px] font-medium transition-colors duration-300"
                             style={{ color: billing === "annual" ? "#000000" : "rgba(255,255,255,0.5)" }}
                         >
                             Annual
@@ -310,7 +302,7 @@ export default function PricingSection() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
                     {plans.map((plan) =>
                         plan.featured ? (
                             <FeaturedCard key={plan.id} plan={plan} />
