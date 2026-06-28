@@ -61,14 +61,14 @@ export default function FAQ() {
             <div
                 aria-hidden="true"
                 className="absolute pointer-events-none z-0 w-[450px] h-[250px] md:w-[600px] md:h-[340px] lg:w-[800px] lg:h-[446.65px]
-                            -right-40 md:-right-56 lg:-right-[318px] top-[18%] sm:top-[19%] md:top-[20%] lg:top-[20%] -rotate-[20.4deg] bg-[#227ED966]
-                            blur-[150px] md:blur-[200px] lg:blur-[250px]"
+                            -right-60 lg:-right-[318px]top-[20%] -rotate-[20.4deg] bg-[#227ED966]
+                            blur-[100px] md:blur-[200px] lg:blur-[250px]"
             />
 
           <div
                 aria-hidden="true"
-                className="absolute pointer-events-none z-0 w-[420px] h-[210px] md:w-[580px] md:h-[290px] lg:w-[777.2px] lg:h-[380.65px]
-                           -left-40 md:-left-56 lg:-left-[476px] bottom-10 sm:bottom-16 md:bottom-20 lg:bottom-[100px] -rotate-[20.4deg] bg-[#227ED966]
+                className="lg:block hidden absolute pointer-events-none z-0 w-[420px] h-[210px] md:w-[580px] md:h-[290px] lg:w-[777.2px] lg:h-[380.65px]
+                           -left-40 md:-left-56 lg:-left-[476px] bottom-40 lg:bottom-[100px] -rotate-[20.4deg] bg-[#227ED966]
                             blur-[160px] lg:blur-[200px]"
             />
 

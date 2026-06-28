@@ -31,7 +31,7 @@ export default function ContactSection() {
             {/* Ellipse 6 – left glow */}
             <div
                 aria-hidden="true"
-                className="absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977.2px] lg:h-[446.65px]
+                className="lg:block hidden absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977.2px] lg:h-[446.65px]
                         -left-48 md:-left-64 lg:-left-[400px] top-[400px] sm:top-[200px] -rotate-[20.4deg] bg-[#227ED966]
                        blur-[160px] md:blur-[200px] lg:blur-[250px]"
             />
@@ -39,9 +39,9 @@ export default function ContactSection() {
             {/* Ellipse 5 – right glow */}
             <div
                 aria-hidden="true"
-                className="absolute pointer-events-none z-0 w-[500px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977.2px] lg:h-[446.65px]
-                        -right-40 md:-right-56 lg:-right-[400px] top-0 sm:top-[100px] -rotate-[20.4deg] bg-[#227ED966]
-                        blur-[160px] md:blur-[200px] lg:blur-[250px]"
+                className="absolute pointer-events-none z-0 w-[400px] h-[230px] md:w-[700px] md:h-[320px] lg:w-[977.2px] lg:h-[446.65px]
+                        -right-60 lg:-right-[400px] top-[100px] lg:-rotate-[20.4deg] bg-[#227ED966]
+                        blur-[80px] md:blur-[200px] lg:blur-[250px]"
             />
             <div className="relative z-10 mx-auto max-w-[1560px]">
 
