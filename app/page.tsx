@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Home/Hero";
-import LogoSlider from "./components/Home/LogoSlider";
+import LogoSlider from "./components/LogoSlider";
 import GlobalMarketInsights from "./components/Home/GlobalMarketInsights";
 import StatsSection from "./components/Home/StatsSection";
 import MarketsSection from "./components/Home/MarketsSection";
@@ -16,7 +16,6 @@ import CTA from "./components/Home/CTA";
 export default function Home() {
   return (
     <main>
-      <Navbar />
       <Hero />
 
       <div className="relative">
@@ -81,8 +80,9 @@ export default function Home() {
                     -right-[20%] sm:-right-[10%] top-[25%] bg-[#227ED966]
                     blur-[150px] md:blur-[200px] lg:blur-[250px]"
         />
+        <div className="pb-20 lg:pb-[120px] xl:pb-[170px]">
         <CTA />
-        <Footer />
+        </div>
       </div>
     </main>
   );

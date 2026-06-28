@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function CTA() {
     return (
-        <div className="relative w-full pb-20 lg:pb-[120px] xl:pb-[170px] px-4 sm:px-6 overflow-hidden">
+        <div className="relative w-full px-4 sm:px-6 overflow-hidden">
             {/* Content */}
             <div className="relative z-10 mx-auto max-w-[1791px]">
                 {/* Main CTA Card */}
