@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -44,14 +45,9 @@ const FAQS: FaqItem[] = [
 
 export default function FAQ() {
     const [openId, setOpenId] = useState<string | null>("faq-profitability");
-    const answerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
     const toggle = (id: string): void => {
         setOpenId(prev => (prev === id ? null : id));
-    };
-
-    const setRef = (id: string) => (el: HTMLDivElement | null): void => {
-        answerRefs.current[id] = el;
     };
 
     return (
@@ -139,23 +135,25 @@ export default function FAQ() {
                                         </div>
                                     </button>
 
-                                    {/* Animated answer panel */}
-                                    <div
-                                        id={answerId}
-                                        role="region"
-                                        ref={setRef(faq.id)}
-                                        style={{
-                                            maxHeight: isOpen
-                                                ? `${answerRefs.current[faq.id]?.scrollHeight ?? 500}px`
-                                                : '0px',
-                                            overflow: 'hidden',
-                                            transition: 'max-height 0.3s ease',
-                                        }}
-                                    >
-                                        <p className="pt-4 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-medium text-white/60">
-                                            {faq.answer}
-                                        </p>
-                                    </div>
+                                    {/* Animated answer panel — framer-motion */}
+                                    <AnimatePresence initial={false}>
+                                        {isOpen && (
+                                            <motion.div
+                                                id={answerId}
+                                                role="region"
+                                                key="answer"
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                                                style={{ overflow: 'hidden' }}
+                                            >
+                                                <p className="pt-4 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-medium text-white/60">
+                                                    {faq.answer}
+                                                </p>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
                             );
                         })}
