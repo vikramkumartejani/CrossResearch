@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export interface BrokerCardData {
     id: string;
@@ -49,11 +50,65 @@ function CheckIcon() {
 
 export default function BrokerCard({ broker }: BrokerCardProps) {
     const { name, logo, rating, minDeposit, leverage, spread, ctaLink, mostPopular } = broker;
+    const [hovered, setHovered] = useState(false);
 
     return (
-        <div className="relative flex flex-col bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[50px] gap-5">
+        <div
+            className="relative flex flex-col bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[50px] gap-5 overflow-hidden"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            {/* Hover glow — top-right */}
+            <div
+                aria-hidden="true"
+                className="absolute pointer-events-none transition-opacity duration"
+                style={{ opacity: hovered ? 1 : 0, inset: 0, zIndex: 0 }}
+            >
+                {/* Ellipse 1 */}
+                <div style={{
+                    position: 'absolute',
+                    width: '238.67px', height: '374.18px',
+                    right: '-50.93px', top: '-150.69px',
+                    background: '#6DB7FF',
+                    filter: 'blur(80.6px)',
+                    transform: 'rotate(-56.09deg)',
+                    borderRadius: '50%',
+                }} />
+                {/* Ellipse 2 */}
+                <div style={{
+                    position: 'absolute',
+                    width: '172.24px', height: '368.38px',
+                    left: '560.82px', top: '-91.89px',
+                    background: '#6294FF',
+                    mixBlendMode: 'plus-lighter',
+                    filter: 'blur(209.9px)',
+                    transform: 'rotate(-56.09deg)',
+                    borderRadius: '50%',
+                }} />
+                {/* Ellipse 3 */}
+                <div style={{
+                    position: 'absolute',
+                    width: '160.63px', height: '357.66px',
+                    left: '540.48px', top: '-51.99px',
+                    background: '#0F4274',
+                    mixBlendMode: 'plus-lighter',
+                    filter: 'blur(209.9px)',
+                    transform: 'rotate(-56.09deg)',
+                    borderRadius: '50%',
+                }} />
+            </div>
+            {/* Dot pattern */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+                src="/assets/card-dot-img.svg"
+                alt=""
+                aria-hidden="true"
+                className="absolute top-0 bottom-0 right-0 pointer-events-none select-none object-cover transition-opacity"
+                style={{ width: '50%', height: '100%', opacity: hovered ? 0.3 : 0, zIndex: 1 }}
+            />
+
             {/* Header — logo + name + rating */}
-            <div className="flex items-start justify-between gap-3 pt-10 px-10 pb-[50px] border-b border-[#FFFFFF1A]">
+            <div className="relative z-10 flex items-start justify-between gap-3 pt-10 px-10 pb-[50px] border-b border-[#FFFFFF1A]">
                 <div className="flex items-center gap-[38px]">
                     {/* Logo */}
                     <div className="w-[100px] h-[100px] rounded-[20px] bg-[#FFFFFF0D] border border-[#FFFFFF1A] flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -83,7 +138,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
                 )}
             </div>
 
-            <div className='pt-8 px-10 pb-10'>
+            <div className='relative z-10 pt-8 px-10 pb-10'>
                 {/* Stats */}
                 <ul className="flex flex-col gap-5 mb-8">
                     {[
