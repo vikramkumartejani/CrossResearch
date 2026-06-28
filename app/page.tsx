@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Navbar from "./components/Navbar";
 import Hero from "./components/Home/Hero";
 import LogoSlider from "./components/LogoSlider";
@@ -11,6 +12,29 @@ import PricingSection from "./components/Home/PricingSection";
 import ContactSection from "./components/Home/ContactSection";
 import TestimonialsSection from "./components/Home/TestimonialsSection";
 import CTA from "./components/Home/CTA";
+
+export const metadata: Metadata = {
+  title: 'CrossResearch - Institutional-Grade Market Intelligence for Retail Traders',
+  description: 'Access proprietary algorithms, macro intelligence, volatility analytics, and market regime tools trusted by advanced traders worldwide. Start your free trial today.',
+  keywords: ['market intelligence', 'trading signals', 'macro analysis', 'algo trading', 'market regime', 'volatility analytics', 'CrossResearch', 'institutional trading'],
+  authors: [{ name: 'CrossResearch', url: 'https://cross-research.vercel.app' }],
+  robots: { index: true, follow: true },
+  alternates: { canonical: 'https://cross-research.vercel.app' },
+  openGraph: {
+    title: 'CrossResearch - Institutional-Grade Market Intelligence',
+    description: 'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.',
+    url: 'https://cross-research.vercel.app',
+    siteName: 'CrossResearch',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CrossResearch - Institutional-Grade Market Intelligence',
+    description: 'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.',
+    site: '@crossresearch',
+  },
+}
 
 export default function Home() {
   return (

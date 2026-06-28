@@ -17,9 +17,16 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "CrossResearch - Institutional-Grade Market Intelligence",
-  description:
-    "Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.",
+  title: {
+    default: 'CrossResearch - Institutional-Grade Market Intelligence',
+    template: '%s | CrossResearch',
+  },
+  description: 'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.',
+  authors: [{ name: 'CrossResearch', url: 'https://cross-research.vercel.app' }],
+  creator: 'CrossResearch',
+  publisher: 'CrossResearch',
+  robots: { index: true, follow: true },
+  metadataBase: new URL('https://cross-research.vercel.app'),
 };
 
 export default function RootLayout({

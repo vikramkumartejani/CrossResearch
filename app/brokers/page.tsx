@@ -1,8 +1,32 @@
+import type { Metadata } from 'next'
 import CostsDefineProfit from '../components/BrokersAndPropFirm/CostsDefineProfit'
 import Hero from '../components/BrokersAndPropFirm/Hero'
 import TopRatedBrokers from '../components/BrokersAndPropFirm/TopRatedBrokers'
 import CTA from '../components/Home/CTA'
 import LogoSlider from '../components/LogoSlider'
+
+export const metadata: Metadata = {
+    title: 'Best Forex Brokers | Top Rated Brokers',
+    description: 'Compare the best forex brokers with low commissions, fast execution, and strong regulation. CrossResearch reviews top brokers to maximize your trading profits.',
+    keywords: ['best forex brokers', 'top rated brokers', 'low commission brokers', 'forex trading', 'broker comparison', 'CrossResearch'],
+    authors: [{ name: 'CrossResearch', url: 'https://cross-research.vercel.app' }],
+    robots: { index: true, follow: true },
+    alternates: { canonical: 'https://cross-research.vercel.app/brokers' },
+    openGraph: {
+        title: 'Best Forex Brokers 2025 | CrossResearch',
+        description: 'Compare top forex brokers with low fees, strong regulation, and reliable trading platforms. Find the best broker for your trading style.',
+        url: 'https://cross-research.vercel.app/brokers',
+        siteName: 'CrossResearch',
+        type: 'website',
+        locale: 'en_US',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Best Forex Brokers 2025 | CrossResearch',
+        description: 'Compare top forex brokers with low fees, strong regulation, and reliable trading platforms.',
+        site: '@crossresearch',
+    },
+}
 
 const page = () => {
     return (
