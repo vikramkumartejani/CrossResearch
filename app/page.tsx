@@ -1,17 +1,17 @@
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import LogoSlider from "./components/LogoSlider";
-import GlobalMarketInsights from "./components/GlobalMarketInsights";
-import StatsSection from "./components/StatsSection";
-import MarketsSection from "./components/MarketsSection";
-import IntelligenceSection from "./components/IntelligenceSection";
-import ArticlesSection from "./components/ArticlesSection";
+import Hero from "./components/Home/Hero";
+import LogoSlider from "./components/Home/LogoSlider";
+import GlobalMarketInsights from "./components/Home/GlobalMarketInsights";
+import StatsSection from "./components/Home/StatsSection";
+import MarketsSection from "./components/Home/MarketsSection";
+import IntelligenceSection from "./components/Home/IntelligenceSection";
+import ArticlesSection from "./components/Home/ArticlesSection";
 import FAQ from "./components/FAQ";
-import PricingSection from "./components/PricingSection";
-import ContactSection from "./components/ContactSection";
-import TestimonialsSection from "./components/TestimonialsSection";
+import PricingSection from "./components/Home/PricingSection";
+import ContactSection from "./components/Home/ContactSection";
+import TestimonialsSection from "./components/Home/TestimonialsSection";
 import Footer from "./components/Footer";
-import CTA from "./components/CTA";
+import CTA from "./components/Home/CTA";
 
 export default function Home() {
   return (
