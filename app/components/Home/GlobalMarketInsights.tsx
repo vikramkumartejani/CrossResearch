@@ -1,4 +1,5 @@
 import Image from "next/image";
+import GlobalMarketInsightsNew from "./GlobalMarketInsightsNew";
 
 const FEATURES = [
     {
@@ -45,16 +46,14 @@ export default function GlobalMarketInsights() {
                 </h2>
 
                 {/* Subheading */}
-                <p className="text-center text-white/60 text-[16px] sm:text-[22px] leading-[22px] sm:leading-[33px] font-normal max-w-[465px] mx-auto">
+                <p className="mb-10 sm:mb-16 xl:mb-20 text-center text-white/60 text-[16px] sm:text-[22px] leading-[22px] sm:leading-[33px] font-normal max-w-[465px] mx-auto">
                     Helping Retail Traders to Understand Markets
                     From an Institutional Perspective
                 </p>
 
                 {/* Card */}
-                <div className="mt-10 sm:mt-16 xl:mt-20 bg-[#FFFFFF08] border border-[#FFFFFF1A] rounded-[40px] p-6 sm:p-10 xl:pt-[45.49px] xl:pl-[61px] xl:pb-[44.51px] xl:pr-6 flex flex-col xl:flex-row gap-[34px] items-center">
-                    {/* Left: text content */}
+                {/* <div className="mt-10 sm:mt-16 xl:mt-20 bg-[#FFFFFF08] border border-[#FFFFFF1A] rounded-[40px] p-6 sm:p-10 xl:pt-[45.49px] xl:pl-[61px] xl:pb-[44.51px] xl:pr-6 flex flex-col xl:flex-row gap-[34px] items-center">
                     <div className="flex-1 xl:max-w-[745px]">
-                        {/* Inner badge */}
                         <div className="mb-5 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" />
@@ -64,12 +63,10 @@ export default function GlobalMarketInsights() {
                             Research. Forecasting. Execution.
                         </div>
 
-                        {/* Card heading */}
                         <h3 className="font-medium text-2xl sm:text-3xl md:text-4xl xl:text-[40px] leading-tight xl:leading-[44px] mb-4 sm:mb-6 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
                             A suite of quantitative tools built to transform complex market data into actionable insights.
                         </h3>
 
-                        {/* Feature list */}
                         <div className="flex flex-col gap-4 sm:gap-6 max-w-[615px]">
                             {FEATURES.map((f) => (
                                 <div key={f.num}>
@@ -89,11 +86,11 @@ export default function GlobalMarketInsights() {
                         </div>
                     </div>
 
-                    {/* Right: dashboard screenshot placeholder */}
                     <div className="max-w-full xl:max-w-[600px] 2xl:max-w-[776px]">
                         <Image src='/assets/global-market-insights-right-image.png' alt="global-market-insights" width={776} height={530} />
                     </div>
-                </div>
+                </div> */}
+                  <GlobalMarketInsightsNew/>
             </div>
         </section>
     );

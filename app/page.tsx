@@ -64,6 +64,7 @@ export default function Home() {
         <div className="relative" style={{ zIndex: 1 }}>
           <LogoSlider />
           <GlobalMarketInsights />
+        
         </div>
       </div>
 
