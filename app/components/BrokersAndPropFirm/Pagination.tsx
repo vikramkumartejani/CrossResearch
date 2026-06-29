@@ -53,7 +53,7 @@ export default function Pagination({
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
 
             {/* Result count */}
-            <p className="text-white/50 text-[16px] leading-[21px] font-medium bg-[#FFFFFF08] rounded-[62px] py-2.5 px-5">
+            <p className="text-white/50 text-[14px] sm:text-[16px] leading-4.5 sm:leading-[21px] font-medium bg-[#FFFFFF08] rounded-[62px] py-2 sm:py-2.5 px-5">
                 Result :<span className="text-white font-semibold ml-2.5">{totalItems} Items</span>
             </p>
 
@@ -63,7 +63,7 @@ export default function Pagination({
                 <button
                     onClick={() => onPageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="w-[41px] h-[41px] cursor-pointer flex items-center justify-center rounded-full bg-[#FFFFFF08] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="w-8 sm:w-[41px] h-8 sm:h-[41px] cursor-pointer flex items-center justify-center rounded-full bg-[#FFFFFF08] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     aria-label="Previous page"
                 >
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,12 +74,12 @@ export default function Pagination({
                 <div className='flex items-center gap-1'>
                     {pages.map((p, i) =>
                         p === '...' ? (
-                            <span key={`ellipsis-${i}`} className="mx-1 w-[41px] bg-[#FFFFFF08] rounded-full h-[41px] flex items-center justify-center text-white/80 text-[16px] font-semibold leading-[50px]">…</span>
+                            <span key={`ellipsis-${i}`} className="mx-1 w-8 sm:w-[41px] bg-[#FFFFFF08] rounded-full h-8 sm:h-[41px] flex items-center justify-center text-white/80 text-[16px] font-semibold leading-[50px]">…</span>
                         ) : (
                             <button
                                 key={p}
                                 onClick={() => onPageChange(p as number)}
-                                className={`w-[41px] h-[41px] cursor-pointer flex items-center justify-center rounded-full text-[16px] leading-[21px] font-semibold transition-colors ${currentPage === p
+                                className={`w-8 sm:w-[41px] h-8 sm:h-[41px] cursor-pointer flex items-center justify-center rounded-full text-[16px] leading-[21px] font-semibold transition-colors ${currentPage === p
                                     ? 'bg-white text-[#070711]'
                                     : 'text-white/80 hover:text-white bg-[#FFFFFF08]'
                                     }`}
@@ -94,7 +94,7 @@ export default function Pagination({
                 <button
                     onClick={() => onPageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="w-[41px] h-[41px] cursor-pointer flex items-center justify-center rounded-full bg-[#FFFFFF08] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="w-8 sm:w-[41px] h-8 sm:h-[41px] cursor-pointer flex items-center justify-center rounded-full bg-[#FFFFFF08] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     aria-label="Next page"
                 >
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +107,7 @@ export default function Pagination({
             <div className="relative" ref={dropdownRef}>
                 <button
                     onClick={() => setDropdownOpen(prev => !prev)}
-                    className="flex items-center gap-10 bg-[#FFFFFF08] cursor-pointer rounded-[90px] px-5 py-2.5 text-[16px] leading-[21px] font-semibold text-white/70 transition-colors"
+                    className="flex items-center gap-10 bg-[#FFFFFF08] cursor-pointer rounded-[90px] px-5 py-2 sm:py-2.5 text-[14px] sm:text-[16px] leading-4.5 sm:leading-[21px] font-semibold text-white/70 transition-colors"
                 >
                     <span className="font-medium text-white/70">{totalPages} Pages</span>
                     <svg width="16" height="16" className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

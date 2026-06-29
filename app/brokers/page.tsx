@@ -36,61 +36,50 @@ const page = () => {
 
             {/* Ellipse 14 — left glow + Ellipse 13 — right glow (between LogoSlider & CostsDefineProfit) */}
             <div className="relative">
-                <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[60px] lg:blur-[250px]" style={{
                     width: '833px', height: '533px',
                     left: '-339px', top: '-200px',
                     background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
                     zIndex: 0,
                 }} />
-                <div aria-hidden="true" className="absolute pointer-events-none" style={{
-                    width: '833px', height: '533px',
-                    right: '-339px', top: '-200px',
+                <div aria-hidden="true" className="absolute pointer-events-none w-[450px] h-[300px] lg:w-[833px] lg:h-[533px] top-[-150px] lg:top-[-200px] blur-[80px] lg:blur-[250px]" style={{
+                    right: '-339px',
                     background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
                     zIndex: 0,
                 }} />
                 <div className="relative" style={{ zIndex: 1 }}>
-                    <CostsDefineProfit/>
+                    <CostsDefineProfit />
                 </div>
             </div>
+
             {/* Ellipse 1 (left) + Ellipse 2 (right) — top of TopRatedBrokers */}
             <div className="relative">
-                <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                     width: '977px', height: '625px',
                     left: '-305px', top: '100px',
                     background: 'rgba(34, 126, 217, 0.4)',
                     filter: 'blur(250px)',
                     zIndex: 0,
                 }} />
-                <div aria-hidden="true" className="absolute pointer-events-none" style={{
-                    width: '977px', height: '669.55px',
-                    right: '-305px', top: '100px',
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[350px] sm:h-[669.55px] right-[-200px] sm:right-[-305px] top-[-80px] sm:top-[100px] blur-[80px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
                     transform: 'rotate(-26.89deg)',
                     zIndex: 0,
                 }} />
-                <div className="relative bg-[#FFFFFF03]" style={{ zIndex: 1 }}>
-                    <TopRatedBrokers/>
+                <div className="relative bg-[#FFFFFF03] z-30" style={{ zIndex: 1 }}>
+                    <TopRatedBrokers />
                 </div>
             </div>
-            <div className='mb-[110px] pt-[105px] relative'>
-                {/* Ellipse 3 — left bottom glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none" style={{
-                    width: '977px', height: '446px',
+
+            <div className='mb-[60px] md:mb-[110px] pt-10 sm:pt-20 xl:pt-[105px] relative'>
+                <div aria-hidden="true" className="sm:block hidden absolute pointer-events-none w-[977px] h-[446px] blur-[250px]" style={{
                     left: '-512px', bottom: '-300px',
                     background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 12 — right bottom glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none" style={{
-                    width: '977px', height: '446px',
-                    right: '-512px', bottom: '-300px',
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[350px] sm:h-[446px] right-[-20%] sm:right-[-512px] bottom-[-350px] sm:bottom-[-300px] blur-[80px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />

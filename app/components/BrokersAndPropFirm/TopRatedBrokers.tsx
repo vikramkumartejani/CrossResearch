@@ -53,7 +53,7 @@ export default function TopRatedBrokers() {
     const sliced = BROKERS.slice(start, start + itemsPerPage);
 
     return (
-        <div className='px-4 sm:px-6 pt-[65px] pb-[65px]'>
+        <div className='px-4 sm:px-6 py-8 sm:py-[65px]'>
             <div className='max-w-[1560px] mx-auto'>
 
                 {/* Badge */}
@@ -77,7 +77,7 @@ export default function TopRatedBrokers() {
                 </div>
 
                 {/* Cards grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10">
                     {sliced.map((broker) => (
                         <BrokerCard key={broker.id} broker={broker} />
                     ))}

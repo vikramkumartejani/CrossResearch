@@ -34,7 +34,7 @@ function StarRating({ rating }: { rating: number }) {
 function Star({ type }: { type: 'full' | 'half' | 'empty' }) {
     const fill = type === 'empty' ? '#4B5563' : '#FDAC17';
     return (
-        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="25" height="24" className='sm:w-[25px] sm:h-[24px] w-5 h-5' viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11.2391 0.690968C11.5385 -0.230343 12.8419 -0.230344 13.1412 0.690967L15.3334 7.43768C15.4673 7.8497 15.8512 8.12866 16.2844 8.12866H23.3783C24.3471 8.12866 24.7498 9.36828 23.9661 9.93768L18.227 14.1074C17.8766 14.362 17.7299 14.8134 17.8638 15.2254L20.0559 21.9721C20.3553 22.8934 19.3008 23.6596 18.5171 23.0902L12.778 18.9205C12.4275 18.6658 11.9529 18.6658 11.6024 18.9205L5.86331 23.0902C5.07959 23.6596 4.02511 22.8934 4.32446 21.9721L6.5166 15.2254C6.65048 14.8134 6.50382 14.362 6.15333 14.1074L0.414236 9.93768C-0.369477 9.36828 0.0332973 8.12866 1.00202 8.12866H8.09593C8.52916 8.12866 8.91312 7.8497 9.04699 7.43768L11.2391 0.690968Z" fill={fill} />
         </svg>
     );
@@ -54,7 +54,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
 
     return (
         <div
-            className="relative flex flex-col bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[50px] gap-5 overflow-hidden"
+            className="relative flex flex-col bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[20px] sm:rounded-[50px] overflow-hidden"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
@@ -65,13 +65,10 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
                 style={{ opacity: hovered ? 1 : 0, inset: 0, zIndex: 0 }}
             >
                 {/* Ellipse 1 */}
-                <div style={{
+                <div className='w-[120px] sm:w-[238.67px] h-[350px] sm:h-[374.18px] blur-[60px] sm:blur-[80.6px] rotate-[-56.09deg]' style={{
                     position: 'absolute',
-                    width: '238.67px', height: '374.18px',
                     right: '-50.93px', top: '-150.69px',
                     background: '#6DB7FF',
-                    filter: 'blur(80.6px)',
-                    transform: 'rotate(-56.09deg)',
                     borderRadius: '50%',
                 }} />
                 {/* Ellipse 2 */}
@@ -97,6 +94,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
                     borderRadius: '50%',
                 }} />
             </div>
+
             {/* Dot pattern */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -108,19 +106,19 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
             />
 
             {/* Header — logo + name + rating */}
-            <div className="relative z-10 flex items-start justify-between gap-3 pt-10 px-10 pb-[50px] border-b border-[#FFFFFF1A]">
-                <div className="flex items-center gap-[38px]">
+            <div className="relative z-10 flex items-start justify-between gap-1.5 sm:gap-3 pt-4 sm:pt-10 px-4 sm:px-10 pb-4 sm:pb-[50px] border-b border-[#FFFFFF1A]">
+                <div className="flex items-center gap-2.5 sm:gap-5 2xl:gap-[38px]">
                     {/* Logo */}
-                    <div className="w-[100px] h-[100px] rounded-[20px] bg-[#FFFFFF0D] border border-[#FFFFFF1A] flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <div className="w-[60px] sm:w-[100px] h-[60px] sm:h-[100px] rounded-[10px] sm:rounded-[20px] bg-[#FFFFFF0D] border border-[#FFFFFF1A] flex items-center justify-center overflow-hidden flex-shrink-0">
                         <Image src={logo} alt={name} width={100} height={100} className="object-contain" unoptimized />
                     </div>
 
                     {/* Name + numeric rating */}
                     <div>
-                        <div className="flex items-center gap-3 mb-3">
-                            <h3 className="text-white text-[45px] font-semibold leading-[50px]">{name}</h3>
-                            <span className="border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[12px] px-[13px] py-2 flex items-center gap-2 text-white text-[16px] leading-[18px] font-semibold">
-                                <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div className="flex items-center gap-3 mb-1.5 sm:mb-3">
+                            <h3 className="text-white text-[18px] sm:text-[30px] 2xl:text-[45px] font-semibold leading-tight 2xl:leading-[50px]">{name}</h3>
+                            <span className="border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-lg sm:rounded-[12px] px-1.5 sm:px-[13px] py-1.5 sm:py-2 flex items-center gap-1 sm:gap-2 text-white text-[14px] sm:text-[16px] leading-4 sm:leading-[18px] font-semibold">
+                                <svg width="19" height="18" className='sm:w-[19px] sm:h-[18px] w-4 h-4' viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.38586 0.690968C8.68521 -0.230343 9.98862 -0.230344 10.288 0.690967L11.8066 5.36473C11.9404 5.77675 12.3244 6.05571 12.7576 6.05571H17.6719C18.6406 6.05571 19.0434 7.29533 18.2597 7.86473L14.284 10.7533C13.9335 11.0079 13.7868 11.4593 13.9207 11.8713L15.4393 16.5451C15.7386 17.4664 14.6842 18.2325 13.9004 17.6631L9.9247 14.7746C9.57421 14.5199 9.09962 14.5199 8.74913 14.7746L4.77339 17.6631C3.98968 18.2325 2.9352 17.4664 3.23455 16.5451L4.75314 11.8713C4.88702 11.4593 4.74036 11.0079 4.38987 10.7533L0.414135 7.86473C-0.369579 7.29533 0.0331967 6.05571 1.00192 6.05571H5.9162C6.34943 6.05571 6.73339 5.77675 6.86726 5.36473L8.38586 0.690968Z" fill="#FDAC17" />
                                 </svg>
                                 {rating}
@@ -132,21 +130,21 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
 
                 {/* Most Popular badge */}
                 {mostPopular && (
-                    <div className="flex items-center justify-center bg-[#88C4FF] border border-dashed border-white text-black text-[14px] leading-[15px] font-semibold px-6 h-[43px] rounded-[60px]">
+                    <div className="flex items-center justify-center text-center bg-[#88C4FF] border border-dashed border-white text-black text-[12px] sm:text-[14px] leading-[15px] font-semibold px-1.5 sm:px-6 h-7 sm:h-[43px] rounded-[8px] sm:rounded-[60px]">
                         Most Popular
                     </div>
                 )}
             </div>
 
-            <div className='relative z-10 pt-8 px-10 pb-10'>
+            <div className='relative z-10 pt-4 sm:pt-8 px-4 sm:px-10 pb-5 sm:pb-10'>
                 {/* Stats */}
-                <ul className="flex flex-col gap-5 mb-8">
+                <ul className="flex flex-col gap-2.5 sm:gap-5 mb-5 sm:mb-8">
                     {[
                         { label: 'Min Deposit : ', value: minDeposit },
                         { label: 'Leverage : ', value: leverage },
                         { label: 'Spread : ', value: spread },
                     ].map((row) => (
-                        <li key={row.label} className="flex items-center gap-4 text-white text-[20px] leading-[24px]">
+                        <li key={row.label} className="flex items-center gap-2 sm:gap-4 text-white text-[16px] sm:text-[20px] leading-5 sm:leading-[24px]">
                             <CheckIcon />
                             <span className="font-normal">{row.label}<strong className="font-semibold">{row.value}</strong></span>
                         </li>
@@ -156,7 +154,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
                 {/* CTA */}
                 <Link
                     href={ctaLink}
-                    className="mt-auto inline-flex items-center gap-2.5 bg-[#FFFFFF08] text-white text-[20px] leading-6 font-semibold px-4.5 h-[52px] rounded-[16px] w-fit hover:bg-white hover:text-black transition-colors duration-200"
+                    className="mt-auto inline-flex items-center gap-2.5 bg-[#FFFFFF08] text-white text-[14px] sm:text-[20px] leading-5 sm:leading-6 font-semibold px-4.5 h-11 sm:h-[52px] rounded-[16px] w-fit hover:bg-white hover:text-black transition-colors duration-200"
                 >
                     Start Trading
                     <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
