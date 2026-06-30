@@ -32,7 +32,9 @@ const page = () => {
     return (
         <div>
             <Hero description="after testing the top prop firms and trading funded accounts onseelves we found the ones that cait truly boost your performance. For new traders or those with limited capital, prop firms can be a strong way to start and scale faster, but they require discipline, strong psychology, and solid risk management." descriptionMaxWidth="1022px" />
-            <LogoSlider />
+            <div className='py-7 sm:py-14 2xl:py-[120px]'>
+                <LogoSlider />
+            </div>
             {/* Ellipse 14 — left glow + Ellipse 13 — right glow (between LogoSlider & CostsDefineProfit) */}
             <div className="relative">
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[60px] lg:blur-[250px]" style={{

@@ -32,7 +32,9 @@ const page = () => {
     return (
         <div>
             <Hero description="After years testing top brokers, we found one maximizing profits through low commissions and fast execution. Want details? Message us or sign up below." />
-            <LogoSlider />
+            <div className='py-7 sm:py-14 2xl:py-[120px]'>
+                <LogoSlider />
+            </div>
 
             {/* Ellipse 14 — left glow + Ellipse 13 — right glow (between LogoSlider & CostsDefineProfit) */}
             <div className="relative">

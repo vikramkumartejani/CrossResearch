@@ -62,9 +62,11 @@ export default function Home() {
                     bg-[rgba(34,126,217,0.4)]"
         />
         <div className="relative" style={{ zIndex: 1 }}>
-          <LogoSlider />
+          <div className='py-7 sm:py-14 2xl:py-[120px]'>
+            <LogoSlider />
+          </div>
           <GlobalMarketInsights />
-        
+
         </div>
       </div>
 
@@ -105,7 +107,7 @@ export default function Home() {
                     blur-[150px] md:blur-[200px] lg:blur-[250px]"
         />
         <div className="pb-20 lg:pb-[120px] xl:pb-[170px]">
-        <CTA />
+          <CTA />
         </div>
       </div>
     </main>

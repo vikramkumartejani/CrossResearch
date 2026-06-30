@@ -15,7 +15,7 @@ const LOGO_FILTER = "brightness(0) invert(1) brightness(0.60)";
 
 export default function LogoSlider() {
     return (
-        <div className="w-full overflow-hidden py-7 sm:py-14 2xl:py-[120px] relative" aria-label="Trusted data partners">
+        <div className="w-full overflow-hidden relative" aria-label="Trusted data partners">
             <div className="logo-slider-track">
                 {/* Track 1 */}
                 <div className="flex flex-shrink-0 items-center">
