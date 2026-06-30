@@ -9,15 +9,15 @@ interface BlogTabsProps {
 
 export default function BlogTabs({ activeTab, onTabChange }: BlogTabsProps) {
     return (
-        <div className="mb-10 border-b border-white/[0.06] pt-6 px-4 sm:px-6">
+        <div className="mb-8 sm:mb-10 border-b border-white/[0.06] pt-6 px-4 sm:px-6">
             <div className='max-w-[1560px] mx-auto'>
-                <div className='w-full flex items-center justify-start'>
+                <div className='w-full flex items-center justify-start overflow-x-auto scrollbar-hide'>
                     {TABS.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => onTabChange(tab.id)}
-                            className={`cursor-pointer px-6 pb-[18px] text-[14px] sm:text-[16px] leading-5 sm:leading-[24px] transition-colors relative whitespace-nowrap ${activeTab === tab.id
-                                ? 'text-white font-semibold '
+                            className={`cursor-pointer px-3 sm:px-6 pb-[14px] sm:pb-[18px] text-[13px] sm:text-[16px] leading-5 sm:leading-[24px] transition-colors relative whitespace-nowrap ${activeTab === tab.id
+                                ? 'text-white font-semibold'
                                 : 'text-white/60 hover:text-white/70 font-normal'
                                 }`}
                         >
