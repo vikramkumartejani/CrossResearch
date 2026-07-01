@@ -119,7 +119,7 @@ export default function Navbar() {
                     {/* Desktop CTA Buttons */}
                     <div className="hidden xl:flex items-center gap-[7px]">
                         <Link
-                            href="/signin"
+                            href="/login"
                             className="px-[28px] py-[5px] text-white text-[18px] leading-[22px] font-medium font-inter"
                         >
                             Sign In
@@ -209,7 +209,7 @@ export default function Navbar() {
                         {/* Mobile CTA buttons */}
                         <div className="px-5 py-5 flex flex-col gap-3">
                             <Link
-                                href="/signin"
+                                href="/login"
                                 className="text-center py-3 text-[15px] font-medium rounded-full transition-colors duration-150 border border-[#ffffff26] text-[#ffffffbf] font-inter"
                                 onClick={closeMobileMenu}
                             >
