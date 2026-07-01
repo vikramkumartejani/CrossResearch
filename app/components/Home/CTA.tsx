@@ -24,7 +24,7 @@ export default function CTA() {
                     />
 
                     {/* Dot pattern — top-left */}
-                    <div className="absolute left-0 top-0 opacity-20 pointer-events-none" aria-hidden="true">
+                    <div className="absolute left-0 top-0 opacity-10 pointer-events-none" aria-hidden="true">
                         <Image
                             src="/assets/card-dot-img.svg"
                             alt=""
