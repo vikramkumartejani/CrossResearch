@@ -19,22 +19,69 @@ export default function AuthRightPanel() {
                 }}
             />
 
+            {/* ── Top-left corner glow (Group 4) ── */}
+            <div
+                aria-hidden="true"
+                className="xl:block hidden absolute pointer-events-none"
+                style={{
+                    width: "300px",
+                    height: "250px",
+                    left: "0px",
+                    top: "0px",
+                    zIndex: 0,
+                }}
+            >
+                {/* Ellipse 1 */}
+                <div className="absolute blur-[84.47px]" style={{
+                    width: "250.23px", height: "323.67px",
+                    left: "-100.91px", top: "-135.11px",
+                    background: "#6DB7FF",
+                    transform: "rotate(-56.09deg)",
+                    borderRadius: "50%",
+                }} />
+                {/* Ellipse 2 */}
+                <div className="absolute blur-[237.68px] sm:block hidden" style={{
+                    width: "195.02px", height: "417.1px",
+                    left: "-100.47px", top: "-143.26px",
+                    background: "#6294FF",
+                    mixBlendMode: "plus-lighter",
+                    transform: "rotate(-56.09deg)",
+                    borderRadius: "50%",
+                }} />
+                {/* Ellipse 3 */}
+                <div className="absolute blur-[237.68px] sm:block hidden" style={{
+                    width: "181.87px", height: "404.96px",
+                    left: "-100.5px", top: "-98.08px",
+                    background: "#0F4274",
+                    mixBlendMode: "plus-lighter",
+                    transform: "rotate(-56.09deg)",
+                    borderRadius: "50%",
+                }} />
+                {/* card-dot-img overlay */}
+                <Image
+                    src="/assets/card-dot-img.svg"
+                    alt=""
+                    width={500}
+                    height={350}
+                    className="absolute inset-0 w-full h-full object-cover opacity-60"
+                    aria-hidden="true"
+                />
+            </div>
+
             {/* Main image — centered */}
-            <div className="relative">
-                <div className="relative z-10">
-                    <Image
-                        src="/assets/login.svg"
-                        alt="Dashboard preview"
-                        width={610}
-                        height={659}
-                        draggable="false"
-                        priority
-                    />
-                </div>
+            <div className="relative z-20">
+                <Image
+                    src="/assets/login.svg"
+                    alt="Dashboard preview"
+                    width={610}
+                    height={659}
+                    draggable="false"
+                    priority
+                />
             </div>
 
             {/* Bottom text + dots */}
-            <div className="relative z-10 flex items-center flex-col pt-10">
+            <div className="relative z-20 flex items-center flex-col pt-10">
                 <h2 className="text-white text-[40px] font-medium leading-[56px] mb-3">
                     Turn your ideas into reality
                 </h2>
