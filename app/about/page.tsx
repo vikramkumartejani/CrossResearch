@@ -1,9 +1,13 @@
 import React from 'react'
 import CTA from '../components/Home/CTA'
+import Hero from '../components/About/Hero'
+import LogoSlider from '../components/LogoSlider'
 
 const page = () => {
     return (
         <div>
+            <Hero/>
+            <LogoSlider/>
             <div className='relative pb-14 sm:pb-20 xl:pb-[170px] pt-10 sm:pt-[111px]'>
                 {/* Ellipse 19 — left glow */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none" style={{
