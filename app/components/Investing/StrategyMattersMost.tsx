@@ -76,7 +76,7 @@ const StrategyMattersMost = () => {
                         </div>
 
                         {/* Ellipse 1 — blue glow */}
-                        <div aria-hidden="true" className="absolute pointer-events-none blur-[70.408px] right-[-100px] top-[-140px]" style={{
+                        <div aria-hidden="true" className="absolute pointer-events-none blur-[70.408px] right-[-140px] sm:right-[-100px] top-[-180px] sm:top-[-140px]" style={{
                             width: '225.24px', height: '353.14px',
                             background: '#6DB7FF',
                             transform: 'rotate(-56.09deg)',
@@ -93,7 +93,7 @@ const StrategyMattersMost = () => {
                             zIndex: 0,
                         }} />
                         {/* Ellipse 3 — dark overlay glow */}
-                        <div aria-hidden="true" className="absolute pointer-events-none md:block hidden" style={{
+                        <div aria-hidden="true" className="absolute pointer-events-none" style={{
                             width: '151.6px', height: '337.54px',
                             right: '-50px', top: '-83px',
                             background: '#0F4274',
