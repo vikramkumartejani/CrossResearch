@@ -77,9 +77,9 @@ const AccessOurFunds = () => {
                         {/* Card 3 — Managed Allocation */}
                         <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] p-6 sm:p-8 xl:p-10 flex flex-col gap-4 sm:gap-6 relative overflow-hidden">
                             {/* card-dot-img overlay */}
-                            <div className='w-[150px] sm:w-[280px] h-[170px] sm:h-[220px] absolute top-0 right-0 z-10'>
+                            <div className='w-[150px] sm:w-[250px] h-[170px] sm:h-[220px] absolute top-0 right-0 z-10'>
                                 <div
-                                    className="absolute inset-0 opacity-40 bg-[url('/assets/dots.svg')] bg-cover"
+                                    className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
                                 />
                             </div>
 
