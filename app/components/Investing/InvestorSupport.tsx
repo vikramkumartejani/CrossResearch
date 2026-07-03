@@ -74,18 +74,48 @@ const InvestorSupport = () => {
                         >
                             {/* Active blue glow right */}
                             {item.active && (
-                                <div aria-hidden="true" className="absolute pointer-events-none" style={{
-                                    width: '400px', height: '300px',
-                                    right: '-80px', top: '50%',
-                                    transform: 'translateY(-50%)',
-                                    background: 'rgba(34, 126, 217, 0.45)',
-                                    filter: 'blur(80px)',
-                                    zIndex: 0,
-                                }} />
+                                <>
+                                    {/* card-dot-img overlay */}
+                                    <div className='w-[140px] h-full absolute top-0 right-0 z-30'>
+                                        <div
+                                            className="absolute inset-0 opacity-60 bg-[url('/assets/dots.svg')] bg-cover"
+                                        />
+                                    </div>
+
+                                    {/* Ellipse 1 — blue glow */}
+                                    <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                        width: '167.78px', height: '263.04px',
+                                        right: '-40px', top: '-140px',
+                                        background: '#6DB7FF',
+                                        filter: 'blur(60.45px)',
+                                        transform: 'rotate(-56.09deg)',
+                                        zIndex: 1,
+                                    }} />
+                                    {/* Ellipse 2 — plus-lighter glow */}
+                                    <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                        width: '121.08px', height: '258.97px',
+                                        right: '-2px', top: '-95px',
+                                        background: '#6294FF',
+                                        mixBlendMode: 'plus-lighter',
+                                        filter: 'blur(147.57px)',
+                                        transform: 'rotate(-56.09deg)',
+                                        zIndex: 1,
+                                    }} />
+                                    {/* Ellipse 3 — dark overlay glow */}
+                                    <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                        width: '112.92px', height: '251.43px',
+                                        right: '-16px', top: '-67px',
+                                        background: '#0F4274',
+                                        mixBlendMode: 'plus-lighter',
+                                        filter: 'blur(147.57px)',
+                                        transform: 'rotate(-56.09deg)',
+                                        zIndex: 1,
+                                    }} />
+                                </>
                             )}
 
                             {/* Left: icon + name */}
-                            <div className="relative z-10 flex sm:flex-row flex-col items-start sm:items-center gap-5 sm:gap-6 flex-shrink-0 w-full lg:w-[320px] xl:w-[420px] 2xl:w-[600px]">
+                            <div className="relative z-40 flex sm:flex-row flex-col items-start sm:items-center gap-5 sm:gap-6 flex-shrink-0 w-full lg:w-[320px] xl:w-[420px] 2xl:w-[600px]">
                                 <div className="flex-shrink-0 w-14 h-14 lg:w-[70px] lg:h-[70px] rounded-full bg-[#FFFFFF08] border border-[#FFFFFF0D] flex items-center justify-center">
                                     {item.icon}
                                 </div>
@@ -95,14 +125,14 @@ const InvestorSupport = () => {
                             </div>
 
                             {/* Center: description */}
-                            <p className="relative z-10 text-white/70 text-[14px] sm:text-[16px] xl:text-[18px] leading-[20px] sm:leading-[29px] font-normal flex-1">
+                            <p className="relative z-40 text-white/70 text-[14px] sm:text-[16px] xl:text-[18px] leading-[20px] sm:leading-[29px] font-normal flex-1">
                                 {item.description.split('\n').map((line, i) => (
                                     <span key={i}>{line}{i === 0 && <br className='xl:block hidden' />}</span>
                                 ))}
                             </p>
 
                             {/* Right: CTA or arrow */}
-                            <div className="w-full sm:w-fit relative z-10 flex-shrink-0">
+                            <div className="w-full sm:w-fit relative z-40 flex-shrink-0">
                                 {item.cta ? (
                                     <button className="w-full bg-white text-black font-inter text-[16px] sm:text-[18px] font-semibold px-5 sm:px-8 h-12 sm:h-[60px] rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap">
                                         {item.cta}

@@ -75,14 +75,49 @@ const AccessOurFunds = () => {
                     {/* ── Right column ── */}
                     <div className="flex flex-col gap-6">
                         {/* Card 3 — Managed Allocation */}
-                        <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] p-6 sm:p-8 xl:p-10 flex flex-col gap-4 sm:gap-6">
-                            {/* Icon */}
-                            <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] flex items-center justify-center flex-shrink-0">
+                        <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] p-6 sm:p-8 xl:p-10 flex flex-col gap-4 sm:gap-6 relative overflow-hidden">
+                            {/* card-dot-img overlay */}
+                            <div className='w-[280px] h-[220px] absolute top-0 right-0 z-10'>
+                                <div
+                                    className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                />
+                            </div>
+
+                            {/* Ellipse 1 — blue glow */}
+                            <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                width: '143.67px', height: '225.25px',
+                                right: '-30px', top: '-80px',
+                                background: '#6DB7FF',
+                                filter: 'blur(44.91px)',
+                                transform: 'rotate(-56.09deg)',
+                                zIndex: 2,
+                            }} />
+                            {/* Ellipse 2 — plus-lighter glow */}
+                            <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                width: '103.68px', height: '221.75px',
+                                right: '-5px', top: '-64px',
+                                background: '#6294FF',
+                                mixBlendMode: 'plus-lighter',
+                                filter: 'blur(126.36px)',
+                                transform: 'rotate(-56.09deg)',
+                                zIndex: 2,
+                            }} />
+                            {/* Ellipse 3 — dark overlay glow */}
+                            <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                width: '96.69px', height: '215.3px',
+                                right: '-18px', top: '-30px',
+                                background: '#0F4274',
+                                mixBlendMode: 'plus-lighter',
+                                filter: 'blur(126.36px)',
+                                transform: 'rotate(-56.09deg)',
+                                zIndex: 2,
+                            }} />
+                            <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] flex items-center justify-center flex-shrink-0 relative z-10">
                                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15.4659 2.75C8.67527 3.2535 3.2535 8.67527 2.75 15.4659H6.84826C7.41939 15.4659 7.88238 15.9289 7.88238 16.5C7.88238 17.0711 7.41939 17.5341 6.84826 17.5341H2.75C3.2535 24.3247 8.67527 29.7465 15.4659 30.25V26.1517C15.4659 25.5806 15.9289 25.1176 16.5 25.1176C17.0711 25.1176 17.5341 25.5806 17.5341 26.1517V30.25C24.3247 29.7465 29.7465 24.3247 30.25 17.5341H26.1517C25.5806 17.5341 25.1176 17.0711 25.1176 16.5C25.1176 15.9289 25.5806 15.4659 26.1517 15.4659H30.25C29.7465 8.67527 24.3247 3.2535 17.5341 2.75V6.84826C17.5341 7.41939 17.0711 7.88238 16.5 7.88238C15.9289 7.88238 15.4659 7.41939 15.4659 6.84826V2.75ZM12.7082 16.5C12.7082 15.9289 13.1712 15.4659 13.7424 15.4659H15.4659V13.7424C15.4659 13.1712 15.9289 12.7082 16.5 12.7082C17.0711 12.7082 17.5341 13.1712 17.5341 13.7424V15.4659H19.2576C19.8288 15.4659 20.2918 15.9289 20.2918 16.5C20.2918 17.0711 19.8288 17.5341 19.2576 17.5341H17.5341V19.2576C17.5341 19.8288 17.0711 20.2918 16.5 20.2918C15.9289 20.2918 15.4659 19.8288 15.4659 19.2576V17.5341H13.7424C13.1712 17.5341 12.7082 17.0711 12.7082 16.5Z" fill="white" />
                                 </svg>
                             </div>
-                            <div>
+                            <div className="relative z-10">
                                 <h3 className="text-white text-[20px] sm:text-[26px] font-semibold leading-8 sm:leading-[42px] mb-3">Managed Allocation</h3>
                                 <p className="text-white/70 text-[14px] sm:text-[16px] leading-5 sm:leading-[26px] max-w-[541px]">
                                     Access institutional-grade strategies through structured allocation models designed for disciplined capital deployment.
