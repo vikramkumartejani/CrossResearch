@@ -36,9 +36,7 @@ const page = () => {
     return (
         <div>
             <Hero />
-            <div className='py-7 sm:py-14 2xl:py-[120px]'>
-                <LogoSlider />
-            </div>
+            <LogoSlider />
             {/* Ellipse 14 — left glow + Ellipse 13 — right glow (between LogoSlider & StrategyMattersMost) */}
             <div className="relative">
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[60px] lg:blur-[250px]" style={{
@@ -70,7 +68,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
             </div>
-            <OurStrategies/>
+            <OurStrategies />
             {/* Ellipse 15 (left) + Ellipse 16 (right) — bottom of OurStrategies */}
             <div className="relative">
                 {/* Ellipse 15 — left bottom glow */}
@@ -88,7 +86,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 <div className="relative" style={{ zIndex: 1 }}>
-                    <InstitutionalFund/>
+                    <InstitutionalFund />
                 </div>
             </div>
             {/* Ellipse 3 (left) + Ellipse 12 (right) — top of AccessOurFunds */}
@@ -109,7 +107,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 <div className="relative" style={{ zIndex: 1 }}>
-                    <AccessOurFunds/>
+                    <AccessOurFunds />
                 </div>
             </div>
             {/* Ellipse 4 (left) + Ellipse 17 (right) — ImpossibleToReplicate section */}
@@ -130,7 +128,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 <div className="relative" style={{ zIndex: 1 }}>
-                    <ImpossibleToReplicate/>
+                    <ImpossibleToReplicate />
                 </div>
             </div>
             {/* Ellipse 5 (right) + Ellipse 6 (left) — InvestorSupport section */}
@@ -151,13 +149,13 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 <div className="relative" style={{ zIndex: 1 }}>
-                    <InvestorSupport/>
+                    <InvestorSupport />
                 </div>
             </div>
             <div className='pb-16 md:pb-20 lg:pb-28 xl:pb-[170px] pt-16 lg:pt-20 xl:pt-[111px] relative'>
                 {/* Ellipse 7 — right glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none w-[400px] md:w-[730px] h-[200px] right-[-150px] md:right-[-300px] md:h-[333px] blur-[100px] md:blur-[250px] lg:-rotate-[20.7deg]" style={{
-                 bottom: '0px',
+                    bottom: '0px',
                     background: 'rgba(34, 126, 217, 0.4)',
                     zIndex: 0,
                 }} />

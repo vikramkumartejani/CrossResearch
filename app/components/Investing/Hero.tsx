@@ -29,7 +29,7 @@ const TopLine = () => {
 export default function Hero() {
 
     return (
-        <section className="relative w-full overflow-hidden px-4 sm:px-6 pb-10 sm:pb-14 lg:pb-20 xl:pb-[166px]" aria-labelledby="hero-heading">
+        <section className="relative w-full overflow-hidden px-4 sm:px-6 pb-10 sm:pb-14 lg:pb-20 xl:pb-[160px]" aria-labelledby="hero-heading">
             {/* Background: top-lines SVG */}
             <div className="absolute inset-x-0 top-16 sm:top-[96px] z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <TopLine />
