@@ -1,13 +1,13 @@
-import React from 'react'
-import CTA from '../components/Home/CTA'
 import type { Metadata } from 'next'
-import HowWeCompare from '../components/Algo/HowWeCompare'
-import MacroIntelligence from '../components/Algo/MacroIntelligence'
+import CTA from '../components/Home/CTA'
+import Hero from '../components/Algo/Hero'
+import MarketTicker from '../components/Algo/MarketTicker'
 import MarketIntelligence from '../components/Algo/MarketIntelligence'
+import MacroIntelligence from '../components/Algo/MacroIntelligence'
+import FeatureSections from '../components/Algo/FeatureSections'
+import HowWeCompare from '../components/Algo/HowWeCompare'
 import GetStarted from '../components/Algo/GetStarted'
 import SmarterTradingAccess from '../components/Algo/SmarterTradingAccess'
-import MarketTicker from '../components/Algo/MarketTicker'
-import Hero from '../components/Algo/Hero'
 
 export const metadata: Metadata = {
     title: 'Algo | TradingView Indicators & Macro Research Dashboard',
@@ -32,19 +32,19 @@ export const metadata: Metadata = {
     },
 }
 
-
 const page = () => {
     return (
         <div>
-            <Hero/>
+            <Hero />
             <div className='mt-[143px]'>
-            <MarketTicker/>
+                <MarketTicker />
             </div>
-            <MarketIntelligence/>
-            <MacroIntelligence/>
-            <HowWeCompare/>
-            <GetStarted/>
-            <SmarterTradingAccess/>
+            <FeatureSections />
+            <MarketIntelligence />
+            <MacroIntelligence />
+            <HowWeCompare />
+            <GetStarted />
+            <SmarterTradingAccess />
             <div className='pb-16 md:pb-20 lg:pb-28 xl:pb-[170px] pt-16 lg:pt-20 xl:pt-[111px]'>
                 <CTA />
             </div>
