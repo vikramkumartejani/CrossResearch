@@ -12,7 +12,7 @@ function TagDot() {
 
 const InstitutionalFund = () => {
     return (
-        <div className='px-4 sm:px-6 pt-[26px] pb-16 lg:pb-24 xl:pb-[170px]'>
+        <div className='px-4 sm:px-6 pt-[26px] pb-16 lg:pb-24 xl:pb-[170px] relative z-10'>
             <div className='relative max-w-[1560px] mx-auto bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-[30px] sm:rounded-[40px] lg:rounded-[60px] xl:rounded-[80px] overflow-hidden'>
 
                 {/* Concentric circles SVG — right bottom */}
