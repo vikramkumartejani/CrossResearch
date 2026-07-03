@@ -236,13 +236,13 @@ export default function Footer() {
                         </div>
 
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <div className=''>
+                        <div className='h-[180px] sm:h-[340px]'>
                             <img
                                 src="/assets/footer-image.png"
                                 alt=""
+                                className='h-auto lg:h-[340px]'
                                 style={{
                                     width: '100%',
-                                    height:"340px",
                                     objectFit: 'cover',
                                     backgroundPosition:"top",
                                 }}

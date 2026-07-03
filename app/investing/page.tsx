@@ -43,7 +43,7 @@ const page = () => {
             <AccessOurFunds/>
             <ImpossibleToReplicate/>
             <InvestorSupport/>
-            <div className='pb-[170px] pt-[111px]'>
+            <div className='pb-16 md:pb-20 lg:pb-28 xl:pb-[170px] pt-16 lg:pt-20 xl:pt-[111px]'>
                 <CTA />
             </div>
         </div>
