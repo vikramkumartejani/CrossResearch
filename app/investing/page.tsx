@@ -47,7 +47,7 @@ const page = () => {
                     background: 'rgba(34, 126, 217, 0.4)',
                     zIndex: 0,
                 }} />
-                <div aria-hidden="true" className="absolute pointer-events-none w-[450px] h-[300px] lg:w-[833px] lg:h-[533px] top-[-150px] lg:top-[-200px] blur-[80px] lg:blur-[250px]" style={{
+                <div aria-hidden="true" className="absolute pointer-events-none w-[500px] h-[320px] lg:w-[833px] lg:h-[533px] top-[-150px] lg:top-[-200px] blur-[100px] lg:blur-[250px]" style={{
                     right: '-339px',
                     background: 'rgba(34, 126, 217, 0.4)',
                     zIndex: 0,
@@ -64,7 +64,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 {/* Ellipse 2 — right bottom glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[350px] sm:h-[669px] right-[-200px] sm:right-[-405px] bottom-[-300px] blur-[80px] sm:blur-[250px]" style={{
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[350px] sm:h-[669px] right-[-200px] sm:right-[-405px] bottom-[-300px] blur-[100px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
                     transform: 'rotate(-26.89deg)',
                     zIndex: 0,
@@ -82,7 +82,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 {/* Ellipse 16 — right bottom glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[744px] h-[350px] sm:h-[510px] right-[-200px] sm:right-[-505px] top-[-150px] sm:top-[-600px] blur-[80px] sm:blur-[250px]" style={{
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[744px] h-[350px] sm:h-[510px] right-[-200px] sm:right-[-505px] top-[-150px] sm:top-[-600px] blur-[100px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
                     transform: 'rotate(-26.89deg)',
                     zIndex: 0,
@@ -103,7 +103,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 {/* Ellipse 12 — right top glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[864px] h-[300px] sm:h-[394px] right-[-200px] sm:right-[-300px] top-[-100px] sm:top-[100px] blur-[80px] sm:blur-[250px]" style={{
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[864px] h-[300px] sm:h-[394px] right-[-200px] sm:right-[-300px] top-[0px] sm:top-[100px] blur-[100px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
@@ -124,7 +124,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 {/* Ellipse 17 — right glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[300px] sm:h-[446px] right-[-200px] sm:right-[-400px] top-[-50px] sm:top-[-100px] blur-[80px] sm:blur-[250px]" style={{
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[300px] sm:h-[446px] right-[-200px] sm:right-[-400px] top-[0px] sm:top-[-100px] blur-[100px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
@@ -145,7 +145,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
                 {/* Ellipse 5 — right glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[300px] sm:h-[446px] right-[-200px] sm:right-[-400px] top-[-50px] sm:top-[200px] blur-[80px] sm:blur-[250px]" style={{
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] sm:w-[977px] h-[300px] sm:h-[446px] right-[-200px] sm:right-[-400px] top-[100px] sm:top-[200px] blur-[100px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
@@ -156,12 +156,9 @@ const page = () => {
             </div>
             <div className='pb-16 md:pb-20 lg:pb-28 xl:pb-[170px] pt-16 lg:pt-20 xl:pt-[111px] relative'>
                 {/* Ellipse 7 — right glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
-                    width: '730px', height: '333px',
-                    right: '-300px', bottom: '0px',
+                <div aria-hidden="true" className="absolute pointer-events-none w-[400px] md:w-[730px] h-[200px] right-[-150px] md:right-[-300px] md:h-[333px] blur-[100px] md:blur-[250px] lg:-rotate-[20.7deg]" style={{
+                 bottom: '0px',
                     background: 'rgba(34, 126, 217, 0.4)',
-                    filter: 'blur(250px)',
-                    transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
                 <div className="relative" style={{ zIndex: 1 }}>
