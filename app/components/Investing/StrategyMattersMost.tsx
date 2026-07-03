@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react'
 
 function TagDot() {
@@ -65,7 +66,43 @@ const StrategyMattersMost = () => {
                     </div>
 
                     {/* Card 2 — Alpha Advantage */}
-                    <div className="relative bg-[#FFFFFF08] p-6 sm:p-8 lg:p-[60px] flex flex-col gap-10 lg:gap-20 rounded-r-[30px] sm:rounded-r-[40px] lg:rounded-r-[50px] overflow-hidden">
+                    <div className="relative bg-[#FFFFFF08] p-6 sm:p-8 lg:p-[60px] flex flex-col gap-10 lg:gap-20 rounded-r-[30px] sm:rounded-r-[40px] rounded-b-[30px] md:rounded-b-none lg:rounded-r-[50px] overflow-hidden">
+                        {/* card-dot-img overlay */}
+                        <div className='w-[280px] sm:w-[350px] h-[220px] lg:h-[350px] absolute top-0 right-0 z-10'>
+                            <div
+                                className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                // style={{ backgroundSize: "10%", }}
+                            />
+                        </div>
+
+                        {/* Ellipse 1 — blue glow */}
+                        <div aria-hidden="true" className="absolute pointer-events-none blur-[70.408px] right-[-100px] sm:right-[-70px] top-[-140px] sm:top-[-114px]" style={{
+                            width: '225.24px', height: '353.14px',
+                            background: '#6DB7FF',
+                            transform: 'rotate(-56.09deg)',
+                            zIndex: 0,
+                        }} />
+                        {/* Ellipse 2 — plus-lighter glow */}
+                        <div aria-hidden="true" className="absolute pointer-events-none md:block hidden" style={{
+                            width: '162.55px', height: '347.66px',
+                            right: '-30px', top: '-121px',
+                            background: '#6294FF',
+                            mixBlendMode: 'plus-lighter',
+                            filter: 'blur(198.109px)',
+                            transform: 'rotate(-56.09deg)',
+                            zIndex: 0,
+                        }} />
+                        {/* Ellipse 3 — dark overlay glow */}
+                        <div aria-hidden="true" className="absolute pointer-events-none md:block hidden" style={{
+                            width: '151.6px', height: '337.54px',
+                            right: '-50px', top: '-83px',
+                            background: '#0F4274',
+                            mixBlendMode: 'plus-lighter',
+                            filter: 'blur(198.109px)',
+                            transform: 'rotate(-56.09deg)',
+                            zIndex: 0,
+                        }} />
+
                         {/* Icon */}
                         <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +128,7 @@ const StrategyMattersMost = () => {
                             <p className="max-w-[490px] text-white/50 text-[14px] sm:text-[16px] leading-[24px] font-normal mb-6">
                                 Our strategies adapt to market environments through proprietary regime classification, advanced statistical reasoning, and multi-factor validation — ensuring every position is grounded in quantitative evidence, not conviction.
                             </p>
-                             <button className="w-full sm:w-fit flex items-center justify-center bg-[#FFFFFF0F] border border-[#FFFFFF0D] bg-blur-[54px] text-white/70 text-[16px] leading-[19px] font-medium px-11 h-[48px] rounded-full hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
+                            <button className="w-full sm:w-fit flex items-center justify-center bg-[#FFFFFF0F] border border-[#FFFFFF0D] bg-blur-[54px] text-white/70 text-[16px] leading-[19px] font-medium px-11 h-[48px] rounded-full hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
                                 Read More
                             </button>
                         </div>
