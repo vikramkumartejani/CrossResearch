@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import HowWeCompare from '../components/Algo/HowWeCompare'
 import MacroIntelligence from '../components/Algo/MacroIntelligence'
 import MarketIntelligence from '../components/Algo/MarketIntelligence'
+import GetStarted from '../components/Algo/GetStarted'
 
 export const metadata: Metadata = {
     title: 'Algo | Institutional Fund & Quantitative Strategies',
@@ -35,6 +36,7 @@ const page = () => {
             <MarketIntelligence/>
             <MacroIntelligence/>
             <HowWeCompare/>
+            <GetStarted/>
             <div className='pb-16 md:pb-20 lg:pb-28 xl:pb-[170px] pt-16 lg:pt-20 xl:pt-[111px]'>
                 <CTA />
             </div>

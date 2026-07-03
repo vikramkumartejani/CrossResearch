@@ -90,7 +90,7 @@ function TagDot() {
 
 export default function HowWeCompare() {
     return (
-        <div className="px-4 sm:px-6 pt-16 lg:pt-20 xl:pt-[120px] pb-10">
+        <div className="px-4 sm:px-6 pt-16 lg:pt-20 xl:pt-[120px] pb-[170px]">
             <div className="max-w-[1560px] mx-auto">
 
                 {/* Header */}
