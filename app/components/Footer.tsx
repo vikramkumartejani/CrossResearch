@@ -236,7 +236,7 @@ export default function Footer() {
                         </div>
 
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <div className='h-[180px] sm:h-[340px]'>
+                        <div className='h-[210px] sm:h-[340px] overflow-hidden'>
                             <img
                                 src="/assets/footer-image.png"
                                 alt=""
@@ -248,7 +248,6 @@ export default function Footer() {
                                 }}
                             />
                         </div>
-
                     </div>
                 </div>
 
