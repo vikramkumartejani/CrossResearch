@@ -35,3 +35,11 @@ body {
   animation: logo-scroll 30s linear infinite;
   will-change: transform;
 }
+
+/* Market ticker infinite scroll */
+.ticker-track {
+  display: flex;
+  width: fit-content;
+  animation: logo-scroll 25s linear infinite;
+  will-change: transform;
+}

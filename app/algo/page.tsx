@@ -6,6 +6,7 @@ import MacroIntelligence from '../components/Algo/MacroIntelligence'
 import MarketIntelligence from '../components/Algo/MarketIntelligence'
 import GetStarted from '../components/Algo/GetStarted'
 import SmarterTradingAccess from '../components/Algo/SmarterTradingAccess'
+import MarketTicker from '../components/Algo/MarketTicker'
 
 export const metadata: Metadata = {
     title: 'Algo | Institutional Fund & Quantitative Strategies',
@@ -33,7 +34,8 @@ export const metadata: Metadata = {
 
 const page = () => {
     return (
-        <div>
+        <div className='pt-32'>
+            <MarketTicker/>
             <MarketIntelligence/>
             <MacroIntelligence/>
             <HowWeCompare/>
