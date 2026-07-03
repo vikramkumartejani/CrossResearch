@@ -78,21 +78,20 @@ const InvestorSupport = () => {
                                     {/* card-dot-img overlay */}
                                     <div className='w-[140px] h-full absolute top-0 right-0 z-30'>
                                         <div
-                                            className="absolute inset-0 opacity-60 bg-[url('/assets/dots.svg')] bg-cover"
+                                            className="absolute inset-0 opacity-40 bg-[url('/assets/dots.svg')] bg-cover"
                                         />
                                     </div>
 
                                     {/* Ellipse 1 — blue glow */}
-                                    <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                    <div aria-hidden="true" className="absolute pointer-events-none right-[-60px] sm:right-[-40px] top-[-180px] sm:top-[-140px]" style={{
                                         width: '167.78px', height: '263.04px',
-                                        right: '-40px', top: '-140px',
                                         background: '#6DB7FF',
                                         filter: 'blur(60.45px)',
                                         transform: 'rotate(-56.09deg)',
                                         zIndex: 1,
                                     }} />
                                     {/* Ellipse 2 — plus-lighter glow */}
-                                    <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                                    <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                                         width: '121.08px', height: '258.97px',
                                         right: '-2px', top: '-95px',
                                         background: '#6294FF',
