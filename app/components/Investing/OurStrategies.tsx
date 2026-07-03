@@ -57,7 +57,7 @@ const STRATEGIES = [
 
 const OurStrategies = () => {
     return (
-        <div className='px-4 sm:px-6 pt-[127px] bg-[#FFFFFF03] pb-[54.21px]'>
+        <div className='px-4 sm:px-6 pt-12 sm:pt-20 lg:pt-[127px] bg-[#FFFFFF03] pb-12 sm:pb-[54.21px]'>
             <div className='max-w-[1560px] mx-auto'>
                 {/* Header */}
                 <div className="flex flex-col items-center text-center mb-10 sm:mb-20">
@@ -80,7 +80,7 @@ const OurStrategies = () => {
                     {STRATEGIES.map((s) => (
                         <div
                             key={s.id}
-                            className="relative flex items-center justify-between gap-6 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[40px] p-10 overflow-hidden"
+                            className="relative flex items-start md:items-center md:flex-row flex-col justify-between gap-6 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[30px] sm:rounded-[40px] p-6 sm:p-8 lg:p-10 overflow-hidden"
                         >
                             {/* Active card blue glow right */}
                             {s.active && (
@@ -95,28 +95,28 @@ const OurStrategies = () => {
                             )}
 
                             {/* Left: icon + text */}
-                            <div className="relative z-10 flex items-center gap-4 sm:gap-6 flex-1 min-w-0">
-                                <div className="flex-shrink-0 w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-[#FFFFFF08] border border-[#FFFFFF0D] flex items-center justify-center">
+                            <div className="relative z-10 flex md:flex-row flex-col items-start md:items-center gap-6 flex-1 min-w-0">
+                                <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#FFFFFF08] border border-[#FFFFFF0D] flex items-center justify-center">
                                     {s.icon}
                                 </div>
                                 <div className="min-w-0">
-                                    <h3 className="text-white text-[18px] sm:text-[30px] font-semibold leading-[48px] mb-4">
+                                    <h3 className="text-white text-[22px] sm:text-[24px] lg:text-[30px] font-semibold leading-9 lg:leading-[48px] mb-3 lg:mb-4">
                                         {s.name}
                                     </h3>
-                                    <p className="text-white/70 text-[13px] sm:text-[18px] leading-[20px] sm:leading-[29px] font-normal max-w-[720px]">
+                                    <p className="text-white/70 text-[14px] sm:text-[16px] lg:text-[18px] leading-[20px] sm:leading-6 lg:leading-[29px] font-normal max-w-[720px]">
                                         {s.description}
                                     </p>
                                 </div>
                             </div>
 
                             {/* Right: tag pill */}
-                            <div className="relative z-10 flex-shrink-0">
-                                <span className={`inline-flex items-center px-8 h-[60px] rounded-full font-inter text-[16px] sm:text-[18px] font-medium whitespace-nowrap border transition-colors ${s.active
+                            <div className="w-full sm:w-fit relative z-10 sm:flex-shrink-0">
+                                <button className={`w-full sm:w-fit flex items-center justify-center px-6 lg:px-8 h-12 sm:h-[60px] rounded-full font-inter text-[16px] sm:text-[18px] font-medium whitespace-nowrap border transition-colors ${s.active
                                     ? 'bg-white text-black border-[#FFFFFF0D]'
                                     : 'bg-[#FFFFFF08] text-white border-[#FFFFFF0D]'
                                     }`}>
                                     {s.tag}
-                                </span>
+                                </button>
                             </div>
                         </div>
                     ))}

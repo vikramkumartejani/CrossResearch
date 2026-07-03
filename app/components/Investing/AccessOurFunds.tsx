@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const AccessOurFunds = () => {
     return (
-        <div className='px-4 sm:px-6 pb-[170px]'>
+        <div className='px-4 sm:px-6 pb-16 lg:pb-24 xl:pb-[170px]'>
             <div className='max-w-[1560px] mx-auto'>
                 {/* Badge */}
                 <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
@@ -28,10 +28,9 @@ const AccessOurFunds = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                     {/* ── Left column ── */}
-                    <div className="flex flex-col gap-6">
-
+                    <div className="flex flex-col-reverse lg:flex-col gap-6">
                         {/* Card 1 — Copy Trading */}
-                        <div className="bg-[#FFFFFF08] rounded-[50px] px-10 pt-10 pb-[27px] flex flex-col overflow-hidden">
+                        <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] px-6 sm:px-8 xl:px-10 pt-6 sm:pt-8 xl:pt-10 pb-5 sm:pb-[27px] flex flex-col overflow-hidden">
                             {/* Icon */}
                             <div className="mb-4 w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
                                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,20 +42,20 @@ const AccessOurFunds = () => {
                             </div>
 
                             <div>
-                                <h3 className="text-white text-[22px] sm:text-[26px] font-semibold leading-[42px] mb-3">Copy Trading</h3>
-                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-[26px] max-w-[549px]">
+                                <h3 className="text-white text-[20px] sm:text-[26px] font-semibold leading-8 sm:leading-[42px] mb-3">Copy Trading</h3>
+                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-5 sm:leading-[26px] max-w-[549px]">
                                     Access strategies via regulated brokers, connect your account, and replicate trades automatically in real time
                                 </p>
                             </div>
 
                             {/* Mock chart card */}
-                            <div className="mt-2.5">
+                            <div className="mt-4 sm:mt-2.5">
                                 <Image src='/assets/copy-trading.svg' alt="copy-trading" width={686} height={273} draggable="false" />
                             </div>
                         </div>
 
                         {/* Card 2 — PAMM / MAMM */}
-                        <div className="bg-[#FFFFFF08] rounded-[50px] p-10 flex flex-col gap-6">
+                        <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] p-6 sm:p-8 xl:p-10 flex flex-col gap-4 sm:gap-6">
                             {/* Icon */}
                             <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] flex items-center justify-center flex-shrink-0">
                                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,8 +64,8 @@ const AccessOurFunds = () => {
                                 </svg>
                             </div>
                             <div>
-                                <h3 className="text-white text-[22px] sm:text-[26px] font-semibold leading-[42px] mb-3">PAMM / MAMM Agreement</h3>
-                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-[26px] max-w-[541px]">
+                                <h3 className="text-white text-[20px] sm:text-[26px] font-semibold leading-8 sm:leading-[42px] mb-3">PAMM / MAMM Agreement</h3>
+                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-5 sm:leading-[26px] max-w-[541px]">
                                     Managed allocation via PAMM and MAMM, your capital stays secure while we execute trading mandate professionally
                                 </p>
                             </div>
@@ -75,9 +74,8 @@ const AccessOurFunds = () => {
 
                     {/* ── Right column ── */}
                     <div className="flex flex-col gap-6">
-
                         {/* Card 3 — Managed Allocation */}
-                        <div className="bg-[#FFFFFF08] rounded-[50px] p-10 flex flex-col gap-6">
+                        <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] p-6 sm:p-8 xl:p-10 flex flex-col gap-4 sm:gap-6">
                             {/* Icon */}
                             <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] flex items-center justify-center flex-shrink-0">
                                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,15 +83,15 @@ const AccessOurFunds = () => {
                                 </svg>
                             </div>
                             <div>
-                                <h3 className="text-white text-[22px] sm:text-[26px] font-semibold leading-[42px] mb-3">Managed Allocation</h3>
-                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-[26px] max-w-[541px]">
+                                <h3 className="text-white text-[20px] sm:text-[26px] font-semibold leading-8 sm:leading-[42px] mb-3">Managed Allocation</h3>
+                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-5 sm:leading-[26px] max-w-[541px]">
                                     Access institutional-grade strategies through structured allocation models designed for disciplined capital deployment.
                                 </p>
                             </div>
                         </div>
 
                         {/* Card 4 — Your Capital Always Yours */}
-                        <div className="bg-[#FFFFFF08] rounded-[50px] pb-0 px-10 pt-10 flex flex-col max-h-[532px] min-h-[532px] overflow-hidden">
+                        <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] pb-0 px-6 sm:px-8 xl:px-10 pt-6 sm:pt-8 xl:pt-10 flex flex-col max-h-[532px] overflow-hidden">
                             {/* Icon */}
                             <div className="mb-6 w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
                                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,14 +103,14 @@ const AccessOurFunds = () => {
                             </div>
 
                             <div>
-                                <h3 className="text-white text-[22px] sm:text-[26px] font-semibold leading-[42px] mb-4">Your Capital, Always Yours</h3>
-                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-[26px] max-w-[549px]">
+                                <h3 className="text-white text-[20px] sm:text-[26px] font-semibold leading-8 sm:leading-[42px] mb-3 sm:mb-4">Your Capital, Always Yours</h3>
+                                <p className="text-white/70 text-[14px] sm:text-[16px] leading-5 sm:leading-[26px] max-w-[549px]">
                                     <b className="text-white">CrossResearch</b> never holds funds; capital stays in your account while we direct trades, never custody assets=
                                 </p>
                             </div>
 
                             {/* Mock chart card */}
-                            <div className="mt-8">
+                            <div className="mt-4 sm:mt-8">
                                 <Image src='/assets/your-capital-always-yours.svg' alt="your-capital-always-yours" width={720} height={300} draggable="false" />
                             </div>
                         </div>

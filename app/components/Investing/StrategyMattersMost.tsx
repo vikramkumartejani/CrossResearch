@@ -12,7 +12,7 @@ function TagDot() {
 
 const StrategyMattersMost = () => {
     return (
-        <div className='px-4 sm:px-6 pt-[160.28px] pb-[41.21px]'>
+        <div className='px-4 sm:px-6 pt-10 lg:pt-20 lg:pt-[160.28px] pb-10 sm:pb-[41.21px]'>
             <div className='max-w-[1336px] mx-auto'>
                 {/* Header */}
                 <div className="flex flex-col items-center text-center mb-10 sm:mb-20">
@@ -31,9 +31,9 @@ const StrategyMattersMost = () => {
                 </div>
 
                 {/* Two main cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 mb-6 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[50px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 mb-6 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px]">
                     {/* Card 1 — The Generic Problem */}
-                    <div className="relative p-[60px] flex flex-col gap-20 overflow-hidden">
+                    <div className="relative p-6 sm:p-8 lg:p-[60px] flex flex-col gap-10 lg:gap-20 overflow-hidden">
                         {/* Icon */}
                         <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,31 +50,22 @@ const StrategyMattersMost = () => {
                                     <path d="M10.6248 2.5C10.6248 2.15482 10.345 1.875 9.99984 1.875C9.65466 1.875 9.37484 2.15482 9.37484 2.5V4.16667C9.37484 4.51184 9.65466 4.79167 9.99984 4.79167C10.345 4.79167 10.6248 4.51184 10.6248 4.16667V2.5Z" fill="#42C5FF" />
                                     <path fillRule="evenodd" clipRule="evenodd" d="M18.9582 10.0471C18.9582 11.5786 18.9582 12.7916 18.8306 13.7409C18.6992 14.7179 18.4224 15.5087 17.7988 16.1324C17.1752 16.756 16.3844 17.0328 15.4074 17.1641C14.458 17.2918 13.245 17.2918 11.7136 17.2917H8.28607C6.75464 17.2918 5.54165 17.2918 4.59232 17.1641C3.6153 17.0328 2.82451 16.756 2.20087 16.1324C1.57724 15.5087 1.30047 14.7179 1.16912 13.7409C1.04148 12.7916 1.04149 11.5785 1.0415 10.0471L1.04151 9.8104C1.04152 9.6274 1.04159 9.44903 1.04195 9.27521C1.04261 8.95551 1.04423 8.65118 1.04822 8.36163C1.05943 7.54895 1.08934 6.85263 1.16912 6.2593C1.30047 5.28228 1.57724 4.49149 2.20087 3.86785C2.82451 3.24422 3.6153 2.96745 4.59232 2.83609C5.18935 2.75583 5.89067 2.72604 6.70989 2.71499C6.84758 2.71314 7.06208 2.71176 7.29033 2.71077C7.751 2.70875 8.12484 3.08228 8.12484 3.54296V4.16673C8.12484 5.20227 8.9643 6.04173 9.99984 6.04173C11.0354 6.04173 11.8748 5.20227 11.8748 4.16673V3.5419C11.8748 3.08163 12.2482 2.70779 12.7084 2.70997C13.7824 2.71505 14.6737 2.73745 15.4074 2.83609C16.3844 2.96745 17.1752 3.24422 17.7988 3.86785C18.4224 4.49149 18.6992 5.28228 18.8306 6.2593C18.9582 7.20863 18.9582 8.42161 18.9582 9.95306V10.0471ZM6.6665 8.12507C6.32133 8.12507 6.0415 8.40489 6.0415 8.75007C6.0415 9.09525 6.32133 9.37507 6.6665 9.37507H13.3332C13.6783 9.37507 13.9582 9.09525 13.9582 8.75007C13.9582 8.40489 13.6783 8.12507 13.3332 8.12507H6.6665ZM6.6665 11.0417C6.32133 11.0417 6.0415 11.3216 6.0415 11.6667C6.0415 12.0119 6.32133 12.2917 6.6665 12.2917H11.2498C11.595 12.2917 11.8748 12.0119 11.8748 11.6667C11.8748 11.3216 11.595 11.0417 11.2498 11.0417H6.6665Z" fill="#42C5FF" />
                                 </svg>
-                                <span className="text-[#42C5FF] text-[16px] font-medium tracking-[3px] uppercase leading-[20px]">The generic problem</span>
+                                <span className="text-[#42C5FF] text-[14px] sm:text-[16px] font-medium tracking-[3px] uppercase leading-[20px]">The generic problem</span>
                             </div>
-                            <h3 className="text-white text-[28px] sm:text-[36px] font-normal leading-[47px] mb-4">
+                            <h3 className="text-white text-[28px] lg:text-[36px] font-normal leading-9 lg:leading-[47px] mb-3 sm:mb-4">
                                 Noise passed off<br className='sm:block hidden' />as signal
                             </h3>
                             <p className="max-w-[449px] text-white/50 text-[14px] sm:text-[16px] leading-[24px] font-normal mb-6">
                                 Conventional funds chase momentum without regime awareness, rely on lagged public data, apply static rules regardless of market environment, and lack the quantitative rigor needed to distinguish luck from edge
                             </p>
-                            <button className="inline-flex items-center bg-[#FFFFFF0F] border border-[#FFFFFF0D] bg-blur-[54px] text-white/70 text-[16px] leading-[19px] font-medium px-11 h-[48px] rounded-full hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
+                            <button className="w-full sm:w-fit flex items-center justify-center bg-[#FFFFFF0F] border border-[#FFFFFF0D] bg-blur-[54px] text-white/70 text-[16px] leading-[19px] font-medium px-11 h-[48px] rounded-full hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
                                 Read More
                             </button>
                         </div>
                     </div>
 
                     {/* Card 2 — Alpha Advantage */}
-                    <div className="relative bg-[#FFFFFF08] p-[60px] flex flex-col gap-20 rounded-r-[50px] overflow-hidden">
-                        {/* Blue glow top-right */}
-                        <div aria-hidden="true" className="absolute pointer-events-none" style={{
-                            width: '300px', height: '300px',
-                            right: '-80px', top: '-80px',
-                            background: 'rgba(34, 126, 217, 0.35)',
-                            filter: 'blur(80px)',
-                            zIndex: 0,
-                        }} />
-
+                    <div className="relative bg-[#FFFFFF08] p-6 sm:p-8 lg:p-[60px] flex flex-col gap-10 lg:gap-20 rounded-r-[30px] sm:rounded-r-[40px] lg:rounded-r-[50px] overflow-hidden">
                         {/* Icon */}
                         <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,15 +83,15 @@ const StrategyMattersMost = () => {
                                     <path d="M3.68183 15.4342L7.24244 11.8736C6.87896 11.3397 6.6665 10.6947 6.6665 10.0001C6.6665 9.30547 6.87896 8.66049 7.24244 8.12657L3.68183 4.56596C2.42579 6.02498 1.6665 7.92386 1.6665 10.0001C1.6665 12.0763 2.42579 13.9752 3.68183 15.4342Z" fill="#42C5FF" />
                                     <path d="M9.99984 6.66675C9.30523 6.66675 8.66025 6.87921 8.12632 7.24268L4.56572 3.68208C6.02473 2.42603 7.92361 1.66675 9.99984 1.66675C12.0761 1.66675 13.9749 2.42603 15.434 3.68208L11.8734 7.24268C11.3394 6.87921 10.6944 6.66675 9.99984 6.66675Z" fill="#42C5FF" />
                                 </svg>
-                                <span className="text-[#42C5FF] text-[16px] font-medium tracking-[3px] uppercase leading-[20px]">Alpha Advantag</span>
+                                <span className="text-[#42C5FF] text-[14px] sm:text-[16px] font-medium tracking-[3px] uppercase leading-[20px]">Alpha Advantag</span>
                             </div>
-                            <h3 className="text-white text-[28px] sm:text-[36px] font-normal leading-[47px] mb-4">
+                            <h3 className="text-white text-[28px] lg:text-[36px] font-normal leading-9 lg:leading-[47px] mb-3 sm:mb-4">
                                 Mathematically Proven  <br className='sm:block hidden' />Strategies
                             </h3>
                             <p className="max-w-[490px] text-white/50 text-[14px] sm:text-[16px] leading-[24px] font-normal mb-6">
                                 Our strategies adapt to market environments through proprietary regime classification, advanced statistical reasoning, and multi-factor validation — ensuring every position is grounded in quantitative evidence, not conviction.
                             </p>
-                            <button className="inline-flex items-center bg-[#FFFFFF0F] border border-[#FFFFFF0D] bg-blur-[54px] text-white/70 text-[16px] leading-[19px] font-medium px-11 h-[48px] rounded-full hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
+                             <button className="w-full sm:w-fit flex items-center justify-center bg-[#FFFFFF0F] border border-[#FFFFFF0D] bg-blur-[54px] text-white/70 text-[16px] leading-[19px] font-medium px-11 h-[48px] rounded-full hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
                                 Read More
                             </button>
                         </div>
@@ -108,20 +99,11 @@ const StrategyMattersMost = () => {
                 </div>
 
                 {/* Quote card */}
-                <div className="relative bg-[#FFFFFF08] rounded-[50px] p-[50px] flex items-center justify-between gap-6 overflow-hidden">
-                    {/* Blue glow left */}
-                    <div aria-hidden="true" className="absolute pointer-events-none" style={{
-                        width: '400px', height: '200px',
-                        left: '-100px', top: '50%',
-                        transform: 'translateY(-50%)',
-                        background: 'rgba(34, 126, 217, 0.3)',
-                        filter: 'blur(80px)',
-                        zIndex: 0,
-                    }} />
-                    <p className="relative z-10 text-white text-[20px] sm:text-[28px] md:text-[38px] font-normal leading-[40px] sm:leading-[49px] max-w-[800px]">
+                <div className="relative bg-[#FFFFFF08] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] p-6 sm:p-10 lg:p-[50px] flex items-center justify-between gap-6 overflow-hidden">
+                    <p className="relative z-10 text-white text-[18px] sm:text-[28px] lg:text-[38px] font-normal leading-7 sm:leading-[40px] lg:leading-[49px] max-w-[800px]">
                         &ldquo;The edge is not in the trade — it is <br className="sm:block hidden" /> in the framework behind it.&rdquo;
                     </p>
-                    <div className="relative z-10 flex-shrink-0 w-12 h-12 sm:w-[75px] sm:h-[75px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center cursor-pointer hover:bg-[#FFFFFF18] transition-colors">
+                    <div className="relative z-10 flex-shrink-0 h-16 sm:w-[75px] w-16 sm:h-[75px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center cursor-pointer hover:bg-[#FFFFFF18] transition-colors">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M10.208 24.7916L24.7913 10.2083" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             <path d="M10.208 10.2083H24.7913V24.7916" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

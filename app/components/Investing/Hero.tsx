@@ -29,7 +29,7 @@ const TopLine = () => {
 export default function Hero() {
 
     return (
-        <section className="relative w-full overflow-hidden px-4 sm:px-6 pb-[166px]" aria-labelledby="hero-heading">
+        <section className="relative w-full overflow-hidden px-4 sm:px-6 pb-10 sm:pb-14 lg:pb-20 xl:pb-[166px]" aria-labelledby="hero-heading">
             {/* Background: top-lines SVG */}
             <div className="absolute inset-x-0 top-16 sm:top-[96px] z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <TopLine />
@@ -41,15 +41,15 @@ export default function Hero() {
                    Trading isn’t for everyone, but investing builds long-term wealth
                 </h1>
 
-                <p className="mb-10 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-inter font-normal max-w-[808px] mx-auto text-center">
+                <p className="mb-6 sm:mb-10 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-inter font-normal max-w-[808px] mx-auto text-center">
                 Systematic, quantitative fund strategies built for those who understand the difference between speculation and disciplined capital allocation.
                 </p>
 
-                <div className="w-full flex items-center justify-center gap-3">
-                    <button className="bg-white text-black px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-white/90 transition-colors cursor-pointer">
+                <div className="w-full flex items-center sm:flex-row flex-col justify-center gap-3">
+                    <button className="sm:w-fit w-full bg-white text-black px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-white/90 transition-colors cursor-pointer">
                        Explore Our Funds
                     </button>
-                    <button className="bg-[#FFFFFF08] border border-[#FFFFFF0D] text-white px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
+                    <button className="w-full sm:w-fit bg-[#FFFFFF08] border border-[#FFFFFF0D] text-white px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
                       Book A Meeting
                     </button>
                 </div>
