@@ -76,7 +76,7 @@ const StrategyMattersMost = () => {
                         </div>
 
                         {/* Ellipse 1 — blue glow */}
-                        <div aria-hidden="true" className="absolute pointer-events-none blur-[70.408px] right-[-100px] sm:right-[-70px] top-[-140px] sm:top-[-114px]" style={{
+                        <div aria-hidden="true" className="absolute pointer-events-none blur-[70.408px] right-[-100px] top-[-140px]" style={{
                             width: '225.24px', height: '353.14px',
                             background: '#6DB7FF',
                             transform: 'rotate(-56.09deg)',
