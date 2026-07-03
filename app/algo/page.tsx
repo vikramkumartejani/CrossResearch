@@ -5,6 +5,7 @@ import HowWeCompare from '../components/Algo/HowWeCompare'
 import MacroIntelligence from '../components/Algo/MacroIntelligence'
 import MarketIntelligence from '../components/Algo/MarketIntelligence'
 import GetStarted from '../components/Algo/GetStarted'
+import SmarterTradingAccess from '../components/Algo/SmarterTradingAccess'
 
 export const metadata: Metadata = {
     title: 'Algo | Institutional Fund & Quantitative Strategies',
@@ -37,6 +38,7 @@ const page = () => {
             <MacroIntelligence/>
             <HowWeCompare/>
             <GetStarted/>
+            <SmarterTradingAccess/>
             <div className='pb-16 md:pb-20 lg:pb-28 xl:pb-[170px] pt-16 lg:pt-20 xl:pt-[111px]'>
                 <CTA />
             </div>

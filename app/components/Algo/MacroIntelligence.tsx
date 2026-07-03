@@ -95,7 +95,7 @@ const CARDS: MacroCard[] = [
 
 const MacroIntelligence = () => {
     return (
-        <div className='px-4 sm:px-6 py-32'>
+        <div className='px-4 sm:px-6'>
             <div className='max-w-[1560px] mx-auto'>
                 {/* Badge */}
                 <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">

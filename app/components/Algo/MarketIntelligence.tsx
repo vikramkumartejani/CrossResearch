@@ -36,7 +36,7 @@ const STATS: StatCard[] = [
 
 export default function MarketIntelligence() {
     return (
-        <div className="px-4 sm:px-6 py-16 sm:py-24 lg:py-32">
+        <div className="px-4 sm:px-6 py-16 sm:py-24 lg:py-[170px]">
             <div className="max-w-[1560px] mx-auto">
                 <div className="flex items-center justify-between gap-6 items-center">
 
