@@ -10,24 +10,24 @@ import AccessOurFunds from '../components/Investing/AccessOurFunds'
 import ImpossibleToReplicate from '../components/Investing/ImpossibleToReplicate'
 
 export const metadata: Metadata = {
-    title: 'Best Prop Firms | Top Funded Trading Accounts',
-    description: 'Compare the best proprietary trading firms with fair rules, high profit splits up to 95%, fast payouts, and accounts from $1,000 to $300,000. Start your funded trading journey.',
-    keywords: ['best prop firms', 'funded trading accounts', 'proprietary trading firms', 'FTMO alternative', 'profit split', 'funded trader', 'CrossResearch'],
+    title: 'Investing | Institutional Fund & Quantitative Strategies',
+    description: 'Explore CrossResearch institutional fund strategies built for high-net-worth and institutional clients. Systematic, quantitative approaches for disciplined capital allocation.',
+    keywords: ['institutional fund', 'quantitative strategies', 'investing', 'systematic trading', 'high-net-worth investing', 'discretionary fund', 'CrossResearch'],
     authors: [{ name: 'CrossResearch', url: 'https://cross-research.vercel.app' }],
     robots: { index: true, follow: true },
-    alternates: { canonical: 'https://cross-research.vercel.app/prop-firm' },
+    alternates: { canonical: 'https://cross-research.vercel.app/investing' },
     openGraph: {
-        title: 'Best Prop Firms 2025 | CrossResearch',
-        description: 'Compare top prop firms with fair rules, high profit splits, fast payouts, and reliable trading conditions.',
-        url: 'https://cross-research.vercel.app/prop-firm',
+        title: 'Investing | CrossResearch Institutional Fund',
+        description: 'Systematic quantitative fund strategies built for those who understand the difference between speculation and disciplined capital allocation.',
+        url: 'https://cross-research.vercel.app/investing',
         siteName: 'CrossResearch',
         type: 'website',
         locale: 'en_US',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Best Prop Firms 2025 | CrossResearch',
-        description: 'Compare top prop firms with fair rules, high profit splits, fast payouts, and reliable trading conditions.',
+        title: 'Investing | CrossResearch Institutional Fund',
+        description: 'Systematic quantitative fund strategies built for those who understand the difference between speculation and disciplined capital allocation.',
         site: '@crossresearch',
     },
 }
