@@ -14,7 +14,6 @@ const InstitutionalFund = () => {
     return (
         <div className='px-4 sm:px-6 pt-[26px] pb-16 lg:pb-24 xl:pb-[170px] relative z-10'>
             <div className='relative max-w-[1560px] mx-auto bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-[30px] sm:rounded-[40px] lg:rounded-[60px] xl:rounded-[80px] overflow-hidden'>
-
                 {/* Concentric circles SVG — right bottom */}
                 <div aria-hidden="true" className="absolute bottom-0 right-0 pointer-events-none" style={{ zIndex: 0 }}>
                     <svg width="510" height="371" className='w-[510px] h-[250px] sm:h-[371px]' viewBox="0 0 510 371" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +27,7 @@ const InstitutionalFund = () => {
                 </div>
 
                 {/* Content — left side */}
-                <div className="relative z-10 p-6 sm:pl-12 lg:pl-[65px] pt-8 sm:pt-14 lg:pt-[154.21px] pb-0 lg:pb-[167.81px] max-w-[630px]">
+                <div className="relative z-20 p-6 sm:pl-12 lg:pl-[65px] pt-8 sm:pt-14 lg:pt-[154.21px] pb-0 lg:pb-[167.81px] max-w-[630px]">
                     {/* Badge */}
                     <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                         <TagDot />
@@ -61,6 +60,43 @@ const InstitutionalFund = () => {
                         aria-hidden="true"
                     />
                 </div>
+
+                {/* Shadow Top Left */}
+                {/* card-dot-img overlay */}
+                <div className='w-[220px] sm:w-[360px] h-[250px] lg:h-[400px] absolute top-0 left-0 z-20'>
+                    <div
+                        className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                    />
+                </div>
+
+                {/* Ellipse 1 — blue glow */}
+                <div aria-hidden="true" className="absolute pointer-events-none left-[-60px] sm:left-[-20px] top-[-180px] sm:top-[-80px]" style={{
+                    width: '167.78px', height: '263.04px',
+                    background: '#6DB7FF',
+                    filter: 'blur(60.45px)',
+                    transform: 'rotate(-56.09deg)',
+                    zIndex: 1,
+                }} />
+                {/* Ellipse 2 — plus-lighter glow */}
+                <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
+                    width: '121.08px', height: '258.97px',
+                    left: '-2px', top: '-95px',
+                    background: '#6294FF',
+                    mixBlendMode: 'plus-lighter',
+                    filter: 'blur(147.57px)',
+                    transform: 'rotate(-56.09deg)',
+                    zIndex: 1,
+                }} />
+                {/* Ellipse 3 — dark overlay glow */}
+                <div aria-hidden="true" className="absolute pointer-events-none" style={{
+                    width: '112.92px', height: '251.43px',
+                    left: '-16px', top: '-67px',
+                    background: '#0F4274',
+                    mixBlendMode: 'plus-lighter',
+                    filter: 'blur(147.57px)',
+                    transform: 'rotate(-56.09deg)',
+                    zIndex: 1,
+                }} />
             </div>
         </div>
     )
