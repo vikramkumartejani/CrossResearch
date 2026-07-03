@@ -236,16 +236,15 @@ export default function Footer() {
                         </div>
 
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <div className='bg-[#070711]'>
+                        <div className=''>
                             <img
-                                src="/assets/footer-img.png"
+                                src="/assets/footer-image.png"
                                 alt=""
                                 style={{
                                     width: '100%',
                                     height:"340px",
                                     objectFit: 'cover',
                                     backgroundPosition:"top",
-                                    mixBlendMode: 'color-dodge',
                                 }}
                             />
                         </div>
