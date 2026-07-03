@@ -10,15 +10,15 @@ import MarketTicker from '../components/Algo/MarketTicker'
 import Hero from '../components/Algo/Hero'
 
 export const metadata: Metadata = {
-    title: 'Algo | Institutional Fund & Quantitative Strategies',
-    description: 'Explore CrossResearch institutional fund strategies built for high-net-worth and institutional clients. Systematic, quantitative approaches for disciplined capital allocation.',
-    keywords: ['institutional fund', 'quantitative strategies', 'investing', 'systematic trading', 'high-net-worth investing', 'discretionary fund', 'CrossResearch'],
+    title: 'Algo | TradingView Indicators & Macro Research Dashboard',
+    description: 'Purpose-built TradingView indicators and a live macro research dashboard — giving retail traders the same data edge that moves institutional desks.',
+    keywords: ['TradingView indicators', 'algo trading', 'macro research dashboard', 'institutional algorithms', 'market intelligence', 'quantitative trading', 'CrossResearch'],
     authors: [{ name: 'CrossResearch', url: 'https://cross-research.vercel.app' }],
     robots: { index: true, follow: true },
     alternates: { canonical: 'https://cross-research.vercel.app/algo' },
     openGraph: {
-        title: 'Investing | CrossResearch Institutional Fund',
-        description: 'Systematic quantitative fund strategies built for those who understand the difference between speculation and disciplined capital allocation.',
+        title: 'Algo | CrossResearch TradingView Indicators & Macro Tools',
+        description: 'Purpose-built TradingView indicators and a live macro research dashboard — giving retail traders the same data edge that moves institutional desks.',
         url: 'https://cross-research.vercel.app/algo',
         siteName: 'CrossResearch',
         type: 'website',
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Investing | CrossResearch Institutional Fund',
-        description: 'Systematic quantitative fund strategies built for those who understand the difference between speculation and disciplined capital allocation.',
+        title: 'Algo | CrossResearch TradingView Indicators & Macro Tools',
+        description: 'Purpose-built TradingView indicators and a live macro research dashboard — giving retail traders the same data edge that moves institutional desks.',
         site: '@crossresearch',
     },
 }
