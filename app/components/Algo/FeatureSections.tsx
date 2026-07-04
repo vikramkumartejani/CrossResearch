@@ -96,7 +96,7 @@ const SECTIONS: FeatureSection[] = [
 
 function CheckIcon() {
     return (
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className='min-w-5 h-5 xl:w-[28px] xl:h-[28px]' viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.625 14C2.625 7.7175 7.7175 2.625 14 2.625C20.2825 2.625 25.375 7.7175 25.375 14C25.375 20.2825 20.2825 25.375 14 25.375C7.7175 25.375 2.625 20.2825 2.625 14ZM18.2117 11.8837C18.2817 11.7904 18.3323 11.6841 18.3606 11.5709C18.389 11.4578 18.3944 11.3402 18.3766 11.2249C18.3588 11.1097 18.3181 10.9991 18.257 10.8998C18.1959 10.8005 18.1155 10.7144 18.0206 10.6466C17.9258 10.5788 17.8183 10.5306 17.7045 10.5049C17.5908 10.4793 17.473 10.4766 17.3582 10.497C17.2434 10.5175 17.1339 10.5607 17.036 10.6241C16.9381 10.6876 16.8539 10.7699 16.7883 10.8663L13.013 16.1513L11.1183 14.2567C10.9525 14.1021 10.7331 14.018 10.5064 14.022C10.2797 14.026 10.0634 14.1178 9.90311 14.2781C9.74279 14.4384 9.65096 14.6547 9.64696 14.8814C9.64296 15.1081 9.72711 15.3275 9.88167 15.4933L12.5067 18.1183C12.5965 18.2081 12.7048 18.2772 12.824 18.3209C12.9432 18.3646 13.0705 18.3819 13.1971 18.3714C13.3236 18.361 13.4464 18.3231 13.5568 18.2605C13.6673 18.1979 13.7628 18.1119 13.8367 18.0087L18.2117 11.8837Z" fill="white" fill-opacity="0.6" />
         </svg>
     )
@@ -113,28 +113,28 @@ export default function FeatureSections() {
             <div className="max-w-[1560px] mx-auto flex flex-col gap-10 sm:gap-14 lg:gap-20">
 
                 {/* Card 1 — NFP */}
-                <div className='border border-[#FFFFFF0D] bg-[#FFFFFF05] px-6 sm:px-10 lg:pl-[90px] lg:pr-[74px] py-[70px] rounded-[40px] lg:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center'>
+                <div className='border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:p-12 2xl:pl-[90px] 2xl:pr-[74px] 2xl:py-[70px] rounded-[30px] sm:rounded-[40px] lg:rounded-[60px] 2xl:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center'>
                     <div className="flex flex-col max-w-full lg:max-w-[615px] w-full">
-                        <div className="mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
+                        <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" /><circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" /><circle cx="7.5" cy="7.5" r="3.5" fill="#88C4FF" /></svg>
                             {s0.badge}
                         </div>
-                        <h2 className="max-w-[615px] text-left font-normal text-3xl sm:text-4xl md:text-5xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">{s0.title}</h2>
-                        <p className="text-white/80 text-[15px] sm:text-[20px] leading-[30px] font-semibold my-5">{s0.subtitle}</p>
-                        {s0.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-normal mb-5">{s0.description}</p>}
-                        <div className="flex flex-col gap-5 mb-8">
+                        <h2 className="w-full max-w-[615px] text-left font-normal text-2xl sm:text-3xl md:text-4xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">{s0.title}</h2>
+                        <p className="text-white/80 text-[16px] sm:text-[18px] sm:text-[20px] leading-5 sm:leading-6 xl:leading-[30px] font-semibold my-4 sm:my-5">{s0.subtitle}</p>
+                        {s0.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5">{s0.description}</p>}
+                        <div className="flex flex-col gap-3.5 sm:gap-5 mb-6 sm:mb-8">
                             {s0.points.map((point, i) => (
-                                <div key={i} className="flex items-center gap-3">
-                                    <CheckIcon /><span className="text-white/60 text-[14px] sm:text-[18px] leading-[27px]">{point.text}</span>
+                                <div key={i} className="flex items-center gap-2 sm:gap-3">
+                                    <CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]">{point.text}</span>
                                 </div>
                             ))}
                         </div>
-                        <button className="w-fit bg-white text-black text-[18px] sm:text-[20px] leading-6 font-semibold px-5 h-[48px] sm:h-[52px] rounded-[16px] hover:bg-white/90 transition-colors cursor-pointer inline-flex items-center gap-2.5">
+                        <button className="w-full sm:w-fit bg-white text-black text-[18px] sm:text-[20px] leading-6 font-semibold px-5 h-[48px] sm:h-[52px] rounded-[16px] hover:bg-white/90 transition-colors cursor-pointer inline-flex items-center justify-between gap-2.5">
                             {s0.ctaText}
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </button>
                     </div>
-                    <div className="relative w-full lg:max-w-[715px] rounded-[20px] overflow-hidden flex-shrink-0 max-h-[636px]">
+                    <div className="relative w-full lg:max-w-[380px] xl:max-w-[715px] rounded-[20px] overflow-hidden flex-shrink-0 max-h-[636px]">
                         <Image src={s0.image} alt={s0.imageAlt} width={s0.imageWidth} height={s0.imageHeight} className="w-full h-auto object-cover" />
                     </div>
                 </div>
@@ -213,7 +213,6 @@ export default function FeatureSections() {
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     )
