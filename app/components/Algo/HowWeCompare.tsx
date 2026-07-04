@@ -46,7 +46,7 @@ const ROWS = [
 function CellValue({ text, type }: { text: string; type: string }) {
     if (type === 'check') {
         return (
-            <span className="flex items-center gap-1.5 text-white text-[16px] leading-[26px] font-semibold">
+            <span className="flex items-center gap-1.5 text-white text-[14px] lg:text-[16px] leading-5 sm:leading-[26px] font-semibold">
                 {text !== '✓' ? (
                     <img src="/assets/arrow.svg" alt="" className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" aria-hidden="true" />
                 ) : (
@@ -92,7 +92,6 @@ export default function HowWeCompare() {
     return (
         <div className="px-4 sm:px-6 py-16 lg:py-20 xl:py-[170px]">
             <div className="max-w-[1560px] mx-auto">
-
                 {/* Header */}
                 <div className="flex flex-col items-center text-center mb-10 lg:mb-20">
                     <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
@@ -108,54 +107,45 @@ export default function HowWeCompare() {
                 </div>
 
                 {/* Table */}
-                <div className="pb-[15px] bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[30px] sm:rounded-[40px] overflow-hidden">
+                <div className="overflow-x-auto compare-table-scroll">
+                <div className="compare-table-wrapper pb-[15px] bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[30px] sm:rounded-[40px] overflow-hidden" style={{ minWidth: '940px' }}>
+
                     {/* Table header */}
-                    <div className="mb-5 font-inter grid grid-cols-[1.4fr_1fr_1fr_1fr] sm:grid-cols-[1.5fr_1.5fr_1fr_1fr] bg-[#FFFFFF08] border-b border-[#FFFFFF1A]">
-                        <div className="px-8 py-6">
-                            <span className="text-white/60 text-[20px] leading-8 font-normal">Feature</span>
+                    <div className="compare-table-grid grid bg-[#FFFFFF08] border-b border-[#FFFFFF1A] mb-5 font-inter" style={{ gridTemplateColumns: '300px 240px 180px 190px' }}>
+                        <div className="px-6 sm:px-8 py-5 sm:py-6">
+                            <span className="text-white/60 text-[18px] sm:text-[20px] leading-6 sm:leading-8 font-normal">Feature</span>
                         </div>
-                        <div className="px-8 py-6">
-                            <span className="text-white/60 text-[20px] leading-8 font-normal">CrossResearch</span>
+                        <div className="px-8 py-5 sm:py-6">
+                            <span className="text-white/60 text-[18px] sm:text-[20px] leading-6 sm:leading-8 font-normal">CrossResearch</span>
                         </div>
-                        <div className="px-8 py-6">
-                            <span className="text-white/60 text-[20px] leading-8 font-normal">Generic Suites</span>
+                        <div className="px-8 py-5 sm:py-6">
+                            <span className="text-white/60 text-[18px] sm:text-[20px] leading-6 sm:leading-8 font-normal whitespace-nowrap">Generic Suites</span>
                         </div>
-                        <div className="px-8 py-6 flex items-center justify-center">
-                            <span className="text-white/60 text-[20px] leading-8 font-normal">Raw TradingView</span>
+                        <div className="px-8 py-5 sm:py-6 flex items-center justify-center">
+                            <span className="text-white/60 text-[18px] sm:text-[20px] leading-6 sm:leading-8 font-normal whitespace-nowrap">Raw TradingView</span>
                         </div>
                     </div>
 
                     {/* Rows */}
                     {ROWS.map((row, i) => (
-                        <div
-                            key={i}
-                            className={`grid grid-cols-[1.4fr_1fr_1fr_1fr] sm:grid-cols-[1.5fr_1.5fr_1fr_1fr] hover:bg-[#FFFFFF08] ${i < ROWS.length - 1 ? '' : ''}`}
-                        >
-                            {/* Feature name */}
-                            <div className="flex items-center px-8 py-3">
-                                <span className="text-white text-[16px] font-semibold leading-[26px]">
-                                    {row.feature}
-                                </span>
+                        <div key={i} className="compare-table-grid hover:bg-[#FFFFFF08] grid" style={{ gridTemplateColumns: '300px 240px 180px 190px' }}>
+                            <div className="flex items-center px-6 sm:px-8 py-3">
+                                <span className="text-white text-[16px] font-semibold leading-[26px]">{row.feature}</span>
                             </div>
-
-                            {/* CrossResearch — highlighted column */}
                             <div className="px-8 py-3">
-                                <div className="flex items-center bg-[#FFFFFF08] py-3 pl-[34.5px] max-w-[244px]">
+                                <div className="flex items-center bg-[#FFFFFF08] py-3 px-4 lg:pl-[34.5px] max-w-[244px] whitespace-nowrap">
                                     <CellValue text={row.crossResearch.text} type={row.crossResearch.type} />
                                 </div>
                             </div>
-
-                            {/* Generic Suites */}
-                            <div className="flex items-center px-8 py-3">
+                            <div className="flex items-center px-8 py-3 whitespace-nowrap">
                                 <CellValue text={row.generic.text} type={row.generic.type} />
                             </div>
-
-                            {/* Raw TradingView */}
-                            <div className="flex items-center justify-center px-8 py-3">
+                            <div className="flex items-center justify-center px-8 py-3 whitespace-nowrap">
                                 <CellValue text={row.raw.text} type={row.raw.type} />
                             </div>
                         </div>
                     ))}
+                </div>
                 </div>
 
             </div>

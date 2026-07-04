@@ -121,22 +121,22 @@ const MacroIntelligence = () => {
                     {CARDS.map((card) => (
                         <div
                             key={card.id}
-                            className="bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[24px] sm:rounded-[40px] p-6 sm:p-10 flex flex-col gap-12 relative overflow-hidden"
+                            className="bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[20px] sm:rounded-[40px] p-4 sm:p-10 flex flex-col gap-8 sm:gap-12 relative overflow-hidden"
                         >
                             {/* Badge */}
                             <div className={`flex items-start justify-between ${card.hasGlow ? 'relative z-10' : ''}`}>
-                                <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-[22.5px] bg-[#FFFFFF0D] flex items-center justify-center">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[22.5px] bg-[#FFFFFF0D] flex items-center justify-center">
                                     {card.icon}
                                 </div>
-                                <span className="py-2 px-[18px] text-white/60 text-[12px] sm:text-[16px] leading-[24px] font-semibold border border-[#FFFFFF0D] bg-[#FFFFFF0A] rounded-[40px]">{card.badge}</span>
+                                <span className="py-1.5 sm:py-2 px-[18px] text-white/60 text-[14px] sm:text-[16px] leading-[24px] font-semibold border border-[#FFFFFF0D] bg-[#FFFFFF0A] rounded-[40px]">{card.badge}</span>
                             </div>
 
                             {/* Content */}
                             <div className={card.hasGlow ? 'relative z-10' : ''}>
-                                <h3 className="text-white text-[26px] font-medium leading-[31px] mb-3">
+                                <h3 className="text-white text-[20px] sm:text-[26px] font-medium leading-6 sm:leading-[31px] mb-3">
                                     {card.title}
                                 </h3>
-                                <p className="text-white/60 text-[14px] sm:text-[20px] leading-5 sm:leading-[30px]">
+                                <p className="text-white/60 text-[15px] sm:text-[20px] leading-[22px] sm:leading-[30px]">
                                     {card.description}
                                 </p>
                             </div>

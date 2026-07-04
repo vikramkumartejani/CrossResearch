@@ -16,7 +16,7 @@ const TICKERS: TickerItem[] = [
         symbol: 'SPY',
         icon: (
             <div className='bg-white rounded-full'>
-                <Image src='/assets/spy.png' alt='SPY' width={50} height={50} className='rounded-full w-[50px] h-[50px] object-contain' />
+                <Image src='/assets/spy.png' alt='SPY' width={50} height={50} className='rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] object-contain' />
             </div>
         ),
         price: '$584.21',
@@ -28,7 +28,7 @@ const TICKERS: TickerItem[] = [
         symbol: 'GOLD',
         icon: (
             <div className='bg-white rounded-full'>
-                <Image src='/assets/gold.svg' alt='Gold' width={50} height={50} className='rounded-full w-[50px] h-[50px] object-contain' />
+                <Image src='/assets/gold.svg' alt='Gold' width={50} height={50} className='rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] object-contain' />
             </div>
         ),
         price: '$3,042',
@@ -40,7 +40,7 @@ const TICKERS: TickerItem[] = [
         symbol: 'DXY',
         icon: (
             <div className='bg-white rounded-full'>
-                <Image src='/assets/dxy.png' alt='DXY' width={50} height={50} className='rounded-full w-[50px] h-[50px] object-contain' />
+                <Image src='/assets/dxy.png' alt='DXY' width={50} height={50} className='rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] object-contain' />
             </div>
         ),
         price: 'Index',
@@ -52,7 +52,7 @@ const TICKERS: TickerItem[] = [
         symbol: '10Y',
         icon: (
             <div className='bg-white rounded-full'>
-                <Image src='/assets/ten.png' alt='Ten' width={50} height={50} className='rounded-full w-[50px] h-[50px] object-contain' />
+                <Image src='/assets/ten.png' alt='Ten' width={50} height={50} className='rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] object-contain' />
             </div>
         ),
         price: 'Bonds',
@@ -64,7 +64,7 @@ const TICKERS: TickerItem[] = [
         symbol: 'VIX',
         icon: (
             <div className='rounded-full'>
-                <Image src='/assets/vix.png' alt='VIX' width={50} height={50} className='rounded-full w-[50px] h-[50px] object-contain' />
+                <Image src='/assets/vix.png' alt='VIX' width={50} height={50} className='rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] object-contain' />
             </div>
         ),
         price: 'Index',
@@ -76,7 +76,7 @@ const TICKERS: TickerItem[] = [
         symbol: 'ETH',
         icon: (
             <div className='bg-white rounded-full'>
-                <Image src='/assets/eth.png' alt='ETH' width={50} height={50} className='rounded-full w-[50px] h-[50px] object-contain' />
+                <Image src='/assets/eth.png' alt='ETH' width={50} height={50} className='rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] object-contain' />
             </div>
         ),
         price: '$3,791',
@@ -99,15 +99,15 @@ export default function MarketTicker() {
                     {TICKERS.map((ticker) => (
                         <div
                             key={`a-${ticker.id}`}
-                            className="flex items-center gap-10 flex-shrink-0 px-10 border-r border-[#FFFFFF26]"
+                            className="flex items-center gap-6 sm:gap-10 flex-shrink-0 px-6 sm:px-10 border-r border-[#FFFFFF26]"
                         >
                             <div className='flex items-center gap-3'>
                                 {/* Icon */}
                                 {ticker.icon}
 
                                 {/* Content */}
-                                <div className="flex flex-col items-center">
-                                    <span className="text-white text-[18px] leading-[23px] font-semibold whitespace-nowrap">
+                                <div className="flex flex-col items-start">
+                                    <span className="text-white text-[15px] sm:text-[18px] leading-5 sm:leading-[23px] font-semibold whitespace-nowrap">
                                         {ticker.symbol}
                                     </span>
                                     <span className="text-white/60 text-[12px] leading-[19px] font-normal whitespace-nowrap">
@@ -129,19 +129,20 @@ export default function MarketTicker() {
                         </div>
                     ))}
                 </div>
+                {/* Track 2 */}
                 <div className="flex flex-shrink-0 items-center">
                     {TICKERS.map((ticker) => (
                         <div
                             key={`a-${ticker.id}`}
-                            className="flex items-center gap-10 flex-shrink-0 px-10 border-r border-[#FFFFFF26]"
+                            className="flex items-center gap-6 sm:gap-10 flex-shrink-0 px-6 sm:px-10 border-r border-[#FFFFFF26]"
                         >
                             <div className='flex items-center gap-3'>
                                 {/* Icon */}
                                 {ticker.icon}
 
                                 {/* Content */}
-                                <div className="flex flex-col items-center">
-                                    <span className="text-white text-[18px] leading-[23px] font-semibold whitespace-nowrap">
+                                <div className="flex flex-col items-start">
+                                    <span className="text-white text-[15px] sm:text-[18px] leading-5 sm:leading-[23px] font-semibold whitespace-nowrap">
                                         {ticker.symbol}
                                     </span>
                                     <span className="text-white/60 text-[12px] leading-[19px] font-normal whitespace-nowrap">
@@ -163,19 +164,20 @@ export default function MarketTicker() {
                         </div>
                     ))}
                 </div>
+                {/* Track 3 */}
                 <div className="flex flex-shrink-0 items-center">
                     {TICKERS.map((ticker) => (
                         <div
                             key={`a-${ticker.id}`}
-                            className="flex items-center gap-10 flex-shrink-0 px-10 border-r border-[#FFFFFF26]"
+                            className="flex items-center gap-6 sm:gap-10 flex-shrink-0 px-6 sm:px-10 border-r border-[#FFFFFF26]"
                         >
                             <div className='flex items-center gap-3'>
                                 {/* Icon */}
                                 {ticker.icon}
 
                                 {/* Content */}
-                                <div className="flex flex-col items-center">
-                                    <span className="text-white text-[18px] leading-[23px] font-semibold whitespace-nowrap">
+                                <div className="flex flex-col items-start">
+                                    <span className="text-white text-[15px] sm:text-[18px] leading-5 sm:leading-[23px] font-semibold whitespace-nowrap">
                                         {ticker.symbol}
                                     </span>
                                     <span className="text-white/60 text-[12px] leading-[19px] font-normal whitespace-nowrap">

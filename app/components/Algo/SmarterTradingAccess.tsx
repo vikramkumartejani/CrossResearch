@@ -60,18 +60,18 @@ const SmarterTradingAccess = () => {
     return (
         <div className='px-4 sm:px-6'>
             <div className='max-w-[1490px] mx-auto'>
-                <div className="flex justify-between gap-6 items-center">
+                <div className="flex lg:flex-row flex-col-reverse justify-between gap-6 items-center">
                     {/* Left — Feature cards */}
-                    <div className='max-w-[686px] w-full border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[40px] p-8'>
-                        <div className="mb-5 text-white text-[18px] leading-[29px] font-semibold">
+                    <div className='lg:max-w-[686px] w-full border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[24px] sm:rounded-[40px] p-5 sm:p-8'>
+                        <div className="mb-5 text-white text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-semibold">
                             Powerful Features
                         </div>
 
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-2.5 sm:gap-3">
                             {FEATURES.map((feature) => (
                                 <div
                                     key={feature.id}
-                                    className="bg-[#FFFFFF08] rounded-[16px] p-5 flex items-center gap-3"
+                                    className="bg-[#FFFFFF08] rounded-[16px] p-4 sm:p-5 flex sm:flex-row flex-col items-start sm:items-center gap-3"
                                 >
                                     {/* Icon */}
                                     <div className='w-[60px] h-[60px] border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[12px] flex items-center justify-center flex-shrink-0'>
@@ -80,7 +80,7 @@ const SmarterTradingAccess = () => {
 
                                     {/* Content */}
                                     <div className="flex-1">
-                                        <h3 className="text-white text-[16px] font-semibold leading-[26px] mb-1">
+                                        <h3 className="text-white text-[16px] font-semibold leading-6 sm:leading-[26px] mb-1">
                                             {feature.title}
                                         </h3>
                                         <p className="text-white/60 text-[14px] leading-[21px] font-normal">
@@ -93,7 +93,7 @@ const SmarterTradingAccess = () => {
                     </div>
 
                     {/* Right — Main content */}
-                    <div className='max-w-[624px] w-full'>
+                    <div className='lg:max-w-[624px] w-full'>
                         <div className="mb-3 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                                 <circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" />
@@ -107,13 +107,13 @@ const SmarterTradingAccess = () => {
                             Access TradingView for precise analysis tools
                         </h2>
 
-                        <p className="text-white/50 text-[15px] sm:text-[18px] leading-[24px] sm:leading-[27px] font-normal mb-5 max-w-[620px]">
+                        <p className="text-white/50 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-5 max-w-[620px]">
                             Gain full access to Trading View and explore powerful charting tools for precise market analysis and smarter trading decisions.
                         </p>
 
                         {/* Checkmark list */}
-                        <div className="flex flex-col gap-5">
-                            <div className="flex items-start gap-3">
+                        <div className="flex flex-col gap-4 sm:gap-5">
+                            <div className="flex items-start gap-2 sm:gap-3">
                                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.625 14C2.625 7.7175 7.7175 2.625 14 2.625C20.2825 2.625 25.375 7.7175 25.375 14C25.375 20.2825 20.2825 25.375 14 25.375C7.7175 25.375 2.625 20.2825 2.625 14ZM18.2117 11.8837C18.2817 11.7904 18.3323 11.6841 18.3606 11.5709C18.389 11.4578 18.3944 11.3402 18.3766 11.2249C18.3588 11.1097 18.3181 10.9991 18.257 10.8998C18.1959 10.8005 18.1155 10.7144 18.0206 10.6466C17.9258 10.5788 17.8183 10.5306 17.7045 10.5049C17.5908 10.4793 17.473 10.4766 17.3582 10.497C17.2434 10.5175 17.1339 10.5607 17.036 10.6241C16.9381 10.6876 16.8539 10.7699 16.7883 10.8663L13.013 16.1513L11.1183 14.2567C10.9525 14.1021 10.7331 14.018 10.5064 14.022C10.2797 14.026 10.0634 14.1178 9.90311 14.2781C9.74279 14.4384 9.65096 14.6547 9.64696 14.8814C9.64296 15.1081 9.72711 15.3275 9.88167 15.4933L12.5067 18.1183C12.5965 18.2081 12.7048 18.2772 12.824 18.3209C12.9432 18.3646 13.0705 18.3819 13.1971 18.3714C13.3236 18.361 13.4464 18.3231 13.5568 18.2605C13.6673 18.1979 13.7628 18.1119 13.8367 18.0087L18.2117 11.8837Z" fill="white" fill-opacity="0.6" />
                                 </svg>
@@ -122,7 +122,7 @@ const SmarterTradingAccess = () => {
                                 </span>
                             </div>
 
-                            <div className="flex items-start gap-3">
+                            <div className="flex items-start gap-2 sm:gap-3">
                                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.625 14C2.625 7.7175 7.7175 2.625 14 2.625C20.2825 2.625 25.375 7.7175 25.375 14C25.375 20.2825 20.2825 25.375 14 25.375C7.7175 25.375 2.625 20.2825 2.625 14ZM18.2117 11.8837C18.2817 11.7904 18.3323 11.6841 18.3606 11.5709C18.389 11.4578 18.3944 11.3402 18.3766 11.2249C18.3588 11.1097 18.3181 10.9991 18.257 10.8998C18.1959 10.8005 18.1155 10.7144 18.0206 10.6466C17.9258 10.5788 17.8183 10.5306 17.7045 10.5049C17.5908 10.4793 17.473 10.4766 17.3582 10.497C17.2434 10.5175 17.1339 10.5607 17.036 10.6241C16.9381 10.6876 16.8539 10.7699 16.7883 10.8663L13.013 16.1513L11.1183 14.2567C10.9525 14.1021 10.7331 14.018 10.5064 14.022C10.2797 14.026 10.0634 14.1178 9.90311 14.2781C9.74279 14.4384 9.65096 14.6547 9.64696 14.8814C9.64296 15.1081 9.72711 15.3275 9.88167 15.4933L12.5067 18.1183C12.5965 18.2081 12.7048 18.2772 12.824 18.3209C12.9432 18.3646 13.0705 18.3819 13.1971 18.3714C13.3236 18.361 13.4464 18.3231 13.5568 18.2605C13.6673 18.1979 13.7628 18.1119 13.8367 18.0087L18.2117 11.8837Z" fill="white" fill-opacity="0.6" />
                                 </svg>
@@ -131,7 +131,7 @@ const SmarterTradingAccess = () => {
                                 </span>
                             </div>
 
-                            <div className="flex items-start gap-3">
+                            <div className="flex items-start gap-2 sm:gap-3">
                                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.625 14C2.625 7.7175 7.7175 2.625 14 2.625C20.2825 2.625 25.375 7.7175 25.375 14C25.375 20.2825 20.2825 25.375 14 25.375C7.7175 25.375 2.625 20.2825 2.625 14ZM18.2117 11.8837C18.2817 11.7904 18.3323 11.6841 18.3606 11.5709C18.389 11.4578 18.3944 11.3402 18.3766 11.2249C18.3588 11.1097 18.3181 10.9991 18.257 10.8998C18.1959 10.8005 18.1155 10.7144 18.0206 10.6466C17.9258 10.5788 17.8183 10.5306 17.7045 10.5049C17.5908 10.4793 17.473 10.4766 17.3582 10.497C17.2434 10.5175 17.1339 10.5607 17.036 10.6241C16.9381 10.6876 16.8539 10.7699 16.7883 10.8663L13.013 16.1513L11.1183 14.2567C10.9525 14.1021 10.7331 14.018 10.5064 14.022C10.2797 14.026 10.0634 14.1178 9.90311 14.2781C9.74279 14.4384 9.65096 14.6547 9.64696 14.8814C9.64296 15.1081 9.72711 15.3275 9.88167 15.4933L12.5067 18.1183C12.5965 18.2081 12.7048 18.2772 12.824 18.3209C12.9432 18.3646 13.0705 18.3819 13.1971 18.3714C13.3236 18.361 13.4464 18.3231 13.5568 18.2605C13.6673 18.1979 13.7628 18.1119 13.8367 18.0087L18.2117 11.8837Z" fill="white" fill-opacity="0.6" />
                                 </svg>

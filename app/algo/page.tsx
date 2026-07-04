@@ -36,7 +36,7 @@ const page = () => {
     return (
         <div>
             <Hero />
-            <div className='mt-[143px]'>
+            <div className='mt-16 lg:mt-20 2xl:mt-[143px]'>
                 <MarketTicker />
             </div>
             <FeatureSections />

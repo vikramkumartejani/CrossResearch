@@ -31,7 +31,7 @@ const TopLine = () => {
 export default function Hero() {
 
     return (
-        <section className="relative w-full overflow-hidden px-4 sm:px-6 min-h-[700px] sm:min-h-[800px] lg:min-h-[1005px] pb-0" aria-labelledby="hero-heading">
+        <section className="relative w-full overflow-hidden px-4 sm:px-6 min-h-[600px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[900px] 2xl:min-h-[1005px] pb-0" aria-labelledby="hero-heading">
             {/* Background: top-lines SVG */}
             <div className="absolute inset-x-0 top-16 sm:top-[96px] z-10 pointer-events-none overflow-hidden" aria-hidden="true">
                 <TopLine />
@@ -58,16 +58,15 @@ export default function Hero() {
             </div>
 
             {/* Analysis image — right side, starts at button level */}
-            <div className="absolute right-0 bottom-0 w-[50%] sm:w-[55%] lg:w-[72.5%] pointer-events-none" style={{ zIndex: 1 }}>
+            <div className="absolute right-0 bottom-0 w-[100%] sm:w-[72.5%] pointer-events-none" style={{ zIndex: 1 }}>
                 {/* Dark overlay — covers top of image so heading text stays visible */}
                 <div
-                    className="absolute pointer-events-none"
+                    className="absolute pointer-events-none top-[-680px] sm:top-[-700px] md:top-[-650px] 2xl:top-[-550px]"
                     aria-hidden="true"
                     style={{
                         width: '3554px',
                         height: '733.6px',
                         left: '-891px',
-                        top: '-550px',
                         background: '#070711',
                         filter: 'blur(52px)',
                         transform: 'rotate(-8.21deg)',
@@ -79,7 +78,7 @@ export default function Hero() {
                     alt=""
                     width={1400}
                     height={602}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-[250px] sm:h-auto object-cover"
                     aria-hidden="true"
                     priority
                 />

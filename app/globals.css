@@ -43,3 +43,18 @@ body {
   animation: logo-scroll 25s linear infinite;
   will-change: transform;
 }
+
+/* HowWeCompare table — desktop restores fr layout */
+@media (min-width: 1024px) {
+  .compare-table-grid {
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr !important;
+    min-width: 0 !important;
+  }
+  .compare-table-wrapper {
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  .compare-table-scroll {
+    overflow: visible !important;
+  }
+}
