@@ -172,7 +172,22 @@ export default function FeatureSections() {
                 </div>
 
                 {/* Card 2 — Divergence — left-top glow */}
-                <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:pt-[42px] lg:pb-[41px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
+                {/* Ellipse 1 (left) + Ellipse 18 (right) — between card 1 and card 2 */}
+                <div className="relative">
+                    <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
+                        width: '765px', height: '489px',
+                        left: '-373px', top: '-250px',
+                        background: 'rgba(34, 126, 217, 0.4)',
+                        zIndex: 0,
+                    }} />
+                    <div aria-hidden="true" className="absolute pointer-events-none w-[400px] h-[280px] lg:w-[765px] lg:h-[489px] top-[-200px] lg:top-[-250px] blur-[100px] lg:blur-[250px]" style={{
+                        right: '-339px',
+                        background: 'rgba(34, 126, 217, 0.4)',
+                        transform: 'rotate(-23.64deg)',
+                        zIndex: 0,
+                    }} />
+                    <div className="relative" style={{ zIndex: 1 }}>
+                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:pt-[42px] lg:pb-[41px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
                     <div className="relative z-10 w-full lg:max-w-[699px] rounded-[20px] sm:rounded-[28px] overflow-hidden p-4 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
                         <Image src={s1.image} alt={s1.imageAlt} width={s1.imageWidth} height={s1.imageHeight} className="w-full h-auto object-cover" />
@@ -196,9 +211,26 @@ export default function FeatureSections() {
                         </button>
                     </div>
                 </div>
+                    </div>
+                </div>
 
                 {/* Card 3 — Volatility — right-top glow */}
-                <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[90px] lg:pr-[74px] lg:py-[70px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
+                {/* Ellipse 15 (left) + Ellipse 16 (right) — between card 2 and card 3 */}
+                <div className="relative">
+                    <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
+                        width: '865px', height: '553px',
+                        left: '-249px', top: '-250px',
+                        background: 'rgba(34, 126, 217, 0.4)',
+                        zIndex: 0,
+                    }} />
+                    <div aria-hidden="true" className="absolute pointer-events-none w-[400px] h-[280px] lg:w-[744px] lg:h-[510px] top-[-200px] lg:top-[-250px] blur-[100px] lg:blur-[250px]" style={{
+                        right: '-339px',
+                        background: 'rgba(34, 126, 217, 0.4)',
+                        transform: 'rotate(-26.89deg)',
+                        zIndex: 0,
+                    }} />
+                    <div className="relative" style={{ zIndex: 1 }}>
+                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[90px] lg:pr-[74px] lg:py-[70px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowRight />
                     <div className="relative z-10 flex flex-col max-w-full lg:max-w-[649px] w-full">
                         <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
@@ -222,9 +254,27 @@ export default function FeatureSections() {
                         <Image src={s2.image} alt={s2.imageAlt} width={s2.imageWidth} height={s2.imageHeight} className="w-full h-auto object-cover" />
                     </div>
                 </div>
+                    </div>
+                </div>
 
                 {/* Card 4 — Market Structure — left-top glow */}
-                <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[32px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
+                {/* Ellipse 19 (left-top) + Ellipse 20 (right-middle) — between card 3 and card 4 */}
+                <div className="relative">
+                    <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
+                        width: '977px', height: '446px',
+                        left: '-465px', top: '0px',
+                        background: 'rgba(34, 126, 217, 0.4)',
+                        transform: 'rotate(-20.7deg)',
+                        zIndex: 0,
+                    }} />
+                    <div aria-hidden="true" className="absolute pointer-events-none w-[400px] h-[250px] lg:w-[977px] lg:h-[446px] top-[20%] blur-[100px] lg:blur-[250px]" style={{
+                        right: '-539px',
+                        background: 'rgba(34, 126, 217, 0.4)',
+                        transform: 'rotate(-20.7deg)',
+                        zIndex: 0,
+                    }} />
+                    <div className="relative" style={{ zIndex: 1 }}>
+                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[32px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
                     <div className="relative z-10 w-full lg:max-w-[699px] max-h-[712px] rounded-[20px] overflow-hidden p-4 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
                         <Image src={s3.image} alt={s3.imageAlt} width={659} height={673} className='object-contain w-full h-auto' />
@@ -246,6 +296,8 @@ export default function FeatureSections() {
                             {s3.ctaText}
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </button>
+                    </div>
+                </div>
                     </div>
                 </div>
 

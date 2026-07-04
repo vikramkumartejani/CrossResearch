@@ -12,19 +12,19 @@ const NAV_LINKS = [
         label: "Trading Desk",
         href: "/trading-desk",
         hasDropdown: true,
-        items: ["Futures", "Options", "Spot Markets", "Order Flow"],
+        items: ["Market Report", "Macro Nowcast", "Options Flow", "BTC Forecast", "News"],
     },
     {
         label: "Features",
         href: "/features",
         hasDropdown: true,
-        items: ["Market Regime", "Macro Intelligence", "Algo Signals", "Screener"],
+        items: ["Affiliate", "Brokers", "Prop Firm", "Strategies & Education","Tradingview Indicators"],
     },
     {
         label: "About",
         href: "/about",
         hasDropdown: true,
-        items: ["Team", "Careers", "Press", "Contact"],
+        items: ["Who's CR", "Get Started", "Plans"],
     },
 ];
 
@@ -93,7 +93,7 @@ export default function Navbar() {
                                 {/* Desktop Dropdown */}
                                 {link.hasDropdown && openDropdown === link.label && (
                                     <div
-                                        className="absolute left-0 top-full mt-1 py-1.5 rounded-lg min-w-[176px] bg-[#1C2437]/80 border border-[#ffffff12]"
+                                        className="absolute left-0 top-full mt-1 py-1.5 rounded-lg min-w-fit bg-[#1C2437]/20 backdrop-blur-[10px] border border-[#ffffff12]"
                                         role="menu"
                                         onMouseEnter={() => {
                                             if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -104,7 +104,7 @@ export default function Navbar() {
                                             <Link
                                                 key={item}
                                                 href={`${link.href}/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                                                className="block px-4 py-2 text-[16px] leading-[20px] font-normal transition-colors duration-150 text-[#E8FCFFCC] hover:text-white"
+                                                className="block px-4 py-2 text-[16px] text-nowrap leading-[20px] font-normal transition-colors duration-150 text-[#E8FCFFCC] hover:text-white"
                                                 role="menuitem"
                                             >
                                                 {item}

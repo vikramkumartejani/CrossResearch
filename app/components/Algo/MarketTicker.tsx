@@ -89,10 +89,10 @@ export default function MarketTicker() {
     return (
         <div className="bg-[#FFFFFF08] py-4 overflow-hidden relative">
             {/* Left Fade */}
-            <div className="absolute inset-y-0 left-0 w-20 z-20 pointer-events-none bg-gradient-to-r from-[#0B1020] via-[#0B1020]/80 to-transparent" />
+            <div className="absolute inset-y-0 left-0 w-10 sm:w-20 z-20 pointer-events-none bg-gradient-to-r from-[#0B1020] via-[#0B1020]/80 to-transparent" />
 
             {/* Right Fade */}
-            <div className="absolute inset-y-0 right-0 w-20 z-20 pointer-events-none bg-gradient-to-l from-[#0B1020] via-[#0B1020]/80 to-transparent" />
+            <div className="absolute inset-y-0 right-0 w-10 sm:w-20 z-20 pointer-events-none bg-gradient-to-l from-[#0B1020] via-[#0B1020]/80 to-transparent" />
             <div className="ticker-track">
                 {/* Track 1 */}
                 <div className="flex flex-shrink-0 items-center">
