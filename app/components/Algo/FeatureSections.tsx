@@ -199,7 +199,7 @@ export default function FeatureSections() {
                         </div>
                         <h2 className="max-w-[615px] text-left font-normal text-2xl sm:text-3xl md:text-4xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">{s1.title}</h2>
                         <p className="text-white/80 text-[16px] sm:text-[18px] xl:text-[20px] leading-5 sm:leading-6 xl:leading-[30px] font-semibold my-4 sm:my-5">{s1.subtitle}</p>
-                        {s1.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5 2xl:pr-10">{s1.description}</p>}
+                        {s1.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5 2xl:pr-10">Scans divergences and exhaustion signals, identifying high probability reversal setups <span className="text-white font-semibold">market wide</span></p>}
                         <div className="flex flex-col gap-3.5 sm:gap-5 mb-6 sm:mb-8">
                             {s1.points.map((point, i) => (
                                 <div key={i} className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]">{point.text}</span></div>
@@ -241,9 +241,9 @@ export default function FeatureSections() {
                         <p className="max-w-[500px] text-white/80 text-[16px] sm:text-[18px] xl:text-[20px] leading-5 sm:leading-6 xl:leading-[30px] font-semibold my-4 sm:my-5">{s2.subtitle}</p>
                         {s2.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5">{s2.description}</p>}
                         <div className="flex flex-col gap-3.5 sm:gap-5 mb-6 sm:mb-8">
-                            {s2.points.map((point, i) => (
-                                <div key={i} className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]">{point.text}</span></div>
-                            ))}
+                            <div className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]"><span className="text-white font-semibold">Forecast IV:</span> model estimates next 30D X asset implied volatility at 23.4%.</span></div>
+                            <div className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]"><span className="text-white font-semibold">Expected weekly move:</span> implied 1σ range is approximately ±3.24%.</span></div>
+                            <div className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]"><span className="text-white font-semibold">Std & pivot areas:</span> highlights projected volatility bands and key reaction zones for the week ahead.</span></div>
                         </div>
                         <button className="w-full sm:w-fit bg-white text-black text-[18px] sm:text-[20px] leading-6 font-semibold px-5 h-[48px] sm:h-[52px] rounded-[16px] hover:bg-white/90 transition-colors cursor-pointer inline-flex items-center justify-between gap-2.5">
                             {s2.ctaText}
