@@ -57,9 +57,8 @@ const page = () => {
             <FeatureSections />
             <div className="relative" style={{ zIndex: 1 }}>
                 {/* Ellipse 16951 — right side glow */}
-                <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
-                    width: '756px', height: '345px',
-                    right: '-339px', top: '50%',
+                <div aria-hidden="true" className="absolute pointer-events-none w-[450px] h-[280px] lg:w-[756px] lg:h-[345px] top-[10%] lg:top-[50%] blur-[100px] lg:blur-[250px]" style={{
+                    right: '-339px',
                     transform: 'translateY(-50%) rotate(-20.7deg)',
                     background: 'rgba(34, 126, 217, 0.4)',
                     zIndex: 0,
