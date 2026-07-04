@@ -29,7 +29,7 @@ const TopLine = () => {
 export default function Hero() {
 
     return (
-        <section className="relative w-full overflow-hidden px-4 sm:px-6 pb-[184px]" aria-labelledby="hero-heading">
+        <section className="relative w-full overflow-hidden px-4 sm:px-6 pb-16 md:pb-20 lg:pb-[184px]" aria-labelledby="hero-heading">
             {/* Background: top-lines SVG */}
             <div className="absolute inset-x-0 top-16 sm:top-[96px] z-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <TopLine />
@@ -46,7 +46,7 @@ export default function Hero() {
                 </p>
 
                 <div className="w-full flex items-center justify-center">
-                    <button className="bg-white text-black px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-white/90 transition-colors cursor-pointer">
+                    <button className="w-full sm:w-fit bg-white text-black px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-white/90 transition-colors cursor-pointer">
                         Learn More
                     </button>
                 </div>

@@ -61,7 +61,7 @@ export default function Hero() {
             <div className="absolute right-0 bottom-0 w-[100%] sm:w-[72.5%] pointer-events-none" style={{ zIndex: 1 }}>
                 {/* Dark overlay — covers top of image so heading text stays visible */}
                 <div
-                    className="absolute pointer-events-none top-[-680px] sm:top-[-700px] md:top-[-650px] 2xl:top-[-550px]"
+                    className="absolute pointer-events-none top-[-640px] sm:top-[-700px] md:top-[-650px] 2xl:top-[-550px]"
                     aria-hidden="true"
                     style={{
                         width: '3554px',
