@@ -88,8 +88,8 @@ const TradingView = () => {
 
                     {/* Shadows */}
                     <div aria-hidden="true" className="absolute pointer-events-none right-[-120px] lg:left-[-131px] bottom-[-120px] lg:top-[-131px]" style={{ width: '194.72px', height: '305.28px', background: '#6DB7FF', filter: 'blur(60.87px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-                    <div aria-hidden="true" className="absolute pointer-events-none right-[-117px] bottom-[-137px] lg:top-[-137px]" style={{ width: '140.52px', height: '300.55px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-                    <div aria-hidden="true" className="absolute pointer-events-none right-[-133px] bottom-[-105px] lg:top-[-105px]" style={{ width: '131.05px', height: '291.8px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+                    <div aria-hidden="true" className="absolute pointer-events-none right-[-117px] lg:left-[-40px] bottom-[-137px] lg:top-[-137px]" style={{ width: '140.52px', height: '300.55px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+                    <div aria-hidden="true" className="absolute pointer-events-none right-[-133px] lg:left-[-40px] bottom-[-105px] lg:top-[-105px]" style={{ width: '131.05px', height: '291.8px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
                     <div className='w-[280px] sm:w-[380px] h-[220px] lg:h-[350px] absolute bottom-0 lg:top-0 right-0 lg:left-0 z-10'>
                         <div
                             className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
