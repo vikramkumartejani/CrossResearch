@@ -106,10 +106,10 @@ function CheckIcon() {
 function GlowRight() {
     return (
         <>
-            <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '194.72px', height: '305.28px', right: '-46px', top: '-131px', background: '#6DB7FF', filter: 'blur(60.87px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-            <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '140.52px', height: '300.55px', right: '-12px', top: '-137px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-            <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '131.05px', height: '291.8px', right: '-28px', top: '-105px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-             <div className='w-[280px] sm:w-[350px] h-[220px] lg:h-[350px] absolute top-0 right-0 z-10'>
+            <div aria-hidden="true" className="absolute pointer-events-none right-[-100px] lg:right-[-46px] bottom-[-200px] lg:top-[-131px]" style={{ width: '194.72px', height: '305.28px', background: '#6DB7FF', filter: 'blur(60.87px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+            <div aria-hidden="true" className="absolute pointer-events-none right-[-12px] bottom-[-137px] lg:top-[-137px]" style={{ width: '140.52px', height: '300.55px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+            <div aria-hidden="true" className="absolute pointer-events-none right-[-28px] bottom-[-105px] lg:top-[-105px]" style={{ width: '131.05px', height: '291.8px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+             <div className='w-[280px] sm:w-[350px] h-[220px] lg:h-[350px] absolute bottom-0 lg:top-0 right-0 z-10'>
                 <div
                     className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
                 />
@@ -121,10 +121,10 @@ function GlowRight() {
 function GlowLeft() {
     return (
         <>
-            <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '194.72px', height: '305.28px', left: '-131px', top: '-131px', background: '#6DB7FF', filter: 'blur(60.87px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-            <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '140.52px', height: '300.55px', left: '-117px', top: '-137px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-            <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '131.05px', height: '291.8px', left: '-133px', top: '-105px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
-            <div className='w-[280px] sm:w-[380px] h-[220px] lg:h-[350px] absolute top-0 left-0 z-10'>
+            <div aria-hidden="true" className="absolute pointer-events-none left-[-120px] lg:left-[-131px] bottom-[-120px] lg:top-[-131px]" style={{ width: '194.72px', height: '305.28px', background: '#6DB7FF', filter: 'blur(60.87px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+            <div aria-hidden="true" className="absolute pointer-events-none left-[-117px] bottom-[-137px] lg:top-[-137px]" style={{ width: '140.52px', height: '300.55px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+            <div aria-hidden="true" className="absolute pointer-events-none left-[-133px] bottom-[-105px] lg:top-[-105px]" style={{ width: '131.05px', height: '291.8px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
+            <div className='w-[280px] sm:w-[380px] h-[220px] lg:h-[350px] absolute bottom-0 lg:top-0 left-0 z-10'>
                 <div
                     className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
                 />
@@ -189,7 +189,7 @@ export default function FeatureSections() {
                     <div className="relative" style={{ zIndex: 1 }}>
                         <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:pt-[42px] lg:pb-[41px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
-                    <div className="relative z-10 w-full lg:max-w-[699px] rounded-[20px] sm:rounded-[28px] overflow-hidden p-4 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
+                    <div className="relative z-10 w-full lg:max-w-[699px] rounded-[20px] sm:rounded-[28px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
                         <Image src={s1.image} alt={s1.imageAlt} width={s1.imageWidth} height={s1.imageHeight} className="w-full h-auto object-cover" />
                     </div>
                     <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
@@ -276,7 +276,7 @@ export default function FeatureSections() {
                     <div className="relative" style={{ zIndex: 1 }}>
                         <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[32px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
-                    <div className="relative z-10 w-full lg:max-w-[699px] max-h-[712px] rounded-[20px] overflow-hidden p-4 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
+                    <div className="relative z-10 w-full lg:max-w-[699px] max-h-[712px] rounded-[20px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
                         <Image src={s3.image} alt={s3.imageAlt} width={659} height={673} className='object-contain w-full h-auto' />
                     </div>
                     <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">

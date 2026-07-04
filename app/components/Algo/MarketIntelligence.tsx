@@ -69,9 +69,9 @@ export default function MarketIntelligence() {
                                 {/* Right-top glow — only on lagging card */}
                                 {stat.id === 'lagging' && (
                                     <>
-                                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '113.73px', height: '150.3px', right: '-40px', top: '-50px', background: '#6DB7FF', filter: 'blur(35.55px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
-                                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '82.07px', height: '150.54px', right: '-29px', top: '-55px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(100.03px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
-                                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '76.54px', height: '150.43px', right: '-37px', top: '-34px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(100.03px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
+                                        <div aria-hidden="true" className="absolute pointer-events-none right-[-60px] lg:right-[-40px] top-[-80px] lg:top-[-50px]" style={{ width: '113.73px', height: '150.3px', background: '#6DB7FF', filter: 'blur(35.55px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
+                                        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: '82.07px', height: '150.54px', right: '-29px', top: '-55px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(100.03px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
+                                        <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: '76.54px', height: '150.43px', right: '-37px', top: '-34px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(100.03px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
                                         <div className='w-[140px] h-[220px] absolute top-0 right-0 z-10'>
                                             <div
                                                 className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
