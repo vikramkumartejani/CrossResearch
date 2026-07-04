@@ -181,7 +181,7 @@ export default function Footer() {
                     <div className="w-full xl:max-w-[835px] flex flex-col lg:flex-1">
 
                         {/* Nav columns */}
-                        <div className="mb-7 sm:mb-[34px] grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 lg:flex lg:items-start lg:justify-between lg:max-w-[765px]">
+                        <div className="mb-7 sm:mb-[30px] grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 lg:flex lg:items-start lg:justify-between lg:max-w-[765px]">
                             {NAV_COLS.map((col) => (
                                 <div key={col.heading} className="flex flex-col gap-3">
                                     <h4 className="text-white text-[16px] font-medium leading-[24px]">{col.heading}</h4>
@@ -236,15 +236,15 @@ export default function Footer() {
                         </div>
 
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <div className='h-[185px] sm:h-[340px] overflow-hidden'>
+                        <div className=' overflow-hidden'>
                             <img
-                                src="/assets/footer-image.png"
+                                src="/assets/footer.png"
                                 alt=""
-                                className='h-auto lg:h-[340px]'
+                                className=''
                                 style={{
-                                    width: '100%',
-                                    objectFit: 'cover',
-                                    backgroundPosition:"top",
+                                    // width: '100%',
+                                    objectFit: 'contain',
+                                    // backgroundPosition:"top",
                                 }}
                             />
                         </div>

@@ -12,19 +12,35 @@ const NAV_LINKS = [
         label: "Trading Desk",
         href: "/trading-desk",
         hasDropdown: true,
-        items: ["Market Report", "Macro Nowcast", "Options Flow", "BTC Forecast", "News"],
+        items: [
+            { label: "Market Report", href: "/market-report" },
+            { label: "Macro Nowcast", href: "/macro-nowcast" },
+            { label: "Options Flow", href: "/options-flow" },
+            { label: "BTC Forecast", href: "/btc-forecast" },
+            { label: "News", href: "/news" },
+        ],
     },
     {
         label: "Features",
         href: "/features",
         hasDropdown: true,
-        items: ["Affiliate", "Brokers", "Prop Firm", "Strategies & Education","Tradingview Indicators"],
+        items: [
+            { label: "Affiliate", href: "/affiliate" },
+            { label: "Brokers", href: "/brokers" },
+            { label: "Prop Firm", href: "/prop-firm" },
+            { label: "Strategies & Education", href: "/strategies" },
+            { label: "Tradingview Indicators", href: "/algo" },
+        ],
     },
     {
         label: "About",
         href: "/about",
         hasDropdown: true,
-        items: ["Who's CR", "Get Started", "Plans"],
+        items: [
+            { label: "Who's CR", href: "/about" },
+            { label: "Get Started", href: "/get-started" },
+            { label: "Plans", href: "/plans" },
+        ],
     },
 ];
 
@@ -102,12 +118,12 @@ export default function Navbar() {
                                     >
                                         {link.items?.map((item) => (
                                             <Link
-                                                key={item}
-                                                href={`${link.href}/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                                key={item.label}
+                                                href={item.href}
                                                 className="block px-4 py-2 text-[16px] text-nowrap leading-[20px] font-normal transition-colors duration-150 text-[#E8FCFFCC] hover:text-white"
                                                 role="menuitem"
                                             >
-                                                {item}
+                                                {item.label}
                                             </Link>
                                         ))}
                                     </div>
@@ -175,14 +191,14 @@ export default function Navbar() {
                                             {/* Dropdown items */}
                                             {mobileDropdown === link.label && (
                                                 <ul className="pb-1">
-                                                    {link.items?.map((item) => (
-                                                        <li key={item}>
+                                                {link.items?.map((item) => (
+                                                        <li key={item.label}>
                                                             <Link
-                                                                href={`${link.href}/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                                                href={item.href}
                                                                 className="block pl-6.5 pr-5 py-2 text-[15px] leading-5 transition-colors duration-150 text-white/70 hover:text-white"
                                                                 onClick={closeMobileMenu}
                                                             >
-                                                                - {item}
+                                                                - {item.label}
                                                             </Link>
                                                         </li>
                                                     ))}
