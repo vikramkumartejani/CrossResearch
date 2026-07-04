@@ -66,19 +66,33 @@ export default function MarketIntelligence() {
                                 key={stat.id}
                                 className={`bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[16px] p-5 sm:p-6 lg:p-8 flex flex-col relative overflow-hidden ${stat.id === 'lagging' ? 'col-span-2' : ''}`}
                             >
-                                <div className='flex items-start justify-between mb-4 sm:mb-5'>
+                                {/* Right-top glow — only on lagging card */}
+                                {stat.id === 'lagging' && (
+                                    <>
+                                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '113.73px', height: '150.3px', right: '-40px', top: '-50px', background: '#6DB7FF', filter: 'blur(35.55px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
+                                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '82.07px', height: '150.54px', right: '-29px', top: '-55px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(100.03px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
+                                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '76.54px', height: '150.43px', right: '-37px', top: '-34px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(100.03px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
+                                        <div className='w-[140px] h-[220px] absolute top-0 right-0 z-10'>
+                                            <div
+                                                className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                            />
+                                        </div>
+                                    </>
+                                )}
+
+                                <div className='relative z-10 flex items-start justify-between mb-4 sm:mb-5'>
                                     <h3 className="text-white text-[28px] sm:text-[40px] font-semibold leading-8 sm:leading-[44px]">
                                         {stat.value}
                                     </h3>
                                     <button className="cursor-pointer hover:opacity-80">
                                         <svg className="w-6 h-6 sm:w-[30px] sm:h-[30px]" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.75 21.25L21.25 8.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M8.75 8.75H21.25V21.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M8.75 21.25L21.25 8.75" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M8.75 8.75H21.25V21.25" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     </button>
                                 </div>
 
-                                <div className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal">
+                                <div className="relative z-10 text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal">
                                     {stat.label}
                                 </div>
                             </div>

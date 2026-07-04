@@ -121,10 +121,20 @@ const MacroIntelligence = () => {
                     {CARDS.map((card) => (
                         <div
                             key={card.id}
-                            className="bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[20px] sm:rounded-[40px] p-4 sm:p-10 flex flex-col gap-8 sm:gap-12 relative overflow-hidden"
+                            className="group bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[20px] sm:rounded-[40px] p-4 sm:p-10 flex flex-col gap-8 sm:gap-12 relative overflow-hidden"
                         >
+                            {/* Right-top glow — shows on hover */}
+                            <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '79.21px', height: '124.18px', right: '0px', top: '-40px', background: '#6DB7FF', filter: 'blur(24.76px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
+                            <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '57.16px', height: '122.26px', right: '-14px', top: '-42px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
+                            <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '53.31px', height: '118.7px', right: '-7px', top: '-29px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
+                            <div className='w-[180px] h-[130px] absolute top-0 right-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                                <div
+                                    className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                />
+                            </div>
+
                             {/* Badge */}
-                            <div className={`flex items-start justify-between ${card.hasGlow ? 'relative z-10' : ''}`}>
+                            <div className="relative z-10 flex items-start justify-between">
                                 <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[22.5px] bg-[#FFFFFF0D] flex items-center justify-center">
                                     {card.icon}
                                 </div>
@@ -132,7 +142,7 @@ const MacroIntelligence = () => {
                             </div>
 
                             {/* Content */}
-                            <div className={card.hasGlow ? 'relative z-10' : ''}>
+                            <div className="relative z-10">
                                 <h3 className="text-white text-[20px] sm:text-[26px] font-medium leading-6 sm:leading-[31px] mb-3">
                                     {card.title}
                                 </h3>

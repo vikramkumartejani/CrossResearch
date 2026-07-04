@@ -39,7 +39,7 @@ const GetStarted = () => {
                         </div>
 
                         <h3 className="mb-4 text-left font-normal text-3xl sm:text-4xl md:text-5xl xl:text-[54px] leading-tight xl:leading-[70px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                            Choose your plan that<br  className='xl:block hidden'/>fits your needs
+                            Choose your plan that<br className='xl:block hidden' />fits your needs
                         </h3>
 
                         <p className="text-white/50 text-[14px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-normal mb-5 max-w-[550px]">
@@ -77,6 +77,15 @@ const GetStarted = () => {
 
                     {/* Right — Image card with glow */}
                     <div className="relative w-full lg:max-w-[751px] z-10 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[24px] sm:rounded-[40px] py-[41px] overflow-hidden">
+                        {/* Right-top glow */}
+                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '120.48px', height: '188.9px', right: '-37px', top: '-71px', background: '#6DB7FF', filter: 'blur(37.66px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
+                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '86.95px', height: '185.97px', right: '-22px', top: '-75px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(105.97px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
+                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '81.09px', height: '180.55px', right: '-30px', top: '-53px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(105.97px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
+                        <div className='w-[200px] h-[160px] absolute top-0 right-0 z-10'>
+                            <div
+                                className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                            />
+                        </div>
                         <Image
                             src="/assets/plan-select.png"
                             width={751}
