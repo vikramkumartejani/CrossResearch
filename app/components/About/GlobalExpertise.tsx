@@ -27,14 +27,30 @@ const GlobalExpertise = () => {
                     </div>
 
                     {/* Right — Image card with glow */}
-                    <div className="w-full lg:max-w-[849px] overflow-hidden">
+                    <div className="relative w-full lg:max-w-[849px]">
+                        {/* Ellipse 16952 — blue glow behind world map */}
+                        <div
+                            aria-hidden="true"
+                            className="absolute pointer-events-none hidden sm:block"
+                            style={{
+                                width: '833px',
+                                height: '363px',
+                                right: '-200px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: '#227ED9',
+                                mixBlendMode: 'plus-lighter',
+                                filter: 'blur(250px)',
+                                zIndex: 0,
+                            }}
+                        />
                         <Image
                             src="/assets/world-map.svg"
                             width={849}
                             height={480}
                             alt="World Map"
                             draggable="false"
-                            className="w-full h-auto relative z-30"
+                            className="w-full h-auto relative z-10"
                         />
                     </div>
                 </div>
