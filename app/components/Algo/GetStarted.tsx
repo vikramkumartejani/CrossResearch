@@ -78,10 +78,10 @@ const GetStarted = () => {
                     {/* Right — Image card with glow */}
                     <div className="relative w-full lg:max-w-[751px] z-10 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[24px] sm:rounded-[40px] py-[41px] overflow-hidden">
                         {/* Right-top glow */}
-                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '120.48px', height: '188.9px', right: '-37px', top: '-71px', background: '#6DB7FF', filter: 'blur(37.66px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
-                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '86.95px', height: '185.97px', right: '-22px', top: '-75px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(105.97px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
-                        <div aria-hidden="true" className="absolute pointer-events-none hidden sm:block" style={{ width: '81.09px', height: '180.55px', right: '-30px', top: '-53px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(105.97px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
-                        <div className='w-[200px] h-[160px] absolute top-0 right-0 z-10'>
+                        <div aria-hidden="true" className="absolute pointer-events-none right-[-100px] lg:right-[-37px] bottom-[-140px] lg:top-[-71px]" style={{ width: '120.48px', height: '188.9px', background: '#6DB7FF', filter: 'blur(37.66px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
+                        <div aria-hidden="true" className="absolute pointer-events-none right-[-22px] bottom-[-75px] lg:top-[-75px]" style={{ width: '86.95px', height: '185.97px',  background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(105.97px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
+                        <div aria-hidden="true" className="absolute pointer-events-none right-[-30px] bottom-[-60px] lg:top-[-53px]" style={{ width: '81.09px', height: '180.55px',  background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(105.97px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
+                        <div className='w-[200px] h-[160px] absolute bottom-0 lg:top-0 right-0 z-10'>
                             <div
                                 className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
                             />
@@ -92,7 +92,7 @@ const GetStarted = () => {
                             height={356}
                             alt="Select Plan Interface"
                             style={{ mixBlendMode: "screen" }}
-                            className="w-full h-auto rounded-[16px] sm:rounded-[20px]"
+                            className="w-full h-auto rounded-[16px] sm:rounded-[20px] relative z-30"
                         />
                     </div>
                 </div>

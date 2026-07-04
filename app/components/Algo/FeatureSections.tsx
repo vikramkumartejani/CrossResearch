@@ -190,7 +190,7 @@ export default function FeatureSections() {
                         <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:pt-[42px] lg:pb-[41px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
                     <div className="relative z-10 w-full lg:max-w-[699px] rounded-[20px] sm:rounded-[28px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
-                        <Image src={s1.image} alt={s1.imageAlt} width={s1.imageWidth} height={s1.imageHeight} className="w-full h-auto object-cover" />
+                        <Image src={s1.image} alt={s1.imageAlt} width={s1.imageWidth} height={s1.imageHeight}  style={{ mixBlendMode: "screen" }} className="w-full h-auto object-cover" />
                     </div>
                     <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
                         <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
@@ -277,7 +277,7 @@ export default function FeatureSections() {
                         <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[32px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
                     <div className="relative z-10 w-full lg:max-w-[699px] max-h-[712px] rounded-[20px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
-                        <Image src={s3.image} alt={s3.imageAlt} width={659} height={673} className='object-contain w-full h-auto' />
+                        <Image src={s3.image} alt={s3.imageAlt} width={659} height={673}  style={{ mixBlendMode: "screen" }} className='object-contain w-full h-auto' />
                     </div>
                     <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
                         <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
