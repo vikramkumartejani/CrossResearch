@@ -150,19 +150,17 @@ export default function TheProcess() {
                             >
                                 <div
                                     ref={el => { cardRefs.current[i] = el }}
-                                    className='relative w-full lg:max-w-[552px] rounded-[30px] lg:rounded-[40px] border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-8 lg:p-10 overflow-hidden'
+                                    className='group relative w-full lg:max-w-[552px] rounded-[30px] lg:rounded-[40px] border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-8 lg:p-10 overflow-hidden'
                                 >
-                                    {step.glow && (
-                                        <div
-                                            aria-hidden='true'
-                                            className='absolute top-0 right-0 w-[220px] h-[220px] pointer-events-none'
-                                            style={{
-                                                background: 'radial-gradient(circle, rgba(56,139,253,0.6) 0%, rgba(56,139,253,0.2) 45%, transparent 70%)',
-                                                transform: 'translate(35%, -35%)',
-                                                filter: 'blur(18px)',
-                                            }}
-                                        />
-                                    )}
+                                    {/* Hover glow — all cards */}
+                                    <>
+                                        <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '79.21px', height: '124.18px', right: '0px', top: '-40px', background: '#6DB7FF', filter: 'blur(24.76px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
+                                        <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '57.16px', height: '122.26px', right: '-14px', top: '-42px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
+                                        <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '53.31px', height: '118.7px', right: '-7px', top: '-29px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
+                                        <div className='w-[180px] h-[130px] absolute top-0 right-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                                            <div className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover" />
+                                        </div>
+                                    </>
 
                                     <div className='inline-flex items-center justify-center w-[60px] h-[60px] rounded-[14px] bg-[#FFFFFF0D] border border-[#FFFFFF0D] text-white text-[24px] leading-[38px] font-semibold mb-7 sm:mb-[41px]'>
                                         {step.number}
