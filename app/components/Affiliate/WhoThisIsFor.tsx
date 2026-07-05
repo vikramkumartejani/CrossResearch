@@ -62,18 +62,18 @@ const WhoThisIsFor = () => {
                         Who This Is For
                     </div>
                     <h2 className="font-normal text-[28px] sm:text-[40px] lg:text-[54px] leading-tight lg:leading-[70px] mb-4 sm:mb-6 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                        Made for people with real  <br className='sm:block hidden' /> influence shaping powerful communities
+                        Made for people with real  <br className='lg:block hidden' /> influence shaping powerful communities
                     </h2>
                     <p className="text-white/60 text-[14px] sm:text-[20px] leading-[22px] sm:leading-[32px] font-normal font-inter max-w-[740px]">
                         We avoid generic affiliate links and create custom programs tailored to your audience’s needs every community trades differently
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                     {CARDS.map((card) => (
                         <div
                             key={card.id}
-                            className="group bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[20px] sm:rounded-[30px] py-[60px] px-8 flex flex-col items-center text-center gap-5 relative overflow-hidden"
+                            className="group bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[20px] sm:rounded-[30px] py-6 md:py-10 lg:py-[60px] px-6 sm:px-8 flex flex-col items-center text-center gap-5 relative overflow-hidden"
                         >
                             {/* Right-top glow — shows on hover */}
                             <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '79.21px', height: '124.18px', right: '0px', top: '-40px', background: '#6DB7FF', filter: 'blur(24.76px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
@@ -92,7 +92,7 @@ const WhoThisIsFor = () => {
 
                             {/* Content */}
                             <div className="relative z-10">
-                                <h3 className="text-white text-[20px] sm:text-[26px] font-medium leading-6 sm:leading-[31px] mb-3 max-w-[376px] mx-auto">
+                                <h3 className="text-white text-[20px] sm:text-[26px] font-medium leading-6 sm:leading-[31px] mb-3 sm:max-w-[376px] mx-auto">
                                     {card.title}
                                 </h3>
                                 <p className="text-white/60 text-[15px] sm:text-[20px] leading-[22px] sm:leading-[30px] xl:px-2">

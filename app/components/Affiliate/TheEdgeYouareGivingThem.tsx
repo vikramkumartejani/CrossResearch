@@ -68,11 +68,11 @@ const TheEdgeYouareGivingThem = () => {
                     </div>
 
                     {/* Stats grid */}
-                    <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 gap-y-6 sm:gap-y-8 xl:flex xl:items-center xl:justify-between">
+                    <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 sm:gap-y-8 xl:flex xl:items-center xl:justify-between">
                         {STATS.map((stat, i) => (
                             <div key={i} className="flex items-center gap-6 2xl:gap-[40px]">
                                 <div className="flex flex-col gap-1 sm:gap-3">
-                                    <span className="text-white text-[28px] sm:text-[32px] lg:text-[40px] font-semibold leading-8 sm:leading-[44px]">
+                                    <span className="text-white text-[24px] sm:text-[32px] lg:text-[40px] font-semibold leading-8 sm:leading-[44px]">
                                         {stat.value}
                                     </span>
                                     <span className="text-white/60 text-[14px] sm:text-[16px] lg:text-[18px] leading-5 sm:leading-[27px] font-normal">

@@ -88,7 +88,7 @@ const CARDS: PackageCard[] = [
 
 const ThePackage = () => {
     return (
-        <div className='px-4 sm:px-6 bg-[#FFFFFF03] pt-[126px] pb-[139px] mb-[31px]'>
+        <div className='px-4 sm:px-6 bg-[#FFFFFF03] py-16 md:py-20 lg:pt-[126px] lg:pb-[139px] mb-[31px]'>
             <div className='max-w-[1560px] mx-auto'>
                 {/* Badge */}
                 <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
@@ -101,16 +101,16 @@ const ThePackage = () => {
                 </div>
 
                 {/* Heading row */}
-                <div className="flex lg:flex-row flex-col items-start lg:items-center justify-between gap-6 lg:gap-10 mb-10 sm:mb-14 lg:mb-20">
+                <div className="flex lg:flex-row flex-col items-start lg:items-center justify-between gap-4 lg:gap-10 mb-10 sm:mb-14 lg:mb-20">
                     <h2 className="text-left font-normal text-3xl sm:text-4xl md:text-5xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                        Advanced tools and <br className='sm:block hidden' /> community data
+                        Advanced tools and <br className='xl:block hidden' /> community data
                     </h2>
                     <p className="text-white/70 text-[14px] sm:text-[20px] leading-5 sm:leading-[32px] font-inter font-normal max-w-[600px]">
                         Every partnership is tailor-made. We understand your audience and build a package delivering genuine long-term value.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                     {CARDS.map((card) => (
                         <div
                             key={card.id}
@@ -127,7 +127,7 @@ const ThePackage = () => {
                             </div>
 
                             {/* Badge */}
-                            <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 rounded-[22.5px] bg-[#FFFFFF0D] flex items-center justify-center">
+                            <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-[22.5px] bg-[#FFFFFF0D] flex items-center justify-center">
                                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M36.6654 19.9997C36.6654 29.2044 29.2034 36.6663 19.9987 36.6663C10.794 36.6663 3.33203 29.2044 3.33203 19.9997C3.33203 10.7949 10.794 3.33301 19.9987 3.33301C29.2034 3.33301 36.6654 10.7949 36.6654 19.9997ZM26.7159 14.9491C27.2041 15.4373 27.2041 16.2287 26.7159 16.7169L18.3826 25.0502C17.8944 25.5384 17.103 25.5384 16.6148 25.0502L13.2815 21.7169C12.7933 21.2287 12.7933 20.4373 13.2815 19.9491C13.7696 19.461 14.5611 19.461 15.0492 19.9491L17.4987 22.3986L21.2234 18.6738L24.9481 14.9491C25.4363 14.461 26.2278 14.461 26.7159 14.9491Z" fill="white" />
                                 </svg>

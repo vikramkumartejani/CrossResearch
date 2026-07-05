@@ -51,7 +51,7 @@ export default function CustomSelect({
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className={`w-full flex items-center justify-between bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-[16px] px-5 h-[48px] sm:h-[61px] text-[16px] transition-colors cursor-pointer outline-none ${open ? '' : ''
+                className={`w-full flex items-center justify-between bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-lg sm:rounded-[16px] px-3.5 sm:px-5 h-[44px] sm:h-[61px] text-[14px] sm:text-[16px] transition-colors cursor-pointer outline-none ${open ? '' : ''
                     } ${selected ? 'text-white' : 'text-white/50'}`}
             >
                 <span className="truncate">{selected ? selected.label : placeholder}</span>
@@ -68,7 +68,7 @@ export default function CustomSelect({
                             key={option.value}
                             type="button"
                             onClick={() => handleSelect(option)}
-                            className={`w-full text-left px-4 py-3 text-[14px] sm:text-[15px] transition-colors hover:bg-[#FFFFFF0D] cursor-pointer ${selected?.value === option.value
+                            className={`w-full text-left px-3.5 sm:px-4 py-2 sm:py-3 text-[14px] sm:text-[15px] transition-colors hover:bg-[#FFFFFF0D] cursor-pointer ${selected?.value === option.value
                                     ? 'text-[#88C4FF] bg-[#88C4FF0F]'
                                     : 'text-white/70'
                                 }`}
