@@ -8,6 +8,7 @@ import GetInTouch from '../components/Affiliate/GetInTouch'
 import ThePackage from '../components/Affiliate/ThePackage'
 import WhoThisIsFor from '../components/Affiliate/WhoThisIsFor'
 import PowerfulTools from '../components/Affiliate/PowerfulTools'
+import TheProcess from '../components/Affiliate/TheProcess'
 
 export const metadata: Metadata = {
     title: 'Affiliate | CrossResearch - Partner With Us',
@@ -44,6 +45,7 @@ const page = () => {
             <ThePackage/>
             <TheEdgeYouareGivingThem />
             <TestimonialsSection />
+            <TheProcess/>
             <GetInTouch />
             <div className='pb-16 md:pb-20 lg:pb-28 xl:pb-[170px] pt-16 lg:pt-20 xl:pt-[111px]'>
                 <CTA />
