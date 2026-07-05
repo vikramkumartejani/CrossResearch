@@ -142,7 +142,7 @@ export default function TheProcess() {
                     )}
 
                     {/* 4 Cards — staggered left/right */}
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col gap-6 xl:gap-0'>
                         {STEPS.map((step, i) => (
                             <div
                                 key={i}
@@ -150,7 +150,7 @@ export default function TheProcess() {
                             >
                                 <div
                                     ref={el => { cardRefs.current[i] = el }}
-                                    className='relative w-full lg:max-w-[552px] rounded-[40px] border border-[#FFFFFF0D] bg-[#FFFFFF05] py-10 px-10 overflow-hidden'
+                                    className='relative w-full lg:max-w-[552px] rounded-[30px] lg:rounded-[40px] border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-8 lg:p-10 overflow-hidden'
                                 >
                                     {step.glow && (
                                         <div
@@ -164,14 +164,14 @@ export default function TheProcess() {
                                         />
                                     )}
 
-                                    <div className='inline-flex items-center justify-center w-[60px] h-[60px] rounded-[14px] bg-[#FFFFFF0D] border border-[#FFFFFF0D] text-white text-[24px] leading-[38px] font-semibold mb-[41px]'>
+                                    <div className='inline-flex items-center justify-center w-[60px] h-[60px] rounded-[14px] bg-[#FFFFFF0D] border border-[#FFFFFF0D] text-white text-[24px] leading-[38px] font-semibold mb-7 sm:mb-[41px]'>
                                         {step.number}
                                     </div>
 
-                                    <h3 className='text-white text-[24px] sm:text-[40px] font-semibold leading-[64px] mb-3'>
+                                    <h3 className='text-white text-[24px] sm:text-[30px] lg:text-[40px] font-semibold leading-tight lg:leading-[64px] mb-3'>
                                         {step.title}
                                     </h3>
-                                    <p className='text-white/50 text-[14px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-normal'>
+                                    <p className='text-white/50 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal'>
                                         {step.description}
                                     </p>
                                 </div>
