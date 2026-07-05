@@ -23,12 +23,14 @@ export const metadata: Metadata = {
         siteName: 'CrossResearch',
         type: 'website',
         locale: 'en_US',
+        images: [{ url: 'https://cross-research.vercel.app/og-image.png', width: 1200, height: 630, alt: 'CrossResearch' }],
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Investing | CrossResearch Institutional Fund',
         description: 'Systematic quantitative fund strategies built for those who understand the difference between speculation and disciplined capital allocation.',
         site: '@crossresearch',
+        images: ['https://cross-research.vercel.app/og-image.png'],
     },
 }
 

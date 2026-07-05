@@ -23,12 +23,14 @@ export const metadata: Metadata = {
         siteName: 'CrossResearch',
         type: 'website',
         locale: 'en_US',
+        images: [{ url: 'https://cross-research.vercel.app/og-image.png', width: 1200, height: 630, alt: 'CrossResearch' }],
     },
     twitter: {
         card: 'summary_large_image',
         title: 'About | CrossResearch',
         description: 'Built for trader-first transparency. Institutional-grade tools, research, and data access for serious modern retail traders worldwide.',
         site: '@crossresearch',
+        images: ['https://cross-research.vercel.app/og-image.png'],
     },
 }
 
