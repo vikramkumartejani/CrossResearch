@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PLANS = {
     monthly: [
@@ -238,6 +239,7 @@ function FeaturedCard({ plan }: { plan: (typeof PLANS.monthly)[number] }) {
 
 export default function PricingSection() {
     const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+    const [activePlan, setActivePlan] = useState(0);
     const plans = PLANS[billing];
 
     return (
@@ -252,7 +254,7 @@ export default function PricingSection() {
 
             <div className="relative z-10 mx-auto max-w-[1440px]">
                 {/* Header */}
-                <div className="flex flex-col items-center text-center mb-10 lg:mb-20 xl:mb-[108]">
+                <div className="flex flex-col items-center text-center mb-6 lg:mb-20 xl:mb-[108]">
                     {/* Badge */}
                     <div className="bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -302,7 +304,7 @@ export default function PricingSection() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center hidden lg:grid">
                     {plans.map((plan) =>
                         plan.featured ? (
                             <FeaturedCard key={plan.id} plan={plan} />
@@ -310,6 +312,33 @@ export default function PricingSection() {
                             <SideCard key={plan.id} plan={plan} />
                         )
                     )}
+                </div>
+
+                {/* Mobile slider */}
+                <div className="lg:hidden">
+                      <div className="flex items-end justify-end gap-3 mb-6">
+                            <button type="button" aria-label="Previous plan" onClick={() => setActivePlan(p => (p - 1 + plans.length) % plans.length)} className="w-12 h-12 rounded-full bg-[#FFFFFF0D] flex items-center justify-center hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                            </button>
+                            <button type="button" aria-label="Next plan" onClick={() => setActivePlan(p => (p + 1) % plans.length)} className="w-12 h-12 rounded-full bg-[#FFFFFF0D] flex items-center justify-center hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                            </button>
+                        </div>
+                    <div className="relative overflow-hidden">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={`${billing}-${activePlan}`}
+                                initial={{ opacity: 0, x: 40 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -40 }}
+                                transition={{ duration: 0.1, ease: 'easeInOut' }}
+                            >
+                                {plans[activePlan].featured
+                                    ? <FeaturedCard plan={plans[activePlan]} />
+                                    : <SideCard plan={plans[activePlan]} />}
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
                 </div>
             </div>
         </section>
