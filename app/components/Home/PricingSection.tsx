@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -241,6 +241,14 @@ export default function PricingSection() {
     const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
     const [activePlan, setActivePlan] = useState(0);
     const plans = PLANS[billing];
+
+    // Auto-rotate every 4 seconds
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setActivePlan(prev => (prev + 1) % plans.length);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, [plans.length]);
 
     return (
         <section className="relative w-full pt-20 sm:pt-[120px] lg:pt-[170px] px-4 sm:px-6">

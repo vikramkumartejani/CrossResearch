@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ARTICLES = [
@@ -79,6 +79,14 @@ export default function ArticlesSection() {
     const navigate = (dir: 1 | -1) => {
         setActiveIndex(prev => (prev + dir + ARTICLES.length) % ARTICLES.length);
     };
+
+    // Auto-rotate every 4 seconds
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setActiveIndex(prev => (prev + 1) % ARTICLES.length);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <section className="relative w-full pt-0 sm:pt-[90px] px-4 sm:px-6">

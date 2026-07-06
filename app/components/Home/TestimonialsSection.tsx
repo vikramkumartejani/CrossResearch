@@ -113,6 +113,14 @@ function TestimonialCard({ t, isActive, onClick }: CardProps) {
 export default function TestimonialsSection() {
     const [activeIndex, setActiveIndex] = useState<number>(2);
 
+    // Auto-rotate every 4 seconds
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setActiveIndex(prev => (prev + 1) % N);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, []);
+
     // Responsive card width
     const [CARD_W, setCardW] = useState(CARD_W_DESKTOP);
     useEffect(() => {
