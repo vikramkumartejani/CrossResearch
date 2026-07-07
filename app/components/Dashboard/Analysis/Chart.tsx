@@ -10,7 +10,7 @@ interface CurrencyPair {
     quote: string
     baseName: string
     quoteName: string
-    baseFlag: string   // ISO 3166-1 alpha-2 uppercase
+    baseFlag: string   
     quoteFlag: string
     price: string
     change: string
@@ -30,11 +30,18 @@ const CURRENCY_PAIRS: CurrencyPair[] = [
 function FlagIcon({ code, size = 48 }: { code: string; size?: number }) {
     const Flag = FlagComponents[code as keyof typeof FlagComponents]
     if (!Flag) return <div style={{ width: size, height: size }} className='rounded-full bg-white/10' />
-    const scaledWidth = Math.round(size * 10)
     return (
-        <div style={{ width: size, height: size, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: size, height: size, overflow: 'hidden', borderRadius: '50%', flexShrink: 0 }}>
             <Flag
-                style={{ width: scaledWidth, height: size, flexShrink: 0, display: 'block' }}
+                style={{
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    // @ts-expect-error – non-standard but supported in all browsers
+                    preserveAspectRatio: 'xMidYMid slice',
+                }}
+                // Pass it directly as an SVG attribute too
+                preserveAspectRatio="xMidYMid slice"
                 title={code}
             />
         </div>
