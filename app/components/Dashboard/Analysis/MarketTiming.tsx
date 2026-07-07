@@ -35,37 +35,35 @@ export default function MarketTiming() {
                 <p className="text-white/60 text-[16px] leading-[19px] font-semibold">May 2025</p>
 
                 {/* Calendar grid */}
-                <div className='mt-5'>
-                    {/* Day headers */}
-                    <div className="grid grid-cols-7 gap-1 mb-1">
-                        {days.map((d) => (
-                            <div key={d} className="text-center text-[10px] text-[#838388] font-medium py-1">
-                                {d}
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Week row */}
-                    <div className="grid grid-cols-7 gap-1">
-                        {week.map((d) => {
+                <div className='mt-4'>
+                    {/* Week row: day name + date number stacked, tick below */}
+                    <div className="flex items-center justify-between">
+                        {week.map((d, i) => {
                             const isBlue = d === highlightBlue
                             const isToday = d === todayMarker
                             return (
-                                <div key={d} className="flex flex-col items-center gap-1">
+                                <div key={d} className="flex flex-col items-center gap-[6px]">
+                                    {/* Day name */}
+                                    <span className='text-white/60 text-[14px] font-normal leading-[17px]'>
+                                        {days[i]}
+                                    </span>
+                                    {/* Date badge */}
                                     <div
-                                        className={`flex items-center justify-center rounded w-8 h-8 text-[13px] font-semibold cursor-pointer transition-colors ${isBlue
-                                            ? 'bg-[#4A6FA5] text-white rounded'
-                                            : isToday
-                                                ? 'bg-[#2A2A3A] text-white rounded border border-[#FFFFFF30]'
-                                                : 'text-[#838388] hover:bg-[#FFFFFF08] hover:text-white'
+                                        className={`py-[3px] flex items-center justify-center text-[18px] font-semibold leading-[22px] cursor-pointer transition-colors
+                                            ${isBlue
+                                                ? 'rounded-[8px] px-[17px] text-[#88C4FF]'
+                                                : isToday
+                                                    ? 'rounded-[10px] px-[17px] text-[#88C4FF]'
+                                                    : 'text-white'
                                             }`}
+                                        style={(isBlue || isToday) ? {
+                                            background: 'linear-gradient(180deg, rgba(136, 196, 255, 0.15) 0%, rgba(136, 196, 255, 0) 98.21%)',
+                                        } : undefined}
                                     >
                                         {d}
                                     </div>
-                                    {/* indicator dot below today */}
-                                    {isToday && (
-                                        <div className="w-1 h-1 rounded-full bg-[#4A9EFF]" />
-                                    )}
+                                    {/* Tick line below */}
+                                    <div className="w-px h-[13px] bg-[#FFFFFF40] mt-0.5" />
                                 </div>
                             )
                         })}

@@ -19,7 +19,7 @@ function PriceRangeCard({ title, subtitle, high, low }: RangeItem) {
                     <div
                         style={{
                             width: '9px',
-                            height: '185px',
+                            height: '188px',
                             borderRadius: '70px',
                             background: 'linear-gradient(180deg, #2CB37B 0%, #060707 47.04%, #E25C3F 100%)',
                             flexShrink: 0,
