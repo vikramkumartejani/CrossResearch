@@ -1,3 +1,5 @@
-export default function AnalysisPage() {
-    return <div>Analysis</div>
+import AnalysisPage from '../../components/Dashboard/Analysis/AnalysisPage'
+
+export default function Page() {
+    return <AnalysisPage />
 }
