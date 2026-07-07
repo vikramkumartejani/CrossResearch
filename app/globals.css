@@ -44,7 +44,20 @@ body {
   will-change: transform;
 }
 
-/* HowWeCompare table — desktop restores fr layout */
+/* Dashboard sidebar custom scrollbar */
+.dashboard-nav::-webkit-scrollbar {
+  width: 3px;
+}
+.dashboard-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dashboard-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+}
+.dashboard-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
 @media (min-width: 1024px) {
   .compare-table-grid {
     grid-template-columns: 1.5fr 1.5fr 1fr 1fr !important;

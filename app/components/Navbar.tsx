@@ -141,7 +141,7 @@ export default function Navbar() {
                             Sign In
                         </Link>
                         <Link
-                            href="/get-access"
+                            href="/analysis"
                             className="px-3 py-[5px] text-[#070711] bg-white text-[18px] leading-[22px] font-medium font-inter rounded-[100px] shadow-[0px_4px_4px_0px_#00000040]"
                         >
                             Get Access
@@ -232,7 +232,7 @@ export default function Navbar() {
                                 Sign In
                             </Link>
                             <Link
-                                href="/get-access"
+                                href="/analysis"
                                 className="text-center py-3 text-[15px] font-semibold rounded-full transition-colors duration-150 font-inter bg-white text-[#070711]"
                                 onClick={closeMobileMenu}
                             >
