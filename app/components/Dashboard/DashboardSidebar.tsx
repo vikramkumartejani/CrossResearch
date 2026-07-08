@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -230,17 +230,67 @@ export default function DashboardSidebar() {
     const pathname = usePathname()
     const [mobileOpen, setMobileOpen] = useState(false)
 
+    const [open, setOpen] = useState(false)
+    const ref = useRef<HTMLDivElement>(null)
+
+    // Close on outside click
+    useEffect(() => {
+        function handler(e: MouseEvent) {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
+                setOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handler)
+        return () => document.removeEventListener('mousedown', handler)
+    }, [])
+
     const sidebarContent = (
-        <div className='flex flex-col h-full'>
-            {/* Logo */}
-            <div className='px-5 h-20 flex items-center justify-start border-b border-[#FFFFFF0D]'>
-                <Link href='/' className='flex items-center gap-2.5'>
-                    <Image src='/assets/full-logo.svg' alt='CrossResearch' width={218} height={27} />
-                </Link>
+        <div className='w-full flex flex-col h-full pt-4'>
+            {/* User */}
+            <div ref={ref} className='px-4 relative pb-6'>
+                <button
+                    onClick={() => setOpen(prev => !prev)}
+                    className='w-full flex items-center justify-between gap-2 group cursor-pointer'
+                >
+                    {/* Avatar with online dot */}
+                    <div className='flex items-center gap-2'>
+                        <div className='relative flex-shrink-0'>
+                            <div className='w-10 h-10 rounded-full bg-[#FFFFFF08] border border-[#FFFFFF1A] flex items-center justify-center text-white/60 text-[15px] font-medium leading-[12px]'>
+                                SM
+                            </div>
+                            <span className='absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 border-[#0D1115]' />
+                        </div>
+                        {/* Name + role */}
+                        <div className='block text-left'>
+                            <p className='text-white text-[14px] leading-[17px] font-semibold'>Smith Murphy</p>
+                            <p className='text-white/60 text-[11px] leading-[13px] font-normal mt-1'>Early Bird</p>
+                        </div>
+                    </div>
+                    {/* Chevron */}
+                    <svg className={`flex items-end justify-end text-white group-hover:text-white/70 transition-all duration-200 ml-2 ${open ? 'rotate-180' : 'rotate-0'}`} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                </button>
+
+                {/* Dropdown */}
+                {open && (
+                    <div className='absolute right-4 top-[calc(100%+10px)] w-[200px] bg-[#1E1E2A] border border-[#FFFFFF0F] rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)] z-50'>
+                        <Link
+                            href='/login'
+                            onClick={() => setOpen(false)}
+                            className='flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] hover:bg-[#FFFFFF08] transition-colors'
+                        >
+                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                <path d="M5.5 13H3a1 1 0 01-1-1V3a1 1 0 011-1h2.5M10 10.5L13 7.5M13 7.5L10 4.5M13 7.5H6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            Logout
+                        </Link>
+                    </div>
+                )}
             </div>
 
             {/* Nav sections */}
-            <nav className='dashboard-nav flex-1 overflow-y-auto px-4 pt-6'>
+            <nav className='dashboard-nav flex-1 overflow-y-auto px-4'>
                 {NAV_SECTIONS.map((section) => (
                     <div key={section.label} className='mb-5'>
                         <p className='text-white/60 text-[12px] leading-[14px] font-semibold uppercase mb-2.5'>
@@ -271,13 +321,23 @@ export default function DashboardSidebar() {
                 ))}
             </nav>
 
+            {/* Bottom logo */}
+            <div className='px-4 py-5 mt-auto'>
+                <Image
+                    src='/assets/full-logo.svg'
+                    alt='CrossResearch'
+                    width={218}
+                    height={28}
+                />
+            </div>
+
         </div>
     )
 
     return (
         <>
             {/* Desktop sidebar — fixed */}
-            <aside className='hidden lg:flex fixed top-0 left-0 h-full w-[280px] bg-[#16161F] border-r border-[#FFFFFF0F] flex-col z-40'>
+            <aside className='hidden lg:flex fixed top-0 left-0 h-full w-[268px] bg-[#16161F] border-r border-[#FFFFFF0F] flex-col z-40'>
                 {sidebarContent}
             </aside>
 

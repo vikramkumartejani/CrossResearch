@@ -1,5 +1,4 @@
 import DashboardSidebar from '../components/Dashboard/DashboardSidebar'
-import DashboardHeader from '../components/Dashboard/DashboardHeader'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -8,8 +7,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <DashboardSidebar />
 
             {/* Main content */}
-            <div className='flex flex-col flex-1 min-w-0 lg:pl-[280px]'>
-                <DashboardHeader />
+            <div className='flex flex-col flex-1 min-w-0 lg:pl-[268px]'>
                 <main className='flex-1 px-4 lg:px-6 pt-6 overflow-auto'>
                     {children}
                     <p className='my-6 text-center text-[#838388] text-[14px] leading-[20px] font-normal'>
