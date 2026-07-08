@@ -1,14 +1,14 @@
 import Image from "next/image";
 
 const LOGOS = [
-    { name: "Yahoo Finance",  src: "/assets/yahoo.png",       width: 206, height: 29 },
-    { name: "Bloomberg",      src: "/assets/bloombery.png",   width: 133, height: 24.72 },
-    { name: "Chainalysis",    src: "/assets/chainalysis.svg", width: 211, height: 34.34 },
-    { name: "Reuters",        src: "/assets/reuters.png",     width: 161, height: 41 },
-    { name: "Databento",      src: "/assets/databento.png",   width: 180, height: 30 },
-    { name: "Polygon",        src: "/assets/polygon.png",     width: 203, height: 42 },
-    { name: "Massive",        src: "/assets/massive.png",     width: 164, height: 50.51 },
-    { name: "FactSet",        src: "/assets/factset.png",     width: 109, height: 22 },
+    { name: "Yahoo Finance", src: "/assets/yahoo.png", width: 206, height: 29 },
+    { name: "Bloomberg", src: "/assets/bloombery.png", width: 133, height: 24.72 },
+    { name: "Chainalysis", src: "/assets/chainalysis.svg", width: 211, height: 34.34 },
+    { name: "Reuters", src: "/assets/reuters.png", width: 161, height: 41 },
+    { name: "Databento", src: "/assets/databento.png", width: 180, height: 30 },
+    { name: "Polygon", src: "/assets/polygon.png", width: 203, height: 42 },
+    { name: "Massive", src: "/assets/massive.png", width: 164, height: 50.51 },
+    { name: "FactSet", src: "/assets/factset.png", width: 109, height: 22 },
 ];
 
 const LOGO_FILTER = "brightness(0) invert(1) brightness(0.60)";

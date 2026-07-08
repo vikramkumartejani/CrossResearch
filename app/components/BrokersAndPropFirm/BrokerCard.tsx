@@ -109,7 +109,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
             <div className="relative z-10 flex items-start justify-between gap-1.5 sm:gap-3 pt-4 sm:pt-10 px-4 sm:px-10 pb-4 sm:pb-[50px] border-b border-[#FFFFFF1A]">
                 <div className="flex items-center gap-2.5 sm:gap-5 2xl:gap-[38px]">
                     {/* Logo */}
-                    <div className="w-[60px] sm:w-[100px] h-[60px] sm:h-[100px] rounded-[10px] sm:rounded-[20px] bg-[#FFFFFF0D] border border-[#FFFFFF1A] flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <div className="w-[60px] sm:w-[100px] h-[60px] sm:h-[100px] rounded-[10px] sm:rounded-[20px] p-3 bg-[#FFFFFF0D] border border-[#FFFFFF1A] flex items-center justify-center overflow-hidden flex-shrink-0">
                         <Image src={logo} alt={name} width={100} height={100} className="object-contain" unoptimized />
                     </div>
 
