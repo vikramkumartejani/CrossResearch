@@ -17,31 +17,49 @@ interface CurrencyPair {
     changePositive: boolean
 }
 
-const CURRENCY_PAIRS: CurrencyPair[] = [
-    { symbol: 'EUR/USD', base: 'EUR', quote: 'USD', baseName: 'Euro', quoteName: 'U.S. Dollar', baseFlag: 'EU', quoteFlag: 'US', price: '1.05195', change: '-0.00185 (-0.42%)', changePositive: false },
-    { symbol: 'GBP/USD', base: 'GBP', quote: 'USD', baseName: 'British Pound', quoteName: 'U.S. Dollar', baseFlag: 'GB', quoteFlag: 'US', price: '1.27340', change: '+0.00210 (+0.17%)', changePositive: true },
-    { symbol: 'USD/JPY', base: 'USD', quote: 'JPY', baseName: 'U.S. Dollar', quoteName: 'Japanese Yen', baseFlag: 'US', quoteFlag: 'JP', price: '149.820', change: '+0.350 (+0.23%)', changePositive: true },
-    { symbol: 'AUD/USD', base: 'AUD', quote: 'USD', baseName: 'Australian Dollar', quoteName: 'U.S. Dollar', baseFlag: 'AU', quoteFlag: 'US', price: '0.64510', change: '-0.00120 (-0.19%)', changePositive: false },
-    { symbol: 'USD/CAD', base: 'USD', quote: 'CAD', baseName: 'U.S. Dollar', quoteName: 'Canadian Dollar', baseFlag: 'US', quoteFlag: 'CA', price: '1.36750', change: '+0.00080 (+0.06%)', changePositive: true },
-    { symbol: 'USD/CHF', base: 'USD', quote: 'CHF', baseName: 'U.S. Dollar', quoteName: 'Swiss Franc', baseFlag: 'US', quoteFlag: 'CH', price: '0.90230', change: '-0.00050 (-0.06%)', changePositive: false },
-    { symbol: 'NZD/USD', base: 'NZD', quote: 'USD', baseName: 'New Zealand Dollar', quoteName: 'U.S. Dollar', baseFlag: 'NZ', quoteFlag: 'US', price: '0.59870', change: '+0.00090 (+0.15%)', changePositive: true },
+export const CURRENCY_PAIRS: CurrencyPair[] = [
+    { symbol: 'EURUSD', base: 'EUR', quote: 'USD', baseName: 'Euro', quoteName: 'U.S. Dollar', baseFlag: 'EU', quoteFlag: 'US', price: '1.05195', change: '-0.00185 (-0.42%)', changePositive: false },
+    { symbol: 'GBPUSD', base: 'GBP', quote: 'USD', baseName: 'British Pound', quoteName: 'U.S. Dollar', baseFlag: 'GB', quoteFlag: 'US', price: '1.27340', change: '+0.00210 (+0.17%)', changePositive: true },
+    { symbol: 'USDJPY', base: 'USD', quote: 'JPY', baseName: 'U.S. Dollar', quoteName: 'Japanese Yen', baseFlag: 'US', quoteFlag: 'JP', price: '149.820', change: '+0.350 (+0.23%)', changePositive: true },
+    { symbol: 'XAUUSD', base: 'XAU', quote: 'USD', baseName: 'Gold', quoteName: 'U.S. Dollar', baseFlag: 'XAU', quoteFlag: 'US', price: '2341.50', change: '+12.30 (+0.53%)', changePositive: true },
+    { symbol: 'XAGUSD', base: 'XAG', quote: 'USD', baseName: 'Silver', quoteName: 'U.S. Dollar', baseFlag: 'XAG', quoteFlag: 'US', price: '27.420', change: '+0.180 (+0.66%)', changePositive: true },
+    { symbol: 'USOIL', base: 'USO', quote: 'USD', baseName: 'US Crude Oil', quoteName: 'U.S. Dollar', baseFlag: 'USO', quoteFlag: 'US', price: '78.340', change: '-0.560 (-0.71%)', changePositive: false },
+    { symbol: 'NAS100', base: 'NAS', quote: 'USD', baseName: 'Nasdaq 100', quoteName: 'U.S. Dollar', baseFlag: 'NAS', quoteFlag: 'US', price: '17842.0', change: '+134.5 (+0.76%)', changePositive: true },
+    { symbol: 'US30', base: 'US3', quote: 'USD', baseName: 'Dow Jones 30', quoteName: 'U.S. Dollar', baseFlag: 'US3', quoteFlag: 'US', price: '38921.0', change: '+210.0 (+0.54%)', changePositive: true },
+    { symbol: 'SP500', base: 'SP5', quote: 'USD', baseName: 'S&P 500', quoteName: 'U.S. Dollar', baseFlag: 'SP5', quoteFlag: 'US', price: '5021.80', change: '-8.40 (-0.17%)', changePositive: false },
+    { symbol: 'BTCUSD', base: 'BTC', quote: 'USD', baseName: 'Bitcoin', quoteName: 'U.S. Dollar', baseFlag: 'BTC', quoteFlag: 'US', price: '67420.0', change: '+820.0 (+1.23%)', changePositive: true },
 ]
 
+// Commodity / index / crypto fallback icons
+const COMMODITY_ICONS: Record<string, string> = {
+    XAU: '🥇', XAG: '🥈', USO: '🛢️', NAS: '📈', US3: '📊', SP5: '📉', BTC: '₿',
+}
+
 function FlagIcon({ code, size = 48 }: { code: string; size?: number }) {
+    // Commodity / index fallback
+    if (code in COMMODITY_ICONS) {
+        return (
+            <div style={{ width: size, height: size, borderRadius: '50%', background: '#1E2A3A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.60, flexShrink: 0 }}>
+                {COMMODITY_ICONS[code]}
+            </div>
+        )
+    }
     const Flag = FlagComponents[code as keyof typeof FlagComponents]
-    if (!Flag) return <div style={{ width: size, height: size }} className='rounded-full bg-white/10' />
+    if (!Flag) return <div style={{ width: size, height: size, borderRadius: '50%' }} className='bg-white/10' />
+    // Flags are 3:2 (width:height). Render at natural ratio then center-crop into circle.
+    const flagW = size * 1.5
+    const offsetX = (flagW - size) / 2
     return (
-        <div style={{ width: size, height: size, overflow: 'hidden', borderRadius: '50%', flexShrink: 0 }}>
+        <div style={{ width: size, height: size, overflow: 'hidden', borderRadius: '50%', flexShrink: 0, position: 'relative' }}>
             <Flag
                 style={{
                     display: 'block',
-                    width: '100%',
-                    height: '100%',
-                    // @ts-expect-error – non-standard but supported in all browsers
-                    preserveAspectRatio: 'xMidYMid slice',
+                    position: 'absolute',
+                    top: 0,
+                    left: -offsetX,
+                    width: flagW,
+                    height: size,
                 }}
-                // Pass it directly as an SVG attribute too
-                preserveAspectRatio="xMidYMid slice"
                 title={code}
             />
         </div>
@@ -78,25 +96,6 @@ export default function Chart() {
         document.addEventListener('mousedown', handler)
         return () => document.removeEventListener('mousedown', handler)
     }, [])
-
-    const rawPoints: [number, number][] = [
-        [0, 80], [15, 75], [30, 82], [45, 70], [60, 78], [75, 68],
-        [90, 74], [105, 65], [120, 72], [135, 63], [150, 70], [165, 60],
-        [180, 67], [195, 58], [210, 65], [225, 72], [240, 62], [255, 70],
-        [270, 60], [285, 68], [300, 75], [315, 65], [330, 73], [345, 80],
-        [360, 88], [375, 78], [390, 86], [405, 95], [420, 85], [435, 93],
-        [450, 103], [465, 95], [480, 104], [495, 112], [510, 102],
-        [525, 110], [540, 120], [555, 112], [570, 121], [585, 130],
-        [600, 122], [615, 131], [630, 140], [645, 132], [660, 141],
-        [675, 150], [690, 143], [705, 152], [720, 145], [735, 154],
-        [750, 147], [765, 156], [780, 149], [795, 158], [810, 151],
-        [825, 160], [840, 153], [855, 162], [870, 155], [900, 160],
-    ]
-
-    const polylinePoints = rawPoints.map(([x, y]) => `${x},${y}`).join(' ')
-    const fillPath = `M0,80 ` + rawPoints.map(([x, y]) => `L${x},${y}`).join(' ') + ` L900,200 L0,200 Z`
-    const yLabels = ['1.05600', '1.05400', '1.05200', '1.05000', '1.04800', '1.04600']
-    const xLabels = ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00']
 
     return (
         <div className="bg-[#16161F] border border-[#FFFFFF08] p-5 flex flex-col">
