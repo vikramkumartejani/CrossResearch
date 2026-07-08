@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import BrokerCard, { type BrokerCardData } from './BrokerCard';
 import Pagination from './Pagination';
 
@@ -108,12 +108,35 @@ export default function TopRatedBrokers() {
     const [page, setPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE);
 
+    const sectionRef = useRef<HTMLDivElement>(null);
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+
+        requestAnimationFrame(() => {
+            if (!sectionRef.current) return;
+
+            const y =
+                sectionRef.current.getBoundingClientRect().top +
+                window.scrollY -
+                90; // Change this if your header has a different height
+
+            window.scrollTo({
+                top: y,
+                behavior: 'smooth',
+            });
+        });
+    };
+
     const start = (page - 1) * itemsPerPage;
     const sliced = BROKERS.slice(start, start + itemsPerPage);
 
     return (
-        <div className='px-4 sm:px-6 py-8 sm:py-[65px]'>
-            <div className='max-w-[1560px] mx-auto'>
+        <div
+            ref={sectionRef}
+            className="px-4 sm:px-6 py-8 sm:py-[65px]"
+        >
+            <div className="max-w-[1560px] mx-auto">
 
                 {/* Badge */}
                 <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
@@ -128,14 +151,15 @@ export default function TopRatedBrokers() {
                 {/* Heading row */}
                 <div className="flex lg:flex-row flex-col items-start lg:items-center justify-between gap-6 lg:gap-10 mb-10 lg:mb-16">
                     <h2 className="text-left font-normal text-3xl sm:text-4xl md:text-5xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                        Summary of <br className='sm:block hidden' /> the Best Brokers
+                        Summary of <br className="sm:block hidden" /> the Best Brokers
                     </h2>
+
                     <p className="text-white/70 text-[14px] sm:text-[20px] font-inter leading-5 sm:leading-[32px] font-normal max-w-[516px]">
                         Compare top brokers with low fees, strong regulation, and reliable trading platforms.
                     </p>
                 </div>
 
-                {/* Cards grid */}
+                {/* Cards */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10">
                     {sliced.map((broker) => (
                         <BrokerCard key={broker.id} broker={broker} />
@@ -147,8 +171,25 @@ export default function TopRatedBrokers() {
                     currentPage={page}
                     totalItems={BROKERS.length}
                     itemsPerPage={itemsPerPage}
-                    onPageChange={(p) => setPage(p)}
-                    onItemsPerPageChange={(size) => setItemsPerPage(size)}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={(size) => {
+                        setItemsPerPage(size);
+                        setPage(1);
+
+                        requestAnimationFrame(() => {
+                            if (!sectionRef.current) return;
+
+                            const y =
+                                sectionRef.current.getBoundingClientRect().top +
+                                window.scrollY -
+                                90;
+
+                            window.scrollTo({
+                                top: y,
+                                behavior: 'smooth',
+                            });
+                        });
+                    }}
                 />
             </div>
         </div>
