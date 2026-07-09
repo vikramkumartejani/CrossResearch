@@ -71,3 +71,13 @@ body {
     overflow: visible !important;
   }
 }
+
+/* ── uPlot dark theme overrides ── */
+.uplot,
+.uplot *,
+.uplot canvas {
+  background: transparent !important;
+}
+.u-wrap {
+  position: relative;
+}
