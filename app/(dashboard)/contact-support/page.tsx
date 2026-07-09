@@ -1,5 +1,12 @@
-import ContactSupportPage from '../../components/Dashboard/ContactSupport/ContactSupportPage'
+import ContactSupportPage from '@/app/components/Dashboard/ContactSupport/ContactSupportPage'
+import React from 'react'
 
-export default function Page() {
-    return <ContactSupportPage />
+const page = () => {
+    return (
+        <div>
+            <ContactSupportPage/>
+        </div>
+    )
 }
+
+export default page

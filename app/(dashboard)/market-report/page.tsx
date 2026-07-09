@@ -1,8 +1,11 @@
+import MarketReport from '@/app/components/Dashboard/MarketReport/MarketReport'
 import React from 'react'
 
 const page = () => {
     return (
-        <div>market-report</div>
+        <div>
+            <MarketReport/>
+        </div>
     )
 }
 
