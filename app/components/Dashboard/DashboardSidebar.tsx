@@ -274,7 +274,7 @@ export default function DashboardSidebar() {
 
                 {/* Dropdown */}
                 {open && (
-                    <div className='absolute right-4 top-[calc(100%+10px)] w-[200px] bg-[#1E1E2A] border border-[#FFFFFF0F] rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)] z-50'>
+                    <div className='absolute right-4 top-[calc(100%-16px)] w-[200px] bg-[#1E1E2A] border border-[#FFFFFF0F] rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)] z-50'>
                         <Link
                             href='/login'
                             onClick={() => setOpen(false)}
