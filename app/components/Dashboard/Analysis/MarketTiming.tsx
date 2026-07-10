@@ -27,15 +27,15 @@ export default function MarketTiming() {
 
             <div className="mt-4 bg-[#16161F] border border-[#0C0C16] p-5 flex flex-col">
                 {/* UTC clock */}
-                <div className="flex items-center gap-2 mb-[18px]">
+                <div className="flex items-center gap-2 mb-2">
                     <span className="text-white/60 text-[14px] leading-[17px] font-medium">15:00 UTC Time : {currentTime}</span>
+
+                    {/* Month heading */}
+                    <p className="text-white/60 text-[16px] leading-[17px] font-semibold">May 2025</p>
                 </div>
 
-                {/* Month heading */}
-                <p className="text-white/60 text-[16px] leading-[19px] font-semibold">May 2025</p>
-
                 {/* Calendar grid */}
-                <div className='mt-4'>
+                <div className='mt-3'>
                     {/* Week row: day name + date number stacked, tick below */}
                     <div className="flex items-center justify-between">
                         {week.map((d, i) => {

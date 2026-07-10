@@ -27,10 +27,10 @@ function TrendTable({
 }) {
     return (
         <div className="bg-[#16161F] border border-[#FFFFFF08] flex flex-col">
-            <div className="bg-[#FFFFFF0D] p-5">
+            <div className="bg-[#FFFFFF0D] px-4 py-2.5">
                 <h4 className="text-white text-[16px] leading-[19px] font-medium">{title}</h4>
             </div>
-            <div className="w-full overflow-x-auto px-5 pt-4 pb-4">
+            <div className="w-full overflow-x-auto px-4 pt-4 pb-2">
                 <table className="w-full border-collapse">
                     <thead className="">
                         <tr className="">
@@ -75,12 +75,12 @@ function TrendTable({
 function TrendReversalCard() {
     return (
         <div className="bg-[#16161F] border border-[#FFFFFF08] flex flex-col justify-between">
-            <div className="bg-[#FFFFFF0D] p-5">
+            <div className="bg-[#FFFFFF0D] px-4 py-2.5">
                 <h4 className="text-white text-[16px] font-medium leading-[19px]">
                     Trend Reversal Probability (Next)
                 </h4>
             </div>
-            <div className="flex-1 flex flex-col items-start justify-end p-5">
+            <div className="flex-1 flex flex-col items-start justify-end p-4">
                 <span className="text-white text-[28px] font-semibold leading-[34px] mt-auto">
                     1.17521
                 </span>

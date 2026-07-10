@@ -8,7 +8,7 @@ interface RangeItem {
 function PriceRangeCard({ title, subtitle, high, low }: RangeItem) {
     return (
         <div className="bg-[#16161F] border border-[#FFFFFF08] flex flex-col flex-1 min-w-0">
-            <div className="bg-[#FFFFFF0D] p-4">
+            <div className="bg-[#FFFFFF0D] px-4 py-2.5">
                 <p className="text-white text-[14px] font-semibold leading-[17px]">{title}</p>
                 <p className="text-white/60 text-[12px] leading-[14px] font-normal mt-1">{subtitle}</p>
             </div>
@@ -19,7 +19,7 @@ function PriceRangeCard({ title, subtitle, high, low }: RangeItem) {
                     <div
                         style={{
                             width: '9px',
-                            height: '188px',
+                            height: '167px',
                             borderRadius: '70px',
                             background: 'linear-gradient(180deg, #2CB37B 0%, #060707 47.04%, #E25C3F 100%)',
                             flexShrink: 0,

@@ -436,7 +436,7 @@ export default function Chart() {
                     </button>
 
                     {dropdownOpen && (
-                        <div className="absolute top-[calc(100%+8px)] left-0 z-50 w-[280px] bg-[#1E1E2A] border border-[#FFFFFF14] rounded overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.5)] max-h-72 overflow-y-auto">
+                        <div className="absolute top-[calc(100%+8px)] left-0 z-50 w-[280px] bg-[#1E1E2A] dashboard-nav border border-[#FFFFFF14] rounded overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.5)] max-h-98 overflow-y-auto">
                             {CURRENCY_PAIRS.map(pair => (
                                 <button
                                     key={pair.symbol}

@@ -10,7 +10,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "vt-markets",
         name: "VT Markets",
-        logo: "/assets/vt.png",
+        logo: "/assets/our-partners/vtt.png",
         rating: 4.4,
         minDeposit: "$200",
         leverage: "1:500",
@@ -20,7 +20,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "pu-prime",
         name: "PU Prime",
-        logo: "/assets/pu.png",
+        logo: "/assets/our-partners/pup.png",
         rating: 4.7,
         minDeposit: "$50",
         leverage: "1:1000",
@@ -30,7 +30,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "axi",
         name: "AxiTrader",
-        logo: "/assets/axi.png",
+        logo: "/assets/our-partners/axi 2.png",
         rating: 4.5,
         minDeposit: "$100",
         leverage: "1:500",
@@ -41,7 +41,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "bullwaves",
         name: "Bullwaves",
-        logo: "/assets/bull waves.png",
+        logo: "/assets/our-partners/bull wv.png",
         rating: 4.6,
         minDeposit: "$100",
         leverage: "1:200",
@@ -51,7 +51,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "vantage",
         name: "Vantage",
-        logo: "/assets/vantage.png",
+        logo: "/assets/our-partners/vantageee.png",
         rating: 4.8,
         minDeposit: "$200",
         leverage: "1:400",
@@ -61,7 +61,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "kudotrade",
         name: "Kudotrade",
-        logo: "/assets/kudo.png",
+        logo: "/assets/our-partners/kdoo.png",
         rating: 4.9,
         minDeposit: "$200",
         leverage: "1:500",
@@ -71,7 +71,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "ultima-markets",
         name: "Ultima Markets",
-        logo: "/assets/ultima.png",
+        logo: "/assets/our-partners/ultima mark.png",
         rating: 4.3,
         minDeposit: "$10",
         leverage: "1:2000",
@@ -81,7 +81,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "tickmill",
         name: "Tickmill",
-        logo: "/assets/tickmill.png",
+        logo: "/assets/our-partners/tickkk.png",
         rating: 4.2,
         minDeposit: "$100",
         leverage: "1:500",
@@ -91,7 +91,7 @@ const BROKERS: BrokerCardData[] = [
     {
         id: "blueberry",
         name: "Blueberry",
-        logo: "/assets/blueberry.png",
+        logo: "/assets/our-partners/blueberyyy.png",
         rating: 4.1,
         minDeposit: "$0",
         leverage: "1:50",
