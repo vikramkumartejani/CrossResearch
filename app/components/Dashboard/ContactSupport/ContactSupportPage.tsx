@@ -87,7 +87,7 @@ export default function ContactSupportPage() {
             <div className='flex items-center justify-between mb-5'>
                 <div>
                     <h3 className='text-white text-[35px] font-medium leading-[42px] mb-2'>Your Tickets</h3>
-                    <p className='text-[#838388] text-[12px] leading-[17px] max-w-[383px]'>
+                    <p className='text-[#838388] text-[12px] leading-[17px]'>
                         Open a new ticket, track conversations with the support desk, and search your Historical Requests.
                     </p>
                 </div>
