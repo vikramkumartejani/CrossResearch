@@ -162,13 +162,13 @@ export default function NowcastCard({
             {/* Nowcast / Consensus / Prior row */}
             <div className="mb-4 grid grid-cols-3 border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[12px] p-3">
                 {[
-                    { label: 'Nowcast', val: nowcast },
-                    { label: 'Consensus', val: consensus },
-                    { label: 'Prior', val: prior },
+                    { label: 'Nowcast', val: nowcast, color: '#88C4FF' },
+                    { label: 'Consensus', val: consensus, color: '#ffffff' },
+                    { label: 'Prior', val: prior, color: '#ffffff' },
                 ].map(item => (
                     <div key={item.label} className="first:pl-0 pl-5 flex flex-col items-start gap-2 border-r border-[#FFFFFF1A] last:border-none">
                         <span className="text-white/60 text-[12px] leading-[14px] font-medium">{item.label}</span>
-                        <span className="text-white text-[16px] leading-[22px] font-semibold">{item.val}</span>
+                        <span className="text-[16px] leading-[22px] font-semibold" style={{ color: item.color }}>{item.val}</span>
                     </div>
                 ))}
             </div>
