@@ -113,7 +113,7 @@ export default function GlobalMarketInsightsNew() {
                                 {/* Title row */}
                                 <div className={`flex items-center gap-1.5 mb-0 transition-colors duration-300 ${isActive ? 'text-[#88C4FF]' : 'text-white'}`}>
                                     <span className="flex-shrink-0">{tab.icon}</span>
-                                    <span className={`text-[18px] sm:text-[20px] 2xl:text-[28px] font-semibold leading-[22px] sm:leading-[24px] sm:leading-[31px] ${isActive ? 'text-[#88C4FF]' : 'text-white'}`}>
+                                    <span className={`text-[18px] sm:text-[20px] 2xl:text-[28px] font-medium leading-[22px] sm:leading-[24px] sm:leading-[31px] ${isActive ? 'text-[#88C4FF]' : 'text-white'}`}>
                                         {tab.title}
                                     </span>
                                 </div>
