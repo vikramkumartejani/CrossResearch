@@ -22,9 +22,9 @@ const RISKS = [
         title: 'Global Recession',
         desc: 'Tighter financial conditions and weak demand could trigger a global downturn',
         likelihood: 'Medium',
-        likelihoodColor: 'text-[#E8A020]',
+        likelihoodColor: 'text-[#F67416]',
         impact: 'High',
-        impactColor: 'text-[#E8A020]',
+        impactColor: 'text-[#C97804]',
     },
 ]
 
