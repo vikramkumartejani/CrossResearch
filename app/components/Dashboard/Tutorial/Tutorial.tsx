@@ -51,59 +51,45 @@ export default function Tutorial() {
 
             {/* ── Body ── */}
             <div className="px-4 lg:px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_200px] gap-8 items-start">
+                <div className="w-full flex flex-col items-start">
 
-                    {/* LEFT: video + content sections */}
-                    <div>
-                        {/* Video embed */}
-                        <div
-                            className="w-full bg-[#0D0D14] border border-[#FFFFFF08] mb-8"
-                            style={{ aspectRatio: '16/9' }}
-                        >
-                            <iframe
-                                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                                className="w-full h-full"
-                                style={{ border: 'none', display: 'block' }}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                title="Quickstart Tutorial"
-                            />
-                        </div>
+                    {/* video + content sections */}
+                    <div className='w-full h-[400px] bg-[#16161F] mb-8'>
 
-                        {/* Content sections */}
-                        <div className="flex flex-col gap-8">
-                            {SECTIONS.map((section) => (
-                                <div key={section.id} id={section.id}>
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <span className="text-[#88C4FF] text-[18px] leading-none font-bold">#</span>
-                                        <h2 className="text-white text-[20px] leading-[25px] font-semibold">{section.title}</h2>
-                                    </div>
+                    </div>
+
+                    {/* Content sections */}
+                    <div className="flex flex-col gap-6 max-w-[780px]">
+                        {SECTIONS.map((section) => (
+                            <div key={section.id} id={section.id} className='flex items-start gap-[14px]'>
+                                <span className="text-[#88C4FF] text-[26px] leading-[31px] font-semibold">#</span>
+                                <div className=''>
+                                    <h2 className="text-white text-[26px] leading-[31px] font-semibold mb-3">{section.title}</h2>
                                     <div className="flex flex-col gap-3">
                                         {section.content.map((para, i) => (
-                                            <p key={i} className="text-[#838388] text-[13px] leading-[20px]">{para}</p>
+                                            <p key={i} className="text-[#838388] text-[14px] leading-[21px]">{para}</p>
                                         ))}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-
-                        {/* Prev / Next navigation */}
-                        <div className="flex items-center justify-between mt-10 pt-5 border-t border-[#FFFFFF0D]">
-                            <button className="flex items-center gap-2 text-[#838388] hover:text-white transition-colors text-[13px] leading-[16px] cursor-pointer">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                What Is BTB
-                            </button>
-                            <button className="flex items-center gap-2 text-[#838388] hover:text-white transition-colors text-[13px] leading-[16px] cursor-pointer">
-                                Navigation The Terminal
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </button>
-                        </div>
+                            </div>
+                        ))}
                     </div>
 
+                    {/* Prev / Next navigation */}
+                    <div className="w-full flex items-center justify-between mt-8 pt-8 border-t border-[#FFFFFF1A]">
+                        <button className="flex items-center gap-1 text-white text-[16px] leading-[24px] cursor-pointer">
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.75 5.5L8.25 11L13.75 16.5" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            What Is BTB
+                        </button>
+                        <button className="flex items-center gap-1 text-white text-[16px] leading-[24px] cursor-pointer">
+                            Navigation The Terminal
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.25 5.5L13.75 11L8.25 16.5" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
