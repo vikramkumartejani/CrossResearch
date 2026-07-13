@@ -1,145 +1,118 @@
-// ── Signal Charts data ──────────────────────────────────────────────────────
-
-export type ChartType = 'bar' | 'line'
+export type ChartType = 'area' | 'area-tenor' | 'dashed' | 'dots' | 'bar'
 
 export interface SignalChart {
     id: string
-    section: string          // section heading (e.g. "Liquidity & Cross Signals")
-    category: string         // sub-label (e.g. "Rates", "Breadth", "Commodities", "Credit", "Volatility")
+    category: string
     title: string
     badge: 'ALPHA' | 'WATCH' | 'NEUTRAL'
     chartType: ChartType
-
-    // Bar chart: each bar has a label + value
+    lineValues?: number[]
+    yLabels?: string[]
+    xLabels?: string[]
     barLabels?: string[]
     barValues?: number[]
-
-    // Line chart: values array (equally spaced)
-    lineValues?: number[]
-
     description: string
     action: string
-    actionPositive: boolean   // true = bullish / green, false = bearish / red
+    actionPositive: boolean
 }
 
-export const SIGNAL_CHARTS: SignalChart[] = [
-    // ── Liquidity & Cross Signals ──────────────────────────────────────────
+export const ALL_CHARTS: SignalChart[] = [
     {
         id: 'usd-rate-diff',
-        section: 'Liquidity & Cross Signals',
         category: 'Rates',
         title: 'USD Rate Differential VS G7',
         badge: 'ALPHA',
         chartType: 'bar',
         barLabels: ['Vs EUR', 'Vs GBP', 'Vs JPY', 'Vs CAD', 'Vs AUD', 'Vs CHF', 'Vs NZD'],
         barValues: [2.1, 1.4, 3.8, 1.2, 2.7, 0.9, 2.4],
-        description:
-            'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD — carry trade tailwind persists through the next FOMC window.',
+        description: 'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD — carry trade tailwind persists through the next FOMC window.',
         action: 'Long USD vs low-yielders (CHF, JPY).',
         actionPositive: true,
     },
     {
         id: 'breadth-200ema',
-        section: 'Liquidity & Cross Signals',
         category: 'Breadth',
         title: '% Stocks > 200 EMA vs NASDAQ',
         badge: 'ALPHA',
-        chartType: 'line',
+        chartType: 'area',
         lineValues: [12000, 14000, 16000, 18000, 17000, 19000, 18500, 16000, 15000, 17000, 16500, 14000, 13500, 12000, 13000, 14500, 13000, 12500, 11000, 10000],
-        description:
-            'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD — carry trade tailwind persists through the next FOMC window.',
+        yLabels: ['20000', '15000', '10000', '5000', '0'],
+        description: 'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD — carry trade tailwind persists through the next FOMC window.',
         action: 'Long USD vs low-yielders (CHF, JPY).',
         actionPositive: true,
     },
-    // ── Commodities ─────────────────────────────────────────────────────────
     {
         id: 'wti-spread',
-        section: 'Liquidity & Cross Signals',
         category: 'Commodities',
         title: 'WTI Front / 12m Spread',
         badge: 'ALPHA',
-        chartType: 'line',
+        chartType: 'area',
         lineValues: [340, 300, 240, 160, 80, 20, -40, -80, -100, -120, -140, -155, -165, -172, -178, -183, -185, -184, -185, -185],
-        description:
-            'Front-month flipped to contango at −1.8% vs back. Term-structure inversion historically front-runs realized vol expansions of +28% within 30 days.',
+        yLabels: ['340', '0', '-0.68', '-1.2', '-1.85'],
+        description: 'Front-month flipped to contango at −1.8% vs back. Term-structure inversion historically front-runs realized vol expansions of +28% within 30 days.',
         action: 'Long Crude vol (gamma); avoid short calendar spreads.',
         actionPositive: false,
     },
     {
         id: 'hy-ig-credit',
-        section: 'Liquidity & Cross Signals',
         category: 'Credit',
         title: 'HY- IG Credit Spread',
         badge: 'ALPHA',
-        chartType: 'line',
+        chartType: 'area',
         lineValues: [85, 100, 120, 150, 180, 210, 240, 265, 280, 300, 315, 325, 330, 335, 338, 340, 339, 340, 340, 340],
-        description:
-            'Spread widened 20bpX in 14 sessions to 312bps. HY repricing leads equity drawdowns by ~6 weeks. Watch for sympathy move in cyclicals.',
+        yLabels: ['340', '255', '170', '85', '0'],
+        description: 'Spread widened 20bpX in 14 sessions to 312bps. HY repricing leads equity drawdowns by ~6 weeks. Watch for sympathy move in cyclicals.',
         action: 'Underweight high-beta equity; long IG vs HY in pairs.',
         actionPositive: false,
     },
-    // ── Volatility ──────────────────────────────────────────────────────────
+    {
+        id: 'gold-silver-ratio',
+        category: 'Metals',
+        title: 'Gold / Silver Ratio',
+        badge: 'ALPHA',
+        chartType: 'area',
+        lineValues: [98, 99, 100, 99.5, 100, 99, 98.5, 99, 100, 99.5, 100, 99, 98, 99, 100, 99.5, 98.5, 99, 100, 100],
+        yLabels: ['100', '75', '50', '25', '0'],
+        description: 'Ratio at 88.4x — 2.10 above 5-year mean. Reverts within 60 days in 78% of historical episodes. Tactical mean-reversion.',
+        action: 'Long silver vs gold 12-week trade.',
+        actionPositive: true,
+    },
     {
         id: 'vix-term-structure',
-        section: 'Volatility',
         category: 'Volatility',
         title: 'VIX Term Structure',
         badge: 'ALPHA',
-        chartType: 'line',
-        lineValues: [14, 14.5, 15, 15.8, 16.5, 17.2, 18, 18.8, 19.4, 20, 20.5, 21, 21.4, 21.8, 22.1, 22.3, 22.4, 22.5, 22.5, 22.6],
-        description:
-            'Front VIX contango has flattened — historically precedes vol spikes within 2–3 weeks. Term structure compression suggests market is under-hedged.',
-        action: 'Buy near-dated vol; rotate into defensive hedges.',
+        chartType: 'dots',
+        lineValues: [20, 20.2, 20.5, 21, 21.5, 22],
+        xLabels: ['1D', '9D', '1M', '3M', '6M', '1Y'],
+        yLabels: ['20%', '15%', '10%', '5%', '0%'],
+        description: 'VIX9D > VIX9D > VIX3M — front-end stressed but curve still steep on 6M+. Vol selling on the wing remains positive-EV.',
+        action: 'Short long-dated vol; long short-dated as event hedge.',
         actionPositive: false,
     },
     {
-        id: 'skew-index',
-        section: 'Volatility',
-        category: 'Volatility',
-        title: 'CBOE SKEW Index',
-        badge: 'WATCH',
-        chartType: 'line',
-        lineValues: [120, 125, 122, 130, 135, 140, 138, 142, 148, 152, 155, 158, 156, 160, 162, 165, 163, 167, 168, 170],
-        description:
-            'SKEW index elevated above 160 — tail-risk demand rising. Historically correlates with institutional hedging activity and short-term market stress.',
-        action: 'Hold tail hedges; monitor for reversal below 155.',
-        actionPositive: true,
-    },
-    // ── FX / Carry ──────────────────────────────────────────────────────────
-    {
-        id: 'g10-carry',
-        section: 'FX / Carry',
-        category: 'FX',
-        title: 'G10 Carry Index (Long vs Short)',
+        id: 'dxy-risk-correlation',
+        category: 'Cross – Asset',
+        title: 'DXY vs Risk Assets 60d Correlation',
         badge: 'ALPHA',
-        chartType: 'line',
-        lineValues: [0, 0.2, 0.5, 0.8, 1.1, 1.4, 1.2, 1.5, 1.8, 2.0, 1.9, 2.1, 2.3, 2.5, 2.4, 2.6, 2.7, 2.8, 2.9, 3.0],
-        description:
-            'G10 carry index extending gains — high-yielders outperforming vs low-yielders for 8 consecutive weeks. Regime remains supportive for carry.',
-        action: 'Long AUD/JPY, NZD/CHF; trim on risk-off signals.',
+        chartType: 'dashed',
+        lineValues: [0.3, 0.28, 0.25, 0.22, 0.3, 0.18, 0.12, 0.05, 0, -0.05, -0.1, -0.15, -0.18, -0.2, -0.22, -0.23, -0.24, -0.24, -0.25, -0.25],
+        yLabels: ['0.3', '0.15', '0', '-0.15', '-0.3'],
+        description: 'DXY-SPX correlation has flipped to −0.62 (deeply negative): weakness is now the marginal driver of risk-on, not earnings.',
+        action: 'Watch DXY for risk-asset inflection points; trade through DXY proxies.',
         actionPositive: true,
     },
     {
-        id: 'dxy-momentum',
-        section: 'FX / Carry',
-        category: 'FX',
-        title: 'DXY Momentum vs COT Positioning',
-        badge: 'WATCH',
-        chartType: 'bar',
-        barLabels: ['Wk-8', 'Wk-7', 'Wk-6', 'Wk-5', 'Wk-4', 'Wk-3', 'Wk-2', 'Wk-1'],
-        barValues: [-2.1, -1.4, 0.3, 1.2, 2.0, 1.8, 2.5, 3.1],
-        description:
-            'COT non-commercial net longs in USD reaching 18-month highs. Momentum diverging from crowded positioning — risk of reversal if data disappoints.',
-        action: 'Reduce USD longs; hedge with EUR/USD calls.',
+        id: 'us10y-real-yield',
+        category: 'Rates',
+        title: 'US 10Y Real Yield',
+        badge: 'ALPHA',
+        chartType: 'area-tenor',
+        lineValues: [2.2, 2.15, 2.1, 1.95, 1.7, 1.4],
+        xLabels: ['1D', '9D', '1M', '3M', '6M', '1Y'],
+        yLabels: ['2.2', '1.65', '1.1', '0.55', '0'],
+        description: 'Real yields holding above 2.0% despite Fed dovish lean — a structural headwind for duration and wld that the market is mispricing.',
+        action: 'Short long-duration bonds; underweight gold tactically.',
         actionPositive: false,
     },
 ]
-
-// Group by section
-export function groupBySection(charts: SignalChart[]): Record<string, SignalChart[]> {
-    return charts.reduce<Record<string, SignalChart[]>>((acc, c) => {
-        if (!acc[c.section]) acc[c.section] = []
-        acc[c.section].push(c)
-        return acc
-    }, {})
-}
