@@ -95,7 +95,7 @@ function ConstellationCanvas() {
 
 export default function ConvictionConstellation() {
     return (
-        <div className="bg-[#16161F] border border-[#FFFFFF08] p-4 flex flex-col">
+        <div className="bg-[#16161F] p-4 flex flex-col">
              {/* Tag */}
             <p className="text-[#838388] text-[12px] leading-[17px] font-normal mb-2">03 / Topology</p>
 

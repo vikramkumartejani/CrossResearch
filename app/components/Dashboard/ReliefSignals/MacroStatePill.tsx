@@ -8,7 +8,7 @@ const STATES = [
 
 export default function MacroStatePill() {
     return (
-        <div className="bg-[#16161F] border border-[#FFFFFF08] p-4 flex flex-col">
+        <div className="bg-[#16161F] p-4 flex flex-col">
             {/* Tag + badge */}
             <div className="flex items-center justify-between mb-2">
                 <p className="text-[#838388] text-[12px] leading-[17px] font-normal">05 / State</p>
