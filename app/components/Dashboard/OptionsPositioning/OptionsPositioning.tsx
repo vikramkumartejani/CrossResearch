@@ -1,4 +1,7 @@
 import MarketCard from './MarketCard'
+import GreeksSynthesis from './GreeksSynthesis'
+import SectorGammaDashboard from './SectorGammaDashboard'
+import MacroEventStress from './MacroEventStress'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 const CARDS = [
@@ -84,7 +87,6 @@ export default function OptionsPositioning() {
     return (
         <div>
             {/* Header */}
-            {/* ── Header ── */}
             <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -102,12 +104,21 @@ export default function OptionsPositioning() {
             </div>
 
             <div className="px-4 lg:px-6">
-                {/* Market Structure */}
+                {/* Market Structure — unchanged */}
                 <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">Market Structure</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
                     {CARDS.map(card => (
                         <MarketCard key={card.ticker} {...card} />
                     ))}
+                </div>
+
+                {/* Greeks Synthesis */}
+                <GreeksSynthesis />
+
+                {/* Sector Gamma Dashboard + Macro Event Stress */}
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_524px] gap-4 grow">
+                    <SectorGammaDashboard />
+                    <MacroEventStress />
                 </div>
             </div>
         </div>
