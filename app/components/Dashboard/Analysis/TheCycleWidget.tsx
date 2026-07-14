@@ -95,9 +95,9 @@ export default function TheCycleWidget() {
                 <div className="mt-4 flex items-center justify-between bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3">
                     <span className="text-white/60 text-[12px] leading-[14px] font-normal flex items-center gap-1">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.0026 14.6663C11.6845 14.6663 14.6693 11.6816 14.6693 7.99967C14.6693 4.31778 11.6845 1.33301 8.0026 1.33301C4.32071 1.33301 1.33594 4.31778 1.33594 7.99967C1.33594 11.6816 4.32071 14.6663 8.0026 14.6663Z" stroke="white" stroke-opacity="0.6" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M8 10.6667V8" stroke="white" stroke-opacity="0.6" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M8 5.33398H8.00583" stroke="white" stroke-opacity="0.6" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M8.0026 14.6663C11.6845 14.6663 14.6693 11.6816 14.6693 7.99967C14.6693 4.31778 11.6845 1.33301 8.0026 1.33301C4.32071 1.33301 1.33594 4.31778 1.33594 7.99967C1.33594 11.6816 4.32071 14.6663 8.0026 14.6663Z" stroke="white" strokeOpacity="0.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M8 10.6667V8" stroke="white" strokeOpacity="0.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M8 5.33398H8.00583" stroke="white" strokeOpacity="0.6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         Forward Probability Model
                     </span>

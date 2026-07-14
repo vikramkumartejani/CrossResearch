@@ -61,12 +61,12 @@ function SmallCard({ card }: { card: typeof GRID_CARDS[0] }) {
                 {card.tag && (
                     <div className="absolute z-10 top-4 left-4 flex items-center gap-1.5 rounded">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z" stroke="white" stroke-width="1.2" />
-                            <path d="M7.125 12V6" stroke="white" stroke-width="1.2" stroke-linecap="round" />
-                            <path d="M8.25 6V4.5M10.125 6V4.5" stroke="white" stroke-width="1.2" stroke-linecap="round" />
-                            <path d="M8.25 13.5V12M10.125 13.5V12" stroke="white" stroke-width="1.2" stroke-linecap="round" />
-                            <path d="M7.125 9H10.875C11.4963 9 12 9.5037 12 10.125V10.875C12 11.4963 11.4963 12 10.875 12H6" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M6 6H10.875C11.4963 6 12 6.50368 12 7.125V7.875C12 8.4963 11.4963 9 10.875 9H7.125" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z" stroke="white" strokeWidth="1.2" />
+                            <path d="M7.125 12V6" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
+                            <path d="M8.25 6V4.5M10.125 6V4.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
+                            <path d="M8.25 13.5V12M10.125 13.5V12" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
+                            <path d="M7.125 9H10.875C11.4963 9 12 9.5037 12 10.125V10.875C12 11.4963 11.4963 12 10.875 12H6" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M6 6H10.875C11.4963 6 12 6.50368 12 7.125V7.875C12 8.4963 11.4963 9 10.875 9H7.125" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <span className="text-white text-[16px] leading-[19px] font-medium">{card.tag}</span>
                     </div>
@@ -91,8 +91,8 @@ export default function TradingStrategies() {
             <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16.125 9C16.125 12.935 12.935 16.125 9 16.125C7.77893 16.125 6.62955 15.8178 5.625 15.2765C4.22383 14.5215 3.28097 15.2234 2.44944 15.3494C2.3233 15.3685 2.19768 15.3227 2.10748 15.2325C1.97056 15.0956 1.9445 14.8838 2.02013 14.7056C2.34649 13.9364 2.64615 12.4787 2.23756 11.25C2.00235 10.5428 1.875 9.78623 1.875 9C1.875 5.06497 5.06497 1.875 9 1.875C12.935 1.875 16.125 5.06497 16.125 9Z" stroke="#838388" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9.09427 9H9.00052M6.09375 9H6M12.0937 9H12M9.18802 9C9.18802 9.10358 9.1041 9.1875 9.00052 9.1875C8.89702 9.1875 8.81302 9.10358 8.81302 9C8.81302 8.89643 8.89702 8.8125 9.00052 8.8125C9.1041 8.8125 9.18802 8.89643 9.18802 9ZM6.1875 9C6.1875 9.10358 6.10355 9.1875 6 9.1875C5.89645 9.1875 5.8125 9.10358 5.8125 9C5.8125 8.89643 5.89645 8.8125 6 8.8125C6.10355 8.8125 6.1875 8.89643 6.1875 9ZM12.1875 9C12.1875 9.10358 12.1036 9.1875 12 9.1875C11.8964 9.1875 11.8125 9.10358 11.8125 9C11.8125 8.89643 11.8964 8.8125 12 8.8125C12.1036 8.8125 12.1875 8.89643 12.1875 9Z" stroke="#838388" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16.125 9C16.125 12.935 12.935 16.125 9 16.125C7.77893 16.125 6.62955 15.8178 5.625 15.2765C4.22383 14.5215 3.28097 15.2234 2.44944 15.3494C2.3233 15.3685 2.19768 15.3227 2.10748 15.2325C1.97056 15.0956 1.9445 14.8838 2.02013 14.7056C2.34649 13.9364 2.64615 12.4787 2.23756 11.25C2.00235 10.5428 1.875 9.78623 1.875 9C1.875 5.06497 5.06497 1.875 9 1.875C12.935 1.875 16.125 5.06497 16.125 9Z" stroke="#838388" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M9.09427 9H9.00052M6.09375 9H6M12.0937 9H12M9.18802 9C9.18802 9.10358 9.1041 9.1875 9.00052 9.1875C8.89702 9.1875 8.81302 9.10358 8.81302 9C8.81302 8.89643 8.89702 8.8125 9.00052 8.8125C9.1041 8.8125 9.18802 8.89643 9.18802 9ZM6.1875 9C6.1875 9.10358 6.10355 9.1875 6 9.1875C5.89645 9.1875 5.8125 9.10358 5.8125 9C5.8125 8.89643 5.89645 8.8125 6 8.8125C6.10355 8.8125 6.1875 8.89643 6.1875 9ZM12.1875 9C12.1875 9.10358 12.1036 9.1875 12 9.1875C11.8964 9.1875 11.8125 9.10358 11.8125 9C11.8125 8.89643 11.8964 8.8125 12 8.8125C12.1036 8.8125 12.1875 8.89643 12.1875 9Z" stroke="#838388" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Trading Strategies</span>
                 </div>
@@ -121,8 +121,8 @@ export default function TradingStrategies() {
 
                     <div className="flex items-center gap-1.5 bg-[#16161F] border border-[#FFFFFF0D] px-3 py-[9px] max-w-full">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.75 12.75L15.75 15.75" stroke="#838388" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25Z" stroke="#838388" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12.75 12.75L15.75 15.75" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25Z" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <input
                             value={search}

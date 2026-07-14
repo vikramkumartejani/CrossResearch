@@ -89,7 +89,7 @@ const Advisory = () => {
                             >
                                 Explore Features
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </Link>
                         </div>
@@ -113,7 +113,7 @@ const Advisory = () => {
                             >
                                 Join Discord
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </Link>
                         </div>

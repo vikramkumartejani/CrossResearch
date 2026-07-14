@@ -77,14 +77,14 @@ export default function Tutorial() {
                     <div className="w-full flex items-center justify-between mt-8 pt-8 border-t border-[#FFFFFF1A]">
                         <button className="flex items-center gap-1 text-white text-[16px] leading-[24px] cursor-pointer">
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.75 5.5L8.25 11L13.75 16.5" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M13.75 5.5L8.25 11L13.75 16.5" stroke="white" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             What Is BTB
                         </button>
                         <button className="flex items-center gap-1 text-white text-[16px] leading-[24px] cursor-pointer">
                             Navigation The Terminal
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.25 5.5L13.75 11L8.25 16.5" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M8.25 5.5L13.75 11L8.25 16.5" stroke="white" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </button>
                     </div>

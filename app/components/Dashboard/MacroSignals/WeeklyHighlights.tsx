@@ -5,13 +5,13 @@ import { MACRO_BRIEF } from './weeklyHighlightsData'
 function GlobeIcon() {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.58073 5C5.84878 5 3.9828 5 2.82343 5.97631C1.66406 6.95262 1.66406 8.524 1.66406 11.6667C1.66406 14.8093 1.66406 16.3807 2.82343 17.357C3.9828 18.3333 5.84878 18.3333 9.58073 18.3333C13.3126 18.3333 15.1786 18.3333 16.3381 17.357C17.4974 16.3807 17.4974 14.8093 17.4974 11.6667C17.4974 10.6918 17.4974 9.86825 17.4628 9.16667" stroke="#88C4FF" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M15.4167 1.66797L15.6316 2.24883C15.9134 3.01049 16.0543 3.39132 16.3322 3.66913C16.61 3.94694 16.9908 4.08786 17.7525 4.3697L18.3333 4.58464L17.7525 4.79957C16.9908 5.08141 16.61 5.22234 16.3322 5.50014C16.0543 5.77795 15.9134 6.15879 15.6316 6.92044L15.4167 7.5013L15.2018 6.92044C14.9199 6.15879 14.779 5.77795 14.5012 5.50014C14.2233 5.22234 13.8425 5.08141 13.0808 4.79957L12.5 4.58464L13.0808 4.3697C13.8425 4.08786 14.2233 3.94694 14.5012 3.66913C14.779 3.39132 14.9199 3.01049 15.2018 2.24883L15.4167 1.66797Z" stroke="#88C4FF" stroke-width="1.5" stroke-linejoin="round" />
-            <path d="M10 8.33203V14.9987" stroke="#88C4FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M7.5 10V13.3333" stroke="#88C4FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M5 10.832V12.4987" stroke="#88C4FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M12.5 10V13.3333" stroke="#88C4FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M15 10.832V12.4987" stroke="#88C4FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9.58073 5C5.84878 5 3.9828 5 2.82343 5.97631C1.66406 6.95262 1.66406 8.524 1.66406 11.6667C1.66406 14.8093 1.66406 16.3807 2.82343 17.357C3.9828 18.3333 5.84878 18.3333 9.58073 18.3333C13.3126 18.3333 15.1786 18.3333 16.3381 17.357C17.4974 16.3807 17.4974 14.8093 17.4974 11.6667C17.4974 10.6918 17.4974 9.86825 17.4628 9.16667" stroke="#88C4FF" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M15.4167 1.66797L15.6316 2.24883C15.9134 3.01049 16.0543 3.39132 16.3322 3.66913C16.61 3.94694 16.9908 4.08786 17.7525 4.3697L18.3333 4.58464L17.7525 4.79957C16.9908 5.08141 16.61 5.22234 16.3322 5.50014C16.0543 5.77795 15.9134 6.15879 15.6316 6.92044L15.4167 7.5013L15.2018 6.92044C14.9199 6.15879 14.779 5.77795 14.5012 5.50014C14.2233 5.22234 13.8425 5.08141 13.0808 4.79957L12.5 4.58464L13.0808 4.3697C13.8425 4.08786 14.2233 3.94694 14.5012 3.66913C14.779 3.39132 14.9199 3.01049 15.2018 2.24883L15.4167 1.66797Z" stroke="#88C4FF" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M10 8.33203V14.9987" stroke="#88C4FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7.5 10V13.3333" stroke="#88C4FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M5 10.832V12.4987" stroke="#88C4FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12.5 10V13.3333" stroke="#88C4FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15 10.832V12.4987" stroke="#88C4FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     )
 }
