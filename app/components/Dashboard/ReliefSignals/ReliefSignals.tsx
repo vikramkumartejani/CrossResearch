@@ -1,10 +1,7 @@
-import StatsRow from './StatsRow'
-import BeliefShockDetection from './BeliefShockDetection'
-import CrossPlatformGlyph from './CrossPlatformGlyph'
-import ConvictionConstellation from './ConvictionConstellation'
-import OutcomesLedger from './OutcomesLedger'
-import MacroStatePill from './MacroStatePill'
-import BeliefTape from './BeliefTape'
+import LatestAlerts from './LatestAlerts'
+import Watchlist from './Watchlist'
+import ProbabilityMovers from './ProbabilityMovers'
+import AlertsDetail from './AlertsDetail'
 
 export default function ReliefSignals() {
     return (
@@ -29,8 +26,8 @@ export default function ReliefSignals() {
                         <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Belief Markets Desk</span>
                     </div>
                     <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Probability Signals & Sentiment</h1>
-                    <p className="text-[#838388] text-[12px] leading-[17px]">
-                        Cross - venue prediction - market intelligence. We aggregate polymarket, Kalshi, Predictlt, manifold & meticulous into a single belief lattice - then surface the moves that matter.
+                    <p className="text-[#838388] text-[12px] leading-[17px] max-w-[540px]">
+                        Cross-venue prediction market intelligence. We aggregate polymarket, Kalshi, Predictit, manifold & meticulous into a single belief lattice — then surface the moves that matter.
                     </p>
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
@@ -41,26 +38,18 @@ export default function ReliefSignals() {
                 </div>
             </div>
 
-            {/* ── Stats Row ── */}
-            <StatsRow />
-
-            {/* ── Market Consensus ── */}
-            <div className="px-4 lg:px-6 mb-5">
-                <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Market Consensus</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    <BeliefShockDetection />
-                    <CrossPlatformGlyph />
-                    <ConvictionConstellation />
+            {/* ── 4-block layout ── */}
+            <div className="px-4 lg:px-6 flex flex-col gap-4">
+                {/* Top row: Latest Alerts (left) + Watchlist (right) */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <LatestAlerts />
+                    <Watchlist />
                 </div>
-            </div>
 
-            {/* ── Belief Structure ── */}
-            <div className="px-4 lg:px-6">
-                <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Belief Structure</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    <OutcomesLedger />
-                    <MacroStatePill />
-                    <BeliefTape />
+                {/* Bottom row: Probability Movers (left) + Alerts Detail (right) */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <ProbabilityMovers />
+                    <AlertsDetail />
                 </div>
             </div>
         </div>
