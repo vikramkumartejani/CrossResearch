@@ -37,11 +37,11 @@ const BOTTOM_CARDS = [
 function SmallCard({ card }: { card: typeof GRID_CARDS[0] }) {
     return (
         <div className="bg-[#16161F] flex flex-col cursor-pointer transition-colors">
-            <div className="flex-1 bg-[#FFFFFF08] min-h-[199px]" />
-            <div className='p-4'> 
-                <p className={`text-[14px] leading-[17px] font-medium text-[#88C4FF]`}>{card.category}</p>
-                <p className="text-white text-[22px] leading-[29px] font-medium mt-3 mb-2 xl:pr-8">{card.title}</p>
-                <p className="text-[#838388] text-[14px] leading-[20px] font-normal">By {card.author} • {card.date}</p>
+            <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[199px]" />
+            <div className='p-3 sm:p-4'>
+                <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">{card.category}</p>
+                <p className="2xl:pr-10 text-white text-[16px] sm:text-[18px] 2xl:text-[22px] leading-[20px] sm:leading-6 2xl:leading-[29px] font-medium mt-2 2xl:mt-3 mb-2">{card.title}</p>
+                <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">By {card.author} • {card.date}</p>
             </div>
         </div>
     )
@@ -54,7 +54,7 @@ export default function EducationCenter() {
     return (
         <div>
             {/* ── Header ── */}
-            <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
+            <div className="border-b border-[#FFFFFF0D] pb-5 sm:pb-6 mb-4 sm:mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 13.5C9.82843 13.5 10.5 12.8284 10.5 12C10.5 11.1716 9.82843 10.5 9 10.5C8.17157 10.5 7.5 11.1716 7.5 12C7.5 12.8284 8.17157 13.5 9 13.5Z" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -65,7 +65,7 @@ export default function EducationCenter() {
                     </svg>
                     <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Education Center</span>
                 </div>
-                <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Library</h1>
+                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Library</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
                     Open a new ticket, track conversations with the support desk, and search your historical Requests.
                 </p>
@@ -73,23 +73,26 @@ export default function EducationCenter() {
 
             {/* ── Body ── */}
             <div className="px-4 lg:px-6">
-                {/* Tabs + Search */}
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_724px] gap-4 mb-5">
-                    <div className="flex items-center gap-2 p-1 bg-[#16161F] w-fit border border-[#FFFFFF0D]">
-                        {TABS.map(tab => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`px-3 py-1 text-[14px] leading-[20px] transition-colors cursor-pointer ${activeTab === tab ? 'text-white bg-[#FFFFFF0D] font-semibold' : 'font-normal text-[#838388] hover:text-white/70'
-                                    }`}
-                            >
-                                {tab}
-                            </button>
-                        ))}
+                {/* Tabs + Search — stacked on mobile */}
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-4 sm:mb-5">
+                    {/* Tabs — scrollable on mobile */}
+                    <div className="overflow-x-auto">
+                        <div className="flex items-center sm:gap-2 p-1 bg-[#16161F] w-fit border border-[#FFFFFF0D] min-w-max">
+                            {TABS.map(tab => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    className={`px-3 py-1 text-[13px] sm:text-[14px] leading-[20px] transition-colors cursor-pointer whitespace-nowrap ${activeTab === tab ? 'text-white bg-[#FFFFFF0D] font-semibold' : 'font-normal text-[#838388] hover:text-white/70'}`}
+                                >
+                                    {tab}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 bg-[#16161F] border border-[#FFFFFF0D] px-3 py-[9px] max-w-full">
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Search */}
+                    <div className="flex items-center gap-1.5 bg-[#16161F] border border-[#FFFFFF0D] px-3 py-[9px]">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                             <path d="M12.75 12.75L15.75 15.75" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
                             <path d="M14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25Z" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -102,35 +105,35 @@ export default function EducationCenter() {
                     </div>
                 </div>
 
-                {/* Row 1: Featured (left) + 2x2 grid (right) */}
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_724px] gap-4 mb-4">
+                {/* Row 1: Featured (top on mobile, left on desktop) + 2×2 grid */}
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-3 sm:mb-4">
                     {/* Featured card */}
-                    <div className="bg-[#16161F] p-5 flex flex-col gap-5 cursor-pointer transition-colors">
-                        <div className="flex-1 bg-[#FFFFFF08] min-h-[481px]" />
-                        <div className="">
-                            <span className={`text-[16px] leading-[19px] font-medium text-[#88C4FF]`}>{FEATURED.category}</span>
-                            <h2 className="text-white text-[32px] leading-[38px] font-semibold my-4">{FEATURED.title}</h2>
-                            <p className="text-[#838388] text-[16px] leading-[24px] mb-4">{FEATURED.desc}</p>
-                            <p className="text-[#838388] text-[16px] leading-[22px] font-normal">By {FEATURED.author} • {FEATURED.date}</p>
+                    <div className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
+                        <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
+                        <div className='p-3 sm:p-0'>
+                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">{FEATURED.category}</span>
+                            <h2 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-4">{FEATURED.title}</h2>
+                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4">{FEATURED.desc}</p>
+                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">By {FEATURED.author} • {FEATURED.date}</p>
                         </div>
                     </div>
 
-                    {/* 2×2 grid */}
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* 2×2 grid — stays 2 cols even on mobile since cards are compact */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {GRID_CARDS.map((card, i) => (
                             <SmallCard key={i} card={card} />
                         ))}
                     </div>
                 </div>
 
-                {/* Row 2: two half-width cards */}
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_724px] gap-4">
+                {/* Row 2: bottom cards */}
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
                     {BOTTOM_CARDS.map((card, i) => (
-                        <div key={i} className="bg-[#16161F] p-4 cursor-pointer transition-colors">
-                            <span className={`text-[16px] leading-[19px] font-medium text-[#88C4FF]`}>{card.category}</span>
-                            <h3 className="text-white text-[32px] leading-[38px] font-semibold my-3">{card.title}</h3>
-                            <p className="text-[#838388] text-[16px] leading-[24px] font-normal mb-3">{card.desc}</p>
-                            <p className="text-[#838388] text-[16px] leading-[22px]">By {card.author} • {card.date}</p>
+                        <div key={i} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
+                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">{card.category}</span>
+                            <h3 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-3">{card.title}</h3>
+                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] font-normal mb-2 sm:mb-3">{card.desc}</p>
+                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">By {card.author} • {card.date}</p>
                         </div>
                     ))}
                 </div>
