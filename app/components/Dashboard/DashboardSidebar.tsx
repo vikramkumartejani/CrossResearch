@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -341,35 +342,71 @@ export default function DashboardSidebar() {
                 {sidebarContent}
             </aside>
 
-            {/* Mobile toggle button */}
-            <button
-                className='lg:hidden fixed top-4 left-4 z-50 w-9 h-9 bg-[#0C1018] border border-[#FFFFFF14] rounded-lg flex items-center justify-center'
-                onClick={() => setMobileOpen(true)}
-                aria-label='Open menu'
-            >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M2 4h12M2 8h12M2 12h12" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-            </button>
+            {/* Mobile header bar */}
+            <header className='lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#16161F] border-b border-[#FFFFFF0F] flex items-center justify-between px-4'>
+                {/* Left: logo */}
+                <Image
+                    src='/assets/full-logo.svg'
+                    alt='CrossResearch'
+                    width={168}
+                    height={24}
+                    className='object-contain'
+                />
 
-            {/* Mobile drawer */}
-            {mobileOpen && (
-                <>
-                    <div className='fixed inset-0 bg-black/60 z-40' onClick={() => setMobileOpen(false)} />
-                    <aside className='fixed top-0 left-0 h-full w-[260px] bg-[#0C1018] border-r border-[#FFFFFF0D] z-50 flex flex-col'>
-                        <button
-                            className='absolute top-4 right-4 text-white/60 hover:text-white'
+                {/* Right: hamburger / X toggle */}
+                <button
+                    className='flex flex-col justify-center items-center w-9 h-10 cursor-pointer relative'
+                    onClick={() => setMobileOpen(prev => !prev)}
+                    aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                >
+                    <span
+                        className='block w-6 h-[2px] bg-white rounded-full absolute transition-all duration-300'
+                        style={{
+                            transform: mobileOpen ? 'rotate(45deg)' : 'translateY(-6px)',
+                        }}
+                    />
+                    <span
+                        className='block w-6 h-[2px] bg-white rounded-full absolute transition-all duration-300'
+                        style={{ opacity: mobileOpen ? 0 : 1, transform: mobileOpen ? 'scaleX(0)' : 'scaleX(1)' }}
+                    />
+                    <span
+                        className='block w-6 h-[2px] bg-white rounded-full absolute transition-all duration-300'
+                        style={{
+                            transform: mobileOpen ? 'rotate(-45deg)' : 'translateY(6px)',
+                        }}
+                    />
+                </button>
+            </header>
+
+            {/* Mobile drawer with animation */}
+            <AnimatePresence>
+                {mobileOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            key='backdrop'
+                            className='fixed inset-0 bg-black/60 z-40'
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
                             onClick={() => setMobileOpen(false)}
-                            aria-label='Close menu'
+                        />
+
+                        {/* Drawer */}
+                        <motion.aside
+                            key='drawer'
+                            className='fixed top-0 left-0 h-full w-[260px] bg-[#16161F] border-r border-[#FFFFFF0D] z-50 flex flex-col'
+                            initial={{ x: '-100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '-100%' }}
+                            transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
                         >
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
-                        </button>
-                        {sidebarContent}
-                    </aside>
-                </>
-            )}
+                            {sidebarContent}
+                        </motion.aside>
+                    </>
+                )}
+            </AnimatePresence>
         </>
     )
 }

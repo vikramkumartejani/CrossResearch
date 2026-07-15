@@ -7,14 +7,14 @@ interface RangeItem {
 
 function PriceRangeCard({ title, subtitle, high, low }: RangeItem) {
     return (
-        <div className="bg-[#16161F] border border-[#FFFFFF08] flex flex-col flex-1 min-w-0">
-            <div className="bg-[#FFFFFF0D] px-4 py-2.5">
-                <p className="text-white text-[14px] font-semibold leading-[17px]">{title}</p>
-                <p className="text-white/60 text-[12px] leading-[14px] font-normal mt-1">{subtitle}</p>
+        <div className="bg-[#16161F] flex flex-col flex-1 min-w-0">
+            <div className="bg-[#FFFFFF0D] px-2.5 sm:px-4 py-2.5">
+                <p className="text-white text-[12px] sm:text-[14px] font-semibold leading-[17px] pr-10 sm:pr-0">{title}</p>
+                <p className="text-white/60 text-[11px] sm:text-[12px] leading-[14px] font-normal mt-1">{subtitle}</p>
             </div>
 
             {/* HIGH value */}
-            <div className="flex items-start gap-4 p-4">
+            <div className="flex items-start gap-2.5 sm:gap-4 p-3 sm:p-4">
                 <div className="flex flex-col items-center">
                     <div
                         style={{
@@ -52,7 +52,7 @@ export default function PriceRanges() {
     return (
         <div>
             <h4 className="text-white text-[18px] leading-[22px] font-medium">Price Ranges</h4>
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-2.5 sm:gap-4 mt-3 sm:mt-4">
                 {ranges.map((r) => (
                     <PriceRangeCard key={r.title} {...r} />
                 ))}

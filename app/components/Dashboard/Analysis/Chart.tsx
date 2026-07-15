@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
-import * as FlagComponents from 'country-flag-icons/react/3x2'
 import uPlot from 'uplot'
 import 'uplot/dist/uPlot.min.css'
 
@@ -40,8 +39,88 @@ const COMMODITY_ICONS: Record<string, string> = {
     XAU: '🥇', XAG: '🥈', USO: '🛢️', NAS: '📈', US3: '📊', SP5: '📉', BTC: '₿',
 }
 
+// ISO country code map for flagcdn.com
+const FLAG_URL: Record<string, string> = {
+    EU: 'https://flagcdn.com/eu.svg',
+    US: 'https://flagcdn.com/us.svg',
+    GB: 'https://flagcdn.com/gb.svg',
+    JP: 'https://flagcdn.com/jp.svg',
+    AU: 'https://flagcdn.com/au.svg',
+    CA: 'https://flagcdn.com/ca.svg',
+    CH: 'https://flagcdn.com/ch.svg',
+    NZ: 'https://flagcdn.com/nz.svg',
+    CN: 'https://flagcdn.com/cn.svg',
+    HK: 'https://flagcdn.com/hk.svg',
+}
+
+// ── Flag helpers ──────────────────────────────────────────────────────────────
+function FlagIcon({ code, size = 48 }: { code: string; size?: number }) {
+    // Commodity / index — show emoji in circle
+    if (code in COMMODITY_ICONS) {
+        return (
+            <div
+                style={{
+                    width: size, height: size, borderRadius: '50%',
+                    background: '#1E2A3A', display: 'flex',
+                    alignItems: 'center', justifyContent: 'center',
+                    fontSize: size * 0.52, flexShrink: 0,
+                }}
+            >
+                {COMMODITY_ICONS[code]}
+            </div>
+        )
+    }
+
+    const url = FLAG_URL[code]
+    if (!url) {
+        return (
+            <div
+                style={{ width: size, height: size, borderRadius: '50%', flexShrink: 0 }}
+                className="bg-white/10"
+            />
+        )
+    }
+
+    return (
+        <div
+            style={{
+                width: size, height: size, borderRadius: '50%',
+                overflow: 'hidden', flexShrink: 0, background: '#1a1a2e',
+            }}
+        >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+                src={url}
+                alt={code}
+                width={size}
+                height={size}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+        </div>
+    )
+}
+
+function PairFlags({ pair }: { pair: CurrencyPair }) {
+    const size = 48
+    const overlap = 20
+    return (
+        <div
+            className="relative flex-shrink-0"
+            style={{ width: size + overlap, height: size }}
+        >
+            <div className="absolute left-0 top-0" style={{ zIndex: 1 }}>
+                <FlagIcon code={pair.baseFlag} size={size} />
+            </div>
+            <div className="absolute top-0" style={{ left: overlap, zIndex: 2 }}>
+                <FlagIcon code={pair.quoteFlag} size={size} />
+            </div>
+        </div>
+    )
+}
+
 // ── Y-axis width (pixels reserved for right-side labels) ─────────────────────
-const Y_AXIS_W = 60
+const Y_AXIS_W        = 60   // desktop
+const Y_AXIS_W_MOBILE = 46   // mobile (< 480px)
 
 // ── Generate chart data ───────────────────────────────────────────────────────
 function generateData(pair: CurrencyPair, period: Period): [number[], number[]] {
@@ -87,72 +166,51 @@ function generateData(pair: CurrencyPair, period: Period): [number[], number[]] 
 function pickXLabels(
     timestamps: number[],
     period: Period,
-    chartWidth: number   // px available for plot area (total - Y_AXIS_W)
+    chartWidth: number   // px available for plot area (total - yAxisW)
 ): { idx: number; label: string }[] {
     if (!timestamps.length) return []
 
-    const fmt = (ts: number, period: Period) => {
+    const fmt = (ts: number, p: Period) => {
         const d = new Date(ts * 1000)
-        if (period === '1D') {
-            const h = d.getHours(), m = d.getMinutes()
-            const hStr = String(h).padStart(2, '0')
-            const mStr = String(m).padStart(2, '0')
+        if (p === '1D') {
+            const hStr = String(d.getHours()).padStart(2, '0')
+            const mStr = String(d.getMinutes()).padStart(2, '0')
             return `${hStr}:${mStr}`
         }
         const mon = d.toLocaleString('en-US', { month: 'short' })
-        const day = d.getDate()
-        if (period === '1W') return `${mon} ${day}`
-        return `${mon} ${day}`
+        return `${mon} ${d.getDate()}`
     }
 
-    // approx px per label (label ~50px wide + 20px min gap)
-    const minSpacingPx = 60
-    const maxLabels = Math.max(2, Math.floor(chartWidth / minSpacingPx))
-    const step = Math.max(1, Math.floor((timestamps.length - 1) / (maxLabels - 1)))
+    // each label is ~48px wide; require at least 12px gap between them
+    const labelW      = 48
+    const minGap      = 12
+    const slotW       = labelW + minGap
+    const maxLabels   = Math.max(2, Math.floor(chartWidth / slotW))
+    const step        = Math.max(1, Math.floor((timestamps.length - 1) / (maxLabels - 1)))
 
     const result: { idx: number; label: string }[] = []
     for (let i = 0; i < timestamps.length; i += step) {
         result.push({ idx: i, label: fmt(timestamps[i], period) })
     }
-    // always include last
-    const last = timestamps.length - 1
-    if (result[result.length - 1]?.idx !== last) {
-        result.push({ idx: last, label: fmt(timestamps[last], period) })
+
+    // Only append the last point if it's far enough from the second-to-last label
+    const last      = timestamps.length - 1
+    const lastAdded = result[result.length - 1]
+    if (lastAdded?.idx !== last) {
+        const lastFrac   = last / (timestamps.length - 1)
+        const prevFrac   = lastAdded ? lastAdded.idx / (timestamps.length - 1) : 0
+        const pxBetween  = (lastFrac - prevFrac) * chartWidth
+        // only add if there's room for a full label slot
+        if (pxBetween >= slotW) {
+            result.push({ idx: last, label: fmt(timestamps[last], period) })
+        } else {
+            // replace the last added label with the final timestamp instead
+            if (result.length > 1) {
+                result[result.length - 1] = { idx: last, label: fmt(timestamps[last], period) }
+            }
+        }
     }
     return result
-}
-
-// ── Flag helpers ──────────────────────────────────────────────────────────────
-function FlagIcon({ code, size = 48 }: { code: string; size?: number }) {
-    if (code in COMMODITY_ICONS) {
-        return (
-            <div style={{ width: size, height: size, borderRadius: '50%', background: '#1E2A3A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.6, flexShrink: 0 }}>
-                {COMMODITY_ICONS[code]}
-            </div>
-        )
-    }
-    const Flag = FlagComponents[code as keyof typeof FlagComponents]
-    if (!Flag) return <div style={{ width: size, height: size, borderRadius: '50%' }} className="bg-white/10" />
-    const flagW = size * 1.5
-    const offsetX = (flagW - size) / 2
-    return (
-        <div style={{ width: size, height: size, overflow: 'hidden', borderRadius: '50%', flexShrink: 0, position: 'relative' }}>
-            <Flag style={{ display: 'block', position: 'absolute', top: 0, left: -offsetX, width: flagW, height: size }} title={code} />
-        </div>
-    )
-}
-
-function PairFlags({ pair }: { pair: CurrencyPair }) {
-    return (
-        <div className="relative flex-shrink-0" style={{ width: 72, height: 48 }}>
-            <div className="absolute left-0 top-0 rounded-full overflow-hidden border-2 border-[#16161F]" style={{ width: 48, height: 48 }}>
-                <FlagIcon code={pair.baseFlag} size={48} />
-            </div>
-            <div className="absolute rounded-full overflow-hidden border-2 border-[#16161F]" style={{ width: 48, height: 48, left: 24 }}>
-                <FlagIcon code={pair.quoteFlag} size={48} />
-            </div>
-        </div>
-    )
 }
 
 // ── uPlot chart ───────────────────────────────────────────────────────────────
@@ -173,11 +231,14 @@ function UPlotChart({
     const xLabelsRef = useRef<HTMLDivElement | null>(null)
     const [containerW, setContainerW] = useState(0)
 
-    // derived
-    const plotW     = Math.max(0, containerW - Y_AXIS_W)
+    // derived — use smaller Y-axis on mobile
+    const isMobile  = containerW > 0 && containerW < 480
+    const yAxisW    = isMobile ? Y_AXIS_W_MOBILE : Y_AXIS_W
+    const yFontSize = isMobile ? 10 : 13
+    const plotW     = Math.max(0, containerW - yAxisW)
     const xLabels   = useMemo(() => pickXLabels(timestamps, period, plotW), [timestamps, period, plotW])
 
-    const buildOpts = useCallback((w: number): uPlot.Options => {
+    const buildOpts = useCallback((w: number, axisW: number, fontSize: number): uPlot.Options => {
         const minP = Math.min(...prices)
         const maxP = Math.max(...prices)
         const range = maxP - minP
@@ -260,8 +321,8 @@ function UPlotChart({
                         dash:   [4, 4],
                     },
                     gap:  8,
-                    size: Y_AXIS_W,
-                    font: '500 13px Inter,sans-serif',
+                    size: axisW,
+                    font: `500 ${fontSize}px Inter,sans-serif`,
                     stroke: '#FFFFFF99',
                     values: (_u: uPlot, vals: number[]) =>
                         vals.map(v => (v != null ? v.toFixed(decimals) : '')),
@@ -283,7 +344,7 @@ function UPlotChart({
                 },
             ],
         }
-    }, [prices, decimals, timestamps])
+    }, [prices, decimals, timestamps, yAxisW, yFontSize])
 
     // Init / re-init uPlot whenever data or width changes
     useEffect(() => {
@@ -314,7 +375,7 @@ function UPlotChart({
             tooltipRef.current = tooltip
         }
 
-        const opts = buildOpts(containerW)
+        const opts = buildOpts(containerW, yAxisW, yFontSize)
         const plot = new uPlot(opts, [timestamps, prices], wrap)
         plotRef.current = plot
 
@@ -322,7 +383,7 @@ function UPlotChart({
             plot.destroy()
             plotRef.current = null
         }
-    }, [timestamps, prices, containerW, buildOpts])
+    }, [timestamps, prices, containerW, yAxisW, yFontSize, buildOpts])
 
     // ResizeObserver — only track width
     useEffect(() => {
@@ -351,30 +412,28 @@ function UPlotChart({
                 style={{
                     position: 'relative',
                     height: X_LABEL_H,
-                    marginRight: Y_AXIS_W,  // align with plot area (exclude Y axis)
-                    overflow: 'hidden',
+                    marginRight: yAxisW,  // align with plot area (exclude Y axis)
                 }}
             >
                 {xLabels.map(({ idx, label }) => {
-                    // position = fraction of plot width
-                    const frac = timestamps.length > 1 ? idx / (timestamps.length - 1) : 0
+                    const isFirst = idx === 0
+                    const isLast  = idx === timestamps.length - 1
+                    const frac    = timestamps.length > 1 ? idx / (timestamps.length - 1) : 0
                     const leftPct = frac * 100
                     return (
                         <span
                             key={idx}
                             style={{
-                                position:  'absolute',
-                                left:      `${leftPct}%`,
-                                transform: 'translateX(-50%)',
-                                top:       4,
-                                fontSize:  13,
+                                position:   'absolute',
+                                top:        4,
+                                fontSize:   isMobile ? 10 : 13,
                                 fontWeight: 500,
                                 lineHeight: '16px',
-                                color:     'rgba(255,255,255,0.6)',
+                                color:      'rgba(255,255,255,0.6)',
                                 whiteSpace: 'nowrap',
-                                // clamp first/last so they don't go outside
-                                ...(idx === 0                        ? { left: 0, transform: 'none' } : {}),
-                                ...(idx === timestamps.length - 1    ? { left: 'auto', right: 0, transform: 'none' } : {}),
+                                ...(isFirst ? { left: 0, transform: 'none' } :
+                                    isLast  ? { left: 'auto', right: 0, transform: 'none' } :
+                                              { left: `${leftPct}%`, transform: 'translateX(-50%)' }),
                             }}
                         >
                             {label}
@@ -411,10 +470,10 @@ export default function Chart() {
     }, [])
 
     return (
-        <div className="bg-[#16161F] border border-[#FFFFFF08] p-5 flex flex-col">
+        <div className="bg-[#16161F] p-4 sm:p-5 flex flex-col">
 
             {/* Top bar */}
-            <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
+            <div className="flex items-center justify-between gap-3 flex-wrap mb-4 sm:mb-6">
                 <div ref={dropdownRef} className="relative">
                     <button
                         onClick={() => setDropdownOpen(p => !p)}
@@ -460,7 +519,7 @@ export default function Chart() {
                 <div className="flex items-center gap-px border border-[#FFFFFF12] rounded-[10px] p-1">
                     {periods.map(p => (
                         <button key={p} onClick={() => setActivePeriod(p)}
-                            className={`w-[38px] h-[37px] text-[14px] leading-[17px] font-medium rounded-[8px] transition-colors cursor-pointer ${activePeriod === p ? 'bg-[#FFFFFF0D] text-white' : 'text-white/60 hover:text-white/70'}`}>
+                            className={`w-9 h-8 sm:w-[38px] sm:h-[37px] text-[14px] leading-[17px] font-medium rounded-[8px] transition-colors cursor-pointer ${activePeriod === p ? 'bg-[#FFFFFF0D] text-white' : 'text-white/60 hover:text-white/70'}`}>
                             {p}
                         </button>
                     ))}
@@ -468,14 +527,14 @@ export default function Chart() {
             </div>
 
             {/* Price row */}
-            <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
-                <div className="flex items-center gap-4">
-                    <span className="text-white text-[45px] font-semibold leading-[54px]">{selectedPair.price}</span>
-                    <span className={`text-[18px] leading-[22px] font-normal ${selectedPair.changePositive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
+            <div className="flex items-center justify-between flex-wrap gap-3 mb-4 sm:mb-6">
+                <div className="flex items-center gap-2.5 sm:gap-4">
+                    <span className="text-white text-[32px] sm:text-[45px] font-semibold leading-11 sm:leading-[54px]">{selectedPair.price}</span>
+                    <span className={`text-[16px] sm:text-[18px] leading-[22px] font-normal ${selectedPair.changePositive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
                         {selectedPair.change}
                     </span>
                 </div>
-                <div className="flex items-center flex-wrap gap-5">
+                <div className="flex items-center flex-wrap gap-3 sm:gap-5">
                     {[
                         { label: 'Prev Close', value: selectedPair.prevClose },
                         { label: 'Open Price', value: selectedPair.openPrice },
@@ -484,7 +543,7 @@ export default function Chart() {
                     ].map(stat => (
                         <div key={stat.label} className="flex flex-col items-start">
                             <span className="text-white/60 text-[12px] leading-[16px] font-medium mb-1">{stat.label}</span>
-                            <span className="text-white text-[18px] font-semibold leading-[22px]">{stat.value}</span>
+                            <span className="text-white text-[16px] sm:text-[18px] font-semibold leading-5 sm:leading-[22px]">{stat.value}</span>
                         </div>
                     ))}
                 </div>

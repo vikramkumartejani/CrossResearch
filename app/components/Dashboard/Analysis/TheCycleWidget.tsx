@@ -56,7 +56,7 @@ const CYCLE_ITEMS = [
 
 export default function TheCycleWidget() {
     return (
-        <div className="bg-[#16161F] border border-[#FFFFFF08] flex flex-col h-full">
+        <div className="bg-[#16161F] flex flex-col h-full">
             {/* Title */}
             <div className="bg-[#FFFFFF0A] px-4 py-3">
                 <h3 className="text-white text-[18px] leading-[22px] font-medium">The Cycle Widget</h3>
@@ -65,9 +65,9 @@ export default function TheCycleWidget() {
                 </p>
             </div>
 
-            <div className="px-4 pb-4 pt-4">
+            <div className="p-3 sm:p-4">
                 {/* 2x2 grid */}
-                <div className="grid grid-cols-2 gap-4 flex-1">
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-4 flex-1">
                     {CYCLE_ITEMS.map((item) => (
                         <div
                             key={item.label}
@@ -84,7 +84,7 @@ export default function TheCycleWidget() {
                     ))}
                 </div>
 
-                <div className="mt-4 bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3.5 flex items-start h-fit flex-col gap-3">
+                <div className="mt-2.5 sm:mt-4 bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3.5 flex items-start h-fit flex-col gap-3">
                     <div>
                         <p className="text-white/60 text-[12px] leading-[14px] font-normal">title</p>
                         <p className='text-[16px] font-semibold leading-[19px] mt-1'>descr</p>
@@ -92,7 +92,7 @@ export default function TheCycleWidget() {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-4 flex items-center justify-between bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3">
+                <div className="mt-2.5 sm:mt-4 flex items-center justify-between bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3">
                     <span className="text-white/60 text-[12px] leading-[14px] font-normal flex items-center gap-1">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.0026 14.6663C11.6845 14.6663 14.6693 11.6816 14.6693 7.99967C14.6693 4.31778 11.6845 1.33301 8.0026 1.33301C4.32071 1.33301 1.33594 4.31778 1.33594 7.99967C1.33594 11.6816 4.32071 14.6663 8.0026 14.6663Z" stroke="white" strokeOpacity="0.6" strokeLinecap="round" strokeLinejoin="round" />
