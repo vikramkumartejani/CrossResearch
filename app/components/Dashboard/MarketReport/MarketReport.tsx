@@ -60,7 +60,7 @@ const SIDEBAR_REPORTS = [REPORTS[0], REPORTS[0], REPORTS[0]]
 
 function Tag({ label }: { label: string }) {
     return (
-        <span className="inline-flex items-center px-[15px] h-[29px] text-[#88C4FF] text-[12px] leading-[17px] uppercase font-medium rounded-[72px] border border-[#FFFFFF1A]">
+        <span className="inline-flex items-center px-3 sm:px-[15px] h-[26px] sm:h-[29px] text-[#88C4FF] text-[11px] sm:text-[12px] leading-[17px] uppercase font-medium rounded-[72px] border border-[#FFFFFF1A]">
             {label}
         </span>
     )
@@ -69,39 +69,41 @@ function Tag({ label }: { label: string }) {
 // Thumbnail placeholder matching the grey box in the Figma
 function Thumb() {
     return (
-        <div className="w-[172px] h-[113px] flex-shrink-0 bg-[#FFFFFF0D] flex items-center justify-center">
+        <div className="w-full lg:w-[172px] h-[140px] lg:h-[113px] flex-shrink-0 bg-[#FFFFFF0D] flex items-center justify-center">
         </div>
     )
 }
 
 function MainCard({ r }: { r: Report }) {
     return (
-        <div className="bg-[#16161F] p-5 cursor-pointer transition-colors">
-            {/* content row: text left, thumb right */}
-            <div className="flex items-start justify-between gap-4">
-                <div className="w-full max-w-[843px]">
-                    <div className="flex items-center gap-2">
+        <div className="bg-[#16161F] p-3.5 sm:p-5 cursor-pointer transition-colors">
+            {/* On mobile: stack vertically. On desktop: text left, thumb right */}
+            <div className="flex flex-col-reverse xl:flex-row xl:items-start xl:justify-between gap-2.5 sm:gap-4">
+                {/* Text section */}
+                <div className="w-full sm:max-w-[843px]">
+                    <div className="flex items-center gap-2 flex-wrap">
                         {r.tags.map(t => <Tag key={t.label} {...t} />)}
                     </div>
-                    <h3 className="mt-3 text-white text-[28px] leading-[34px] font-medium mb-2">{r.title}</h3>
-                    <p className="text-[#88C4FF] text-[14px] leading-[20px] font-medium mb-4">{r.subtitle}</p>
-                    <p className="text-white/60 text-[12px] leading-[19px] font-normal max-w-[647px]">{r.body}</p>
+                    <h3 className="mt-3 text-white text-[20px] sm:text-[24px] 2xl:text-[28px] leading-[26px] sm:leading-[28px] 2xl:leading-[34px] font-medium mb-2">{r.title}</h3>
+                    <p className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[16px] sm:leading-[20px] font-medium mb-2 sm:mb-4">{r.subtitle}</p>
+                    <p className="text-white/60 text-[12px] leading-[19px] font-normal sm:max-w-[647px]">{r.body}</p>
 
                     {/* footer */}
-                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-[#FFFFFF26]">
-                        <span className="text-white/60 text-[14px] leading-[22px] font-normal">{r.author}</span>
-                        <span className="text-white text-[14px] leading-[22px] font-semibold">{r.date}</span>
+                    <div className="flex items-center justify-between mt-3 sm:mt-5 pt-3 sm:pt-4 border-t border-[#FFFFFF26]">
+                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">{r.author}</span>
+                        <span className="text-white text-[12px] sm:text-[14px] leading-[22px] font-semibold">{r.date}</span>
                     </div>
                 </div>
 
-                <div className="w-full max-w-[231px]">
-                    <div className="flex items-center justify-between gap-10">
-                        <span className="text-white/60 text-[14px] leading-[22px] font-normal">{r.readTime}</span>
-                        <span className="text-[14px] font-normal leading-[22px]" style={{ color: r.sentimentColor }}>{r.sentiment}</span>
+                {/* Thumb + meta section — sits below text on mobile, right side on desktop */}
+                <div className="w-full xl:max-w-[231px]">
+                    <div className="flex items-center justify-between gap-3 sm:gap-10">
+                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">{r.readTime}</span>
+                        <span className="text-[12px] sm:text-[14px] font-normal leading-[22px]" style={{ color: r.sentimentColor }}>{r.sentiment}</span>
                     </div>
-                    <div className="flex flex-col items-end gap-2.5 flex-shrink-0 pt-2.5">
+                    <div className="flex flex-col items-end gap-1 sm:gap-2.5 flex-shrink-0 pt-1 sm:pt-2.5 relative">
                         <Thumb />
-                        <span className="text-white/60 text-[14px] leading-[22px]">{r.track}</span>
+                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] lg:static absolute bottom-2.5 right-2.5">{r.track}</span>
                     </div>
                 </div>
             </div>
@@ -138,7 +140,7 @@ export default function MarketReport() {
         <div className="">
 
             {/* Header */}
-            <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
+            <div className="border-b border-[#FFFFFF0D] pb-5 sm:pb-6 mb-4 sm:mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                         <g clipPath="url(#clip_mr)">
@@ -153,23 +155,23 @@ export default function MarketReport() {
                     </svg>
                     <span className="text-[#838388] text-[12px] font-medium">Market Reports</span>
                 </div>
-                <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Research & Strategy Desk</h1>
+                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Research & Strategy Desk</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
                     Long - Fom macro, FX and digital - asset reports authored by the BTB research desks
                 </p>
             </div>
 
             {/* Layout: left flex-1, right 389px */}
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_389px] gap-4 items-stretch px-4 lg:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_389px] gap-4 items-stretch px-4 lg:px-6">
                 {/* Left */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3 sm:gap-4">
                     {REPORTS.map((r) => (
                         <MainCard key={r.id} r={r} />
                     ))}
                 </div>
 
-                {/* Right */}
-                <div className="hidden lg:flex flex-col gap-8 p-4 bg-[#16161F] h-full self-stretch">
+                {/* Right — hidden on mobile, visible on lg+ */}
+                <div className="flex flex-col gap-5 sm:gap-8 p-3.5 sm:p-4 bg-[#16161F] h-full self-stretch">
                     {SIDEBAR_REPORTS.map((r, i) => (
                         <SideCard key={i} r={r} />
                     ))}
