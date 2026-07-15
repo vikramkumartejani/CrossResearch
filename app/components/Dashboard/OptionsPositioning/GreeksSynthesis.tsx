@@ -36,15 +36,15 @@ const GREEK_CARDS = [
 
 export default function GreeksSynthesis() {
     return (
-        <div className="mb-5">
+        <div className="mb-4 sm:mb-5">
             {/* Section heading */}
-            <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">
+            <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">
                 Greeks Synthesis • Multi-Asset
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
                 {GREEK_CARDS.map((card) => (
-                    <div key={card.label} className="bg-[#16161F] p-4 flex flex-col">
+                    <div key={card.label} className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
                         {/* Greek letter + label */}
                         <div className="flex items-center gap-[5px]">
                             <span className="text-white text-[22px] leading-none font-light">{card.symbol}</span>
@@ -54,7 +54,7 @@ export default function GreeksSynthesis() {
                         </div>
 
                         {/* Title + description */}
-                        <div className="mt-6 xl:pr-6">
+                        <div className="mt-4 sm:mt-6 xl:pr-6">
                             <p className="text-white text-[18px] leading-[22px] font-medium mb-2">{card.title}</p>
                             <p className="text-[#838388] text-[12px] leading-[17px] font-normal">{card.desc}</p>
                         </div>

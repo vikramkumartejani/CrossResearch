@@ -96,7 +96,7 @@ export default function OptionsPositioning() {
                     </svg>
                     <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Options Positioning Dealer Positioning Engine</span>
                 </div>
-                <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Mechanical Dealer Levels</h1>
+                <h1 className="text-white text-[26px] sm:text-[35px] font-medium leading-tight sm:leading-[42px] mb-2">Mechanical Dealer Levels</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
                     Gamma exposure, dealer bias and key option levels for SPX, NDX and DJIA. Identifies walls, flip zones
                     and vacuum areas that drive intraday mechanics.
@@ -105,8 +105,8 @@ export default function OptionsPositioning() {
 
             <div className="px-4 lg:px-6">
                 {/* Market Structure — unchanged */}
-                <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">Market Structure</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
+                <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">Market Structure</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4 sm:mb-5">
                     {CARDS.map(card => (
                         <MarketCard key={card.ticker} {...card} />
                     ))}
@@ -116,7 +116,7 @@ export default function OptionsPositioning() {
                 <GreeksSynthesis />
 
                 {/* Sector Gamma Dashboard + Macro Event Stress */}
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_524px] gap-4 grow">
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 grow">
                     <SectorGammaDashboard />
                     <MacroEventStress />
                 </div>
