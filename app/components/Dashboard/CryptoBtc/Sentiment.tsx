@@ -54,17 +54,17 @@ function FearGreedChart() {
 export default function Sentiment() {
     return (
         <div>
-            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Sentiment</h2>
+            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Sentiment</h2>
 
-            <div className="bg-[#16161F] p-4">
-                <div className="flex items-center justify-between mb-4">
+            <div className="bg-[#16161F] p-3 sm:p-4">
+                <div className="flex items-center justify-between gap-2 mb-4">
                     <div>
-                        <p className="text-[#838388] text-[14px] leading-[17px] mb-2">Sentiment</p>
-                        <p className="text-white text-[18px] leading-[22px] font-medium">
+                        <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[14px] sm:leading-[17px] mb-2">Sentiment</p>
+                        <p className="text-white text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-medium">
                             BTC Fear & Greed Index
                         </p>
                     </div>
-                    <span className="text-[#E25C3F] text-[14px] leading-[17px] font-medium">-2 7D</span>
+                    <span className="text-[#E25C3F] text-[12px] sm:text-[14px] leading-[17px] font-medium">-2 7D</span>
                 </div>
 
                 {/* <div className="flex gap-4">
@@ -92,11 +92,11 @@ export default function Sentiment() {
                     </div>
                 </div> */}
 
-                 <div className='my-16 text-center'>
+                <div className='my-16 text-center'>
                     Chart Is Coming...
                 </div>
 
-                <p className="text-[#838388] text-[14px] leading-[20px] font-normal mt-4">
+                <p className="text-[#838388] text-[12px] sm:text-[14px] leading-4 sm:leading-[20px] font-normal mt-4">
                     In-house composite of funding rate, social momentum, dominance, options skew and ETF velocity. Extreme readings (&lt;25 or &gt;75) revert 78% of the time within 14 days.
                 </p>
             </div>

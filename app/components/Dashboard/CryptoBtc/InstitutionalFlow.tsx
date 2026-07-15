@@ -101,17 +101,17 @@ function ReturnForecastChart() {
 
 export default function InstitutionalFlow() {
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4">
             {/* ETF Flows card */}
-            <div className="bg-[#16161F] p-4 flex flex-col">
+            <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <p className="text-[#838388] text-[14px] leading-[17px] mb-2">ETF Flows</p>
-                        <p className="text-white text-[18px] leading-[22px] font-medium">
+                        <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[14px] sm:leading-[17px] mb-2">ETF Flows</p>
+                        <p className="text-white text-[16px] sm:text-[18px] leading-5 sm:leading-[22px] font-medium">
                             BTC Spot ETF Net Flows • 180d
                         </p>
                     </div>
-                    <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium">Alpha</span>
+                    <span className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[17px] font-medium">Alpha</span>
                 </div>
 
                 {/* Y labels + chart */}
@@ -125,39 +125,40 @@ export default function InstitutionalFlow() {
                         <EtfBarChart />
                     </div>
                 </div> */}
+
                 <div className='my-16 text-center'>
                     Chart Is Coming...
                 </div>
 
-                <p className="text-[#838388] text-[14px] leading-[20px] font-normal">
+                <p className="text-[#838388] text-[13px] sm:text-[14px] leading-4 sm:leading-[20px] font-normal">
                     Cumulative inflows reached <span className="text-white font-semibold">$17190</span> 9M - institutional bid persists through volatility.
                 </p>
 
                 {/* Stats row */}
-                <div className="mt-4 flex items-center gap-8">
+                <div className="mt-3 sm:mt-4 flex items-start flex-wrap gap-x-6 gap-y-3 sm:gap-8">
                     {[
                         { label: '5D NET', value: '+$775.5M', pos: true },
                         { label: '30D', value: '+$7855.09M', pos: true },
                         { label: 'Cumulative', value: '$18.2B', pos: true },
                     ].map(s => (
                         <div key={s.label}>
-                            <p className="text-white/50 text-[14px] leading-[17px] font-medium">{s.label}</p>
-                            <p className={`text-[16px] leading-[19px] font-semibold mt-1 ${s.pos ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>{s.value}</p>
+                            <p className="text-white/50 text-[12px] sm:text-[14px] leading-[17px] font-medium">{s.label}</p>
+                            <p className={`text-[14px] sm:text-[16px] leading-[19px] font-semibold mt-1 ${s.pos ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>{s.value}</p>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Return Forecast card */}
-            <div className="bg-[#16161F] p-4 flex flex-col">
-                <div className="flex items-center justify-between mb-4">
+            <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+                <div className="flex items-center justify-between gap-2 mb-4">
                     <div>
-                        <p className="text-[#838388] text-[14px] leading-[17px] mb-2">Return Forecast</p>
-                        <p className="text-white text-[18px] leading-[22px] font-medium">
+                        <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[14px] sm:leading-[17px] mb-2">Return Forecast</p>
+                        <p className="text-white text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-medium">
                             BTC 30d Projected Path • 97% Band
                         </p>
                     </div>
-                    <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium">Alpha</span>
+                    <span className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[17px] font-medium">Alpha</span>
                 </div>
 
                 {/* Y labels + chart */}
@@ -183,7 +184,7 @@ export default function InstitutionalFlow() {
                     ))}
                 </div> */}
 
-                <p className="mt-auto text-[#838388] text-[14px] leading-[20px] mt-3">
+                <p className="mt-auto text-[#838388] text-[13px] sm:text-[14px] leading-4 sm:leading-[20px] mt-3">
                     Cumulative inflows reached <span className="text-white font-semibold">$17190 </span> 9M - institutional bid persists through volatility.
                 </p>
             </div>
