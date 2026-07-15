@@ -145,7 +145,7 @@ export default function HelpCenter() {
             </div>
 
             {/* Heading */}
-            <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">
+            <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
                 How Can I Help You
             </h1>
             <p className="text-[#838388] text-[12px] leading-[17px] mb-5">
@@ -154,8 +154,8 @@ export default function HelpCenter() {
             </p>
 
             {/* Search */}
-            <div className="relative mb-5 max-w-[550px]">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="relative mb-4 sm:mb-5 w-full max-w-[550px]">
+                <span className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 pointer-events-none">
                     <IconSearch />
                 </span>
                 <input
@@ -163,20 +163,20 @@ export default function HelpCenter() {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search articles, e.g. 'dealer gamma'"
-                    className="w-full h-[42px] pl-9 pr-4 bg-[#16161F] border border-[#FFFFFF0D] text-white text-[12px] font-normal placeholder:text-[#838388] outline-none focus:border-[#FFFFFF25] transition-colors"
+                    className="w-full h-9 sm:h-[42px] pl-8 sm:pl-9 pr-4 bg-[#16161F] border border-[#FFFFFF0D] text-white text-[12px] font-normal placeholder:text-[#838388] outline-none focus:border-[#FFFFFF25] transition-colors"
                 />
             </div>
 
             {/* Browse By Topic */}
-            <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">
+            <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">
                 Browse By Topic
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4 mb-4 sm:mb-5">
                 {TOPICS.map(topic => (
                     <button
                         key={topic.id}
-                        className="group flex flex-col bg-[#16161F] p-4 text-left transition-colors cursor-pointer"
+                        className="group flex flex-col bg-[#16161F] p-3 sm:p-4 text-left transition-colors cursor-pointer"
                     >
                         {/* Top row */}
                         <div className="flex items-center justify-between mb-4">
@@ -200,7 +200,7 @@ export default function HelpCenter() {
             </div>
 
             {/* Most Asked */}
-            <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">
+            <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">
                 Most Asked
             </h2>
 
@@ -208,22 +208,23 @@ export default function HelpCenter() {
                 {MOST_ASKED.map((item, i) => (
                     <button
                         key={i}
-                        className="group w-full flex items-center justify-between gap-4 px-6 py-5 border-b border-[#FFFFFF0D] last:border-b-0 hover:bg-[#FFFFFF05] transition-colors cursor-pointer text-left"
+                        className="group w-full flex items-center justify-between gap-3 px-3 sm:px-6 py-3 sm:py-5 border-b border-[#FFFFFF0D] last:border-b-0 hover:bg-[#FFFFFF05] transition-colors cursor-pointer text-left"
                     >
-                        <div className="flex items-center gap-4 min-w-0">
-                            <span className="text-white text-[16px] leading-[19px] font-medium w-6 flex-shrink-0">
+                        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+                            <span className="text-white text-[14px] sm:text-[16px] leading-[19px] font-medium w-5 sm:w-6 flex-shrink-0">
                                 {String(i + 1).padStart(2, '0')}
                             </span>
-                            <span className="text-white font-medium text-[16px] leading-[19px] truncate">
+                            <span className="text-white font-medium text-[14px] sm:text-[16px] leading-[18px] sm:leading-[19px] line-clamp-2 sm:truncate">
                                 {item.q}
                             </span>
                         </div>
-                        <div className="flex items-center gap-1 flex-shrink-0">
+                        <div className="hidden sm:flex items-center gap-1 flex-shrink-0">
                             <span className="text-white/60 text-[16px] leading-[19px] font-medium group-hover:text-white/70 transition-colors">
                                 {item.cat}
                             </span>
                             <IconChevronRight className="text-white/60 group-hover:text-white transition-colors" />
                         </div>
+                        <IconChevronRight className="sm:hidden text-white/60 flex-shrink-0" />
                     </button>
                 ))}
             </div>
