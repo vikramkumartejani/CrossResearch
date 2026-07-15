@@ -10,7 +10,7 @@ const FLASHPOINTS = [
 export default function FlashpointBrief() {
     return (
         <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between gap-3 mb-4">
+            <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
                 <h2 className="text-white text-[18px] leading-[22px] font-medium">Flashpoint Brief</h2>
                 <button className="text-[#838388] hover:text-white transition-colors">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,16 +20,16 @@ export default function FlashpointBrief() {
                 </button>
             </div>
             <div className="flex flex-col h-full">
-                <div className="flex-1 overflow-y-auto space-y-3">
+                <div className="flex-1 overflow-y-auto space-y-2 sm:space-y-3">
                     {FLASHPOINTS.map((fp, i) => (
-                        <div key={i} className="bg-[#16161F] flex items-start justify-between p-3.5">
-                            <div className="flex flex-col gap-2">
-                                <span className="text-[#838388] text-[14px] leading-[20px] font-normal">
+                        <div key={i} className="bg-[#16161F] flex items-start justify-between gap-3 p-3 sm:p-3.5">
+                            <div className="flex flex-col gap-1 sm:gap-2 min-w-0">
+                                <span className="text-[#838388] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[20px] font-normal">
                                     {fp.region} • {fp.date}
                                 </span>
-                                <p className="text-white text-[16px] leading-[20px] font-medium">{fp.title}</p>
+                                <p className="text-white text-[13px] sm:text-[16px] leading-[18px] sm:leading-[20px] font-medium">{fp.title}</p>
                             </div>
-                            <span className={`text-[14px] leading-[17px] font-medium ${fp.severityColor}`}>
+                            <span className={`text-[12px] sm:text-[14px] leading-[17px] font-medium flex-shrink-0 ${fp.severityColor}`}>
                                 {fp.severity}
                             </span>
                         </div>

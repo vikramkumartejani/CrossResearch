@@ -7,12 +7,12 @@ const STATS = [
 
 export default function GeoStatsRow() {
     return (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 px-4 lg:px-6 mb-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 px-4 lg:px-6 mb-4 sm:mb-5">
             {STATS.map((s) => (
-                <div key={s.label} className="bg-[#16161F] px-4 py-4">
-                    <p className="text-[#838388] text-[16px] leading-[22px] font-medium mb-2">{s.label}</p>
-                    <p className={`text-[30px] leading-[38px] font-semibold mb-2 ${s.valueColor ?? 'text-white'}`}>{s.value}</p>
-                    <p className={`text-[#838388] text-[16px] leading-[22px] font-medium ${s.subColor}`}>{s.sub}</p>
+                <div key={s.label} className="bg-[#16161F] px-3 sm:px-4 py-3 sm:py-4">
+                    <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[17px] sm:leading-[22px] font-medium mb-1.5 sm:mb-2">{s.label}</p>
+                    <p className={`text-[20px] sm:text-[30px] leading-[24px] sm:leading-[38px] font-semibold mb-1.5 sm:mb-2 ${s.valueColor ?? 'text-white'}`}>{s.value}</p>
+                    <p className={`text-[11px] sm:text-[16px] leading-[16px] sm:leading-[22px] font-medium ${s.subColor}`}>{s.sub}</p>
                 </div>
             ))}
         </div>

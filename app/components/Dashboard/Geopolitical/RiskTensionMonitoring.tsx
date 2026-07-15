@@ -55,28 +55,28 @@ function GriChart() {
 
 export default function RiskTensionMonitoring() {
     return (
-        <div className="px-4 lg:px-6 mb-5">
+        <div className="px-4 lg:px-6 mb-4 sm:mb-5">
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Risk Tension Monitoring</h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_524px] gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4">
                 {/* GRI Chart */}
-                <div className="bg-[#16161F] p-4 flex flex-col">
-                    <div className="flex items-start justify-between">
+                <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+                    <div className="flex sm:flex-row flex-col items-start justify-between gap-3">
                         <div>
-                            <p className="text-white text-[18px] leading-[22px] font-medium">
+                            <p className="text-white text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-medium">
                                 Geopolitical Risk Index • 180d
                             </p>
-                            <p className="text-[#838388] text-[14px] leading-[17px] font-normal mt-2">
+                            <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[17px] font-normal mt-2">
                                 Global baseline methodology • mean-revied risk premium
                             </p>
                         </div>
-                        <div className="text-right">
-                            <p className="text-white text-[22px] leading-[31px] font-semibold mb-1">25.7</p>
+                        <div className="text-right flex sm:flex-col flex-row items-center sm:items-end gap-3 sm:gap-0">
+                            <p className="text-white text-[18px] sm:text-[22px] leading-6 sm:leading-[31px] font-semibold mb-1">25.7</p>
                             <p className="text-[#5CEB8A] text-[14px] leading-[17px] font-normal">+1.8 Today</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-center h-full">
+                    <div className="flex items-center justify-center h-full my-12">
                         {/* <div className="flex flex-col justify-between text-right flex-shrink-0 pb-5" style={{ width: 28 }}>
                             {Y_LABELS.map(l => (
                                 <span key={l} className="text-[#838388] text-[9px] leading-[11px]">{l}</span>
@@ -90,6 +90,7 @@ export default function RiskTensionMonitoring() {
                                 ))}
                             </div>
                         </div> */}
+
                         Chart Is Coming...
                     </div>
                 </div>
@@ -110,7 +111,7 @@ export default function RiskTensionMonitoring() {
                         </div>
                     </div>
 
-                    <div className="flex-1 bg-[#FFFFFF08] overflow-hidden" style={{ minHeight: 250 }}>
+                    <div className="flex-1 bg-[#FFFFFF08] overflow-hidden min-h-[160px] sm:min-h-[250px]">
                         {/* <iframe
                             src="https://www.bloomberg.com/media-manifest/streams/us.m3u8"
                             className="w-full h-full"

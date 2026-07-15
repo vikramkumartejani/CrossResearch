@@ -23,23 +23,23 @@ const COLOR = {
 
 export default function GeographicalDistribution() {
     return (
-        <div className="px-4 lg:px-6 mb-5">
+        <div className="px-4 lg:px-6 mb-4 sm:mb-5">
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_524px] gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4">
                 {/* World Map */}
                 <div className='h-full'>
-                    <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Geographical Distribution</h2>
-                    <div className="bg-[#16161F] p-4">
+                    <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Geographical Distribution</h2>
+                    <div className="bg-[#16161F] p-3 sm:p-4">
                         <div className="flex items-center justify-between mb-3">
-                            <p className="text-white text-[16px] leading-[22px] font-semibold">Global Risk Map</p>
-                            <div className="flex items-center gap-4">
+                            <p className="text-white text-[14px] sm:text-[16px] leading-[20px] sm:leading-[22px] font-semibold">Global Risk Map</p>
+                            <div className="flex items-center gap-2.5 sm:gap-4">
                                 {(['High', 'Medium', 'Low'] as const).map((s) => (
                                     <div key={s} className="flex items-center gap-1">
                                         <div
-                                            className="w-[7px] h-[7px] rounded-full"
+                                            className="w-1 h-1 sm:w-[7px] sm:h-[7px] rounded-full"
                                             style={{ backgroundColor: COLOR[s.toLowerCase() as 'high' | 'medium' | 'low'] }}
                                         />
-                                        <span className="text-[14px] leading-[17px] font-medium"
+                                        <span className="text-[13px] sm:text-[14px] leading-4 sm:leading-[17px] font-medium"
                                             style={{ color: COLOR[s.toLowerCase() as 'high' | 'medium' | 'low'] }}>
                                             {s}
                                         </span>
