@@ -64,6 +64,30 @@ function getTabs(tickets: Ticket[]): { key: TabKey; label: string; count: number
     ]
 }
 
+// ─── Mobile ticket card ───────────────────────────────────────────────────────
+
+function TicketCard({ ticket, isLast }: { ticket: Ticket; isLast: boolean }) {
+    return (
+        <div className={`px-3 py-3 cursor-pointer hover:bg-[#FFFFFF04] transition-colors ${!isLast ? 'border-b border-[#FFFFFF0D]' : ''}`}>
+            {/* top row: id + status */}
+            <div className="flex items-center justify-between mb-2">
+                <span className="text-[#838388] text-[14px] leading-5 font-normal">{ticket.id}</span>
+                <StatusBadge status={ticket.status} />
+            </div>
+            {/* subject */}
+            <p className="text-white text-[16px] leading-[20px] font-medium mb-2">{ticket.subject}</p>
+            {/* bottom row: category · updated · msgs */}
+            <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[#838388] text-[12px] leading-5">{ticket.category}</span>
+                <span className="text-[#838388] text-[14px] leading-5">•</span>
+                <span className="text-[#838388] text-[12px] leading-5">{ticket.updated}</span>
+                <span className="text-[#838388] text-[12px] leading-5">•</span>
+                <span className="text-[#838388] text-[12px] leading-5">{ticket.msgs} msgs</span>
+            </div>
+        </div>
+    )
+}
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function ContactSupportPage() {
@@ -76,6 +100,7 @@ export default function ContactSupportPage() {
 
     return (
         <div className='px-4 lg:px-6'>
+            {/* Breadcrumb */}
             <div className='mb-3 flex items-center gap-1'>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.125 9C16.125 12.935 12.935 16.125 9 16.125C7.77893 16.125 6.62955 15.8178 5.625 15.2765C4.22383 14.5215 3.28097 15.2234 2.44944 15.3494C2.3233 15.3685 2.19768 15.3227 2.10748 15.2325C1.97056 15.0956 1.9445 14.8838 2.02013 14.7056C2.34649 13.9364 2.64615 12.4787 2.23756 11.25C2.00235 10.5428 1.875 9.78623 1.875 9C1.875 5.06497 5.06497 1.875 9 1.875C12.935 1.875 16.125 5.06497 16.125 9Z" stroke="#838388" strokeLinecap="round" strokeLinejoin="round" />
@@ -84,14 +109,15 @@ export default function ContactSupportPage() {
                 <h2 className='text-[#838388] text-[12px] leading-3.5 font-medium'>Contact Support</h2>
             </div>
 
-            <div className='flex items-center justify-between mb-5'>
+            {/* Header — stacks on mobile, side-by-side on sm+ */}
+            <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5'>
                 <div>
-                    <h3 className='text-white text-[35px] font-medium leading-[42px] mb-2'>Your Tickets</h3>
+                    <h3 className='text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-1.5 sm:mb-2'>Your Tickets</h3>
                     <p className='text-[#838388] text-[12px] leading-[17px]'>
                         Open a new ticket, track conversations with the support desk, and search your Historical Requests.
                     </p>
                 </div>
-                <button className='flex items-center gap-1 h-[33px] px-6 bg-[#88C4FF] text-black text-[14px] leading-5 font-medium hover:bg-[#88C4FF]/90 transition-colors cursor-pointer'>
+                <button className='flex items-center gap-1 h-[33px] px-6 bg-[#88C4FF] text-black text-[14px] leading-5 font-medium hover:bg-[#88C4FF]/90 transition-colors cursor-pointer self-start sm:self-auto flex-shrink-0'>
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 3.75V14.25" stroke="black" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                         <path d="M3.75 9H14.25" stroke="black" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -100,24 +126,26 @@ export default function ContactSupportPage() {
                 </button>
             </div>
 
-            {/* Tabs */}
-            <div className='flex items-center gap-2 mb-5 bg-[#16161F] border border-[#FFFFFF0D] w-fit p-1'>
-                {tabs.map(tab => (
-                    <button
-                        key={tab.key}
-                        onClick={() => setActiveTab(tab.key)}
-                        className={`px-3 py-1 text-[14px] leading-5 transition-colors cursor-pointer ${activeTab === tab.key
-                            ? 'text-white bg-[#FFFFFF0D] font-semibold'
-                            : 'text-[#838388] hover:text-white/70 font-normal'
-                            }`}
-                    >
-                        {tab.label} {tab.count}
-                    </button>
-                ))}
+            {/* Tabs — scrollable on mobile */}
+            <div className='mb-5 overflow-x-auto'>
+                <div className='flex items-center sm:gap-2 bg-[#16161F] border border-[#FFFFFF0D] w-fit p-1 min-w-max'>
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.key}
+                            onClick={() => setActiveTab(tab.key)}
+                            className={`px-3 py-1 text-[12px] sm:text-[14px] leading-5 transition-colors cursor-pointer whitespace-nowrap ${activeTab === tab.key
+                                ? 'text-white bg-[#FFFFFF0D] font-semibold'
+                                : 'text-[#838388] hover:text-white/70 font-normal'
+                                }`}
+                        >
+                            {tab.label} {tab.count}
+                        </button>
+                    ))}
+                </div>
             </div>
 
-            {/* Table */}
-            <div className='w-full bg-[#16161F] border border-[#FFFFFF08] overflow-x-auto'>
+            {/* Desktop table — hidden on mobile */}
+            <div className='hidden sm:block w-full bg-[#16161F] border border-[#FFFFFF08] overflow-x-auto'>
                 <table className='w-full border-collapse'>
                     <thead>
                         <tr className='border-b border-[#FFFFFF1A]'>
@@ -144,6 +172,13 @@ export default function ContactSupportPage() {
                         ))}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Mobile card list — hidden on sm+ */}
+            <div className='sm:hidden w-full bg-[#16161F]'>
+                {filtered.map((ticket, i) => (
+                    <TicketCard key={ticket.id} ticket={ticket} isLast={i === filtered.length - 1} />
+                ))}
             </div>
         </div>
     )
