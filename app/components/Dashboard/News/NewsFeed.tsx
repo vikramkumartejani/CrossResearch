@@ -85,47 +85,47 @@ export default function NewsFeed() {
     return (
         <div className="flex flex-col">
             {/* Featured */}
-            <div className="bg-[#16161F] p-4 mb-5">
-                <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium">Top Of The Wire</span>
-                <h2 className="text-white text-[34px] leading-[44px] font-semibold my-3">{FEATURED.title}</h2>
-                <p className="text-[#838388] text-[16px] leading-[24px] font-normal max-w-[850px]">{FEATURED.desc}</p>
+            <div className="bg-[#16161F] p-3 sm:p-4 mb-4 sm:mb-5">
+                <span className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[14px] sm:leading-[17px] font-medium">Top Of The Wire</span>
+                <h2 className="text-white text-[18px] sm:text-[34px] leading-[24px] sm:leading-[44px] font-semibold my-2 sm:my-3">{FEATURED.title}</h2>
+                <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[16px] sm:leading-[24px] font-normal sm:max-w-[850px]">{FEATURED.desc}</p>
             </div>
 
-            {/* Tabs */}
-            <div className="flex items-center gap-2 mb-5 p-1 bg-[#16161F] border border-[#FFFFFF0D] w-fit">
-                {TABS.map(tab => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-3 py-1 text-[14px] leading-[20px] font-semibold transition-colors cursor-pointer ${activeTab === tab
-                                ? 'text-white bg-[#FFFFFF0D]'
-                                : 'text-[#838388] hover:text-white/70'
-                            }`}
-                    >
-                        {tab}
-                    </button>
-                ))}
+            {/* Tabs — scrollable on mobile */}
+            <div className="overflow-x-auto mb-4 sm:mb-5">
+                <div className="flex items-center sm:gap-2 p-1 bg-[#16161F] border border-[#FFFFFF0D] w-fit min-w-max">
+                    {TABS.map(tab => (
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className={`px-3 py-1 text-[13px] sm:text-[14px] leading-[20px] font-semibold transition-colors cursor-pointer whitespace-nowrap ${activeTab === tab
+                                    ? 'text-white bg-[#FFFFFF0D]'
+                                    : 'text-[#838388] hover:text-white/70'
+                                }`}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {/* Feed */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2.5 sm:gap-4">
                 {filtered.map((item, i) => (
-                    <div
-                        key={i}
-                        className="p-4 bg-[#16161F] cursor-pointer"
-                    >
-                        <div className="flex items-center justify-between gap-2 mb-2">
-                            <div className="flex items-center gap-2">
-                                <span className="text-[#88C4FF] text-[14px] leading-[20px] font-normal">{item.category}</span>
-                                <span className="text-[#838388] text-[14px] leading-[20px] font-normal">• {item.source}</span>
+                    <div key={i} className="p-3 sm:p-4 bg-[#16161F] cursor-pointer">
+                        {/* Top row — wraps on mobile */}
+                        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 mb-2">
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[20px] font-normal">{item.category}</span>
+                                <span className="text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">• {item.source}</span>
                                 <span className="bg-[#FFFFFF08] rounded-full px-2.5 py-1 text-white/60 text-[12px] leading-[14px] font-normal">{item.time}</span>
                             </div>
                             <span className={`text-[12px] leading-[16px] font-medium flex-shrink-0 ${item.impactColor}`}>
                                 {item.impact}
                             </span>
                         </div>
-                        <h3 className="text-white text-[20px] leading-[24px] font-semibold mb-1.5">{item.title}</h3>
-                        <p className="text-[#838388] text-[14px] leading-[21px] font-normal max-w-[850px]">{item.desc}</p>
+                        <h3 className="text-white text-[14px] sm:text-[20px] leading-[20px] sm:leading-[24px] font-semibold mb-1.5">{item.title}</h3>
+                        <p className="text-[#838388] text-[13px] sm:text-[14px] leading-[20px] sm:leading-[21px] font-normal sm:max-w-[850px]">{item.desc}</p>
                     </div>
                 ))}
             </div>

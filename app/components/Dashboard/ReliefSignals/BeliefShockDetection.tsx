@@ -125,7 +125,7 @@ export default function BeliefShockDetection() {
                             <rect x="5" y="3" width="14" height="14" rx="7" stroke="#2A2A2A" strokeWidth="2" />
                         </g>
                         <defs>
-                            <filter id="filter0_dd_584_5014" x="308" y="113.464" width="24" height="24" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <filter id="filter0_dd_584_5014" x="308" y="113.464" width="24" height="24" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                                 <feFlood floodOpacity="0" result="BackgroundImageFix" />
                                 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                                 <feOffset dy="2" />
@@ -139,7 +139,7 @@ export default function BeliefShockDetection() {
                                 <feBlend mode="multiply" in2="effect1_dropShadow_584_5014" result="effect2_dropShadow_584_5014" />
                                 <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_584_5014" result="shape" />
                             </filter>
-                            <filter id="filter1_dd_584_5014" x="0" y="0" width="24" height="24" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <filter id="filter1_dd_584_5014" x="0" y="0" width="24" height="24" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                                 <feFlood floodOpacity="0" result="BackgroundImageFix" />
                                 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                                 <feOffset dy="2" />

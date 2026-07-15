@@ -52,9 +52,9 @@ function Sparkline({ positive }: { positive: boolean }) {
 
 export default function NewsSidebar() {
     return (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3 sm:gap-5">
             {/* Bloomberg TV */}
-            <div className="bg-[#16161F] p-4">
+            <div className="bg-[#16161F] p-3 sm:p-4">
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +63,7 @@ export default function NewsSidebar() {
                         </svg>
                         <span className="text-white text-[16px] leading-[19px] font-semibold">Bloomberg TV</span>
                     </div>
-                    <div className="flex items-center gap-1 bg-[#E25C3F1A] py-1.5 px-3">
+                    <div className="flex items-center gap-1 bg-[#E25C3F1A] py-1 sm:py-1.5 px-2 sm:px-3">
                         <div className="w-1.5 h-1.5 bg-[#E25C3F] rounded-full" />
                         <span className="text-[#E25C3F] text-[14px] leading-[17px] font-medium">Live</span>
                     </div>
@@ -74,19 +74,19 @@ export default function NewsSidebar() {
             </div>
 
             {/* Today's Most Read */}
-            <div className="bg-[#16161F] p-4">
+            <div className="bg-[#16161F] p-3 sm:p-4">
                 <div className="flex items-center justify-between gap-2 mb-4">
                     <p className="text-white text-[16px] leading-[19px] font-semibold">Today&apos;s Most Read</p>
                     <span className="text-white/60 text-[12px] leading-[14px]">Next In 0:11</span>
                 </div>
 
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2.5 sm:gap-4">
                     {MOST_READ.map((item) => (
-                        <div key={item.num} className="flex gap-3 cursor-pointer group">
+                        <div key={item.num} className="flex gap-2 sm:gap-3 cursor-pointer group">
                             <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium flex-shrink-0 mt-0.5">{item.num}</span>
                             <div>
-                                <p className="text-white text-[16px] leading-[21px] font-medium">{item.title}</p>
-                                <p className="text-white/60 text-[14px] leading-[17px] mt-1">{item.source}</p>
+                                <p className="text-white text-[14px] sm:text-[16px] leading-5 sm:leading-[21px] font-medium">{item.title}</p>
+                                <p className="text-white/60 text-[12px] sm:text-[14px] leading-[14px] sm:leading-[17px] mt-1">{item.source}</p>
                             </div>
                         </div>
                     ))}
@@ -95,32 +95,38 @@ export default function NewsSidebar() {
 
             {/* Index Futures */}
             <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <p className="text-white text-[16px] leading-[19px] font-semibold">Index Futures</p>
-                    <div className="flex items-center gap-1 bg-[#E25C3F1A] rounded-full px-3 py-1.5">
+                    <div className="flex items-center gap-1 bg-[#E25C3F1A] rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5">
                         <div className="w-2 h-2 bg-[#E25C3F] rounded-full" />
                         <span className="text-[#E25C3F] text-[14px] leading-[17px] font-medium">Live</span>
                     </div>
                 </div>
                 <div className="">
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
                         {FUTURES.map((f) => (
                             <div key={f.label} className="bg-[#16161F] p-3 pb-6">
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-[#88C4FF] text-[14px] leading-[17px] font-semibold">{f.label}</span>
-                                    <span className={`text-[14px] leading-[17px] font-normal ${f.positive ? 'text-[#23B672]' : 'text-[#E25C3F]'}`}>
+                                <div className="flex items-center justify-between mb-2 sm:mb-4">
+                                    <span className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[17px] font-semibold">{f.label}</span>
+                                    <span className={`text-[12px] sm:text-[14px] leading-[17px] font-normal ${f.positive ? 'text-[#23B672]' : 'text-[#E25C3F]'}`}>
                                         {f.change}
                                     </span>
                                 </div>
 
-                                <p className="text-white text-[20px] leading-[26px] font-semibold mb-[35px]">{f.value}</p>
+                                <p className="text-white text-[16px] sm:text-[20px] leading-[20px] sm:leading-[26px] font-semibold mb-6 sm:mb-[35px]">{f.value}</p>
 
-                                <svg width="245" height="44" viewBox="0 0 245 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg
+                                    viewBox="0 0 245 44"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-full h-auto max-w-full"
+                                    preserveAspectRatio="xMidYMid meet"
+                                >
                                     <g filter="url(#filter0_d_584_3218)">
                                         <path d="M238.2 22.6343L217.853 34.6058C215.837 35.7917 213.269 35.422 211.67 33.7158L186.272 6.62126C184.643 4.88398 182.016 4.53617 179.991 5.78993L163.433 16.0448C161.855 17.0223 159.865 17.0449 158.265 16.1035L139.741 5.20486C138.106 4.24263 136.067 4.28907 134.477 5.32476L92.1151 32.9192C90.5056 33.9677 88.4377 34.0013 86.7949 33.0059L41.424 5.51317C39.4795 4.33491 37.0839 4.17442 34.9996 5.08279L6.2002 17.6343" stroke="#23B672" />
                                     </g>
                                     <defs>
-                                        <filter id="filter0_d_584_3218" x="0" y="0" width="244.454" height="43.7964" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                        <filter id="filter0_d_584_3218" x="0" y="0" width="244.454" height="43.7964" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                                             <feFlood floodOpacity="0" result="BackgroundImageFix" />
                                             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                                             <feOffset dy="2" />

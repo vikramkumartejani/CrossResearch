@@ -16,7 +16,7 @@ export default function News() {
                     </svg>
                     <span className="text-[#838388] text-[12px] leading-[14px] font-medium">News Wire</span>
                 </div>
-                <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Market Intelligence Feed</h1>
+                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Market Intelligence Feed</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
                     Curated dispatches from desks and primary newswires. Filter by domain.
                 </p>
@@ -24,7 +24,7 @@ export default function News() {
 
             {/* ── Body: Left feed + Right sidebar ── */}
             <div className="px-4 lg:px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_524px] gap-4 items-start">
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_424px] 2xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 items-start">
                     <NewsFeed />
                     <NewsSidebar />
                 </div>
