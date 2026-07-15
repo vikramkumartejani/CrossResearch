@@ -26,7 +26,7 @@ export default function SeasonalityFlow() {
                     </svg>
                     <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Seasonality & Flow Desk</span>
                 </div>
-                <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Positioning, Cycles & Options Flow</h1>
+                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Positioning, Cycles & Options Flow</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
                     CFTC Commitments of Traders for global Financial, agricultural and energy instruments, asset seasonality with regime - conditional returns, and options - derived sentiment via the volatility skew Surface.
                 </p>
@@ -34,21 +34,23 @@ export default function SeasonalityFlow() {
 
             {/* ── Body ── */}
             <div className="px-4 lg:px-6">
-                {/* Tabs */}
-                <div className="flex items-center gap-2 mb-5 bg-[#FFFFFF08] border border-[#FFFFFF0D] p-1 w-fit">
-                    {['Eurusd', 'Btc Usd', 'Aapl', 'Nvda', 'Spx', 'Gbpusd'].map((tab) => (
-                        <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
-                            className={`px-3 py-1 text-[14px] leading-[20px] font-semibold transition-colors cursor-pointer ${
-                                activeTab === tab
-                                    ? 'text-white bg-[#FFFFFF0D]'
-                                    : 'text-[#838388] hover:text-white/70'
-                            }`}
-                        >
-                            {tab}
-                        </button>
-                    ))}
+                {/* Tabs — scrollable on mobile */}
+                <div className="overflow-x-auto mb-4 sm:mb-5">
+                    <div className="flex items-center sm:gap-2 bg-[#FFFFFF08] border border-[#FFFFFF0D] p-1 w-fit min-w-max">
+                        {['Eurusd', 'Btc Usd', 'Aapl', 'Nvda', 'Spx', 'Gbpusd'].map((tab) => (
+                            <button
+                                key={tab}
+                                onClick={() => setActiveTab(tab)}
+                                className={`px-3 py-1 text-[13px] sm:text-[14px] leading-[20px] font-semibold transition-colors cursor-pointer whitespace-nowrap ${
+                                    activeTab === tab
+                                        ? 'text-white bg-[#FFFFFF0D]'
+                                        : 'text-[#838388] hover:text-white/70'
+                                }`}
+                            >
+                                {tab}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* COT Positioning */}

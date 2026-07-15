@@ -44,14 +44,14 @@ interface SeasonalityMapProps {
 
 export default function SeasonalityMap({ activeTab, onTabChange: _onTabChange }: SeasonalityMapProps) {
     return (
-        <div className="mb-5">
+        <div className="mb-4 sm:mb-5">
             {/* Section heading */}
-            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Seasonality Map</h2>
+            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Seasonality Map</h2>
 
             {/* Heatmap card */}
-            <div className="bg-[#16161F] p-4">
+            <div className="bg-[#16161F] p-3 sm:p-4">
                 {/* Card header */}
-                <div className="flex items-start justify-between gap-4 mb-5">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 mb-3 sm:mb-5">
                     <div>
                         <p className="text-white text-[16px] leading-[19px] font-medium">
                             EURUSD Seasonality • 10y
@@ -60,7 +60,7 @@ export default function SeasonalityMap({ activeTab, onTabChange: _onTabChange }:
                             Color encodes monthly return. Bottom row is the 10-year average per calendar month.
                         </p>
                     </div>
-                    <span className="text-white/50 text-[12px] leading-[14px] font-medium">AVG % RETURN / MO</span>
+                    <span className="text-white/50 text-[11px] sm:text-[12px] leading-[14px] font-medium flex-shrink-0">AVG % RETURN / MO</span>
                 </div>
 
                 {/* Heatmap grid */}
@@ -68,7 +68,7 @@ export default function SeasonalityMap({ activeTab, onTabChange: _onTabChange }:
                     <div className="min-w-[700px]">
                         {/* Header row */}
                         <div className="flex items-center mb-3">
-                            <div className="w-14 flex-shrink-0" />
+                            <div className="w-12 sm:w-14 flex-shrink-0" />
                             {MONTHS.map((m) => (
                                 <div key={m} className="flex-1 text-white/50 text-[12px] leading-[14px] font-normal text-center">{m}</div>
                             ))}
@@ -78,9 +78,9 @@ export default function SeasonalityMap({ activeTab, onTabChange: _onTabChange }:
                         <div className="flex flex-col" style={{ gap: '4px' }}>
                             {ROWS.map((row) => (
                                 <div key={row.year} className="flex items-stretch" style={{ gap: '4px' }}>
-                                    <div className="w-14 flex-shrink-0 text-white/50 text-[12px] leading-[14px] font-normal flex items-center">{row.year}</div>
+                                    <div className="w-12 sm:w-14 flex-shrink-0 text-white/50 text-[12px] leading-[14px] font-normal flex items-center">{row.year}</div>
                                     {row.values.map((val, mi) => (
-                                        <div key={mi} className={`flex-1 ${cellColor(val)} text-white text-[12px] leading-[14px] font-semibold text-center py-2.5`}>
+                                        <div key={mi} className={`flex-1 ${cellColor(val)} text-white text-[11px] sm:text-[12px] leading-[14px] font-semibold text-center py-2.5`}>
                                             {val > 0 ? `+${val.toFixed(2)}` : val.toFixed(2)}
                                         </div>
                                     ))}
@@ -89,9 +89,9 @@ export default function SeasonalityMap({ activeTab, onTabChange: _onTabChange }:
 
                             {/* 10y avg row */}
                             <div className="flex items-stretch" style={{ gap: '4px' }}>
-                                <div className="w-14 flex-shrink-0 text-[#88C4FF] text-[10px] leading-[12px] font-semibold flex items-center">10y avg</div>
+                                <div className="w-12 sm:w-14 flex-shrink-0 text-[#88C4FF] text-[10px] leading-[12px] font-semibold flex items-center">10y avg</div>
                                 {AVG_ROW.map((val, mi) => (
-                                    <div key={mi} className={`flex-1 ${cellColor(val)} text-white text-[12px] leading-[14px] font-semibold text-center py-2.5`}>
+                                    <div key={mi} className={`flex-1 ${cellColor(val)} text-white text-[11px] sm:text-[12px] leading-[14px] font-semibold text-center py-2.5`}>
                                         {val > 0 ? `+${val.toFixed(2)}` : val.toFixed(2)}
                                     </div>
                                 ))}

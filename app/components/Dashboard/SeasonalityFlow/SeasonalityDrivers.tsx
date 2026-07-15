@@ -158,12 +158,12 @@ function SkewChart() {
 export default function SeasonalityDrivers() {
     return (
         <div>
-            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Seasonality Drivers</h2>
+            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Seasonality Drivers</h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
 
                 {/* Returns by Regime */}
-                <div className="bg-[#16161F] p-4 min-h-60">
+                <div className="bg-[#16161F] p-3 sm:p-4 min-h-60">
                     <p className="text-white text-[16px] leading-[19px] font-medium mb-2">EURUSD Returns by Regime</p>
                     <p className="text-white/50 text-[12px] leading-[14px] mb-4">
                         Average monthly return conditional on the macro regime (10-year sample).
@@ -199,7 +199,7 @@ export default function SeasonalityDrivers() {
                 </div>
 
                 {/* Volatility Skew */}
-                <div className="bg-[#16161F] p-4">
+                <div className="bg-[#16161F] p-3 sm:p-4">
                     <p className="text-white text-[16px] leading-[19px] font-medium mb-2">EURUSD Volatility Skew</p>
                     <p className="text-white/50 text-[12px] leading-[14px] mb-4">
                         Implied volatility across moneyness for 5 tenors. Negative 25LRR = put richer (skew bearish).
