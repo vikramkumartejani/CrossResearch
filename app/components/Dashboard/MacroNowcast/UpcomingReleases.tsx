@@ -42,15 +42,15 @@ export default function UpcomingReleases() {
     return (
         <div className="">
             {/* Section header */}
-            <div className='mb-4 flex items-center justify-between gap-4'>
-                <div className="">
+            <div className='mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3'>
+                <div>
                     <h2 className="text-white text-[18px] font-medium leading-[22px] mb-2">Upcoming Releases</h2>
                     <p className="text-[#838388] text-[14px] leading-[20px]">
                         Forward-looking macro calendar with our model forecasts
                     </p>
                 </div>
 
-                <div className="flex items-center gap-2 border border-[#FFFFFF0D] bg-[#FFFFFF08] p-1">
+                <div className="flex items-center gap-2 border border-[#FFFFFF0D] bg-[#FFFFFF08] p-1 self-start sm:self-auto flex-shrink-0">
                     {FILTERS.map(f => (
                         <button
                             key={f}
@@ -71,13 +71,13 @@ export default function UpcomingReleases() {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="border-b border-[#FFFFFF0D]">
-                            <th className="text-left text-[14px] leading-[17px] font-normal text-[#838388] p-5 whitespace-nowrap">Date/Time</th>
-                            <th className="text-left text-[14px] leading-[17px] font-normal text-[#838388] p-5 whitespace-nowrap">Cty</th>
-                            <th className="text-left text-[14px] leading-[17px] font-normal text-[#838388] p-5">Indicator</th>
-                            <th className="text-left text-[14px] leading-[17px] font-normal text-[#838388] p-5 whitespace-nowrap">Prior</th>
-                            <th className="text-left text-[14px] leading-[17px] font-normal text-[#838388] p-5 whitespace-nowrap">Cons</th>
-                            <th className="text-left text-[14px] leading-[17px] font-normal text-[#838388] p-5 whitespace-nowrap">Fcst</th>
-                            <th className="text-right text-[14px] leading-[17px] font-normal text-[#838388] p-5 whitespace-nowrap">Tier</th>
+                            <th className="text-left text-[13px] sm:text-[14px] leading-[17px] font-normal text-[#838388] p-3 sm:p-5 whitespace-nowrap">Date/Time</th>
+                            <th className="text-left text-[13px] sm:text-[14px] leading-[17px] font-normal text-[#838388] p-3 sm:p-5 whitespace-nowrap">Cty</th>
+                            <th className="text-left text-[13px] sm:text-[14px] leading-[17px] font-normal text-[#838388] p-3 sm:p-5">Indicator</th>
+                            <th className="text-left text-[13px] sm:text-[14px] leading-[17px] font-normal text-[#838388] p-3 sm:p-5 whitespace-nowrap">Prior</th>
+                            <th className="text-left text-[13px] sm:text-[14px] leading-[17px] font-normal text-[#838388] p-3 sm:p-5 whitespace-nowrap">Cons</th>
+                            <th className="text-left text-[13px] sm:text-[14px] leading-[17px] font-normal text-[#838388] p-3 sm:p-5 whitespace-nowrap">Fcst</th>
+                            <th className="text-right text-[13px] sm:text-[14px] leading-[17px] font-normal text-[#838388] p-3 sm:p-5 whitespace-nowrap">Tier</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,38 +86,38 @@ export default function UpcomingReleases() {
                                 key={i}
                                 className="bg-[#FFFFFF08] border-b border-[#FFFFFF0D] last:border-b-0 hover:bg-[#FFFFFF03] transition-colors cursor-pointer"
                             >
-                                <td className="px-5 py-4 whitespace-nowrap">
-                                    <p className="text-white text-[14px] leading-[20px] font-semibold mb-1">{r.date}</p>
+                                <td className="px-3 sm:px-5 py-2 sm:py-4 whitespace-nowrap">
+                                    <p className="text-white text-[13px] sm:text-[14px] leading-4 sm:leading-[20px] font-semibold mb-1">{r.date}</p>
                                     <p className="text-white/60 text-[12px] leading-[14px] font-medium">{r.time}</p>
                                 </td>
 
-                                <td className="px-5 py-4">
+                                <td className="px-3 sm:px-5 py-2 sm:py-4">
                                     <span className="text-white text-[14px] leading-[20px] font-semibold">{r.country}</span>
                                 </td>
 
-                                <td className="px-5 py-4">
-                                    <p className="text-white text-[14px] leading-5 font-semibold mb-1">{r.indicator}</p>
+                                <td className="px-3 sm:px-5 py-2 sm:py-4">
+                                    <p className="text-white text-[13px] sm:text-[14px] leading-4 sm:leading-5 font-semibold mb-1 text-nowrap">{r.indicator}</p>
                                     <p className="text-white/60 text-[12px] leading-[14px] font-medium">{r.period}</p>
                                 </td>
 
-                                <td className="px-5 py-4 whitespace-nowrap">
-                                    <p className="text-white text-[14px] leading-5 font-semibold mb-1">Prior</p>
+                                <td className="px-3 sm:px-5 py-2 sm:py-4 whitespace-nowrap">
+                                    <p className="text-white text-[13px] sm:text-[14px] leading-4 sm:leading-5 font-semibold mb-1">Prior</p>
                                     <p className="text-white/60 text-[12px] leading-[14px] font-medium">{r.prior}</p>
                                 </td>
 
-                                <td className="px-5 py-4 whitespace-nowrap">
-                                    <p className="text-white text-[14px] leading-5 font-semibold mb-1">Cons.</p>
+                                <td className="px-3 sm:px-5 py-2 sm:py-4 whitespace-nowrap">
+                                    <p className="text-white text-[13px] sm:text-[14px] leading-4 sm:leading-5 font-semibold mb-1">Cons.</p>
                                     <p className="text-white/60 text-[12px] leading-[14px] font-medium">{r.cons}</p>
                                 </td>
 
-                                <td className="px-5 py-4 whitespace-nowrap">
-                                    <p className="text-white text-[14px] leading-5 font-semibold mb-1">Forecast</p>
+                                <td className="px-3 sm:px-5 py-2 sm:py-4 whitespace-nowrap">
+                                    <p className="text-white text-[13px] sm:text-[14px] leading-4 sm:leading-5 font-semibold mb-1">Forecast</p>
                                     <p className="text-white/60 text-[12px] leading-[14px] font-medium">{r.fcst}</p>
                                 </td>
 
-                                <td className="px-5 py-4 whitespace-nowrap">
+                                <td className="px-3 sm:px-5 py-2 sm:py-4 whitespace-nowrap">
                                     <div className='flex items-center justify-end gap-2.5'>
-                                        <span className="px-2 text-[12px] leading-[20px] font-medium text-[#E25C3F]">
+                                        <span className="px-2 text-[12px] leading-[20px] font-medium" style={{ color: TIER_COLOR[r.tier] }}>
                                             {r.tier}
                                         </span>
                                         <button className="transition-colors cursor-pointer">

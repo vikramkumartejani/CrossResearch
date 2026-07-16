@@ -7,7 +7,7 @@ export default function MacroNowcast() {
     return (
         <div>
             {/* ── Header ── */}
-            <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6 flex items-end justify-between">
+            <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
                 <div>
                     <div className="mb-3 flex items-center gap-1">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,12 +17,12 @@ export default function MacroNowcast() {
                         </svg>
                         <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Macro Nowcasting Desk</span>
                     </div>
-                    <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Probability Signals & Sentiment</h1>
+                    <h1 className="text-white text-[26px] sm:text-[35px] font-medium leading-tight sm:leading-[42px] mb-2">Probability Signals & Sentiment</h1>
                     <p className="text-[#838388] text-[12px] leading-[17px]">
                         Cross - venue prediction - market intelligence. We aggregate polymarket, Kalshi, Predictlt, manifold & meticulous into a single belief lattice - then surface the moves that matter.
                     </p>
                 </div>
-                <div className='flex items-center gap-1'>
+                <div className='flex items-center gap-1 flex-shrink-0'>
                     <div className='w-1.5 h-1.5 bg-white rounded-full' />
                     <p className='text-[12px] leading-[18px] font-medium'>Market State <span className='text-[14px] leading-[18px] font-semibold'>DIVERGENT</span></p>
                 </div>

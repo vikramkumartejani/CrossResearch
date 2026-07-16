@@ -21,10 +21,10 @@ export default function NowcastCard({
     inRange, drivers, confidence,
 }: NowcastCardProps) {
     return (
-        <div className="bg-[#16161F] p-4 flex flex-col">
+        <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
 
             {/* Top: region/quarter + vs consensus */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-2 sm:mb-5">
                 <span className="text-[#838388] text-[12px] leading-[17px] font-normal">{region} · {quarter}</span>
                 <span
                     className="text-[12px] font-medium leading-[14px]"
@@ -35,16 +35,16 @@ export default function NowcastCard({
             </div>
 
             {/* Indicator name + value */}
-            <div className="mb-4">
-                <p className="text-white text-[16px] leading-[19px] font-medium mb-2">{indicator}</p>
+            <div className="mb-2 sm:mb-4">
+                <p className="text-white text-[14px] sm:text-[16px] leading-4 sm:leading-[19px] font-medium mb-1 sm:mb-2">{indicator}</p>
                 <div className="flex items-baseline gap-1">
-                    <span className="text-white text-[27px] font-medium leading-[32px]">{value}</span>
+                    <span className="text-white text-[24px] sm:text-[27px] font-medium leading-7 sm:leading-[32px]">{value}</span>
                     <span className="text-white/60 text-[12px] font-medium">{unit}</span>
                 </div>
             </div>
 
             {/* Nowcast / Consensus / Prior row */}
-            <div className="mb-4 grid grid-cols-3 border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[12px] p-3">
+            <div className="mb-4 grid grid-cols-3 border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-md sm:rounded-[12px] px-3 py-2 sm:p-3">
                 {[
                     { label: 'Nowcast',   val: nowcast,   color: '#88C4FF' },
                     { label: 'Consensus', val: consensus, color: '#ffffff' },
@@ -76,7 +76,7 @@ export default function NowcastCard({
             </svg>
 
             {/* Model vs actual */}
-            <div className="mt-3 pt-3 border-t border-[#FFFFFF12] flex items-center justify-between">
+            <div className="sm:mt-3 pt-3 border-t border-[#FFFFFF12] flex items-center justify-between">
                 <span className="text-white/60 text-[12px] font-normal leading-[14px]">Model Vs Actual · Last 8</span>
                 <span className="text-[#88C4FF] text-[12px] leading-[14px] font-semibold">{inRange} In Range</span>
             </div>
@@ -104,7 +104,7 @@ export default function NowcastCard({
             </div>
 
             {/* Legend */}
-            <div className="flex items-center gap-4 border-b border-[#FFFFFF12] pb-4 mb-4">
+            <div className="flex items-center gap-4 border-b border-[#FFFFFF12] pb-3 sm:pb-4 mb-3 sm:mb-4">
                 <div className="flex items-center gap-1">
                     <span className="w-[23px] h-2 rounded-[40px] bg-[#88C4FF] inline-block" />
                     <span className="text-[14px] text-white/60 font-normal leading-[17px]">Forecast</span>
@@ -118,7 +118,7 @@ export default function NowcastCard({
             {/* Component drivers */}
             <div>
                 <p className="text-white text-[14px] leading-[17px] font-semibold mb-2.5">Component Drivers</p>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2 sm:gap-3">
                     {drivers.map(d => (
                         <div key={d.label} className="flex items-center justify-between">
                             <span className="text-white/60 text-[12px] leading-[14px] font-normal">{d.label}</span>
@@ -134,7 +134,7 @@ export default function NowcastCard({
             </div>
 
             {/* Model confidence bar */}
-            <div className="border-t border-[#FFFFFF12] mt-4 pt-4">
+            <div className="border-t border-[#FFFFFF12] mt-3 sm:mt-4 pt-3 sm:pt-4">
                 <div className="flex items-center justify-between">
                     <span className="text-white/60 text-[14px] leading-[17px]">Model Confidence</span>
                     <div className="flex items-center gap-2">

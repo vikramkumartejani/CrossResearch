@@ -1,3 +1,5 @@
+'use client'
+import { useState } from 'react'
 import NowcastCard from './NowcastCard'
 
 const CARDS = [
@@ -115,17 +117,53 @@ const CARDS = [
     },
 ]
 
+const MOBILE_INITIAL = 4
+
 export default function NowcastsGrid() {
+    const [showAll, setShowAll] = useState(false)
+
+    // On mobile show 4 initially, on sm+ always show all (handled via CSS grid)
+    const visibleCards = showAll ? CARDS : CARDS.slice(0, MOBILE_INITIAL)
+
     return (
-        <div className="mb-5">
+        <div className="mb-4 sm:mb-5">
             <h2 className="text-white text-[18px] font-medium leading-[22px] mb-2">Nowcasts</h2>
-            <p className="text-[#838388] text-[14px] leading-[20px] mb-4">
+            <p className="text-[#838388] text-[14px] leading-[20px] mb-3 sm:mb-4">
                 Model-driven current-quarter / current-period estimates vs consensus
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            {/* sm+: always show all 8 in a 2/4 col grid */}
+            <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 {CARDS.map((card, i) => (
                     <NowcastCard key={i} {...card} />
                 ))}
+            </div>
+
+            {/* mobile: show 4 or all with See More toggle */}
+            <div className="sm:hidden">
+                <div className="grid grid-cols-1 gap-3">
+                    {visibleCards.map((card, i) => (
+                        <NowcastCard key={i} {...card} />
+                    ))}
+                </div>
+
+                {!showAll && CARDS.length > MOBILE_INITIAL && (
+                    <button
+                        onClick={() => setShowAll(true)}
+                        className="mt-3 w-full py-2 border border-[#FFFFFF1A] text-white/60 text-[14px] leading-[20px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
+                    >
+                        See {CARDS.length - MOBILE_INITIAL} More Nowcasts ↓
+                    </button>
+                )}
+
+                {showAll && (
+                    <button
+                        onClick={() => setShowAll(false)}
+                        className="mt-3 w-full py-2 border border-[#FFFFFF1A] text-white/60 text-[14px] leading-[20px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
+                    >
+                        Show Less ↑
+                    </button>
+                )}
             </div>
         </div>
     )

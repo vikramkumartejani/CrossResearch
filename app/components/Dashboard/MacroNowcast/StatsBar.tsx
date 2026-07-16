@@ -16,14 +16,14 @@ const STATS: Stat[] = [
 
 export default function StatsBar() {
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-2.5 sm:gap-4 mb-4 sm:mb-5">
             {STATS.map((s, i) => (
                 <div
                     key={s.label}
-                    className='px-4 py-4 flex flex-col gap-2 bg-[#16161F]'
+                    className='p-3 sm:px-4 sm:py-4 flex flex-col gap-2 bg-[#16161F]'
                 >
-                    <span className="text-[#838388] text-[16px] leading-[22px] font-medium">{s.label}</span>
-                    <span className="font-semibold text-[30px] leading-[42px] font-semibold" style={{ color: s.color }}>
+                    <span className="text-[#838388] text-[14px] sm:text-[16px] leading-5 sm:leading-[22px] font-medium">{s.label}</span>
+                    <span className="font-semibold text-[24px] sm:text-[30px] leading-6 sm:leading-[42px] font-semibold" style={{ color: s.color }}>
                         {s.value}
                     </span>
                 </div>

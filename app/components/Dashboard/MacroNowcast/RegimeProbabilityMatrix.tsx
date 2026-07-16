@@ -22,15 +22,15 @@ const COUNTRIES: Country[] = [
 
 export default function RegimeProbabilityMatrix() {
     return (
-        <div className="mb-5">
+        <div className="mb-4 sm:mb-5">
             <h2 className="text-white text-[18px] font-medium leading-[22px] mb-2">Regime Probability Matrix</h2>
-            <p className="text-[#838388] text-[14px] leading-[20px] mb-4">
+            <p className="text-[#838388] text-[14px] leading-[20px] mb-3 sm:mb-4">
                 Cross - Country Regime Decomposition  • Dominant state highlighted
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 sm:gap-4">
                 {COUNTRIES.map(c => (
-                    <div key={c.code} className="bg-[#16161F] p-4">
+                    <div key={c.code} className="bg-[#16161F] p-3 sm:p-4">
                         {/* Header */}
                         <div className="flex items-center justify-between mb-3">
                             <span className="text-white text-[12px] leading-[14px] font-medium">{c.code}</span>
@@ -48,7 +48,7 @@ export default function RegimeProbabilityMatrix() {
                         </div>
 
                         {/* Grid: labels row + values row */}
-                        <div className="flex items-start gap-2">
+                        <div className="flex flex-wrap items-start gap-2">
                             {[
                                 { label: "Nowcast", value: c.nowcast },
                                 { label: "Stagflation", value: `${c.stagflation}%` },
@@ -59,8 +59,7 @@ export default function RegimeProbabilityMatrix() {
                                     <span className="text-white/60 text-[12px] leading-[14px] font-medium">
                                         {item.label}
                                     </span>
-
-                                    <span className="mt-1 text-white text-[14px] font-semibold leading-5">
+                                    <span className="mt-1 text-white text-[13px] sm:text-[14px] font-semibold leading-4 sm:leading-5">
                                         {item.value}
                                     </span>
                                 </div>
