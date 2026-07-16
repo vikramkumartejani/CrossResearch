@@ -41,7 +41,7 @@ export default function Watchlist() {
     return (
         <div className="bg-[#16161F] flex flex-col">
             {/* Header */}
-            <div className="px-4 py-3 border-b border-[#FFFFFF08]">
+            <div className="px-3 sm:px-4 py-3 border-b border-[#FFFFFF08]">
                 <h3 className="text-white text-[16px] leading-[20px] font-semibold">Watchlists</h3>
                 <p className="text-[#838388] text-[12px] leading-[17px] mt-1">Themed collections of events for focused monitoring.</p>
             </div>
@@ -49,12 +49,12 @@ export default function Watchlist() {
             {/* Watchlist columns */}
             <div className="grid grid-cols-1 sm:grid-cols-3 flex-1">
                 {WATCHLISTS.map((wl, i) => (
-                    <div key={i} className={`p-4 flex flex-col gap-4 ${i < WATCHLISTS.length - 1 ? 'border-r border-[#FFFFFF08]' : ''}`}>
+                    <div key={i} className={`p-3 sm:p-4 flex flex-col gap-2 sm:gap-4 ${i < WATCHLISTS.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-[#FFFFFF08]' : ''}`}>
                         <div>
                             <p className="text-white text-[14px] leading-[18px] font-semibold">{wl.title}</p>
                             <p className="text-[#838388] text-[12px] leading-[17px] mt-1">{wl.desc}</p>
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-1 sm:gap-2">
                             {wl.items.map((item, j) => (
                                 <div key={j} className="flex items-center justify-between gap-3 cursor-pointer hover:opacity-80 transition-opacity">
                                     <span className="text-[#838388] text-[12px] leading-[17px] flex-1 min-w-0 truncate">{item.title}</span>

@@ -7,7 +7,7 @@ export default function ReliefSignals() {
     return (
         <div>
             {/* ── Header ── */}
-            <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6 flex items-end justify-between">
+            <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
                 <div>
                     <div className="mb-3 flex items-center gap-1">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +25,7 @@ export default function ReliefSignals() {
                         </svg>
                         <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Belief Markets Desk</span>
                     </div>
-                    <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Probability Signals & Sentiment</h1>
+                    <h1 className="text-white text-[26px] sm:text-[35px] font-medium leading-tight sm:leading-[42px] mb-2">Probability Signals & Sentiment</h1>
                     <p className="text-[#838388] text-[12px] leading-[17px] max-w-[540px]">
                         Cross-venue prediction market intelligence. We aggregate polymarket, Kalshi, Predictit, manifold & meticulous into a single belief lattice — then surface the moves that matter.
                     </p>
@@ -41,13 +41,13 @@ export default function ReliefSignals() {
             {/* ── 4-block layout ── */}
             <div className="px-4 lg:px-6 flex flex-col gap-4">
                 {/* Top row: Latest Alerts (left) + Watchlist (right) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4">
                     <LatestAlerts />
                     <Watchlist />
                 </div>
 
                 {/* Bottom row: Probability Movers (left) + Alerts Detail (right) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4">
                     <ProbabilityMovers />
                     <AlertsDetail />
                 </div>

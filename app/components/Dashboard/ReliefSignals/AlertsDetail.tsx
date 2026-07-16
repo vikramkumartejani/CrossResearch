@@ -56,14 +56,14 @@ export default function AlertsDetail() {
     return (
         <div className="bg-[#16161F] flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-[#FFFFFF08]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 sm:px-4 py-3 border-b border-[#FFFFFF08] gap-2">
                 <h3 className="text-white text-[16px] leading-[20px] font-semibold">Alerts</h3>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center sm:gap-1 flex-wrap">
                     {FILTER_TABS.map(tab => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-3 py-1.5 text-[12px] leading-[15px] font-medium transition-colors cursor-pointer ${
+                            className={`px-2 sm:px-3 py-1.5 text-[12px] leading-[15px] font-medium transition-colors cursor-pointer ${
                                 activeTab === tab ? 'bg-[#FFFFFF14] text-white' : 'text-[#838388] hover:text-white'
                             }`}
                         >
@@ -76,7 +76,7 @@ export default function AlertsDetail() {
             {/* Alert cards */}
             <div className="flex flex-col">
                 {filtered.map((alert, i) => (
-                    <div key={i} className="px-4 py-4 border-b border-[#FFFFFF08] last:border-0">
+                    <div key={i} className="p-3 sm:px-4 sm:py-4 border-b border-[#FFFFFF08] last:border-0">
                         {/* Title row */}
                         <div className="flex items-start justify-between gap-3 mb-3">
                             <div className="flex items-center gap-2.5 min-w-0 flex-wrap">
@@ -92,7 +92,7 @@ export default function AlertsDetail() {
                         </div>
 
                         {/* Stats row */}
-                        <div className="flex items-center gap-4 mb-3 flex-wrap gap-1">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-3">
                             <span className="text-[#838388] text-[12px] leading-[15px] pr-2">
                                 PREV → NOW <span className="text-white font-medium pl-0.5">{alert.prev} → {alert.now}</span>
                             </span>
