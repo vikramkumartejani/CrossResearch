@@ -28,11 +28,11 @@ function Badge({ label }: { label: string }) {
 
 // ── SVG chart constants ──────────────────────────────────────────────────────
 const Y_LABEL_W = 36
-const CHART_H   = 140
-const CHART_W   = 260
-const PLOT_W    = CHART_W - Y_LABEL_W
+const CHART_H = 140
+const CHART_W = 260
+const PLOT_W = CHART_W - Y_LABEL_W
 const X_LABEL_H = 18
-const VB_H      = CHART_H + X_LABEL_H
+const VB_H = CHART_H + X_LABEL_H
 
 function toPlotX(i: number, n: number) {
     return Y_LABEL_W + (n < 2 ? 0 : (i / (n - 1)) * PLOT_W)
@@ -244,44 +244,26 @@ function BarChart({ labels, values }: { labels: string[]; values: number[] }) {
 export default function SignalChartCard({ chart }: { chart: SignalChart }) {
     return (
         <div className="bg-[#16161F] flex flex-col">
-            <div className='px-5 pt-5'>
-                <div className="flex items-center justify-between">
+            <div className='px-3 sm:px-5 pt-3 sm:pt-5'>
+                <div className="flex items-center justify-between gap-2 flex-wrap">
                     <span className="text-white/50 text-[12px] leading-[14px] font-normal">
                         {chart.category}
                     </span>
                     <Badge label={chart.badge} />
                 </div>
 
-                <p className="mt-2 mb-4 text-white text-[16px] leading-[19px] font-medium">{chart.title}</p>
+                <p className="mt-1 sm:mt-2 mb-4 text-white text-[14px] sm:text-[15px] sm:text-[16px] leading-[19px] font-medium">{chart.title}</p>
 
-                {/* Chart
-                <div className="w-full -mx-2">
-                    {chart.chartType === 'area' && chart.lineValues && (
-                        <AreaChart values={chart.lineValues} yLabels={chart.yLabels} />
-                    )}
-                    {chart.chartType === 'area-tenor' && chart.lineValues && (
-                        <AreaTenorChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
-                    )}
-                    {chart.chartType === 'dashed' && chart.lineValues && (
-                        <DashedChart values={chart.lineValues} yLabels={chart.yLabels} />
-                    )}
-                    {chart.chartType === 'dots' && chart.lineValues && (
-                        <DotsChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
-                    )}
-                    {chart.chartType === 'bar' && chart.barLabels && chart.barValues && (
-                        <BarChart labels={chart.barLabels} values={chart.barValues} />
-                    )}
-                </div> */}
                 <div className='h-[180px] text-center flex items-center justify-center'>
-Chart Is Coming Soon...
+                    Chart Is Coming Soon...
                 </div>
 
-                <p className="text-white/50 text-[12px] leading-[17px] font-normal">
+                <p className="text-white/50 text-[12px] leading-[16px] sm:leading-[17px] font-normal">
                     {chart.description}
                 </p>
             </div>
 
-            <button className='cursor-pointer px-5 pb-5 flex items-center gap-1.5 text-[#88C4FF] text-[10px] leading-[14px] font-semibold border-t border-[#FFFFFF1A] mt-4 pt-4'>
+            <button className='cursor-pointer px-3 sm:px-5 pb-3 sm:pb-5 flex items-center text-left gap-1.5 text-[#88C4FF] text-[10px] leading-[14px] font-semibold border-t border-[#FFFFFF1A] mt-3 sm:mt-4 pt-3 sm:pt-4'>
                 <ArrowRight />
                 <span>{chart.action}</span>
             </button>

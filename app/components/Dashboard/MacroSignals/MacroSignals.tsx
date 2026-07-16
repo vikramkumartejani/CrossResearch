@@ -22,7 +22,7 @@ export default function MacroSignals() {
                     </svg>
                     <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Macro Signals Desk</span>
                 </div>
-                <h1 className="text-white text-[35px] font-medium leading-[42px] mb-2">Cross - Asset Alpha Engine</h1>
+                <h1 className="text-white text-[26px] sm:text-[35px] font-medium leading-tight sm:leading-[42px] mb-2">Cross - Asset Alpha Engine</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
                     Curated macro charts with proprietary insight behind each - rate differentials, breadth divergences, vol-curve dislocations, credit-equity lead/lag, and cross-asset correlations. Read once. Act once.
                 </p>
@@ -30,14 +30,14 @@ export default function MacroSignals() {
 
             {/* ── Body ── */}
             <div className="px-4 lg:px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-[386px_1fr] gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] xl:grid-cols-[386px_1fr] gap-3 sm:gap-4">
                     {/* Left: Weekly Highlights */}
                     <WeeklyHighlights />
 
                     {/* Right: all charts */}
                     <div>
-                        <h2 className="text-white text-[16px] font-medium leading-[22px] mb-4">Liquidity & Cross Signals</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <h2 className="text-white text-[16px] font-medium leading-[22px] mb-3 sm:mb-4">Liquidity & Cross Signals</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                             {ALL_CHARTS.map(chart => (
                                 <SignalChartCard key={chart.id} chart={chart} />
                             ))}

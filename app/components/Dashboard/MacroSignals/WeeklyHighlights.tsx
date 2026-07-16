@@ -20,41 +20,41 @@ export default function WeeklyHighlights() {
     const brief = MACRO_BRIEF
 
     return (
-        <div className="flex flex-col h-full">
-            <h2 className="text-white text-[16px] font-medium leading-[22px] mb-4">Weekly Highlights</h2>
+        <div className="flex flex-col lg:h-full">
+            <h2 className="text-white text-[16px] font-medium leading-[22px] mb-3 sm:mb-4">Weekly Highlights</h2>
 
             {/* Brief card */}
-            <div className="bg-[#16161F] flex flex-col flex-1 pb-5">
+            <div className="bg-[#16161F] flex flex-col lg:flex-1 pb-4 sm:pb-5">
                 {/* Card header */}
-                <div className='px-5 pt-5 pb-4 mb-4 border-b border-[#FFFFFF1A]'>
-                    <div className="flex items-center gap-1.5">
+                <div className='px-3 sm:px-5 pt-3 sm:pt-5 pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-[#FFFFFF1A]'>
+                    <div className="flex items-start gap-1.5 flex-wrap">
                         <GlobeIcon />
                         <span className="text-[#88C4FF] text-[14px] leading-[20px] font-semibold">
                             Todays Macro Brief
                         </span>
-                        <span className="text-white/60 text-[12px] leading-[14px] font-normal ml-auto">{brief.date}</span>
+                        <span className="text-white/60 text-[12px] leading-[14px] font-normal sm:ml-auto mt-0.5">{brief.date}</span>
                     </div>
 
                     {/* Headline */}
-                    <p className="mt-4 text-white text-[16px] leading-[19px] font-medium">
+                    <p className="mt-3 sm:mt-4 text-white text-[14px] sm:text-[16px] leading-[19px] font-medium">
                         {brief.headline}
                     </p>
                 </div>
 
                 {/* Bullet points */}
-                <ol className="flex flex-col gap-3 px-5">
+                <ol className="flex flex-col gap-2.5 sm:gap-3 px-3 sm:px-5">
                     {brief.points.map((pt) => (
-                        <li key={pt.id} className="flex items-start gap-3">
+                        <li key={pt.id} className="flex items-start gap-2 sm:gap-3">
                             <span className="flex-shrink-0 text-[12px] leading-[14px] text-[#88C4FF] font-semibold">
                                 {String(pt.id).padStart(2, '0')}
                             </span>
-                            <p className="text-white/60 text-[14px] leading-[20px] font-normal">{pt.text}</p>
+                            <p className="text-white/60 text-[13px] sm:text-[14px] leading-[16px] sm:leading-[20px] font-normal">{pt.text}</p>
                         </li>
                     ))}
                 </ol>
 
                 {/* Conviction bar */}
-                <div className="pt-6 mt-6 px-5 border-t border-[#FFFFFF0D]">
+                <div className="pt-4 sm:pt-6 mt-4 sm:mt-6 px-3 sm:px-5 border-t border-[#FFFFFF0D]">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-white/60 text-[12px] leading-[17px] font-normal">Conviction</span>
                         <span className="text-[#88C4FF] text-[12px] leading-[17px] font-bold">{brief.conviction}<span className='text-[#88C4FF]/60 font-normal'>/100</span></span>
