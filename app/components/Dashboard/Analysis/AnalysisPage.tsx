@@ -1,16 +1,20 @@
 'use client'
+import { useState } from 'react'
 import TheCycleWidget from './TheCycleWidget'
 import Chart from './Chart'
 import TrendOverview from './TrendOverview'
 import PriceRanges from './PriceRange'
 import MarketTiming from './MarketTiming'
+import { CURRENCY_PAIRS, CurrencyPair } from './Chart'
 
 export default function AnalysisPage() {
+  const [selectedPair, setSelectedPair] = useState<CurrencyPair>(CURRENCY_PAIRS[0])
+
   return (
     <div className="flex flex-col gap-5 px-4 lg:px-6">
       {/* Row 1: Chart (65%) + CycleWidget (35%) */}
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_350px] 2xl:grid-cols-[1fr_532px] gap-4">
-        <Chart />
+        <Chart selectedPair={selectedPair} setSelectedPair={setSelectedPair} />
         <TheCycleWidget />
       </div>
 
@@ -19,7 +23,7 @@ export default function AnalysisPage() {
 
       {/* Row 3: Price Ranges (55%) + Market Timing (45%) */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        <PriceRanges />
+        <PriceRanges asset={selectedPair.symbol} />
         <MarketTiming />
       </div>
     </div>

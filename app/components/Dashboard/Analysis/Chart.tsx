@@ -5,7 +5,7 @@ import 'uplot/dist/uPlot.min.css'
 
 type Period = '1M' | '1D' | '1W' | '1Y' | 'YTD'
 
-interface CurrencyPair {
+export interface CurrencyPair {
     symbol: string
     base: string
     quote: string
@@ -446,9 +446,13 @@ function UPlotChart({
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
-export default function Chart() {
+interface ChartProps {
+    selectedPair: CurrencyPair
+    setSelectedPair: (pair: CurrencyPair) => void
+}
+
+export default function Chart({ selectedPair, setSelectedPair }: ChartProps) {
     const [activePeriod, setActivePeriod] = useState<Period>('1D')
-    const [selectedPair, setSelectedPair] = useState<CurrencyPair>(CURRENCY_PAIRS[0])
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
     const periods: Period[] = ['1M', '1D', '1W', '1Y', 'YTD']

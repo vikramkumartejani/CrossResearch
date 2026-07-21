@@ -27,6 +27,10 @@ interface ApiResponse {
     generated_utc: string
 }
 
+interface PriceRangesProps {
+    asset: string
+}
+
 function PriceRangeCard({ title, subtitle, high, low, isLoading }: RangeItem & { isLoading?: boolean }) {
     return (
         <div className="bg-[#16161F] flex flex-col flex-1 min-w-0">
@@ -68,24 +72,21 @@ function PriceRangeCard({ title, subtitle, high, low, isLoading }: RangeItem & {
     )
 }
 
-export default function PriceRanges() {
+export default function PriceRanges({ asset }: PriceRangesProps) {
     const [priceData, setPriceData] = useState<PriceRangeData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [selectedAsset, setSelectedAsset] = useState('EURUSD');
-
-    const assets = ['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'XAGUSD', 'USOIL', 'NAS100', 'US30', 'SP500', 'BTCUSD'];
 
     useEffect(() => {
         fetchPriceRanges();
-    }, [selectedAsset]);
+    }, [asset]);
 
     const fetchPriceRanges = async () => {
         setIsLoading(true);
         setError(null);
         
         try {
-            const response = await fetch(`/api/price-ranges?asset=${selectedAsset}`);
+            const response = await fetch(`/api/price-ranges?asset=${asset}`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -125,37 +126,26 @@ export default function PriceRanges() {
         { 
             title: 'Intraday Range', 
             subtitle: 'Todays Range', 
-            high: formatPrice(priceData.intraday_range.high, getPrecision(selectedAsset)),
-            low: formatPrice(priceData.intraday_range.low, getPrecision(selectedAsset))
+            high: formatPrice(priceData.intraday_range.high, getPrecision(asset)),
+            low: formatPrice(priceData.intraday_range.low, getPrecision(asset))
         },
         { 
             title: 'Trend Range', 
             subtitle: '7-Day Range', 
-            high: formatPrice(priceData.trend_range.high, getPrecision(selectedAsset)),
-            low: formatPrice(priceData.trend_range.low, getPrecision(selectedAsset))
+            high: formatPrice(priceData.trend_range.high, getPrecision(asset)),
+            low: formatPrice(priceData.trend_range.low, getPrecision(asset))
         },
         { 
             title: 'Volatility Range', 
             subtitle: '30-Day Range', 
-            high: formatPrice(priceData.volatility_range.high, getPrecision(selectedAsset)),
-            low: formatPrice(priceData.volatility_range.low, getPrecision(selectedAsset))
+            high: formatPrice(priceData.volatility_range.high, getPrecision(asset)),
+            low: formatPrice(priceData.volatility_range.low, getPrecision(asset))
         },
     ] : [];
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <h4 className="text-white text-[18px] leading-[22px] font-medium">Price Ranges</h4>
-                <select 
-                    value={selectedAsset}
-                    onChange={(e) => setSelectedAsset(e.target.value)}
-                    className="bg-[#FFFFFF0D] text-white text-[12px] sm:text-[14px] px-3 py-1.5 rounded border border-white/10 focus:outline-none focus:border-white/30"
-                >
-                    {assets.map(asset => (
-                        <option key={asset} value={asset}>{asset}</option>
-                    ))}
-                </select>
-            </div>
+            <h4 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Price Ranges</h4>
             
             {error && (
                 <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-[12px] px-3 py-2 rounded mb-3">
