@@ -1,3 +1,7 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
 interface RangeItem {
     title: string
     subtitle: string
@@ -5,7 +9,25 @@ interface RangeItem {
     low: string
 }
 
-function PriceRangeCard({ title, subtitle, high, low }: RangeItem) {
+interface PriceRangeData {
+    intraday_range: { high: number; low: number }
+    trend_range: { high: number; low: number }
+    volatility_range: { high: number; low: number }
+}
+
+interface ApiResponse {
+    asset: string
+    ranges: PriceRangeData
+    metadata: {
+        spot: number
+        latest_bar_utc: string
+        atr14: number
+        rv21_pct: number
+    }
+    generated_utc: string
+}
+
+function PriceRangeCard({ title, subtitle, high, low, isLoading }: RangeItem & { isLoading?: boolean }) {
     return (
         <div className="bg-[#16161F] flex flex-col flex-1 min-w-0">
             <div className="bg-[#FFFFFF0D] px-2.5 sm:px-4 py-2.5">
@@ -28,12 +50,16 @@ function PriceRangeCard({ title, subtitle, high, low }: RangeItem) {
                 </div>
                 <div className="flex flex-col justify-between gap-3 h-full">
                     <div className="text-left">
-                        <p className="text-[#23B672] text-[14px] font-semibold leading-[17px]">{high}</p>
+                        <p className="text-[#23B672] text-[14px] font-semibold leading-[17px]">
+                            {isLoading ? '...' : high}
+                        </p>
                         <p className="text-white/60 text-[12px] leading-[14px] font-normal mt-1">High</p>
                     </div>
 
                     <div className="text-left">
-                        <p className="text-[#E25C3F] text-[14px] font-semibold leading-[17px]">{low}</p>
+                        <p className="text-[#E25C3F] text-[14px] font-semibold leading-[17px]">
+                            {isLoading ? '...' : low}
+                        </p>
                         <p className="text-white/60 text-[12px] leading-[14px] font-normal mt-1">Low</p>
                     </div>
                 </div>
@@ -43,19 +69,112 @@ function PriceRangeCard({ title, subtitle, high, low }: RangeItem) {
 }
 
 export default function PriceRanges() {
-    const ranges: RangeItem[] = [
-        { title: 'Intraday Range', subtitle: 'Todays Range', high: '1.02457', low: '1.05414' },
-        { title: 'Trend Range', subtitle: '7-Day Range', high: '1.06020', low: '1.04890' },
-        { title: 'Volatility Range', subtitle: '30-Day Range', high: '1.07020', low: '1.03890' },
-    ]
+    const [priceData, setPriceData] = useState<PriceRangeData | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [selectedAsset, setSelectedAsset] = useState('EURUSD');
+
+    const assets = ['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'XAGUSD', 'USOIL', 'NAS100', 'US30', 'SP500', 'BTCUSD'];
+
+    useEffect(() => {
+        fetchPriceRanges();
+    }, [selectedAsset]);
+
+    const fetchPriceRanges = async () => {
+        setIsLoading(true);
+        setError(null);
+        
+        try {
+            const response = await fetch(`/api/price-ranges?asset=${selectedAsset}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data: ApiResponse = await response.json();
+            setPriceData(data.ranges);
+        } catch (err) {
+            console.error('Error fetching price ranges:', err);
+            setError(err instanceof Error ? err.message : 'Failed to fetch price ranges');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const formatPrice = (value: number, precision: number = 5) => {
+        return value.toFixed(precision);
+    };
+
+    const getPrecision = (asset: string): number => {
+        const precisionMap: Record<string, number> = {
+            'EURUSD': 5,
+            'GBPUSD': 5,
+            'USDJPY': 3,
+            'XAUUSD': 2,
+            'XAGUSD': 3,
+            'USOIL': 2,
+            'NAS100': 2,
+            'US30': 1,
+            'SP500': 2,
+            'BTCUSD': 1,
+        };
+        return precisionMap[asset] || 5;
+    };
+
+    const ranges: RangeItem[] = priceData ? [
+        { 
+            title: 'Intraday Range', 
+            subtitle: 'Todays Range', 
+            high: formatPrice(priceData.intraday_range.high, getPrecision(selectedAsset)),
+            low: formatPrice(priceData.intraday_range.low, getPrecision(selectedAsset))
+        },
+        { 
+            title: 'Trend Range', 
+            subtitle: '7-Day Range', 
+            high: formatPrice(priceData.trend_range.high, getPrecision(selectedAsset)),
+            low: formatPrice(priceData.trend_range.low, getPrecision(selectedAsset))
+        },
+        { 
+            title: 'Volatility Range', 
+            subtitle: '30-Day Range', 
+            high: formatPrice(priceData.volatility_range.high, getPrecision(selectedAsset)),
+            low: formatPrice(priceData.volatility_range.low, getPrecision(selectedAsset))
+        },
+    ] : [];
 
     return (
         <div>
-            <h4 className="text-white text-[18px] leading-[22px] font-medium">Price Ranges</h4>
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <h4 className="text-white text-[18px] leading-[22px] font-medium">Price Ranges</h4>
+                <select 
+                    value={selectedAsset}
+                    onChange={(e) => setSelectedAsset(e.target.value)}
+                    className="bg-[#FFFFFF0D] text-white text-[12px] sm:text-[14px] px-3 py-1.5 rounded border border-white/10 focus:outline-none focus:border-white/30"
+                >
+                    {assets.map(asset => (
+                        <option key={asset} value={asset}>{asset}</option>
+                    ))}
+                </select>
+            </div>
+            
+            {error && (
+                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-[12px] px-3 py-2 rounded mb-3">
+                    {error}
+                </div>
+            )}
+            
             <div className="flex gap-2.5 sm:gap-4 mt-3 sm:mt-4">
-                {ranges.map((r) => (
-                    <PriceRangeCard key={r.title} {...r} />
-                ))}
+                {isLoading ? (
+                    <>
+                        <PriceRangeCard title="Intraday Range" subtitle="Todays Range" high="..." low="..." isLoading />
+                        <PriceRangeCard title="Trend Range" subtitle="7-Day Range" high="..." low="..." isLoading />
+                        <PriceRangeCard title="Volatility Range" subtitle="30-Day Range" high="..." low="..." isLoading />
+                    </>
+                ) : ranges.length > 0 ? (
+                    ranges.map((r) => (
+                        <PriceRangeCard key={r.title} {...r} />
+                    ))
+                ) : null}
             </div>
         </div>
     )
