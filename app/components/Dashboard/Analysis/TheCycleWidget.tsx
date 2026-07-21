@@ -71,7 +71,7 @@ export default function TheCycleWidget() {
                     {CYCLE_ITEMS.map((item) => (
                         <div
                             key={item.label}
-                            className="bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3.5 flex items-start flex-col gap-3 "
+                            className="bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3.5 flex items-start  gap-3 "
                         >
                             <div className="w-10 h-10 rounded-[9.14px] bg-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
                                 {item.icon}
@@ -86,8 +86,12 @@ export default function TheCycleWidget() {
 
                 <div className="mt-2.5 sm:mt-4 bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3.5 flex items-start h-fit flex-col gap-3">
                     <div>
-                        <p className="text-white/60 text-[12px] leading-[14px] font-normal">title</p>
-                        <p className='text-[16px] font-semibold leading-[19px] mt-1'>descr</p>
+                        <p className="text-white/60 text-[12px] leading-[14px] font-normal">Desk Commentary</p>
+                        <p className='text-[16px] font-semibold leading-[19px] mt-1'>-</p>
+                        <p className='text-[16px] font-semibold leading-[19px] mt-1'>-</p>
+                        <p className='text-[16px] font-semibold leading-[19px] mt-1'>-</p>
+                        <p className='text-[16px] font-semibold leading-[19px] mt-1'>-</p>
+                        <p className='text-[16px] font-semibold leading-[19px] mt-1'>-</p>
                     </div>
                 </div>
 
