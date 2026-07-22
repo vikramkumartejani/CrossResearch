@@ -20,7 +20,7 @@ export default function StatsBar() {
             {STATS.map((s, i) => (
                 <div
                     key={s.label}
-                    className='p-3 sm:px-4 sm:py-4 flex flex-col gap-2 bg-[#16161F]'
+                    className='p-3 sm:px-4 sm:py-4 flex justify-between items-center gap-2 bg-[#16161F]'
                 >
                     <span className="text-[#838388] text-[14px] sm:text-[16px] leading-5 sm:leading-[22px] font-medium">{s.label}</span>
                     <span className="font-semibold text-[24px] sm:text-[30px] leading-6 sm:leading-[42px] font-semibold" style={{ color: s.color }}>

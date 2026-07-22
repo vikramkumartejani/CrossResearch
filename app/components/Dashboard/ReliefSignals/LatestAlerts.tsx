@@ -21,7 +21,7 @@ export default function LatestAlerts() {
                     <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 border-b border-[#FFFFFF08] last:border-0 hover:bg-[#FFFFFF03] transition-colors cursor-pointer">
                         <div className="flex items-center gap-2 sm:gap-4">
                             <span className="text-[#838388] text-[12px] leading-[17px] w-16 flex-shrink-0">{alert.time}</span>
-                            <span className={`${alert.severityColor} text-white text-[11px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0`}>
+                            <span className={`${alert.severityColor} text-white w-[68px] text-center text-[11px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0`}>
                                 {alert.severity}
                             </span>
                         </div>

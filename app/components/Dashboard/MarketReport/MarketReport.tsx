@@ -97,9 +97,9 @@ function MainCard({ r }: { r: Report }) {
 
                 {/* Thumb + meta section — sits below text on mobile, right side on desktop */}
                 <div className="w-full xl:max-w-[231px]">
-                    <div className="flex items-center justify-between gap-3 sm:gap-10">
+                    <div className="flex items-center justify-end gap-3 sm:gap-10">
                         <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">{r.readTime}</span>
-                        <span className="text-[12px] sm:text-[14px] font-normal leading-[22px]" style={{ color: r.sentimentColor }}>{r.sentiment}</span>
+                        {/* <span className="text-[12px] sm:text-[14px] font-normal leading-[22px]" style={{ color: r.sentimentColor }}>{r.sentiment}</span> */}
                     </div>
                     <div className="flex flex-col items-end gap-1 sm:gap-2.5 flex-shrink-0 pt-1 sm:pt-2.5 relative">
                         <Thumb />

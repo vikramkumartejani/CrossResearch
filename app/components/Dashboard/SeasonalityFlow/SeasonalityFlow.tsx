@@ -10,7 +10,7 @@ export default function SeasonalityFlow() {
     return (
         <div>
             {/* Header */}
-            <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
+            <div className="border-b border-[#FFFFFF0D] pb-2 mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_584_7226)">
@@ -35,7 +35,7 @@ export default function SeasonalityFlow() {
             {/* ── Body ── */}
             <div className="px-4 lg:px-6">
                 {/* Tabs — scrollable on mobile */}
-                <div className="overflow-x-auto mb-4 sm:mb-5">
+                {/* <div className="overflow-x-auto mb-4 sm:mb-5">
                     <div className="flex items-center sm:gap-2 bg-[#FFFFFF08] border border-[#FFFFFF0D] p-1 w-fit min-w-max">
                         {['Eurusd', 'Btc Usd', 'Aapl', 'Nvda', 'Spx', 'Gbpusd'].map((tab) => (
                             <button
@@ -51,7 +51,7 @@ export default function SeasonalityFlow() {
                             </button>
                         ))}
                     </div>
-                </div>
+                </div> */}
 
                 {/* COT Positioning */}
                 <CotPositioning />

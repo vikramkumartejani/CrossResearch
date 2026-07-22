@@ -80,7 +80,7 @@ export default function AlertsDetail() {
                         {/* Title row */}
                         <div className="flex items-start justify-between gap-3 mb-3">
                             <div className="flex items-center gap-2.5 min-w-0 flex-wrap">
-                                <span className={`${alert.severityColor} text-white text-[12px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0`}>
+                                <span className={`${alert.severityColor} text-white w-[68px] text-center text-[12px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0`}>
                                     {alert.severity}
                                 </span>
                                 <span className="text-white text-[14px] leading-[19px] font-semibold">{alert.title}</span>
