@@ -29,19 +29,19 @@ export default function MacroSignals() {
             </div>
 
             {/* ── Body ── */}
-            <div className="px-4 lg:px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] xl:grid-cols-[386px_1fr] gap-3 sm:gap-4">
-                    {/* Left: Weekly Highlights */}
+            <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 px-4 lg:px-6">
+                {/* Left: Weekly Highlights */}
+                <div className="lg:w-[300px] xl:w-[386px] flex-shrink-0 lg:sticky lg:top-10 h-fit">
                     <WeeklyHighlights />
+                </div>
 
-                    {/* Right: all charts */}
-                    <div>
-                        <h2 className="text-white text-[16px] font-medium leading-[22px] mb-3 sm:mb-4">Liquidity & Cross Signals</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                            {ALL_CHARTS.map(chart => (
-                                <SignalChartCard key={chart.id} chart={chart} />
-                            ))}
-                        </div>
+                {/* Right: all charts */}
+                <div className="flex-1">
+                    <h2 className="text-white text-[16px] font-medium leading-[22px] mb-3 sm:mb-4">Liquidity & Cross Signals</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                        {ALL_CHARTS.map(chart => (
+                            <SignalChartCard key={chart.id} chart={chart} />
+                        ))}
                     </div>
                 </div>
             </div>

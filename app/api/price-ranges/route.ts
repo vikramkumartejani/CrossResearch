@@ -9,7 +9,8 @@ export async function GET(request: Request) {
     const source = searchParams.get('source') || 'live';
 
     // Call FastAPI server
-    const apiUrl = `http://127.0.0.1:8000/price-ranges?asset=${asset}&source=${source}`;
+    const backendUrl = process.env.BACKEND_URL || 'http://127.0.0.1:8000';
+    const apiUrl = `${backendUrl}/price-ranges?asset=${asset}&source=${source}`;
     
     const response = await fetch(apiUrl, {
       method: 'GET',

@@ -20,7 +20,7 @@ export default function WeeklyHighlights() {
     const brief = MACRO_BRIEF
 
     return (
-        <div className="flex flex-col lg:h-full">
+        <div className="flex flex-col lg:h-full min-h-[800px]">
             <h2 className="text-white text-[16px] font-medium leading-[22px] mb-3 sm:mb-4">Weekly Highlights</h2>
 
             {/* Brief card */}
