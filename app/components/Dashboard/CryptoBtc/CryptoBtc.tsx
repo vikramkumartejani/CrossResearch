@@ -27,19 +27,20 @@ export default function CryptoBtc() {
             </div>
 
             {/* ── Body ── */}
-            <div className="px-4 lg:px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] 2xl:grid-cols-[371px_1fr] gap-4 items-stretch">
+            <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 px-4 lg:px-6">
 
-                    {/* LEFT: BTC Desk Brief — full height */}
+                {/* LEFT: BTC Desk Brief — full height */}
+                <div className="lg:w-[300px] 2xl:w-[371px] flex-shrink-0 lg:sticky lg:top-10 h-fit">
                     <div className="flex flex-col gap-3 sm:gap-4">
                         <h2 className="text-white text-[18px] leading-[22px] font-medium">BTC Desk Brief</h2>
-                        <div className="flex-1">
+                        <div>
                             <BtcDeskBrief />
                         </div>
                     </div>
+                </div>
 
-                    {/* RIGHT: all three sections stacked */}
-                    <div className="flex flex-col gap-3 sm:gap-5 h-full">
+                {/* RIGHT: all three sections stacked */}
+                <div className="flex-1 flex flex-col gap-3 sm:gap-5">
                         {/* Institutional Flow */}
                         <div>
                             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Institutional Flow</h2>
@@ -55,8 +56,6 @@ export default function CryptoBtc() {
                         {/* Sentiment */}
                         <Sentiment />
                     </div>
-
-                </div>
             </div>
         </div>
     )

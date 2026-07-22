@@ -7,7 +7,7 @@ const METRICS = [
 
 export default function BtcDeskBrief() {
     return (
-        <div className="bg-[#16161F] p-3 sm:p-5 flex flex-col h-full">
+        <div className="bg-[#16161F] p-3 sm:p-5 flex flex-col h-full min-h-[800px]">
             {/* BTC Desk Summary label */}
             <div className="flex items-center gap-1 mb-4 sm:mb-6">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
