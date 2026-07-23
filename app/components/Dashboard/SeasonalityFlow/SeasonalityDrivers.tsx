@@ -245,15 +245,12 @@ export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: Seasonality
                 setLoading(true)
                 setError(null)
 
-                // Hit local FastAPI directly (same pattern as SeasonalityMap).
-                // The Next.js /api proxy uses BACKEND_URL (Render), which may not
-                // have /market-regimes deployed yet.
                 const response = await fetch(
-                    `http://127.0.0.1:8000/market-regimes?instruments=${encodeURIComponent(instrument)}`
+                    `/api/market-regimes?instruments=${encodeURIComponent(instrument)}`
                 )
                 if (!response.ok) {
                     const body = await response.json().catch(() => ({}))
-                    throw new Error(body.detail || body.details || body.error || 'Failed to fetch market regime data')
+                    throw new Error(body.details || body.detail || body.error || 'Failed to fetch market regime data')
                 }
 
                 const data: MarketRegimeResponse = await response.json()
@@ -389,7 +386,7 @@ export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: Seasonality
                     )}
                 </div>
 
-                {/* Volatility Skew — still mock until options surface API exists */}
+                {/* Volatility Skew — hardcoded mock UI (no backend API yet) */}
                 <div className="bg-[#16161F] p-3 sm:p-4">
                     <p className="text-white text-[16px] leading-[19px] font-medium mb-2">
                         {instrument} Volatility Skew

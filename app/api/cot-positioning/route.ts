@@ -5,15 +5,14 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const instruments = searchParams.get('instruments') || null
+    const report = searchParams.get('report') || 'futures_only'
+    const weeks = searchParams.get('weeks') || '11'
 
     const backendUrl = process.env.BACKEND_URL || 'http://127.0.0.1:8000'
-    const apiUrl = new URL('/seasonality', backendUrl)
-    
-    if (instruments) {
-      apiUrl.searchParams.append('instruments', instruments)
-    }
-    
+    const apiUrl = new URL('/cot-positioning', backendUrl)
+    apiUrl.searchParams.set('report', report)
+    apiUrl.searchParams.set('weeks', weeks)
+
     const response = await fetch(apiUrl.toString(), {
       method: 'GET',
       headers: {
@@ -26,7 +25,7 @@ export async function GET(request: Request) {
       const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }))
       console.error('FastAPI error:', errorData)
       return NextResponse.json(
-        { error: 'Failed to fetch seasonality data from backend', details: errorData.detail || errorData },
+        { error: 'Failed to fetch COT positioning from backend', details: errorData.detail || errorData },
         { status: response.status }
       )
     }

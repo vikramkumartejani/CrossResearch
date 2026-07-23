@@ -160,12 +160,10 @@ export default function CotPositioning() {
                 setLoading(true)
                 setError(null)
 
-                // Local FastAPI (same pattern as SeasonalityMap / SeasonalityDrivers).
-                // Next.js BACKEND_URL points at Render, which may not have this route yet.
-                const response = await fetch('http://127.0.0.1:8000/cot-positioning')
+                const response = await fetch('/api/cot-positioning')
                 if (!response.ok) {
                     const body = await response.json().catch(() => ({}))
-                    throw new Error(body.detail || body.error || 'Failed to fetch COT positioning')
+                    throw new Error(body.details || body.detail || body.error || 'Failed to fetch COT positioning')
                 }
 
                 const data: CotResponse = await response.json()

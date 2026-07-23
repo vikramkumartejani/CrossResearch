@@ -67,10 +67,13 @@ export default function SeasonalityMap({ activeTab, onTabChange: _onTabChange }:
                 }
                 
                 const instrument = instrumentMap[activeTab] || 'EURUSD'
-                const response = await fetch(`http://127.0.0.1:8000/seasonality?instruments=${instrument}`)
-                
+                const response = await fetch(
+                    `/api/seasonality-data?instruments=${encodeURIComponent(instrument)}`
+                )
+
                 if (!response.ok) {
-                    throw new Error('Failed to fetch seasonality data')
+                    const body = await response.json().catch(() => ({}))
+                    throw new Error(body.details || body.error || 'Failed to fetch seasonality data')
                 }
                 
                 const apiData: ApiResponse = await response.json()
