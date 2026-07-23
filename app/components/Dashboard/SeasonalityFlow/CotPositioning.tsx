@@ -95,7 +95,7 @@ function Sparkline({ values, positive }: { values: number[]; positive: boolean }
 // ── Sub-table ─────────────────────────────────────────────────────────────────
 function InstrumentTable({ title, rows }: { title: string; rows: CotInstrumentRow[] }) {
     return (
-        <div className="bg-[#16161F]">
+        <div className="bg-[#16161F] h-[590px]">
             <h4 className="text-white text-[16px] leading-[19px] font-medium p-3 sm:p-4">{title}</h4>
             <div className="grid grid-cols-[1fr_64px_64px_64px] sm:grid-cols-[1fr_80px_80px_80px] gap-1 sm:gap-4 px-3 sm:px-4 pb-3 border-b border-[#FFFFFF0D]">
                 {['Instrument', 'Net', 'Wow', '10W Trend'].map((h) => (
@@ -210,7 +210,7 @@ export default function CotPositioning() {
                 <div className="mt-4 grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-3 sm:gap-4">
                     <InstrumentTable title="Global Financial Instruments" rows={payload.financials} />
                     <InstrumentTable title="Energy & Metals Instruments" rows={payload.commodities} />
-                    <div className="bg-[#16161F] flex flex-col">
+                    <div className="bg-[#16161F] flex flex-col h-[590px] overflow-y-auto">
                         <div className="p-3 sm:p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#FFFFFF0D]">
                             <div className="flex flex-col">
                                 <span className="text-[#88C4FF] text-[12px] leading-[14px] font-normal mb-2">

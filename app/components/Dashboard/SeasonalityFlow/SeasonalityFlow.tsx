@@ -1,12 +1,9 @@
 'use client'
-import { useState } from 'react'
 import CotPositioning from './CotPositioning'
 import SeasonalityMap from './SeasonalityMap'
 import SeasonalityDrivers from './SeasonalityDrivers'
 
 export default function SeasonalityFlow() {
-    const [activeTab, setActiveTab] = useState('Eurusd')
-
     return (
         <div>
             {/* Header */}
@@ -34,33 +31,9 @@ export default function SeasonalityFlow() {
 
             {/* ── Body ── */}
             <div className="px-4 lg:px-6">
-                {/* Tabs — scrollable on mobile */}
-                {/* <div className="overflow-x-auto mb-4 sm:mb-5">
-                    <div className="flex items-center sm:gap-2 bg-[#FFFFFF08] border border-[#FFFFFF0D] p-1 w-fit min-w-max">
-                        {['Eurusd', 'Btc Usd', 'Aapl', 'Nvda', 'Spx', 'Gbpusd'].map((tab) => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`px-3 py-1 text-[13px] sm:text-[14px] leading-[20px] font-semibold transition-colors cursor-pointer whitespace-nowrap ${
-                                    activeTab === tab
-                                        ? 'text-white bg-[#FFFFFF0D]'
-                                        : 'text-[#838388] hover:text-white/70'
-                                }`}
-                            >
-                                {tab}
-                            </button>
-                        ))}
-                    </div>
-                </div> */}
-
-                {/* COT Positioning */}
                 <CotPositioning />
-
-                {/* Seasonality Map + Tabs */}
-                <SeasonalityMap activeTab={activeTab} onTabChange={setActiveTab} />
-
-                {/* Seasonality Drivers */}
-                <SeasonalityDrivers activeTab={activeTab} />
+                <SeasonalityMap />
+                <SeasonalityDrivers />
             </div>
         </div>
     )

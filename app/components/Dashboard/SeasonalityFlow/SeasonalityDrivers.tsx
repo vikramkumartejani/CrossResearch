@@ -1,14 +1,6 @@
 'use client'
 import { useRef, useEffect, useState, useMemo } from 'react'
-
-const INSTRUMENT_MAP: Record<string, string> = {
-    Eurusd: 'EURUSD',
-    'Btc Usd': 'BTCUSD',
-    Aapl: 'AAPL',
-    Nvda: 'NVDA',
-    Spx: 'SP500',
-    Gbpusd: 'GBPUSD',
-}
+import InstrumentDropdown, { type SeasonalityInstrument } from './InstrumentDropdown'
 
 const REGIME_ORDER = ['Expansion', 'Stagflation', 'Recession', 'Recovery'] as const
 
@@ -227,12 +219,9 @@ function buildYLabels(yMin: number, yMax: number) {
     return labels
 }
 
-interface SeasonalityDriversProps {
-    activeTab?: string
-}
-
-export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: SeasonalityDriversProps) {
-    const instrument = INSTRUMENT_MAP[activeTab] || 'EURUSD'
+export default function SeasonalityDrivers() {
+    const [regimeInstrument, setRegimeInstrument] = useState<SeasonalityInstrument>('EURUSD')
+    const [skewInstrument, setSkewInstrument] = useState<SeasonalityInstrument>('EURUSD')
     const [payload, setPayload] = useState<MarketRegimeResponse | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -246,7 +235,7 @@ export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: Seasonality
                 setError(null)
 
                 const response = await fetch(
-                    `/api/market-regimes?instruments=${encodeURIComponent(instrument)}`
+                    `/api/market-regimes?instruments=${encodeURIComponent(regimeInstrument)}`
                 )
                 if (!response.ok) {
                     const body = await response.json().catch(() => ({}))
@@ -269,10 +258,10 @@ export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: Seasonality
         return () => {
             cancelled = true
         }
-    }, [instrument])
+    }, [regimeInstrument])
 
     const regimeBars = useMemo<RegimeBar[]>(() => {
-        const asset = payload?.assets?.[instrument]
+        const asset = payload?.assets?.[regimeInstrument]
         if (!asset) return []
 
         return REGIME_ORDER.map((label) => {
@@ -286,7 +275,7 @@ export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: Seasonality
                 n: stats?.n ?? 0,
             }
         })
-    }, [payload, instrument])
+    }, [payload, regimeInstrument])
 
     const { yMin, yMax, yLabels } = useMemo(() => {
         if (!regimeBars.length) {
@@ -315,9 +304,10 @@ export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: Seasonality
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
                 {/* Returns by Regime */}
                 <div className="bg-[#16161F] p-3 sm:p-4 min-h-60">
-                    <p className="text-white text-[16px] leading-[19px] font-medium mb-2">
-                        {instrument} Returns by Regime
-                    </p>
+                    <div className="flex items-center gap-2 flex-wrap mb-2">
+                        <InstrumentDropdown value={regimeInstrument} onChange={setRegimeInstrument} />
+                        <p className="text-white text-[16px] leading-[19px] font-medium">Returns by Regime</p>
+                    </div>
                     <p className="text-white/50 text-[12px] leading-[14px] mb-2">
                         Average monthly return conditional on the macro regime
                         {sampleStart ? ` (from ${sampleStart}).` : '.'}
@@ -382,15 +372,16 @@ export default function SeasonalityDrivers({ activeTab = 'Eurusd' }: Seasonality
                     )}
 
                     {!loading && !error && regimeBars.length === 0 && (
-                        <div className="text-white/50 text-[12px]">No regime statistics for {instrument}.</div>
+                        <div className="text-white/50 text-[12px]">No regime statistics for {regimeInstrument}.</div>
                     )}
                 </div>
 
                 {/* Volatility Skew — hardcoded mock UI (no backend API yet) */}
                 <div className="bg-[#16161F] p-3 sm:p-4">
-                    <p className="text-white text-[16px] leading-[19px] font-medium mb-2">
-                        {instrument} Volatility Skew
-                    </p>
+                    <div className="flex items-center gap-2 flex-wrap mb-2">
+                        <InstrumentDropdown value={skewInstrument} onChange={setSkewInstrument} />
+                        <p className="text-white text-[16px] leading-[19px] font-medium">Volatility Skew</p>
+                    </div>
                     <p className="text-white/50 text-[12px] leading-[14px] mb-4">
                         Implied volatility across moneyness for 5 tenors. Negative 25LRR = put richer (skew bearish).
                     </p>
