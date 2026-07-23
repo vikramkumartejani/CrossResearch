@@ -60,7 +60,7 @@ export default function SeasonalityFlow() {
                 <SeasonalityMap activeTab={activeTab} onTabChange={setActiveTab} />
 
                 {/* Seasonality Drivers */}
-                <SeasonalityDrivers />
+                <SeasonalityDrivers activeTab={activeTab} />
             </div>
         </div>
     )
