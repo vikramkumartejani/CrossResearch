@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import InstrumentDropdown, { type SeasonalityInstrument } from './InstrumentDropdown'
 
 interface CotInstrumentRow {
     name: string
@@ -148,6 +149,7 @@ function InstrumentTable({ title, rows }: { title: string; rows: CotInstrumentRo
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function CotPositioning() {
+    const [instrument, setInstrument] = useState<SeasonalityInstrument>('EURUSD')
     const [payload, setPayload] = useState<CotResponse | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -194,9 +196,12 @@ export default function CotPositioning() {
 
     return (
         <div className="mb-4 sm:mb-5">
-            <h2 className="text-white text-[18px] leading-[22px] font-medium">
-                COT Positioning • Latest CFTC Report
-            </h2>
+            <div className="flex items-center gap-3 flex-wrap">
+                <h2 className="text-white text-[18px] leading-[22px] font-medium">
+                    COT Positioning • Latest CFTC Report
+                </h2>
+                <InstrumentDropdown value={instrument} onChange={setInstrument} />
+            </div>
 
             {loading && (
                 <div className="mt-4 bg-[#16161F] p-3 sm:p-4 text-white/50 text-[12px]">Loading CFTC positioning...</div>
