@@ -1,62 +1,91 @@
+'use client'
+
 import BtcDeskBrief from './BtcDeskBrief'
 import InstitutionalFlow from './InstitutionalFlow'
 import ForecastVolatility from './ForecastVolatility'
 import Sentiment from './Sentiment'
+import { CryptoBtcCopyProvider, useCryptoBtcCopy } from './cryptoBtcCopy'
 
-export default function CryptoBtc() {
+function CryptoBtcContent() {
+    const copy = useCryptoBtcCopy()
+
     return (
         <div>
-            {/* Header */}
             <div className="border-b border-[#FFFFFF0D] pb-4 sm:pb-6 mb-4 sm:mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.9987 14.6673C11.6806 14.6673 14.6654 11.6825 14.6654 8.00065C14.6654 4.31875 11.6806 1.33398 7.9987 1.33398C4.3168 1.33398 1.33203 4.31875 1.33203 8.00065C1.33203 11.6825 4.3168 14.6673 7.9987 14.6673Z" stroke="#838388" strokeWidth="1.2" />
+                        <path
+                            d="M7.9987 14.6673C11.6806 14.6673 14.6654 11.6825 14.6654 8.00065C14.6654 4.31875 11.6806 1.33398 7.9987 1.33398C4.3168 1.33398 1.33203 4.31875 1.33203 8.00065C1.33203 11.6825 4.3168 14.6673 7.9987 14.6673Z"
+                            stroke="#838388"
+                            strokeWidth="1.2"
+                        />
                         <path d="M6.33203 10.6673V5.33398" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" />
                         <path d="M7.33203 5.33333V4M8.9987 5.33333V4" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" />
-                        <path d="M7.33203 11.9993V10.666M8.9987 11.9993V10.666" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" />
-                        <path d="M6.33203 8H9.66536C10.2176 8 10.6654 8.44773 10.6654 9V9.66667C10.6654 10.2189 10.2176 10.6667 9.66536 10.6667H5.33203" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M5.33203 5.33398H9.66536C10.2176 5.33398 10.6654 5.7817 10.6654 6.33398V7.00065C10.6654 7.55292 10.2176 8.00065 9.66536 8.00065H6.33203" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path
+                            d="M7.33203 11.9993V10.666M8.9987 11.9993V10.666"
+                            stroke="#838388"
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                        />
+                        <path
+                            d="M6.33203 8H9.66536C10.2176 8 10.6654 8.44773 10.6654 9V9.66667C10.6654 10.2189 10.2176 10.6667 9.66536 10.6667H5.33203"
+                            stroke="#838388"
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                        <path
+                            d="M5.33203 5.33398H9.66536C10.2176 5.33398 10.6654 5.7817 10.6654 6.33398V7.00065C10.6654 7.55292 10.2176 8.00065 9.66536 8.00065H6.33203"
+                            stroke="#838388"
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
                     </svg>
-                    <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Crypto / BTC Desk</span>
+                    <span className="text-[#838388] text-[12px] leading-[14px] font-medium">{copy.page.eyebrow}</span>
                 </div>
-                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Bitcoin Intelligence</h1>
-                <p className="text-[#838388] text-[12px] leading-[17px]">
-                    ETF flow regime, model-driven return forecast, vol regime classification, liquidation magnets and an in-
-                    house Fear & Greed composite — every chart engineered for one decision.
-                </p>
+                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
+                    {copy.page.title}
+                </h1>
+                <p className="text-[#838388] text-[12px] leading-[17px]">{copy.page.subtitle}</p>
             </div>
 
-            {/* ── Body ── */}
             <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 px-4 lg:px-6">
-
-                {/* LEFT: BTC Desk Brief — full height */}
                 <div className="lg:w-[300px] 2xl:w-[371px] flex-shrink-0 lg:sticky lg:top-10 h-fit">
                     <div className="flex flex-col gap-3 sm:gap-4">
-                        <h2 className="text-white text-[18px] leading-[22px] font-medium">BTC Desk Brief</h2>
+                        <h2 className="text-white text-[18px] leading-[22px] font-medium">{copy.sections.desk_brief}</h2>
                         <div>
                             <BtcDeskBrief />
                         </div>
                     </div>
                 </div>
 
-                {/* RIGHT: all three sections stacked */}
                 <div className="flex-1 flex flex-col gap-3 sm:gap-5">
-                        {/* Institutional Flow */}
-                        <div>
-                            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Institutional Flow</h2>
-                            <InstitutionalFlow />
-                        </div>
-
-                        {/* Forecast & Volatility */}
-                        <div>
-                            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Forecast & Volatility</h2>
-                            <ForecastVolatility />
-                        </div>
-
-                        {/* Sentiment */}
-                        <Sentiment />
+                    <div>
+                        <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
+                            {copy.sections.institutional_flow}
+                        </h2>
+                        <InstitutionalFlow />
                     </div>
+
+                    <div>
+                        <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
+                            {copy.sections.forecast_volatility}
+                        </h2>
+                        <ForecastVolatility />
+                    </div>
+
+                    <Sentiment />
+                </div>
             </div>
         </div>
+    )
+}
+
+export default function CryptoBtc() {
+    return (
+        <CryptoBtcCopyProvider>
+            <CryptoBtcContent />
+        </CryptoBtcCopyProvider>
     )
 }
