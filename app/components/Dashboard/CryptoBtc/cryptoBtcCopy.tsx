@@ -24,7 +24,6 @@ export interface CryptoBtcCopy {
         etf_flows: ChartCopy
         return_forecast: ChartCopy
         vol_regime: ChartCopy
-        liquidations: ChartCopy
         fear_greed: ChartCopy
     }
 }
@@ -34,7 +33,7 @@ const DEFAULT_COPY: CryptoBtcCopy = {
         eyebrow: 'Crypto / BTC Desk',
         title: 'Bitcoin Intelligence',
         subtitle:
-            'ETF flow regime, model-driven return forecast, vol regime classification, liquidation magnets and an in-house Fear & Greed composite — every chart engineered for one decision.',
+            'ETF flow regime, model-driven return forecast, vol regime classification, and an in-house Fear & Greed composite — every chart engineered for one decision.',
     },
     sections: {
         desk_brief: 'BTC Desk Brief',
@@ -53,11 +52,6 @@ const DEFAULT_COPY: CryptoBtcCopy = {
             eyebrow: 'Vol Regime',
             title: 'BTC/USDT 4H Realized Volatility Regime Bands',
             badge: 'Alpha',
-        },
-        liquidations: {
-            eyebrow: 'Liquidations',
-            title: 'Crypto Liquidation Zone',
-            badge: 'Magnet Zone',
         },
         fear_greed: { eyebrow: 'Sentiment', title: 'BTC Fear & Greed Index', badge: null },
     },
@@ -87,10 +81,6 @@ export function CryptoBtcCopyProvider({ children }: { children: ReactNode }) {
                             ...data.charts.return_forecast,
                         },
                         vol_regime: { ...DEFAULT_COPY.charts.vol_regime, ...data.charts.vol_regime },
-                        liquidations: {
-                            ...DEFAULT_COPY.charts.liquidations,
-                            ...data.charts.liquidations,
-                        },
                         fear_greed: { ...DEFAULT_COPY.charts.fear_greed, ...data.charts.fear_greed },
                     },
                 })
