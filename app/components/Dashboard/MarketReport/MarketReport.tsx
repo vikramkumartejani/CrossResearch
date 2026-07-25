@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { REPORTS, SIDEBAR_REPORTS, type Report } from './reportData'
+import { useEffect, useMemo, useState } from 'react'
+import type { MarketReportsPage, Report } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
 
 function Tag({ label }: { label: string }) {
@@ -12,10 +12,18 @@ function Tag({ label }: { label: string }) {
     )
 }
 
-function Thumb() {
-    return (
-        <div className="w-full lg:w-[172px] h-[140px] lg:h-[113px] flex-shrink-0 bg-[#FFFFFF0D] flex items-center justify-center" />
-    )
+function Thumb({ src }: { src?: string | null }) {
+    if (src) {
+        return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+                src={src}
+                alt=""
+                className="w-full lg:w-[172px] h-[140px] lg:h-[113px] flex-shrink-0 object-cover bg-[#FFFFFF0D]"
+            />
+        )
+    }
+    return <div className="w-full lg:w-[172px] h-[140px] lg:h-[113px] flex-shrink-0 bg-[#FFFFFF0D]" />
 }
 
 function MainCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }) {
@@ -33,7 +41,7 @@ function MainCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
                 <div className="w-full sm:max-w-[843px]">
                     <div className="flex items-center gap-2 flex-wrap">
                         {r.tags.map((t) => (
-                            <Tag key={t.label} {...t} />
+                            <Tag key={t} label={t} />
                         ))}
                     </div>
                     <h3 className="mt-3 text-white text-[20px] sm:text-[24px] 2xl:text-[28px] leading-[26px] sm:leading-[28px] 2xl:leading-[34px] font-medium mb-2">
@@ -45,17 +53,23 @@ function MainCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
                     <p className="text-white/60 text-[12px] leading-[19px] font-normal sm:max-w-[647px]">{r.body}</p>
 
                     <div className="flex items-center justify-between mt-3 sm:mt-5 pt-3 sm:pt-4 border-t border-[#FFFFFF26]">
-                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">{r.author}</span>
-                        <span className="text-white text-[12px] sm:text-[14px] leading-[22px] font-semibold">{r.date}</span>
+                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">
+                            {r.author}
+                        </span>
+                        <span className="text-white text-[12px] sm:text-[14px] leading-[22px] font-semibold">
+                            {r.date}
+                        </span>
                     </div>
                 </div>
 
                 <div className="w-full xl:max-w-[231px]">
                     <div className="flex items-center justify-end gap-3 sm:gap-10">
-                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">{r.readTime}</span>
+                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">
+                            {r.readTime}
+                        </span>
                     </div>
                     <div className="flex flex-col items-end gap-1 sm:gap-2.5 flex-shrink-0 pt-1 sm:pt-2.5 relative">
-                        <Thumb />
+                        <Thumb src={r.chartImage} />
                         <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] lg:static absolute bottom-2.5 right-2.5">
                             {r.track}
                         </span>
@@ -77,9 +91,9 @@ function SideCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
             }}
             className="cursor-pointer transition-colors"
         >
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
                 {r.tags.map((t) => (
-                    <Tag key={t.label} {...t} />
+                    <Tag key={t} label={t} />
                 ))}
             </div>
 
@@ -97,8 +111,54 @@ function SideCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
     )
 }
 
+const DEFAULT_PAGE: MarketReportsPage = {
+    eyebrow: 'Market Reports',
+    title: 'Research & Strategy Desk',
+    subtitle: 'Long-form macro, FX and digital-asset reports authored by the CrossResearch desks.',
+}
+
 export default function MarketReport() {
     const [selected, setSelected] = useState<Report | null>(null)
+    const [page, setPage] = useState<MarketReportsPage>(DEFAULT_PAGE)
+    const [reports, setReports] = useState<Report[]>([])
+    const [sidebarIds, setSidebarIds] = useState<number[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        let cancelled = false
+
+        async function load() {
+            try {
+                setLoading(true)
+                setError(null)
+                const res = await fetch('/api/market-reports')
+                if (!res.ok) throw new Error('Failed to load market reports')
+                const data = await res.json()
+                if (cancelled) return
+
+                setPage({ ...DEFAULT_PAGE, ...(data.page || {}) })
+                setReports(Array.isArray(data.reports) ? data.reports : [])
+                setSidebarIds(Array.isArray(data.sidebarIds) ? data.sidebarIds : [])
+            } catch (err) {
+                if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
+            } finally {
+                if (!cancelled) setLoading(false)
+            }
+        }
+
+        load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
+    const sidebarReports = useMemo(() => {
+        if (!sidebarIds.length) return reports.slice(0, 3)
+        return sidebarIds
+            .map((id) => reports.find((r) => r.id === id))
+            .filter((r): r is Report => Boolean(r))
+    }, [reports, sidebarIds])
 
     return (
         <div className="">
@@ -133,29 +193,36 @@ export default function MarketReport() {
                             </clipPath>
                         </defs>
                     </svg>
-                    <span className="text-[#838388] text-[12px] font-medium">Market Reports</span>
+                    <span className="text-[#838388] text-[12px] font-medium">{page.eyebrow}</span>
                 </div>
                 <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
-                    Research & Strategy Desk
+                    {page.title}
                 </h1>
-                <p className="text-[#838388] text-[12px] leading-[17px]">
-                    Long - Fom macro, FX and digital - asset reports authored by the BTB research desks
-                </p>
+                <p className="text-[#838388] text-[12px] leading-[17px]">{page.subtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_389px] gap-4 items-stretch px-4 lg:px-6">
-                <div className="flex flex-col gap-3 sm:gap-4">
-                    {REPORTS.map((r) => (
-                        <MainCard key={r.id} r={r} onOpen={setSelected} />
-                    ))}
-                </div>
+            {loading && (
+                <div className="px-4 lg:px-6 text-white/50 text-[13px] py-10">Loading market reports...</div>
+            )}
+            {error && !loading && (
+                <div className="px-4 lg:px-6 text-[#E25C3F] text-[13px] py-10">{error}</div>
+            )}
 
-                <div className="flex flex-col gap-5 sm:gap-8 p-3.5 sm:p-4 bg-[#16161F] h-full self-stretch">
-                    {SIDEBAR_REPORTS.map((r) => (
-                        <SideCard key={r.id} r={r} onOpen={setSelected} />
-                    ))}
+            {!loading && !error && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_389px] gap-4 items-stretch px-4 lg:px-6">
+                    <div className="flex flex-col gap-3 sm:gap-4">
+                        {reports.map((r) => (
+                            <MainCard key={r.id} r={r} onOpen={setSelected} />
+                        ))}
+                    </div>
+
+                    <div className="flex flex-col gap-5 sm:gap-8 p-3.5 sm:p-4 bg-[#16161F] h-full self-stretch">
+                        {sidebarReports.map((r) => (
+                            <SideCard key={`side-${r.id}`} r={r} onOpen={setSelected} />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {selected && <ReportDetailModal report={selected} onClose={() => setSelected(null)} />}
         </div>
