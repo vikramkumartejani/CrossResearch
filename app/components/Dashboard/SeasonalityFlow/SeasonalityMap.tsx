@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react'
 import InstrumentDropdown, { type SeasonalityInstrument } from './InstrumentDropdown'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const DAYS = Array.from({ length: 31 }, (_, i) => i + 1)
 
-interface SeasonalityData {
-    year: string
-    values: number[]
+type MapView = 'yearly' | 'monthly'
+
+interface SeasonalityRow {
+    label: string
+    values: (number | null)[]
 }
 
 interface ApiResponse {
@@ -16,17 +19,34 @@ interface ApiResponse {
         year: number
         month: number
         month_name: string
-        monthly_return_pct: number
+        monthly_return_pct: number | null
     }>
     month_statistics: Array<{
         instrument: string
         month: number
         month_name: string
-        average_return_pct: number
+        average_return_pct: number | null
     }>
+    month_day_averages: Array<{
+        instrument: string
+        month: number
+        month_name: string
+        day_of_month: number
+        average_daily_return_pct: number | null
+    }>
+    day_of_month_statistics: Array<{
+        instrument: string
+        day_of_month: number
+        average_return_pct: number | null
+    }>
+    metadata?: {
+        analysis_year_count?: number
+    }
 }
 
-function cellColor(val: number): string {
+function cellColor(val: number | null): string {
+    if (val == null || !Number.isFinite(val)) return 'bg-[#FFFFFF0D]'
+
     const abs = Math.abs(val)
     if (val > 0) {
         if (abs >= 6) return 'bg-[#378F5C]'
@@ -39,10 +59,19 @@ function cellColor(val: number): string {
     }
 }
 
+function formatReturn(val: number | null) {
+    if (val == null || !Number.isFinite(val)) return '—'
+    return val > 0 ? `+${val.toFixed(2)}` : val.toFixed(2)
+}
+
 export default function SeasonalityMap() {
     const [instrument, setInstrument] = useState<SeasonalityInstrument>('EURUSD')
-    const [data, setData] = useState<SeasonalityData[]>([])
-    const [avgRow, setAvgRow] = useState<number[]>([])
+    const [view, setView] = useState<MapView>('yearly')
+    const [yearlyRows, setYearlyRows] = useState<SeasonalityRow[]>([])
+    const [yearlyAvg, setYearlyAvg] = useState<(number | null)[]>([])
+    const [monthlyRows, setMonthlyRows] = useState<SeasonalityRow[]>([])
+    const [monthlyAvg, setMonthlyAvg] = useState<(number | null)[]>([])
+    const [yearCount, setYearCount] = useState(11)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -64,23 +93,50 @@ export default function SeasonalityMap() {
                 const apiData: ApiResponse = await response.json()
 
                 const years = [...new Set(apiData.month_of_year_history.map((d) => d.year))].sort()
-
-                const rows: SeasonalityData[] = years.map((year) => {
-                    const yearData = apiData.month_of_year_history.filter((d) => d.year === year)
-                    const values = MONTHS.map((_, monthIndex) => {
-                        const monthData = yearData.find((d) => d.month === monthIndex + 1)
-                        return monthData?.monthly_return_pct ?? 0
+                setYearlyRows(
+                    years.map((year) => {
+                        const yearData = apiData.month_of_year_history.filter((d) => d.year === year)
+                        const values = MONTHS.map((_, monthIndex) => {
+                            const monthData = yearData.find((d) => d.month === monthIndex + 1)
+                            const value = monthData?.monthly_return_pct
+                            return value == null || !Number.isFinite(value) ? null : value
+                        })
+                        return { label: year.toString(), values }
                     })
-                    return { year: year.toString(), values }
-                })
+                )
+                setYearlyAvg(
+                    MONTHS.map((_, monthIndex) => {
+                        const monthStat = apiData.month_statistics.find((d) => d.month === monthIndex + 1)
+                        const value = monthStat?.average_return_pct
+                        return value == null || !Number.isFinite(value) ? null : value
+                    })
+                )
 
-                const avgValues = MONTHS.map((_, monthIndex) => {
-                    const monthStat = apiData.month_statistics.find((d) => d.month === monthIndex + 1)
-                    return monthStat?.average_return_pct ?? 0
-                })
+                const dayAverages = apiData.month_day_averages || []
+                setMonthlyRows(
+                    MONTHS.map((monthName, monthIndex) => {
+                        const monthNum = monthIndex + 1
+                        const values = DAYS.map((day) => {
+                            const hit = dayAverages.find(
+                                (d) => d.month === monthNum && d.day_of_month === day
+                            )
+                            const value = hit?.average_daily_return_pct
+                            return value == null || !Number.isFinite(value) ? null : value
+                        })
+                        return { label: monthName, values }
+                    })
+                )
+                setMonthlyAvg(
+                    DAYS.map((day) => {
+                        const dayStat = (apiData.day_of_month_statistics || []).find(
+                            (d) => d.day_of_month === day
+                        )
+                        const value = dayStat?.average_return_pct
+                        return value == null || !Number.isFinite(value) ? null : value
+                    })
+                )
 
-                setData(rows)
-                setAvgRow(avgValues)
+                setYearCount(apiData.metadata?.analysis_year_count || years.length || 11)
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Unknown error')
                 console.error('Error fetching seasonality data:', err)
@@ -92,6 +148,12 @@ export default function SeasonalityMap() {
         fetchSeasonalityData()
     }, [instrument])
 
+    const isYearly = view === 'yearly'
+    const rows = isYearly ? yearlyRows : monthlyRows
+    const avgRow = isYearly ? yearlyAvg : monthlyAvg
+    const columns = isYearly ? MONTHS : DAYS.map(String)
+    const showValues = isYearly
+
     return (
         <div className="mb-4 sm:mb-5">
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Seasonality Map</h2>
@@ -101,14 +163,37 @@ export default function SeasonalityMap() {
                     <div>
                         <div className="flex items-center gap-2 flex-wrap">
                             <InstrumentDropdown value={instrument} onChange={setInstrument} />
-                            <p className="text-white text-[16px] leading-[19px] font-medium">Seasonality • 11y</p>
+                            <p className="text-white text-[16px] leading-[19px] font-medium">
+                                Seasonality • {yearCount}y
+                            </p>
+                            <div className="flex items-center bg-[#FFFFFF0D] p-0.5 ml-1">
+                                {([
+                                    { id: 'yearly' as const, label: 'Yearly' },
+                                    { id: 'monthly' as const, label: 'Monthly' },
+                                ]).map((option) => (
+                                    <button
+                                        key={option.id}
+                                        type="button"
+                                        onClick={() => setView(option.id)}
+                                        className={`px-2.5 py-1 text-[11px] sm:text-[12px] leading-[14px] font-medium transition-colors ${
+                                            view === option.id
+                                                ? 'bg-[#88C4FF1A] text-[#88C4FF]'
+                                                : 'text-white/50 hover:text-white/80'
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                         <p className="text-white/50 text-[12px] leading-[14px] font-normal mt-2">
-                            Color encodes monthly return. Bottom row is the average per calendar month.
+                            {isYearly
+                                ? 'Color encodes monthly return. Bottom row is the average per calendar month.'
+                                : 'Color encodes average daily return by day-of-month. Hover a cell for the exact value.'}
                         </p>
                     </div>
                     <span className="text-white/50 text-[11px] sm:text-[12px] leading-[14px] font-medium flex-shrink-0">
-                        AVG % RETURN / MO
+                        {isYearly ? 'AVG % RETURN / MO' : 'AVG % RETURN / DAY'}
                     </span>
                 </div>
 
@@ -117,46 +202,64 @@ export default function SeasonalityMap() {
 
                 {!loading && !error && (
                     <div className="overflow-x-auto">
-                        <div className="min-w-[700px]">
-                            <div className="flex items-center mb-3">
+                        <div className={isYearly ? 'min-w-[700px]' : 'min-w-[980px]'}>
+                            <div className="flex items-center mb-3" style={{ gap: isYearly ? '4px' : '2px' }}>
                                 <div className="w-12 sm:w-14 flex-shrink-0" />
-                                {MONTHS.map((m) => (
+                                {columns.map((col) => (
                                     <div
-                                        key={m}
-                                        className="flex-1 text-white/50 text-[12px] leading-[14px] font-normal text-center"
+                                        key={col}
+                                        className={`flex-1 text-white/50 font-normal text-center ${
+                                            isYearly
+                                                ? 'text-[12px] leading-[14px]'
+                                                : 'text-[9px] sm:text-[10px] leading-[12px]'
+                                        }`}
                                     >
-                                        {m}
+                                        {col}
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="flex flex-col" style={{ gap: '4px' }}>
-                                {data.map((row) => (
-                                    <div key={row.year} className="flex items-stretch" style={{ gap: '4px' }}>
+                            <div className="flex flex-col" style={{ gap: isYearly ? '4px' : '2px' }}>
+                                {rows.map((row) => (
+                                    <div
+                                        key={row.label}
+                                        className="flex items-stretch"
+                                        style={{ gap: isYearly ? '4px' : '2px' }}
+                                    >
                                         <div className="w-12 sm:w-14 flex-shrink-0 text-white/50 text-[12px] leading-[14px] font-normal flex items-center">
-                                            {row.year}
+                                            {row.label}
                                         </div>
                                         {row.values.map((val, mi) => (
                                             <div
                                                 key={mi}
-                                                className={`flex-1 ${cellColor(val)} text-white text-[11px] sm:text-[12px] leading-[14px] font-semibold text-center py-2.5`}
+                                                title={`${row.label} ${columns[mi]}: ${formatReturn(val)}%`}
+                                                className={`flex-1 ${cellColor(val)} text-white text-center ${
+                                                    showValues
+                                                        ? 'text-[11px] sm:text-[12px] leading-[14px] font-semibold py-2.5'
+                                                        : 'h-7 sm:h-8'
+                                                }`}
                                             >
-                                                {val > 0 ? `+${val.toFixed(2)}` : val.toFixed(2)}
+                                                {showValues ? formatReturn(val) : null}
                                             </div>
                                         ))}
                                     </div>
                                 ))}
 
-                                <div className="flex items-stretch" style={{ gap: '4px' }}>
+                                <div className="flex items-stretch" style={{ gap: isYearly ? '4px' : '2px' }}>
                                     <div className="w-12 sm:w-14 flex-shrink-0 text-[#88C4FF] text-[10px] leading-[12px] font-semibold flex items-center">
                                         avg
                                     </div>
                                     {avgRow.map((val, mi) => (
                                         <div
                                             key={mi}
-                                            className={`flex-1 ${cellColor(val)} text-white text-[11px] sm:text-[12px] leading-[14px] font-semibold text-center py-2.5`}
+                                            title={`Avg day ${columns[mi]}: ${formatReturn(val)}%`}
+                                            className={`flex-1 ${cellColor(val)} text-white text-center ${
+                                                showValues
+                                                    ? 'text-[11px] sm:text-[12px] leading-[14px] font-semibold py-2.5'
+                                                    : 'h-7 sm:h-8'
+                                                }`}
                                         >
-                                            {val > 0 ? `+${val.toFixed(2)}` : val.toFixed(2)}
+                                            {showValues ? formatReturn(val) : null}
                                         </div>
                                     ))}
                                 </div>
