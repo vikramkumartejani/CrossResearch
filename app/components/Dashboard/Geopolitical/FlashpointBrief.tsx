@@ -57,7 +57,7 @@ export default function FlashpointBrief({
                         <div className="bg-[#16161F] p-4 text-[#E25C3F] text-[13px]">{error}</div>
                     )}
                     {!loading && !error && items.length === 0 && (
-                        <div className="bg-[#16161F] p-4 text-[#838388] text-[13px]">No flashpoints in the last 24h.</div>
+                        <div className="bg-[#16161F] p-4 text-[#838388] text-[13px]">No flashpoints in the last 72h.</div>
                     )}
                     {!loading &&
                         !error &&

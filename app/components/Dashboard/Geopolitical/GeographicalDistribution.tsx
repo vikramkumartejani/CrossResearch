@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps'
 import FlashpointBrief, { type FlashpointItem } from './FlashpointBrief'
+import CommodityRiskMap from './CommodityRiskMap'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -176,100 +177,103 @@ export default function GeographicalDistribution() {
     }, [hotspots])
 
     return (
-        <div className="px-4 lg:px-6 mb-4 sm:mb-5">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4">
-                <div className="h-full">
-                    <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
-                        Geographical Distribution
-                    </h2>
-                    <div className="bg-[#16161F] p-3 sm:p-4">
-                        <div className="flex items-center justify-between mb-3">
-                            <p className="text-white text-[14px] sm:text-[16px] leading-[20px] sm:leading-[22px] font-semibold">
-                                Global Risk Map
-                            </p>
-                            <div className="flex items-center gap-2.5 sm:gap-4">
-                                {(['High', 'Medium', 'Low'] as const).map((s) => (
-                                    <div key={s} className="flex items-center gap-1">
-                                        <div
-                                            className="w-1 h-1 sm:w-[7px] sm:h-[7px] rounded-full"
-                                            style={{
-                                                backgroundColor: COLOR[s.toLowerCase() as SeverityKey],
-                                            }}
-                                        />
-                                        <span
-                                            className="text-[13px] sm:text-[14px] leading-4 sm:leading-[17px] font-medium"
-                                            style={{ color: COLOR[s.toLowerCase() as SeverityKey] }}
-                                        >
-                                            {s}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
+        <div className="px-4 lg:px-6 mb-4 sm:mb-5 space-y-3 sm:space-y-4">
+            {/* Full-width Global Risk Map */}
+            <div>
+                <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
+                    Geographical Distribution
+                </h2>
+                <div className="bg-[#16161F] p-3 sm:p-4">
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="text-white text-[14px] sm:text-[16px] leading-[20px] sm:leading-[22px] font-semibold">
+                            Global Risk Map
+                        </p>
+                        <div className="flex items-center gap-2.5 sm:gap-4">
+                            {(['High', 'Medium', 'Low'] as const).map((s) => (
+                                <div key={s} className="flex items-center gap-1">
+                                    <div
+                                        className="w-1 h-1 sm:w-[7px] sm:h-[7px] rounded-full"
+                                        style={{
+                                            backgroundColor: COLOR[s.toLowerCase() as SeverityKey],
+                                        }}
+                                    />
+                                    <span
+                                        className="text-[13px] sm:text-[14px] leading-4 sm:leading-[17px] font-medium"
+                                        style={{ color: COLOR[s.toLowerCase() as SeverityKey] }}
+                                    >
+                                        {s}
+                                    </span>
+                                </div>
+                            ))}
                         </div>
-
-                        {loading && (
-                            <div className="py-20 text-center text-[#838388] text-[13px]">Loading risk map...</div>
-                        )}
-                        {error && !loading && (
-                            <div className="py-20 text-center text-[#E25C3F] text-[13px]">{error}</div>
-                        )}
-
-                        {!loading && !error && (
-                            <ComposableMap
-                                projection="geoMercator"
-                                projectionConfig={{ scale: 80, center: [10, 40] }}
-                                style={{ width: '100%', height: 'auto', maxHeight: 500 }}
-                                height={354}
-                            >
-                                <Geographies geography={GEO_URL}>
-                                    {({ geographies }: { geographies: any[] }) =>
-                                        geographies.map((geo: any) => {
-                                            const iso = normalizeIsoId(geo.id)
-                                            const severity = severityByIso.get(iso)
-                                            const meta = metaByIso.get(iso)
-                                            const fill = severity ? COLOR[severity] : BASE_FILL
-                                            const hover = severity ? HOVER[severity] : BASE_HOVER
-                                            const label = meta
-                                                ? `${meta.name} · ${severity}${
-                                                      meta.story_count ? ` · ${meta.story_count} stories` : ''
-                                                  }`
-                                                : geo.properties?.name || iso
-
-                                            return (
-                                                <Geography
-                                                    key={geo.rsmKey}
-                                                    geography={geo}
-                                                    style={{
-                                                        default: {
-                                                            fill,
-                                                            stroke: '#16161F',
-                                                            strokeWidth: 0.45,
-                                                            outline: 'none',
-                                                            cursor: severity ? 'pointer' : 'default',
-                                                        },
-                                                        hover: {
-                                                            fill: hover,
-                                                            stroke: '#16161F',
-                                                            strokeWidth: 0.45,
-                                                            outline: 'none',
-                                                        },
-                                                        pressed: {
-                                                            fill,
-                                                            outline: 'none',
-                                                        },
-                                                    }}
-                                                >
-                                                    <title>{label}</title>
-                                                </Geography>
-                                            )
-                                        })
-                                    }
-                                </Geographies>
-                            </ComposableMap>
-                        )}
                     </div>
-                </div>
 
+                    {loading && (
+                        <div className="py-20 text-center text-[#838388] text-[13px]">Loading risk map...</div>
+                    )}
+                    {error && !loading && (
+                        <div className="py-20 text-center text-[#E25C3F] text-[13px]">{error}</div>
+                    )}
+
+                    {!loading && !error && (
+                        <ComposableMap
+                            projection="geoMercator"
+                            projectionConfig={{ scale: 120, center: [10, 20] }}
+                            style={{ width: '100%', height: 'auto', maxHeight: 420 }}
+                            height={320}
+                        >
+                            <Geographies geography={GEO_URL}>
+                                {({ geographies }: { geographies: any[] }) =>
+                                    geographies.map((geo: any) => {
+                                        const iso = normalizeIsoId(geo.id)
+                                        const severity = severityByIso.get(iso)
+                                        const meta = metaByIso.get(iso)
+                                        const fill = severity ? COLOR[severity] : BASE_FILL
+                                        const hover = severity ? HOVER[severity] : BASE_HOVER
+                                        const label = meta
+                                            ? `${meta.name} · ${severity}${
+                                                  meta.story_count ? ` · ${meta.story_count} stories` : ''
+                                              }`
+                                            : geo.properties?.name || iso
+
+                                        return (
+                                            <Geography
+                                                key={geo.rsmKey}
+                                                geography={geo}
+                                                style={{
+                                                    default: {
+                                                        fill,
+                                                        stroke: '#16161F',
+                                                        strokeWidth: 0.45,
+                                                        outline: 'none',
+                                                        cursor: severity ? 'pointer' : 'default',
+                                                    },
+                                                    hover: {
+                                                        fill: hover,
+                                                        stroke: '#16161F',
+                                                        strokeWidth: 0.45,
+                                                        outline: 'none',
+                                                    },
+                                                    pressed: {
+                                                        fill,
+                                                        outline: 'none',
+                                                    },
+                                                }}
+                                            >
+                                                <title>{label}</title>
+                                            </Geography>
+                                        )
+                                    })
+                                }
+                            </Geographies>
+                        </ComposableMap>
+                    )}
+                </div>
+            </div>
+
+            {/* Commodity Risk (left) + Flashpoint Brief (right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 items-stretch">
+                <CommodityRiskMap />
                 <FlashpointBrief items={flashpoints} loading={loading} error={error} />
             </div>
         </div>
