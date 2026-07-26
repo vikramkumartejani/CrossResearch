@@ -1,14 +1,12 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type CommodityGroup = 'softs' | 'energy' | 'grains' | 'metals'
 
 interface CommodityPoint {
     name: string
-    /** Approx 20D return (%) for x-axis */
     returnPct: number
-    /** 20D annualised volatility (%) for y-axis */
     volPct: number
     group: CommodityGroup
 }
@@ -19,27 +17,6 @@ const GROUP_COLOR: Record<CommodityGroup, string> = {
     grains: '#9AD4A0',
     metals: '#88C4FF',
 }
-
-/** Placeholder scatter matching the desk chart layout until a live engine exists */
-const COMMODITIES: CommodityPoint[] = [
-    { name: 'Coffee', returnPct: 1.2, volPct: 86, group: 'softs' },
-    { name: 'Cocoa', returnPct: 0.4, volPct: 78, group: 'softs' },
-    { name: 'Heating Oil', returnPct: 6.8, volPct: 59, group: 'energy' },
-    { name: 'Brent Crude', returnPct: 5.6, volPct: 55, group: 'energy' },
-    { name: 'WTI Crude', returnPct: 4.4, volPct: 52, group: 'energy' },
-    { name: 'RBOB Gasoline', returnPct: 2.8, volPct: 42, group: 'energy' },
-    { name: 'Silver', returnPct: -0.2, volPct: 40, group: 'metals' },
-    { name: 'Wheat', returnPct: 0.6, volPct: 39, group: 'grains' },
-    { name: 'Palladium', returnPct: 1.8, volPct: 37, group: 'metals' },
-    { name: 'Natural Gas', returnPct: -11.5, volPct: 34, group: 'energy' },
-    { name: 'Cotton', returnPct: -1.8, volPct: 32, group: 'softs' },
-    { name: 'Platinum', returnPct: 1.0, volPct: 32, group: 'metals' },
-    { name: 'Corn', returnPct: -0.6, volPct: 28, group: 'grains' },
-    { name: 'Sugar', returnPct: 0.2, volPct: 28, group: 'softs' },
-    { name: 'Copper', returnPct: -2.4, volPct: 23, group: 'metals' },
-    { name: 'Gold', returnPct: -3.2, volPct: 22, group: 'metals' },
-    { name: 'Soybeans', returnPct: -4.0, volPct: 20, group: 'grains' },
-]
 
 function CommodityScatterChart({ points }: { points: CommodityPoint[] }) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -65,20 +42,28 @@ function CommodityScatterChart({ points }: { points: CommodityPoint[] }) {
         const chartW = W - padL - padR
         const chartH = H - padT - padB
 
-        const minX = -14
-        const maxX = 10
-        const minY = 15
-        const maxY = 95
-        const spanX = maxX - minX
-        const spanY = maxY - minY
+        const xs = points.map((p) => p.returnPct)
+        const ys = points.map((p) => p.volPct)
+        const minX = Math.min(...xs)
+        const maxX = Math.max(...xs)
+        const minY = Math.min(...ys)
+        const maxY = Math.max(...ys)
+        const padX = Math.max((maxX - minX) * 0.12, 1)
+        const padY = Math.max((maxY - minY) * 0.12, 2)
+        const x0 = minX - padX
+        const x1 = maxX + padX
+        const y0 = Math.max(0, minY - padY)
+        const y1 = maxY + padY
+        const spanX = x1 - x0 || 1
+        const spanY = y1 - y0 || 1
 
-        const toX = (v: number) => padL + ((v - minX) / spanX) * chartW
-        const toY = (v: number) => padT + ((maxY - v) / spanY) * chartH
+        const toX = (v: number) => padL + ((v - x0) / spanX) * chartW
+        const toY = (v: number) => padT + ((y1 - v) / spanY) * chartH
 
-        // Grid
         ctx.strokeStyle = 'rgba(255,255,255,0.08)'
         ctx.lineWidth = 1
-        for (let y = 20; y <= 90; y += 10) {
+        for (let i = 0; i <= 5; i++) {
+            const y = y0 + (spanY * i) / 5
             const py = toY(y)
             ctx.beginPath()
             ctx.moveTo(padL, py)
@@ -93,13 +78,13 @@ function CommodityScatterChart({ points }: { points: CommodityPoint[] }) {
             ctx.stroke()
         }
 
-        // Axis labels
         ctx.fillStyle = 'rgba(255,255,255,0.45)'
         ctx.font = '10px sans-serif'
         ctx.textAlign = 'right'
         ctx.textBaseline = 'middle'
-        for (let y = 20; y <= 90; y += 10) {
-            ctx.fillText(`${y}%`, padL - 6, toY(y))
+        for (let i = 0; i <= 5; i++) {
+            const y = y0 + (spanY * i) / 5
+            ctx.fillText(`${Math.round(y)}%`, padL - 6, toY(y))
         }
 
         ctx.save()
@@ -112,11 +97,15 @@ function CommodityScatterChart({ points }: { points: CommodityPoint[] }) {
         ctx.fillText('20D annualised volatility', 0, 0)
         ctx.restore()
 
-        // Points + labels
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'top'
+        ctx.fillStyle = 'rgba(255,255,255,0.4)'
+        ctx.fillText('1M return', padL + chartW / 2, padT + chartH + 10)
+
         points.forEach((p) => {
             const x = toX(p.returnPct)
             const y = toY(p.volPct)
-            const color = GROUP_COLOR[p.group]
+            const color = GROUP_COLOR[p.group] || '#88C4FF'
 
             ctx.beginPath()
             ctx.arc(x, y, 4, 0, Math.PI * 2)
@@ -135,18 +124,76 @@ function CommodityScatterChart({ points }: { points: CommodityPoint[] }) {
 }
 
 export default function CommodityRiskMap() {
+    const [points, setPoints] = useState<CommodityPoint[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        let cancelled = false
+
+        async function load() {
+            try {
+                setLoading(true)
+                setError(null)
+                const res = await fetch('/api/commodity-risk-map')
+                if (!res.ok) throw new Error('Failed to load commodity risk map')
+                const data = await res.json()
+                if (cancelled) return
+
+                const mapped: CommodityPoint[] = (data.commodity_risk_map?.points || [])
+                    .map((p: any) => {
+                        const group = String(p.group || 'metals').toLowerCase() as CommodityGroup
+                        return {
+                            name: String(p.name || ''),
+                            returnPct: Number(p.return_pct),
+                            volPct: Number(p.vol_pct),
+                            group: (['softs', 'energy', 'grains', 'metals'].includes(group)
+                                ? group
+                                : 'metals') as CommodityGroup,
+                        }
+                    })
+                    .filter(
+                        (p: CommodityPoint) =>
+                            p.name && Number.isFinite(p.returnPct) && Number.isFinite(p.volPct)
+                    )
+
+                setPoints(mapped)
+            } catch (err) {
+                if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
+            } finally {
+                if (!cancelled) setLoading(false)
+            }
+        }
+
+        load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
     return (
         <div className="flex flex-col h-full">
-            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
-                Commodity Risk
-            </h2>
+            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Commodity Risk</h2>
             <div className="bg-[#16161F] p-3 sm:p-4 flex-1 flex flex-col min-h-[320px]">
                 <p className="text-white text-[14px] sm:text-[16px] leading-[20px] sm:leading-[22px] font-semibold mb-3">
                     Commodity Risk / Return Map
                 </p>
-                <div className="flex-1" style={{ minHeight: 280 }}>
-                    <CommodityScatterChart points={COMMODITIES} />
-                </div>
+
+                {loading && <div className="flex-1 flex items-center justify-center text-[#838388] text-[12px]">Loading commodities...</div>}
+                {error && !loading && (
+                    <div className="flex-1 flex items-center justify-center text-[#E25C3F] text-[12px]">{error}</div>
+                )}
+                {!loading && !error && points.length === 0 && (
+                    <div className="flex-1 flex items-center justify-center text-[#838388] text-[12px]">
+                        No commodity data available.
+                    </div>
+                )}
+                {!loading && !error && points.length > 0 && (
+                    <div className="flex-1" style={{ minHeight: 280 }}>
+                        <CommodityScatterChart points={points} />
+                    </div>
+                )}
+
                 <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3 text-[10px] text-[#838388]">
                     <span className="flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-[#C4A0FF] inline-block" /> Softs

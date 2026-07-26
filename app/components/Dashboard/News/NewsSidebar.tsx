@@ -1,8 +1,11 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 type ChangeTone = 'up' | 'down' | 'flat'
 
 interface SignalRow {
+    id?: string
     name: string
     detail: string
     last: string
@@ -17,125 +20,17 @@ interface SignalRow {
     accent: string
 }
 
-const SIGNALS: SignalRow[] = [
-    {
-        name: 'Net Fed Liquidity',
-        detail: 'Fed assets − TGA − ON RRP',
-        last: '$5.92tn',
-        d1: '−$28bn',
-        d5: '−$41bn',
-        m3: '−$0.31tn',
-        z: '+0.81',
-        d1Tone: 'down',
-        d5Tone: 'down',
-        m3Tone: 'down',
-        zTone: 'up',
-        accent: '#88C4FF',
-    },
-    {
-        name: 'Bank Reserves',
-        detail: 'Reserve balances at the Fed',
-        last: '$2.92tn',
-        d1: '−$18bn',
-        d5: '−$29bn',
-        m3: '−$0.19tn',
-        z: '−0.22',
-        d1Tone: 'down',
-        d5Tone: 'down',
-        m3Tone: 'down',
-        zTone: 'down',
-        accent: '#88C4FF',
-    },
-    {
-        name: 'SOFR − IORB',
-        detail: 'Secured funding vs admin rate',
-        last: '−1 bp',
-        d1: '0 bp',
-        d5: '−1 bp',
-        m3: '−2 bp',
-        z: '−0.96',
-        d1Tone: 'flat',
-        d5Tone: 'down',
-        m3Tone: 'down',
-        zTone: 'down',
-        accent: '#88C4FF',
-    },
-    {
-        name: '10Y Real Yield',
-        detail: '10Y TIPS real yield (DFII10)',
-        last: '2.43%',
-        d1: '−2 bp',
-        d5: '−6 bp',
-        m3: '+21 bp',
-        z: '+1.87',
-        d1Tone: 'down',
-        d5Tone: 'down',
-        m3Tone: 'up',
-        zTone: 'up',
-        accent: '#F0B35A',
-    },
-    {
-        name: '10Y Breakeven',
-        detail: 'Market-implied 10Y inflation',
-        last: '2.21%',
-        d1: '0 bp',
-        d5: '−3 bp',
-        m3: '−8 bp',
-        z: '−0.64',
-        d1Tone: 'flat',
-        d5Tone: 'down',
-        m3Tone: 'down',
-        zTone: 'down',
-        accent: '#F0B35A',
-    },
-    {
-        name: 'Copper / Gold',
-        detail: 'Cyclical growth vs defense',
-        last: '0.000198',
-        d1: '−0.8%',
-        d5: '−2.1%',
-        m3: '+4.6%',
-        z: '+0.41',
-        d1Tone: 'down',
-        d5Tone: 'down',
-        m3Tone: 'up',
-        zTone: 'up',
-        accent: '#F0B35A',
-    },
-    {
-        name: 'US HY OAS',
-        detail: 'High-yield credit spread',
-        last: '277 bp',
-        d1: '−2 bp',
-        d5: '−5 bp',
-        m3: '−18 bp',
-        z: '−1.12',
-        d1Tone: 'up',
-        d5Tone: 'up',
-        m3Tone: 'up',
-        zTone: 'up',
-        accent: '#E88AB0',
-    },
-    {
-        name: 'MOVE Index',
-        detail: 'Treasury implied volatility',
-        last: '70.9',
-        d1: '−1.4',
-        d5: '−3.8',
-        m3: '−12.1',
-        z: '−0.55',
-        d1Tone: 'up',
-        d5Tone: 'up',
-        m3Tone: 'up',
-        zTone: 'up',
-        accent: '#FFFFFF99',
-    },
-]
-
 function toneClass(tone: ChangeTone) {
     if (tone === 'up') return 'text-[#2CB37B]'
     if (tone === 'down') return 'text-[#E25C3F]'
     return 'text-white/50'
+}
+
+function mapTone(value: unknown): ChangeTone {
+    const tone = String(value || 'flat').toLowerCase()
+    if (tone === 'up') return 'up'
+    if (tone === 'down' || tone === 'dn') return 'down'
+    return 'flat'
 }
 
 const MOST_READ = [
@@ -147,9 +42,53 @@ const MOST_READ = [
 ]
 
 export default function NewsSidebar() {
+    const [signals, setSignals] = useState<SignalRow[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        let cancelled = false
+
+        async function load() {
+            try {
+                setLoading(true)
+                setError(null)
+                const res = await fetch('/api/market-signals')
+                if (!res.ok) throw new Error('Failed to load market signals')
+                const data = await res.json()
+                if (cancelled) return
+
+                const rows: SignalRow[] = (data.market_signals || []).map((row: any) => ({
+                    id: row.id,
+                    name: String(row.name || ''),
+                    detail: String(row.detail || ''),
+                    last: String(row.last ?? '—'),
+                    d1: String(row.d1 ?? '—'),
+                    d5: String(row.d5 ?? '—'),
+                    m3: String(row.m3 ?? '—'),
+                    z: String(row.z ?? '—'),
+                    d1Tone: mapTone(row.d1_tone),
+                    d5Tone: mapTone(row.d5_tone),
+                    m3Tone: mapTone(row.m3_tone),
+                    zTone: mapTone(row.z_tone),
+                    accent: String(row.accent || '#88C4FF'),
+                }))
+                setSignals(rows)
+            } catch (err) {
+                if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
+            } finally {
+                if (!cancelled) setLoading(false)
+            }
+        }
+
+        load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
     return (
         <div className="flex flex-col gap-3 sm:gap-5">
-            {/* Bloomberg TV */}
             <div className="bg-[#16161F] p-3 sm:p-4">
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -178,7 +117,6 @@ export default function NewsSidebar() {
                 <div className="bg-[#FFFFFF08] overflow-hidden" style={{ height: 200 }} />
             </div>
 
-            {/* Today's Most Read */}
             <div className="bg-[#16161F] p-3 sm:p-4">
                 <div className="flex items-center justify-between gap-2 mb-4">
                     <p className="text-white text-[16px] leading-[19px] font-semibold">Today&apos;s Most Read</p>
@@ -204,72 +142,79 @@ export default function NewsSidebar() {
                 </div>
             </div>
 
-            {/* Market Signals — replaces Index Futures (no trigger / regime / alert) */}
             <div className="bg-[#16161F] p-3 sm:p-4">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <p className="text-white text-[16px] leading-[19px] font-semibold">Market Signals</p>
-                    <span className="text-white/50 text-[11px] sm:text-[12px] leading-[14px]">Desk monitor</span>
+                    <span className="text-white/50 text-[11px] sm:text-[12px] leading-[14px]">Live · FRED / Yahoo</span>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full min-w-[520px] border-collapse">
-                        <thead>
-                            <tr className="text-[#838388] text-[10px] sm:text-[11px] leading-[14px] uppercase tracking-wide">
-                                <th className="text-left font-medium pb-2 pr-3">Signal</th>
-                                <th className="text-right font-medium pb-2 px-1.5">Last</th>
-                                <th className="text-right font-medium pb-2 px-1.5">1D</th>
-                                <th className="text-right font-medium pb-2 px-1.5">5D</th>
-                                <th className="text-right font-medium pb-2 px-1.5">3M</th>
-                                <th className="text-right font-medium pb-2 pl-1.5">Z</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {SIGNALS.map((row) => (
-                                <tr key={row.name} className="border-t border-[#FFFFFF0D]">
-                                    <td className="py-2.5 sm:py-3 pr-3 align-middle">
-                                        <div className="flex items-start gap-2">
-                                            <span
-                                                className="w-[3px] self-stretch min-h-[28px] flex-shrink-0 mt-0.5"
-                                                style={{ backgroundColor: row.accent }}
-                                            />
-                                            <div className="min-w-0">
-                                                <p className="text-white text-[12px] sm:text-[13px] leading-[16px] font-medium">
-                                                    {row.name}
-                                                </p>
-                                                <p className="text-[#838388] text-[10px] sm:text-[11px] leading-[14px] mt-0.5">
-                                                    {row.detail}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="py-2.5 sm:py-3 px-1.5 text-right text-white text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap">
-                                        {row.last}
-                                    </td>
-                                    <td
-                                        className={`py-2.5 sm:py-3 px-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.d1Tone)}`}
-                                    >
-                                        {row.d1}
-                                    </td>
-                                    <td
-                                        className={`py-2.5 sm:py-3 px-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.d5Tone)}`}
-                                    >
-                                        {row.d5}
-                                    </td>
-                                    <td
-                                        className={`py-2.5 sm:py-3 px-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.m3Tone)}`}
-                                    >
-                                        {row.m3}
-                                    </td>
-                                    <td
-                                        className={`py-2.5 sm:py-3 pl-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.zTone)}`}
-                                    >
-                                        {row.z}
-                                    </td>
+                {loading && <p className="text-[#838388] text-[12px] py-6">Loading market signals...</p>}
+                {error && !loading && <p className="text-[#E25C3F] text-[12px] py-6">{error}</p>}
+                {!loading && !error && signals.length === 0 && (
+                    <p className="text-[#838388] text-[12px] py-6">No market signals available.</p>
+                )}
+
+                {!loading && !error && signals.length > 0 && (
+                    <div className="overflow-x-auto">
+                        <table className="w-full min-w-[520px] border-collapse">
+                            <thead>
+                                <tr className="text-[#838388] text-[10px] sm:text-[11px] leading-[14px] uppercase tracking-wide">
+                                    <th className="text-left font-medium pb-2 pr-3">Signal</th>
+                                    <th className="text-right font-medium pb-2 px-1.5">Last</th>
+                                    <th className="text-right font-medium pb-2 px-1.5">1D</th>
+                                    <th className="text-right font-medium pb-2 px-1.5">5D</th>
+                                    <th className="text-right font-medium pb-2 px-1.5">3M</th>
+                                    <th className="text-right font-medium pb-2 pl-1.5">Z</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {signals.map((row) => (
+                                    <tr key={row.id || row.name} className="border-t border-[#FFFFFF0D]">
+                                        <td className="py-2.5 sm:py-3 pr-3 align-middle">
+                                            <div className="flex items-start gap-2">
+                                                <span
+                                                    className="w-[3px] self-stretch min-h-[28px] flex-shrink-0 mt-0.5"
+                                                    style={{ backgroundColor: row.accent }}
+                                                />
+                                                <div className="min-w-0">
+                                                    <p className="text-white text-[12px] sm:text-[13px] leading-[16px] font-medium">
+                                                        {row.name}
+                                                    </p>
+                                                    <p className="text-[#838388] text-[10px] sm:text-[11px] leading-[14px] mt-0.5">
+                                                        {row.detail}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="py-2.5 sm:py-3 px-1.5 text-right text-white text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap">
+                                            {row.last}
+                                        </td>
+                                        <td
+                                            className={`py-2.5 sm:py-3 px-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.d1Tone)}`}
+                                        >
+                                            {row.d1}
+                                        </td>
+                                        <td
+                                            className={`py-2.5 sm:py-3 px-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.d5Tone)}`}
+                                        >
+                                            {row.d5}
+                                        </td>
+                                        <td
+                                            className={`py-2.5 sm:py-3 px-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.m3Tone)}`}
+                                        >
+                                            {row.m3}
+                                        </td>
+                                        <td
+                                            className={`py-2.5 sm:py-3 pl-1.5 text-right text-[11px] sm:text-[12px] leading-[15px] font-medium whitespace-nowrap ${toneClass(row.zTone)}`}
+                                        >
+                                            {row.z}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </div>
     )
