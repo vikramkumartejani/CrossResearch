@@ -1,107 +1,289 @@
 'use client'
-import { useRef, useEffect } from 'react'
 
-// GRI index data — gradual rise from ~75 to ~250 with spikes
-const GRI_DATA = [
-    75, 78, 80, 82, 85, 88, 90, 95, 100, 105, 110, 115,
-    120, 118, 122, 125, 130, 135, 140, 145, 148, 150, 152,
-    155, 160, 165, 168, 170, 172, 175, 180, 185, 188, 190,
-    195, 200, 205, 210, 215, 220, 225, 228, 230, 232, 235,
-    238, 240, 242, 244, 246, 248, 250, 248, 246, 248, 250,
-    252, 250, 248, 246, 248, 250, 252, 248, 246, 248, 252,
-]
-const X_LABELS = ['Dec 23', 'Feb 23', 'Apr 23', 'Jun 23', 'Aug 23', 'Oct 23']
-const Y_LABELS = ['300', '225', '150', '75', '0']
+import { useEffect, useMemo, useRef, useState } from 'react'
 
-function GriChart() {
+type TabId = 'geopolitical_risk_score' | 'reversal_risk_momentum'
+
+interface SeriesPoint {
+    t: string
+    v: number
+    percentile?: number
+    probability_pct?: number
+    activation?: number
+    state?: string | null
+}
+
+interface GriTab {
+    id: TabId
+    label: string
+    y_domain: [number, number]
+    latest: {
+        t: string
+        v: number
+        change_1d: number | null
+        percentile?: number | null
+        probability_pct?: number | null
+        state?: string | null
+    }
+    series: SeriesPoint[]
+}
+
+interface GriPayload {
+    snapshot?: {
+        gpri?: number
+        gpri_1d_change?: number | null
+        rrm?: number
+        rrm_1d_change?: number | null
+        rrm_state?: string
+    }
+    tabs?: GriTab[]
+}
+
+function OscillatorChart({
+    series,
+    yDomain = [-1, 1],
+    lineColor = '#88C4FF',
+}: {
+    series: number[]
+    yDomain?: [number, number]
+    lineColor?: string
+}) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
+
     useEffect(() => {
-        const c = canvasRef.current; if (!c) return
-        const ctx = c.getContext('2d'); if (!ctx) return
+        const c = canvasRef.current
+        if (!c || series.length < 2) return
+        const ctx = c.getContext('2d')
+        if (!ctx) return
+
         const dpr = window.devicePixelRatio || 1
-        const W = c.offsetWidth || 500; const H = c.offsetHeight || 200
-        c.width = W * dpr; c.height = H * dpr; ctx.scale(dpr, dpr)
-        const padT = 8; const padB = 8
-        const minV = 0; const maxV = 300
-        const toX = (i: number) => (i / (GRI_DATA.length - 1)) * W
+        const W = c.offsetWidth || 500
+        const H = c.offsetHeight || 200
+        c.width = W * dpr
+        c.height = H * dpr
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        ctx.clearRect(0, 0, W, H)
+
+        const [minV, maxV] = yDomain
+        const padT = 8
+        const padB = 8
+        const toX = (i: number) => (i / (series.length - 1)) * W
         const toY = (v: number) => padT + ((maxV - v) / (maxV - minV)) * (H - padT - padB)
 
-            // Grid lines
-            ;[0, 75, 150, 225, 300].forEach(v => {
-                const y = toY(v)
-                ctx.strokeStyle = v === 150 ? 'rgba(226,92,63,0.35)' : v === 75 ? 'rgba(136,196,255,0.2)' : 'rgba(255,255,255,0.06)'
-                ctx.lineWidth = 1
-                ctx.setLineDash(v === 150 || v === 75 ? [4, 4] : [])
-                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke()
-            })
+        ;[-1, -0.5, 0, 0.5, 1].forEach((v) => {
+            const y = toY(v)
+            ctx.strokeStyle =
+                v === 0
+                    ? 'rgba(255,255,255,0.18)'
+                    : Math.abs(v) === 0.5
+                      ? 'rgba(136,196,255,0.18)'
+                      : 'rgba(255,255,255,0.06)'
+            ctx.lineWidth = 1
+            ctx.setLineDash(v === 0 || Math.abs(v) === 0.5 ? [4, 4] : [])
+            ctx.beginPath()
+            ctx.moveTo(0, y)
+            ctx.lineTo(W, y)
+            ctx.stroke()
+        })
         ctx.setLineDash([])
 
-        // Gradient fill
-        const grad = ctx.createLinearGradient(0, toY(300), 0, H)
-        grad.addColorStop(0, 'rgba(136,196,255,0.2)')
+        const grad = ctx.createLinearGradient(0, toY(maxV), 0, H)
+        grad.addColorStop(0, 'rgba(136,196,255,0.18)')
         grad.addColorStop(1, 'rgba(136,196,255,0)')
         ctx.beginPath()
-        GRI_DATA.forEach((v, i) => i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v)))
-        ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath()
-        ctx.fillStyle = grad; ctx.fill()
+        series.forEach((v, i) => (i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v))))
+        ctx.lineTo(W, H)
+        ctx.lineTo(0, H)
+        ctx.closePath()
+        ctx.fillStyle = grad
+        ctx.fill()
 
-        // Line
         ctx.beginPath()
-        GRI_DATA.forEach((v, i) => i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v)))
-        ctx.strokeStyle = '#88C4FF'; ctx.lineWidth = 1.5; ctx.stroke()
-    }, [])
+        series.forEach((v, i) => (i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v))))
+        ctx.strokeStyle = lineColor
+        ctx.lineWidth = 1.5
+        ctx.stroke()
+    }, [series, yDomain, lineColor])
+
     return <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 }
 
+function formatSigned(value: number | null | undefined, digits = 2) {
+    if (value == null || !Number.isFinite(value)) return '—'
+    const sign = value > 0 ? '+' : ''
+    return `${sign}${value.toFixed(digits)}`
+}
+
 export default function RiskTensionMonitoring() {
+    const [payload, setPayload] = useState<GriPayload | null>(null)
+    const [activeTab, setActiveTab] = useState<TabId>('geopolitical_risk_score')
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        let cancelled = false
+
+        async function load() {
+            try {
+                setLoading(true)
+                setError(null)
+                const res = await fetch('/api/geopolitical-risk-index?lookback_days=180')
+                if (!res.ok) throw new Error('Failed to load geopolitical risk index')
+                const data = (await res.json()) as GriPayload
+                if (cancelled) return
+                setPayload(data)
+                if (data.tabs?.[0]?.id) setActiveTab(data.tabs[0].id)
+            } catch (err) {
+                if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
+            } finally {
+                if (!cancelled) setLoading(false)
+            }
+        }
+
+        load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
+    const tabs = payload?.tabs ?? []
+    const tab = tabs.find((t) => t.id === activeTab) ?? tabs[0]
+    const values = useMemo(() => (tab?.series || []).map((p) => p.v), [tab])
+    const latest = tab?.latest
+    const change = latest?.change_1d
+    const changeColor =
+        change == null ? 'text-[#838388]' : change >= 0 ? 'text-[#5CEB8A]' : 'text-[#E25C3F]'
+
+    const xLabels = useMemo(() => {
+        const series = tab?.series || []
+        if (series.length < 2) return []
+        const idxs = [0, Math.floor((series.length - 1) / 2), series.length - 1]
+        return idxs.map((i) => {
+            const d = new Date(series[i].t)
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        })
+    }, [tab])
+
     return (
         <div className="px-4 lg:px-6 mb-4 sm:mb-5">
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Risk Tension Monitoring</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4">
-                {/* GRI Chart */}
-                <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+                <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col min-h-[280px]">
                     <div className="flex sm:flex-row flex-col items-start justify-between gap-3">
                         <div>
                             <p className="text-white text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-medium">
                                 Geopolitical Risk Index • 180d
                             </p>
                             <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[17px] font-normal mt-2">
-                                Global baseline methodology • mean-revied risk premium
+                                Global baseline methodology • mean-reverting risk premium
                             </p>
                         </div>
                         <div className="text-right flex sm:flex-col flex-row items-center sm:items-end gap-3 sm:gap-0">
-                            <p className="text-white text-[18px] sm:text-[22px] leading-6 sm:leading-[31px] font-semibold mb-1">25.7</p>
-                            <p className="text-[#5CEB8A] text-[14px] leading-[17px] font-normal">+1.8 Today</p>
+                            <p className="text-white text-[18px] sm:text-[22px] leading-6 sm:leading-[31px] font-semibold mb-1">
+                                {latest?.v != null ? latest.v.toFixed(2) : loading ? '…' : '—'}
+                            </p>
+                            <p className={`${changeColor} text-[14px] leading-[17px] font-normal`}>
+                                {formatSigned(change)} Today
+                            </p>
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-center h-full my-12">
-                        {/* <div className="flex flex-col justify-between text-right flex-shrink-0 pb-5" style={{ width: 28 }}>
-                            {Y_LABELS.map(l => (
-                                <span key={l} className="text-[#838388] text-[9px] leading-[11px]">{l}</span>
+                    {tabs.length > 0 && (
+                        <div className="flex items-center gap-1 mt-4 overflow-x-auto">
+                            {tabs.map((t) => (
+                                <button
+                                    key={t.id}
+                                    type="button"
+                                    onClick={() => setActiveTab(t.id)}
+                                    className={`px-3 py-1 text-[12px] sm:text-[13px] leading-5 whitespace-nowrap transition-colors cursor-pointer ${
+                                        activeTab === t.id
+                                            ? 'text-white bg-[#FFFFFF0D] font-semibold'
+                                            : 'text-[#838388] font-normal hover:text-white/70'
+                                    }`}
+                                >
+                                    {t.label}
+                                </button>
                             ))}
                         </div>
-                        <div className="flex-1 flex flex-col">
-                            <div style={{ height: 180 }}><GriChart /></div>
-                            <div className="flex justify-between mt-1">
-                                {X_LABELS.map(l => (
-                                    <span key={l} className="text-[#838388] text-[9px] leading-[11px]">{l}</span>
-                                ))}
-                            </div>
-                        </div> */}
+                    )}
 
-                        Chart Is Coming...
+                    <div className="flex-1 mt-4 min-h-[180px]">
+                        {loading && (
+                            <div className="flex items-center justify-center h-[180px] text-[#838388] text-sm">
+                                Loading GRI…
+                            </div>
+                        )}
+                        {!loading && error && (
+                            <div className="flex items-center justify-center h-[180px] text-[#E25C3F] text-sm px-4 text-center">
+                                {error}
+                            </div>
+                        )}
+                        {!loading && !error && values.length >= 2 && (
+                            <div className="flex flex-col h-full">
+                                <div className="flex gap-2 flex-1">
+                                    <div
+                                        className="flex flex-col justify-between text-right flex-shrink-0 pb-5"
+                                        style={{ width: 28 }}
+                                    >
+                                        {['+1', '+0.5', '0', '−0.5', '−1'].map((l) => (
+                                            <span key={l} className="text-[#838388] text-[9px] leading-[11px]">
+                                                {l}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div className="flex-1 flex flex-col min-w-0">
+                                        <div style={{ height: 180 }}>
+                                            <OscillatorChart
+                                                series={values}
+                                                lineColor={
+                                                    activeTab === 'reversal_risk_momentum'
+                                                        ? '#FF9F43'
+                                                        : '#88C4FF'
+                                                }
+                                            />
+                                        </div>
+                                        <div className="flex justify-between mt-1">
+                                            {xLabels.map((l) => (
+                                                <span key={l} className="text-[#838388] text-[9px] leading-[11px]">
+                                                    {l}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                {activeTab === 'reversal_risk_momentum' && latest?.state && (
+                                    <p className="text-[#838388] text-[11px] sm:text-[12px] leading-4 mt-3">
+                                        {latest.state}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+                        {!loading && !error && values.length < 2 && (
+                            <div className="flex items-center justify-center h-[180px] text-[#838388] text-sm">
+                                No series available
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Bloomberg TV */}
                 <div className="bg-[#16161F] p-4 flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.66797 11.6667C1.66797 8.524 1.66797 6.95262 2.64428 5.97631C3.62059 5 5.19194 5 8.33464 5H11.668C14.8106 5 16.3821 5 17.3583 5.97631C18.3346 6.95262 18.3346 8.524 18.3346 11.6667C18.3346 14.8093 18.3346 16.3808 17.3583 17.357C16.3821 18.3333 14.8106 18.3333 11.668 18.3333H8.33464C5.19194 18.3333 3.62059 18.3333 2.64428 17.357C1.66797 16.3808 1.66797 14.8093 1.66797 11.6667Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                                <path d="M7.5 2.50033L10 5.00033L13.3333 1.66699" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                <path
+                                    d="M1.66797 11.6667C1.66797 8.524 1.66797 6.95262 2.64428 5.97631C3.62059 5 5.19194 5 8.33464 5H11.668C14.8106 5 16.3821 5 17.3583 5.97631C18.3346 6.95262 18.3346 8.524 18.3346 11.6667C18.3346 14.8093 18.3346 16.3808 17.3583 17.357C16.3821 18.3333 14.8106 18.3333 11.668 18.3333H8.33464C5.19194 18.3333 3.62059 18.3333 2.64428 17.357C1.66797 16.3808 1.66797 14.8093 1.66797 11.6667Z"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                />
+                                <path
+                                    d="M7.5 2.50033L10 5.00033L13.3333 1.66699"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
                             </svg>
                             <span className="text-white text-[16px] leading-[19px] font-semibold">Bloomberg TV</span>
                         </div>
@@ -111,15 +293,7 @@ export default function RiskTensionMonitoring() {
                         </div>
                     </div>
 
-                    <div className="flex-1 bg-[#FFFFFF08] overflow-hidden min-h-[160px] sm:min-h-[250px]">
-                        {/* <iframe
-                            src="https://www.bloomberg.com/media-manifest/streams/us.m3u8"
-                            className="w-full h-full"
-                            style={{ minHeight: 180, border: 'none' }}
-                            allow="autoplay; fullscreen"
-                            title="Bloomberg TV"
-                        /> */}
-                    </div>
+                    <div className="flex-1 bg-[#FFFFFF08] overflow-hidden min-h-[160px] sm:min-h-[250px]" />
                 </div>
             </div>
         </div>
