@@ -4,15 +4,6 @@ import InstrumentDropdown, { type SeasonalityInstrument } from './InstrumentDrop
 
 const REGIME_ORDER = ['Expansion', 'Stagflation', 'Recession', 'Recovery'] as const
 
-interface RegimeStats {
-    mean: number | null
-    vol: number | null
-    sharpe: number | null
-    hit: number | null
-    n: number
-    sample_warning: boolean
-}
-
 interface RegimeBar {
     label: string
     shortLabel: string
@@ -22,13 +13,6 @@ interface RegimeBar {
     n: number
 }
 
-interface CurrentRegime {
-    regime_label?: string
-    forecast_regime?: string
-    regime_confidence_percent?: number | null
-    macro_data_as_of?: string
-}
-
 interface CountryRegimeRow {
     country: string
     current_regime: string
@@ -36,24 +20,26 @@ interface CountryRegimeRow {
     growth_score: number | null
     inflation_score: number | null
     conviction_strength: string
-    data_as_of?: string | null
 }
 
-interface MarketRegimeResponse {
-    regimes: string[]
-    assets: Record<
-        string,
-        {
-            asset_class: string
-            ticker: string
-            regimes: Record<string, RegimeStats>
-        }
-    >
-    current: CurrentRegime
+interface CurrentRegimeResponse {
+    as_of?: string
+    subtitle?: string
     countries?: CountryRegimeRow[]
-    metadata?: {
-        market_start_date?: string
-        errors?: Record<string, string>
+}
+
+interface RegimeStats {
+    mean: number
+    sharpe: number
+    hit: number
+    n: number
+}
+
+interface ReturnsByRegimeResponse {
+    instruments?: Record<string, Partial<Record<(typeof REGIME_ORDER)[number], RegimeStats>>>
+    current?: {
+        regime_label?: string
+        regime_confidence_percent?: number | null
     }
 }
 
@@ -79,21 +65,11 @@ function ReturnsChart({ regimes, yMin, yMax }: { regimes: RegimeBar[]; yMin: num
         const padB = 8
         const chartH = H - padT - padB
         const span = yMax - yMin || 1
+
         const zeroY = padT + ((yMax - 0) / span) * chartH
-
-        const gridCount = 5
-        ctx.strokeStyle = 'rgba(255,255,255,0.07)'
-        ctx.lineWidth = 1
-        for (let i = 0; i < gridCount; i++) {
-            const y = padT + (i / (gridCount - 1)) * chartH
-            ctx.beginPath()
-            ctx.moveTo(padL, y)
-            ctx.lineTo(W - padR, y)
-            ctx.stroke()
-        }
-
-        if (yMin < 0 && yMax > 0) {
-            ctx.strokeStyle = 'rgba(255,255,255,0.18)'
+        if (zeroY > padT && zeroY < H - padB) {
+            ctx.strokeStyle = 'rgba(255,255,255,0.12)'
+            ctx.lineWidth = 1
             ctx.beginPath()
             ctx.moveTo(padL, zeroY)
             ctx.lineTo(W - padR, zeroY)
@@ -147,85 +123,98 @@ function buildYLabels(yMin: number, yMax: number) {
     return labels
 }
 
-function friendlyError(error: string) {
-    if (/warming up|still computing|retry shortly|retrying in background/i.test(error)) {
-        return error
-    }
-    if (/fetch failed|failed to fetch|aborted|timeout/i.test(error)) {
-        return 'Regime model is still warming up. Server precomputes US/EU/UK on startup — refresh in a minute.'
-    }
-    return error
-}
-
 export default function SeasonalityDrivers() {
     const [regimeInstrument, setRegimeInstrument] = useState<SeasonalityInstrument>('EURUSD')
-    const [payload, setPayload] = useState<MarketRegimeResponse | null>(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+    const [returnsMap, setReturnsMap] = useState<
+        Record<string, Partial<Record<(typeof REGIME_ORDER)[number], RegimeStats>>>
+    >({})
+    const [currentLabel, setCurrentLabel] = useState('—')
+    const [currentConf, setCurrentConf] = useState<number | null>(null)
+    const [returnsLoading, setReturnsLoading] = useState(true)
+    const [returnsError, setReturnsError] = useState<string | null>(null)
+
+    const [countries, setCountries] = useState<CountryRegimeRow[]>([])
+    const [asOf, setAsOf] = useState<string | null>(null)
+    const [subtitle, setSubtitle] = useState(
+        'G3 macro regime snapshot for the Euro Area, United Kingdom and United States.'
+    )
+    const [regimeLoading, setRegimeLoading] = useState(true)
+    const [regimeError, setRegimeError] = useState<string | null>(null)
 
     useEffect(() => {
         let cancelled = false
-        let retryTimer: ReturnType<typeof setTimeout> | null = null
 
-        async function fetchRegimes() {
+        async function loadReturns() {
             try {
-                setLoading(true)
-                setError(null)
-
-                const response = await fetch(
-                    `/api/market-regimes?instruments=${encodeURIComponent(regimeInstrument)}`
-                )
-                if (!response.ok) {
-                    const body = await response.json().catch(() => ({}))
-                    const detail = body.details || body.detail || body.error || 'Failed to fetch market regime data'
-                    throw new Error(typeof detail === 'string' ? detail : JSON.stringify(detail))
+                setReturnsLoading(true)
+                setReturnsError(null)
+                const res = await fetch('/api/returns-by-regime', { cache: 'no-store' })
+                if (!res.ok) {
+                    const body = await res.json().catch(() => ({}))
+                    throw new Error(body.details || body.error || 'Failed to load returns by regime')
                 }
-
-                const data: MarketRegimeResponse = await response.json()
-                if (!cancelled) setPayload(data)
+                const data: ReturnsByRegimeResponse = await res.json()
+                if (cancelled) return
+                setReturnsMap(data.instruments || {})
+                setCurrentLabel(data.current?.regime_label || '—')
+                setCurrentConf(data.current?.regime_confidence_percent ?? null)
             } catch (err) {
                 if (!cancelled) {
-                    const message = err instanceof Error ? err.message : 'Unknown error'
-                    setError(message)
-                    setPayload(null)
-                    if (/warming up|still computing|retry/i.test(message)) {
-                        retryTimer = setTimeout(fetchRegimes, 15_000)
-                        return
-                    }
+                    setReturnsError(err instanceof Error ? err.message : 'Unknown error')
+                    setReturnsMap({})
                 }
             } finally {
-                if (!cancelled) setLoading(false)
+                if (!cancelled) setReturnsLoading(false)
             }
         }
 
-        fetchRegimes()
+        async function loadCurrentRegime() {
+            try {
+                setRegimeLoading(true)
+                setRegimeError(null)
+                const res = await fetch('/api/current-regime', { cache: 'no-store' })
+                if (!res.ok) {
+                    const body = await res.json().catch(() => ({}))
+                    throw new Error(body.details || body.error || 'Failed to load current regime')
+                }
+                const data: CurrentRegimeResponse = await res.json()
+                if (cancelled) return
+                setCountries(Array.isArray(data.countries) ? data.countries : [])
+                setAsOf(data.as_of ?? null)
+                if (data.subtitle) setSubtitle(data.subtitle)
+            } catch (err) {
+                if (!cancelled) {
+                    setRegimeError(err instanceof Error ? err.message : 'Unknown error')
+                    setCountries([])
+                }
+            } finally {
+                if (!cancelled) setRegimeLoading(false)
+            }
+        }
+
+        loadReturns()
+        loadCurrentRegime()
         return () => {
             cancelled = true
-            if (retryTimer) clearTimeout(retryTimer)
         }
-    }, [regimeInstrument])
+    }, [])
 
     const regimeBars = useMemo<RegimeBar[]>(() => {
-        const asset = payload?.assets?.[regimeInstrument]
-        if (!asset) return []
-
+        const stats = returnsMap[regimeInstrument] || returnsMap.EURUSD || {}
         return REGIME_ORDER.map((label) => {
-            const stats = asset.regimes[label]
+            const row = stats[label]
             return {
                 label,
                 shortLabel: label.slice(0, 4),
-                mean: stats?.mean ?? 0,
-                sharpe: stats?.sharpe != null ? stats.sharpe.toFixed(2) : '—',
-                hit: stats?.hit != null ? `${stats.hit.toFixed(1)}%` : '—',
-                n: stats?.n ?? 0,
+                mean: row?.mean ?? 0,
+                sharpe: row?.sharpe != null ? row.sharpe.toFixed(2) : '—',
+                hit: row?.hit != null ? `${row.hit.toFixed(1)}%` : '—',
+                n: row?.n ?? 0,
             }
         })
-    }, [payload, regimeInstrument])
+    }, [regimeInstrument, returnsMap])
 
     const { yMin, yMax, yLabels } = useMemo(() => {
-        if (!regimeBars.length) {
-            return { yMin: -2, yMax: 6, yLabels: ['6%', '4%', '2%', '0%', '-2%'] }
-        }
         const means = regimeBars.map((r) => r.mean)
         const rawMin = Math.min(0, ...means)
         const rawMax = Math.max(0, ...means)
@@ -239,9 +228,6 @@ export default function SeasonalityDrivers() {
         }
     }, [regimeBars])
 
-    const current = payload?.current
-    const sampleStart = payload?.metadata?.market_start_date?.slice(0, 4)
-
     return (
         <div>
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Seasonality Drivers</h2>
@@ -253,30 +239,19 @@ export default function SeasonalityDrivers() {
                         <p className="text-white text-[16px] leading-[19px] font-medium">Returns by Regime</p>
                     </div>
                     <p className="text-white/50 text-[12px] leading-[14px] mb-2">
-                        Average monthly return conditional on the macro regime
-                        {sampleStart ? ` (from ${sampleStart}).` : '.'}
+                        Average monthly return conditional on the macro regime.
                     </p>
-                    {current?.regime_label && (
-                        <p className="text-[#88C4FF] text-[11px] leading-[14px] mb-4">
-                            Current: {current.regime_label}
-                            {current.forecast_regime ? ` → ${current.forecast_regime}` : ''}
-                            {current.regime_confidence_percent != null
-                                ? ` · ${current.regime_confidence_percent.toFixed(0)}% conf`
-                                : ''}
-                            {current.macro_data_as_of ? ` · as of ${current.macro_data_as_of}` : ''}
-                        </p>
+                    <p className="text-[#88C4FF] text-[11px] leading-[14px] mb-4">
+                        Current: {currentLabel}
+                        {currentConf != null ? ` · ${currentConf.toFixed(0)}% conf` : ''}
+                    </p>
+
+                    {returnsLoading && <div className="text-white/50 text-[12px] mb-3">Loading returns...</div>}
+                    {returnsError && !returnsLoading && (
+                        <div className="text-[#E25C3F] text-[12px] mb-3">{returnsError}</div>
                     )}
 
-                    {loading && (
-                        <div className="text-white/50 text-[12px]">
-                            Loading regime returns (first load can take several minutes)…
-                        </div>
-                    )}
-                    {error && !loading && (
-                        <div className="text-[#E25C3F] text-[12px]">{friendlyError(error)}</div>
-                    )}
-
-                    {!loading && !error && regimeBars.length > 0 && (
+                    {!returnsLoading && !returnsError && (
                         <>
                             <div className="flex gap-2">
                                 <div
@@ -320,31 +295,21 @@ export default function SeasonalityDrivers() {
                             </div>
                         </>
                     )}
-
-                    {!loading && !error && regimeBars.length === 0 && (
-                        <div className="text-white/50 text-[12px]">No regime statistics for {regimeInstrument}.</div>
-                    )}
                 </div>
 
                 <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col min-h-60">
                     <p className="text-white text-[16px] leading-[19px] font-medium mb-2">Current Regime</p>
                     <p className="text-white/50 text-[12px] leading-[14px] mb-4">
-                        G3 macro regime snapshot for the Euro Area, United Kingdom and United States.
-                        {payload?.countries?.[0]?.data_as_of
-                            ? ` As of ${payload.countries[0].data_as_of}.`
-                            : ''}
+                        {subtitle}
+                        {asOf ? ` As of ${asOf}.` : ''}
                     </p>
 
-                    {loading && (
-                        <div className="text-white/50 text-[12px]">
-                            Loading current regimes (first load can take several minutes)…
-                        </div>
-                    )}
-                    {error && !loading && (
-                        <div className="text-[#E25C3F] text-[12px]">{friendlyError(error)}</div>
+                    {regimeLoading && <div className="text-white/50 text-[12px]">Loading regime table...</div>}
+                    {regimeError && !regimeLoading && (
+                        <div className="text-[#E25C3F] text-[12px]">{regimeError}</div>
                     )}
 
-                    {!loading && !error && (payload?.countries?.length ?? 0) > 0 && (
+                    {!regimeLoading && !regimeError && countries.length > 0 && (
                         <div className="overflow-x-auto flex-1">
                             <table className="w-full min-w-[520px] border-collapse text-left">
                                 <thead>
@@ -370,7 +335,7 @@ export default function SeasonalityDrivers() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {(payload?.countries ?? []).map((row, idx) => (
+                                    {countries.map((row, idx) => (
                                         <tr
                                             key={row.country}
                                             className={idx % 2 === 0 ? 'bg-[#FFFFFF05]' : 'bg-transparent'}
@@ -414,8 +379,8 @@ export default function SeasonalityDrivers() {
                         </div>
                     )}
 
-                    {!loading && !error && (payload?.countries?.length ?? 0) === 0 && (
-                        <div className="text-white/50 text-[12px]">No country regime snapshot available.</div>
+                    {!regimeLoading && !regimeError && countries.length === 0 && (
+                        <div className="text-white/50 text-[12px]">No regime rows configured.</div>
                     )}
                 </div>
             </div>
