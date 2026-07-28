@@ -232,7 +232,7 @@ export default function SeasonalityDrivers() {
         <div>
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Seasonality Drivers</h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-3 sm:gap-4 items-stretch">
                 <div className="bg-[#16161F] p-3 sm:p-4 min-h-60">
                     <div className="flex items-center gap-2 flex-wrap mb-2">
                         <InstrumentDropdown value={regimeInstrument} onChange={setRegimeInstrument} />
@@ -297,9 +297,11 @@ export default function SeasonalityDrivers() {
                     )}
                 </div>
 
-                <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col min-h-60">
-                    <p className="text-white text-[16px] leading-[19px] font-medium mb-2">Current Regime</p>
-                    <p className="text-white/50 text-[12px] leading-[14px] mb-4">
+                <div className="bg-[#16161F] p-3 sm:p-5 flex flex-col min-h-60 h-full">
+                    <p className="text-white text-[16px] sm:text-[18px] leading-[19px] sm:leading-[22px] font-medium mb-2">
+                        Current Regime
+                    </p>
+                    <p className="text-white/50 text-[12px] sm:text-[13px] leading-[16px] sm:leading-[18px] mb-4 sm:mb-5">
                         {subtitle}
                         {asOf ? ` As of ${asOf}.` : ''}
                     </p>
@@ -310,26 +312,26 @@ export default function SeasonalityDrivers() {
                     )}
 
                     {!regimeLoading && !regimeError && countries.length > 0 && (
-                        <div className="overflow-x-auto flex-1">
-                            <table className="w-full min-w-[520px] border-collapse text-left">
+                        <div className="overflow-x-auto flex-1 flex flex-col">
+                            <table className="w-full min-w-[560px] h-full border-collapse text-left table-fixed">
                                 <thead>
                                     <tr className="border-b border-[#FFFFFF14]">
-                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium">
+                                        <th className="py-3 pr-3 w-[12%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
                                             Country
                                         </th>
-                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium">
+                                        <th className="py-3 pr-3 w-[22%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
                                             Current Regime
                                         </th>
-                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium text-right">
+                                        <th className="py-3 pr-3 w-[16%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium text-right">
                                             Conviction %
                                         </th>
-                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium text-right">
+                                        <th className="py-3 pr-3 w-[14%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium text-right">
                                             Growth
                                         </th>
-                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium text-right">
+                                        <th className="py-3 pr-3 w-[14%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium text-right">
                                             Inflation
                                         </th>
-                                        <th className="py-2 text-[#838388] text-[11px] leading-[14px] font-medium">
+                                        <th className="py-3 w-[22%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
                                             Strength
                                         </th>
                                     </tr>
@@ -339,20 +341,21 @@ export default function SeasonalityDrivers() {
                                         <tr
                                             key={row.country}
                                             className={idx % 2 === 0 ? 'bg-[#FFFFFF05]' : 'bg-transparent'}
+                                            style={{ height: `${Math.floor(100 / countries.length)}%` }}
                                         >
-                                            <td className="py-2.5 pr-3 text-white text-[13px] leading-4 font-semibold">
+                                            <td className="py-4 sm:py-5 pr-3 text-white text-[15px] sm:text-[16px] leading-5 font-semibold align-middle">
                                                 {row.country}
                                             </td>
-                                            <td className="py-2.5 pr-3 text-white/90 text-[12px] sm:text-[13px] leading-4">
+                                            <td className="py-4 sm:py-5 pr-3 text-white/90 text-[14px] sm:text-[15px] leading-5 align-middle">
                                                 {row.current_regime || '—'}
                                             </td>
-                                            <td className="py-2.5 pr-3 text-white text-[13px] leading-4 text-right tabular-nums">
+                                            <td className="py-4 sm:py-5 pr-3 text-white text-[14px] sm:text-[15px] leading-5 text-right tabular-nums align-middle">
                                                 {row.regime_conviction_percent != null
                                                     ? row.regime_conviction_percent.toFixed(1)
                                                     : '—'}
                                             </td>
                                             <td
-                                                className={`py-2.5 pr-3 text-[13px] leading-4 text-right tabular-nums ${
+                                                className={`py-4 sm:py-5 pr-3 text-[14px] sm:text-[15px] leading-5 text-right tabular-nums align-middle ${
                                                     (row.growth_score ?? 0) >= 0
                                                         ? 'text-[#5CEB8A]'
                                                         : 'text-[#E25C3F]'
@@ -361,7 +364,7 @@ export default function SeasonalityDrivers() {
                                                 {formatSigned(row.growth_score)}
                                             </td>
                                             <td
-                                                className={`py-2.5 pr-3 text-[13px] leading-4 text-right tabular-nums ${
+                                                className={`py-4 sm:py-5 pr-3 text-[14px] sm:text-[15px] leading-5 text-right tabular-nums align-middle ${
                                                     (row.inflation_score ?? 0) >= 0
                                                         ? 'text-[#5CEB8A]'
                                                         : 'text-[#E25C3F]'
@@ -369,7 +372,7 @@ export default function SeasonalityDrivers() {
                                             >
                                                 {formatSigned(row.inflation_score)}
                                             </td>
-                                            <td className="py-2.5 text-[#88C4FF] text-[12px] leading-4">
+                                            <td className="py-4 sm:py-5 text-[#88C4FF] text-[14px] sm:text-[15px] leading-5 align-middle">
                                                 {row.conviction_strength || '—'}
                                             </td>
                                         </tr>
