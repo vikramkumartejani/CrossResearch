@@ -128,8 +128,15 @@ export default function RiskTensionMonitoring() {
                 setLoading(true)
                 setError(null)
                 const res = await fetch('/api/geopolitical-risk-index?lookback_days=180')
-                if (!res.ok) throw new Error('Failed to load geopolitical risk index')
-                const data = (await res.json()) as GriPayload
+                const body = await res.json().catch(() => ({}))
+                if (!res.ok) {
+                    throw new Error(
+                        typeof body.details === 'string'
+                            ? body.details
+                            : body.error || 'Failed to load geopolitical risk index'
+                    )
+                }
+                const data = body as GriPayload
                 if (cancelled) return
                 setPayload(data)
                 if (data.tabs?.[0]?.id) setActiveTab(data.tabs[0].id)
