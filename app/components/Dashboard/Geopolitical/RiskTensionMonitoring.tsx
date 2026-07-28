@@ -123,18 +123,27 @@ export default function RiskTensionMonitoring() {
     useEffect(() => {
         let cancelled = false
 
-        async function load() {
+        async function load(attempt = 1) {
             try {
                 setLoading(true)
                 setError(null)
                 const res = await fetch('/api/geopolitical-risk-index?lookback_days=180')
                 const body = await res.json().catch(() => ({}))
                 if (!res.ok) {
-                    throw new Error(
+                    const detail =
                         typeof body.details === 'string'
                             ? body.details
                             : body.error || 'Failed to load geopolitical risk index'
-                    )
+                    // Backend cold-builds GPRI (~1 min). Retry a few times on gateway timeouts.
+                    if ((res.status === 504 || res.status === 503) && attempt < 4) {
+                        if (!cancelled) {
+                            setError(`Model warming up… retry ${attempt}/3`)
+                        }
+                        await new Promise((r) => setTimeout(r, 4000 * attempt))
+                        if (!cancelled) return load(attempt + 1)
+                        return
+                    }
+                    throw new Error(detail)
                 }
                 const data = body as GriPayload
                 if (cancelled) return
