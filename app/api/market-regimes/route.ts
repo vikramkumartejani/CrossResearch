@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 900
 
 export async function GET(request: Request) {
   try {
@@ -16,28 +17,26 @@ export async function GET(request: Request) {
 
     const response = await fetch(apiUrl.toString(), {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
+      signal: AbortSignal.timeout(900_000),
     })
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }))
-      console.error('FastAPI error:', errorData)
       return NextResponse.json(
         { error: 'Failed to fetch market regime data from backend', details: errorData.detail || errorData },
         { status: response.status }
       )
     }
 
-    const data = await response.json()
-    return NextResponse.json(data)
+    return NextResponse.json(await response.json())
   } catch (error) {
-    console.error('API route error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) },
-      { status: 500 }
-    )
+    const message = error instanceof Error ? error.message : String(error)
+    const friendly =
+      /timeout|abort/i.test(message)
+        ? 'Market regime model is still computing (can take several minutes on first load). Please retry shortly.'
+        : message
+    return NextResponse.json({ error: 'Internal server error', details: friendly }, { status: 504 })
   }
 }

@@ -29,6 +29,16 @@ interface CurrentRegime {
     macro_data_as_of?: string
 }
 
+interface CountryRegimeRow {
+    country: string
+    current_regime: string
+    regime_conviction_percent: number | null
+    growth_score: number | null
+    inflation_score: number | null
+    conviction_strength: string
+    data_as_of?: string | null
+}
+
 interface MarketRegimeResponse {
     regimes: string[]
     assets: Record<
@@ -40,13 +50,12 @@ interface MarketRegimeResponse {
         }
     >
     current: CurrentRegime
+    countries?: CountryRegimeRow[]
     metadata?: {
         market_start_date?: string
         errors?: Record<string, string>
     }
 }
-
-// ── Returns by Regime chart ───────────────────────────────────────────────────
 
 function ReturnsChart({ regimes, yMin, yMax }: { regimes: RegimeBar[]; yMin: number; yMax: number }) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -72,7 +81,6 @@ function ReturnsChart({ regimes, yMin, yMax }: { regimes: RegimeBar[]; yMin: num
         const span = yMax - yMin || 1
         const zeroY = padT + ((yMax - 0) / span) * chartH
 
-        // Grid lines
         const gridCount = 5
         ctx.strokeStyle = 'rgba(255,255,255,0.07)'
         ctx.lineWidth = 1
@@ -84,7 +92,6 @@ function ReturnsChart({ regimes, yMin, yMax }: { regimes: RegimeBar[]; yMin: num
             ctx.stroke()
         }
 
-        // Zero line
         if (yMin < 0 && yMax > 0) {
             ctx.strokeStyle = 'rgba(255,255,255,0.18)'
             ctx.beginPath()
@@ -119,94 +126,15 @@ function ReturnsChart({ regimes, yMin, yMax }: { regimes: RegimeBar[]; yMin: num
     return <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 }
 
-// ── Volatility Skew chart (placeholder until options surface API exists) ──────
-const SKEW_POINTS = [
-    { x: -25, y: 24 },
-    { x: -15, y: 18 },
-    { x: -10, y: 12 },
-    { x: -5, y: 6 },
-    { x: 25, y: 0 },
-]
-
-const ATM_TENORS = [
-    { label: '1W', atm: '16.4%', rr: '0.30', rrPos: true },
-    { label: '1M', atm: '17.3%', rr: '0.64', rrPos: true },
-    { label: '3M', atm: '9.9%', rr: '1.12', rrPos: false },
-    { label: '6M', atm: '10.6%', rr: '1.12', rrPos: false },
-    { label: '1Y', atm: '19.7%', rr: '1.69', rrPos: false },
-]
-
-function SkewChart() {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
-
-    useEffect(() => {
-        const canvas = canvasRef.current
-        if (!canvas) return
-        const ctx = canvas.getContext('2d')
-        if (!ctx) return
-        const dpr = window.devicePixelRatio || 1
-        const W = canvas.offsetWidth || 300
-        const H = canvas.offsetHeight || 120
-        canvas.width = W * dpr
-        canvas.height = H * dpr
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-
-        const padL = 12
-        const padR = 12
-        const padT = 12
-        const padB = 8
-
-        if (!SKEW_POINTS.length) return
-
-        const minX = -25,
-            maxX = 25
-        const minY = 0,
-            maxY = 24
-
-        const toCanvasX = (x: number) => padL + ((x - minX) / (maxX - minX)) * (W - padL - padR)
-        const toCanvasY = (y: number) => padT + ((maxY - y) / (maxY - minY)) * (H - padT - padB)
-
-        ctx.strokeStyle = 'rgba(255,255,255,0.07)'
-        ctx.lineWidth = 1
-        ;[0, 6, 12, 18, 24].forEach((yVal) => {
-            const cy = toCanvasY(yVal)
-            ctx.beginPath()
-            ctx.moveTo(padL, cy)
-            ctx.lineTo(W - padR, cy)
-            ctx.stroke()
-        })
-
-        ctx.beginPath()
-        ctx.setLineDash([4, 4])
-        ctx.strokeStyle = 'rgba(255,255,255,0.5)'
-        ctx.lineWidth = 1.5
-        SKEW_POINTS.forEach((pt, i) => {
-            const cx = toCanvasX(pt.x)
-            const cy = toCanvasY(pt.y)
-            if (i === 0) ctx.moveTo(cx, cy)
-            else ctx.lineTo(cx, cy)
-        })
-        ctx.stroke()
-        ctx.setLineDash([])
-
-        ;[0, SKEW_POINTS.length - 1].forEach((idx) => {
-            const pt = SKEW_POINTS[idx]
-            if (!pt) return
-            const cx = toCanvasX(pt.x)
-            const cy = toCanvasY(pt.y)
-            ctx.beginPath()
-            ctx.arc(cx, cy, 5, 0, Math.PI * 2)
-            ctx.fillStyle = '#88C4FF'
-            ctx.fill()
-        })
-    }, [])
-
-    return <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
-}
-
 function formatPct(value: number, digits = 1) {
     const sign = value > 0 ? '+' : ''
     return `${sign}${value.toFixed(digits)}%`
+}
+
+function formatSigned(value: number | null | undefined, digits = 2) {
+    if (value == null || !Number.isFinite(value)) return '—'
+    const sign = value > 0 ? '+' : ''
+    return `${sign}${value.toFixed(digits)}`
 }
 
 function buildYLabels(yMin: number, yMax: number) {
@@ -219,15 +147,25 @@ function buildYLabels(yMin: number, yMax: number) {
     return labels
 }
 
+function friendlyError(error: string) {
+    if (/warming up|still computing|retry shortly|retrying in background/i.test(error)) {
+        return error
+    }
+    if (/fetch failed|failed to fetch|aborted|timeout/i.test(error)) {
+        return 'Regime model is still warming up. Server precomputes US/EU/UK on startup — refresh in a minute.'
+    }
+    return error
+}
+
 export default function SeasonalityDrivers() {
     const [regimeInstrument, setRegimeInstrument] = useState<SeasonalityInstrument>('EURUSD')
-    const [skewInstrument, setSkewInstrument] = useState<SeasonalityInstrument>('EURUSD')
     const [payload, setPayload] = useState<MarketRegimeResponse | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         let cancelled = false
+        let retryTimer: ReturnType<typeof setTimeout> | null = null
 
         async function fetchRegimes() {
             try {
@@ -239,15 +177,21 @@ export default function SeasonalityDrivers() {
                 )
                 if (!response.ok) {
                     const body = await response.json().catch(() => ({}))
-                    throw new Error(body.details || body.detail || body.error || 'Failed to fetch market regime data')
+                    const detail = body.details || body.detail || body.error || 'Failed to fetch market regime data'
+                    throw new Error(typeof detail === 'string' ? detail : JSON.stringify(detail))
                 }
 
                 const data: MarketRegimeResponse = await response.json()
                 if (!cancelled) setPayload(data)
             } catch (err) {
                 if (!cancelled) {
-                    setError(err instanceof Error ? err.message : 'Unknown error')
+                    const message = err instanceof Error ? err.message : 'Unknown error'
+                    setError(message)
                     setPayload(null)
+                    if (/warming up|still computing|retry/i.test(message)) {
+                        retryTimer = setTimeout(fetchRegimes, 15_000)
+                        return
+                    }
                 }
             } finally {
                 if (!cancelled) setLoading(false)
@@ -257,6 +201,7 @@ export default function SeasonalityDrivers() {
         fetchRegimes()
         return () => {
             cancelled = true
+            if (retryTimer) clearTimeout(retryTimer)
         }
     }, [regimeInstrument])
 
@@ -302,7 +247,6 @@ export default function SeasonalityDrivers() {
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Seasonality Drivers</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-                {/* Returns by Regime */}
                 <div className="bg-[#16161F] p-3 sm:p-4 min-h-60">
                     <div className="flex items-center gap-2 flex-wrap mb-2">
                         <InstrumentDropdown value={regimeInstrument} onChange={setRegimeInstrument} />
@@ -323,8 +267,14 @@ export default function SeasonalityDrivers() {
                         </p>
                     )}
 
-                    {loading && <div className="text-white/50 text-[12px]">Loading regime returns...</div>}
-                    {error && !loading && <div className="text-[#E25C3F] text-[12px]">{error}</div>}
+                    {loading && (
+                        <div className="text-white/50 text-[12px]">
+                            Loading regime returns (first load can take several minutes)…
+                        </div>
+                    )}
+                    {error && !loading && (
+                        <div className="text-[#E25C3F] text-[12px]">{friendlyError(error)}</div>
+                    )}
 
                     {!loading && !error && regimeBars.length > 0 && (
                         <>
@@ -376,56 +326,97 @@ export default function SeasonalityDrivers() {
                     )}
                 </div>
 
-                {/* Volatility Skew — hardcoded mock UI (no backend API yet) */}
-                <div className="bg-[#16161F] p-3 sm:p-4">
-                    <div className="flex items-center gap-2 flex-wrap mb-2">
-                        <InstrumentDropdown value={skewInstrument} onChange={setSkewInstrument} />
-                        <p className="text-white text-[16px] leading-[19px] font-medium">Volatility Skew</p>
-                    </div>
+                <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col min-h-60">
+                    <p className="text-white text-[16px] leading-[19px] font-medium mb-2">Current Regime</p>
                     <p className="text-white/50 text-[12px] leading-[14px] mb-4">
-                        Implied volatility across moneyness for 5 tenors. Negative 25LRR = put richer (skew bearish).
+                        G3 macro regime snapshot for the Euro Area, United Kingdom and United States.
+                        {payload?.countries?.[0]?.data_as_of
+                            ? ` As of ${payload.countries[0].data_as_of}.`
+                            : ''}
                     </p>
 
-                    <div className="flex gap-2">
-                        <div
-                            className="flex flex-col justify-between text-right flex-shrink-0 pb-6"
-                            style={{ width: 24 }}
-                        >
-                            {['24%', '18%', '12%', '6%', '0%'].map((l) => (
-                                <span key={l} className="text-[#838388] text-[9px] leading-[11px]">
-                                    {l}
-                                </span>
-                            ))}
+                    {loading && (
+                        <div className="text-white/50 text-[12px]">
+                            Loading current regimes (first load can take several minutes)…
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <div style={{ height: 120 }}>
-                                <SkewChart />
-                            </div>
-                            <div className="flex justify-between mt-1">
-                                {[-25, -15, -10, -5, 25].map((v) => (
-                                    <span key={v} className="text-[#838388] text-[9px] leading-[11px]">
-                                        {v}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                    )}
+                    {error && !loading && (
+                        <div className="text-[#E25C3F] text-[12px]">{friendlyError(error)}</div>
+                    )}
 
-                    <div className="flex justify-around mt-4 pt-3 border-t border-[#FFFFFF08]">
-                        {ATM_TENORS.map((t) => (
-                            <div key={t.label} className="flex flex-col items-center gap-0.5">
-                                <span className="text-[#838388] text-[9px] leading-[11px] font-semibold">{t.label}</span>
-                                <span className="text-white text-[11px] leading-[14px] font-semibold">ATM {t.atm}</span>
-                                <span
-                                    className={`text-[9px] leading-[11px] font-medium ${
-                                        t.rrPos ? 'text-[#2CB37B]' : 'text-[#E25C3F]'
-                                    }`}
-                                >
-                                    RR {t.rr}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
+                    {!loading && !error && (payload?.countries?.length ?? 0) > 0 && (
+                        <div className="overflow-x-auto flex-1">
+                            <table className="w-full min-w-[520px] border-collapse text-left">
+                                <thead>
+                                    <tr className="border-b border-[#FFFFFF14]">
+                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium">
+                                            Country
+                                        </th>
+                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium">
+                                            Current Regime
+                                        </th>
+                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium text-right">
+                                            Conviction %
+                                        </th>
+                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium text-right">
+                                            Growth
+                                        </th>
+                                        <th className="py-2 pr-3 text-[#838388] text-[11px] leading-[14px] font-medium text-right">
+                                            Inflation
+                                        </th>
+                                        <th className="py-2 text-[#838388] text-[11px] leading-[14px] font-medium">
+                                            Strength
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {(payload?.countries ?? []).map((row, idx) => (
+                                        <tr
+                                            key={row.country}
+                                            className={idx % 2 === 0 ? 'bg-[#FFFFFF05]' : 'bg-transparent'}
+                                        >
+                                            <td className="py-2.5 pr-3 text-white text-[13px] leading-4 font-semibold">
+                                                {row.country}
+                                            </td>
+                                            <td className="py-2.5 pr-3 text-white/90 text-[12px] sm:text-[13px] leading-4">
+                                                {row.current_regime || '—'}
+                                            </td>
+                                            <td className="py-2.5 pr-3 text-white text-[13px] leading-4 text-right tabular-nums">
+                                                {row.regime_conviction_percent != null
+                                                    ? row.regime_conviction_percent.toFixed(1)
+                                                    : '—'}
+                                            </td>
+                                            <td
+                                                className={`py-2.5 pr-3 text-[13px] leading-4 text-right tabular-nums ${
+                                                    (row.growth_score ?? 0) >= 0
+                                                        ? 'text-[#5CEB8A]'
+                                                        : 'text-[#E25C3F]'
+                                                }`}
+                                            >
+                                                {formatSigned(row.growth_score)}
+                                            </td>
+                                            <td
+                                                className={`py-2.5 pr-3 text-[13px] leading-4 text-right tabular-nums ${
+                                                    (row.inflation_score ?? 0) >= 0
+                                                        ? 'text-[#5CEB8A]'
+                                                        : 'text-[#E25C3F]'
+                                                }`}
+                                            >
+                                                {formatSigned(row.inflation_score)}
+                                            </td>
+                                            <td className="py-2.5 text-[#88C4FF] text-[12px] leading-4">
+                                                {row.conviction_strength || '—'}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
+                    {!loading && !error && (payload?.countries?.length ?? 0) === 0 && (
+                        <div className="text-white/50 text-[12px]">No country regime snapshot available.</div>
+                    )}
                 </div>
             </div>
         </div>
