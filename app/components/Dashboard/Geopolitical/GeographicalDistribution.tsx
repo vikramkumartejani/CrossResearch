@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties, type MouseEvent } from 'react'
 import { ComposableMap, Geographies, Geography, Line, Marker } from 'react-simple-maps'
 import FlashpointBrief, { type FlashpointItem } from './FlashpointBrief'
 import CommodityRiskMap from './CommodityRiskMap'
@@ -24,6 +24,29 @@ interface LayerDef {
     enabled: boolean
 }
 
+interface CountryDisplay {
+    d1h: string
+    d24h: string
+    d7d: string
+    structural: string
+    tactical: string
+    transmission: string
+    gdp: string
+    growth: string
+    cpi: string
+    debt: string
+    current_account: string
+    reserves: string
+    unemployment: string
+    trade: string
+    military: string
+    catalyst: string
+    mkt_asset: string
+    mkt_dir: string
+    mkt_sens: string
+    mkt_conf: string
+}
+
 interface CountryRisk {
     iso3: string
     iso_numeric: string | null
@@ -31,9 +54,24 @@ interface CountryRisk {
     risk_score: number | null
     risk_tier: string
     confidence?: number | null
+    coverage?: number | null
+    structural?: number | null
+    tactical?: number | null
+    transmission?: number | null
+    d1h?: number | null
     d24h?: number | null
+    d7d?: number | null
     event_count?: number
     top_category?: string | null
+    display?: CountryDisplay
+}
+
+interface HoverState {
+    country: CountryRisk
+    x: number
+    y: number
+    containerW: number
+    containerH: number
 }
 
 interface Chokepoint {
@@ -126,6 +164,7 @@ export default function GeographicalDistribution() {
     const [flashpoints, setFlashpoints] = useState<FlashpointItem[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [hover, setHover] = useState<HoverState | null>(null)
     const [activeLayers, setActiveLayers] = useState<Set<string>>(
         new Set(FALLBACK_LAYERS.filter((l) => l.default).map((l) => l.id))
     )
@@ -236,7 +275,10 @@ export default function GeographicalDistribution() {
                     )}
 
                     {!loading && !error && (
-                        <div className="relative">
+                        <div
+                            className="relative"
+                            onMouseLeave={() => setHover(null)}
+                        >
                             {/* Layers sidebar */}
                             <div className="absolute left-3 top-3 z-10 w-[172px] rounded-sm bg-[#0B0F18]/96 border border-[#2A3140] shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
                                 <div className="px-3 pt-2.5 pb-2 border-b border-[#2A3140]">
@@ -307,6 +349,16 @@ export default function GeographicalDistribution() {
                                 </div>
                             </div>
 
+                            {hover && (
+                                <CountryHoverCard
+                                    country={hover.country}
+                                    x={hover.x}
+                                    y={hover.y}
+                                    containerW={hover.containerW}
+                                    containerH={hover.containerH}
+                                />
+                            )}
+
                             <ComposableMap
                                 projection="geoEqualEarth"
                                 projectionConfig={{ scale: 155, center: [10, 8] }}
@@ -325,14 +377,41 @@ export default function GeographicalDistribution() {
                                             } else if (sanctioned) {
                                                 fill = '#9B7BE8'
                                             }
-                                            const label = country
-                                                ? `${country.country} · ${country.risk_tier} (${country.risk_score?.toFixed(0) ?? '—'})`
-                                                : geo.properties?.name || iso
 
                                             return (
                                                 <Geography
                                                     key={geo.rsmKey}
                                                     geography={geo}
+                                                    onMouseEnter={(evt: MouseEvent) => {
+                                                        if (!country) {
+                                                            setHover(null)
+                                                            return
+                                                        }
+                                                        const el = evt.currentTarget.closest('.relative') as HTMLElement | null
+                                                        const box = el?.getBoundingClientRect()
+                                                        if (!box) return
+                                                        setHover({
+                                                            country,
+                                                            x: evt.clientX - box.left,
+                                                            y: evt.clientY - box.top,
+                                                            containerW: box.width,
+                                                            containerH: box.height,
+                                                        })
+                                                    }}
+                                                    onMouseMove={(evt: MouseEvent) => {
+                                                        if (!country) return
+                                                        const el = evt.currentTarget.closest('.relative') as HTMLElement | null
+                                                        const box = el?.getBoundingClientRect()
+                                                        if (!box) return
+                                                        setHover({
+                                                            country,
+                                                            x: evt.clientX - box.left,
+                                                            y: evt.clientY - box.top,
+                                                            containerW: box.width,
+                                                            containerH: box.height,
+                                                        })
+                                                    }}
+                                                    onMouseLeave={() => setHover(null)}
                                                     style={{
                                                         default: {
                                                             fill,
@@ -350,9 +429,7 @@ export default function GeographicalDistribution() {
                                                         },
                                                         pressed: { fill, outline: 'none' },
                                                     }}
-                                                >
-                                                    <title>{label}</title>
-                                                </Geography>
+                                                />
                                             )
                                         })
                                     }
@@ -421,6 +498,87 @@ export default function GeographicalDistribution() {
                 <CommodityRiskMap />
                 <FlashpointBrief items={flashpoints} loading={loading} error={null} />
             </div>
+        </div>
+    )
+}
+
+function CountryHoverCard({
+    country,
+    x,
+    y,
+    containerW,
+    containerH,
+}: {
+    country: CountryRisk
+    x: number
+    y: number
+    containerW: number
+    containerH: number
+}) {
+    const d = country.display
+    const conf =
+        country.confidence != null && Number.isFinite(country.confidence)
+            ? `${Math.round(country.confidence)}%`
+            : '—'
+    const score =
+        country.risk_score != null && Number.isFinite(country.risk_score)
+            ? country.risk_score.toFixed(1)
+            : '—'
+
+    const structural = d?.structural ?? (country.structural != null ? country.structural.toFixed(1) : '—')
+    const tactical = d?.tactical ?? (country.tactical != null ? country.tactical.toFixed(1) : '—')
+    const market = d?.transmission ?? (country.transmission != null ? country.transmission.toFixed(1) : '—')
+
+    const cardW = 300
+    const cardH = 210
+    const pad = 12
+    const flipX = x + pad + cardW > containerW
+    const flipY = y + pad + cardH > containerH
+    const style: CSSProperties = {
+        left: flipX ? Math.max(pad, x - cardW - pad) : x + pad,
+        top: flipY ? Math.max(pad, y - cardH - pad) : y + pad,
+        width: cardW,
+    }
+
+    return (
+        <div
+            className="pointer-events-none absolute z-20 rounded-sm border border-[#2A3140] bg-[#0B0F18]/97 px-3 py-2.5 shadow-[0_12px_32px_rgba(0,0,0,0.55)]"
+            style={style}
+        >
+            <p className="text-[#F2F5FA] text-[13px] font-semibold leading-tight mb-1">
+                {country.country}
+            </p>
+            <p className="text-[#C5CDD8] text-[11px] leading-[15px]">
+                Risk {score} · {country.risk_tier} · confidence {conf}
+            </p>
+            <p className="text-[#9AA3B5] text-[11px] leading-[15px] mt-0.5">
+                Change 1h {d?.d1h ?? '—'} · 24h {d?.d24h ?? '—'} · 7d {d?.d7d ?? '—'}
+            </p>
+            <p className="text-[#9AA3B5] text-[11px] leading-[15px] mt-0.5">
+                Structural {structural} · Tactical {tactical} · Market {market}
+            </p>
+            <p className="text-[#9AA3B5] text-[11px] leading-[15px] mt-0.5">
+                Catalyst: {d?.catalyst ?? country.top_category ?? '—'}
+            </p>
+            <div className="mt-1.5 pt-1.5 border-t border-[#1E2430] space-y-0.5">
+                <p className="text-[#8B93A5] text-[10px] leading-[14px]">
+                    GDP {d?.gdp ?? '—'} · Growth {d?.growth ?? '—'} · CPI {d?.cpi ?? '—'}
+                </p>
+                <p className="text-[#8B93A5] text-[10px] leading-[14px]">
+                    Debt {d?.debt ?? '—'} · Current account {d?.current_account ?? '—'} · Reserves{' '}
+                    {d?.reserves ?? '—'}
+                </p>
+                <p className="text-[#8B93A5] text-[10px] leading-[14px]">
+                    Unemployment {d?.unemployment ?? '—'} · Trade/GDP {d?.trade ?? '—'} · Military/GDP{' '}
+                    {d?.military ?? '—'}
+                </p>
+            </div>
+            <p className="text-[#8B93A5] text-[10px] leading-[14px] mt-1.5 pt-1.5 border-t border-[#1E2430]">
+                Top transmission: {d?.mkt_asset ?? '—'} {d?.mkt_dir && d.mkt_dir !== '—' ? d.mkt_dir : ''}
+                {d?.mkt_sens && d.mkt_sens !== '—'
+                    ? ` · sensitivity ${d.mkt_sens} · ${d.mkt_conf ?? '—'} confidence`
+                    : ''}
+            </p>
         </div>
     )
 }
