@@ -254,8 +254,22 @@ export default function SignalChartCard({ chart }: { chart: SignalChart }) {
 
                 <p className="mt-1 sm:mt-2 mb-4 text-white text-[14px] sm:text-[15px] sm:text-[16px] leading-[19px] font-medium">{chart.title}</p>
 
-                <div className='h-[180px] text-center flex items-center justify-center'>
-                    Chart Is Coming Soon...
+                <div className="h-[180px]">
+                    {chart.chartType === 'bar' && chart.barLabels && chart.barValues ? (
+                        <BarChart labels={chart.barLabels} values={chart.barValues} />
+                    ) : chart.chartType === 'dots' && chart.lineValues ? (
+                        <DotsChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
+                    ) : chart.chartType === 'dashed' && chart.lineValues ? (
+                        <DashedChart values={chart.lineValues} yLabels={chart.yLabels} />
+                    ) : chart.chartType === 'area-tenor' && chart.lineValues ? (
+                        <AreaTenorChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
+                    ) : chart.lineValues && chart.lineValues.length > 1 ? (
+                        <AreaChart values={chart.lineValues} yLabels={chart.yLabels} />
+                    ) : (
+                        <div className="h-full flex items-center justify-center text-white/35 text-[13px]">
+                            Chart unavailable
+                        </div>
+                    )}
                 </div>
 
                 <p className="text-white/50 text-[12px] leading-[16px] sm:leading-[17px] font-normal">
