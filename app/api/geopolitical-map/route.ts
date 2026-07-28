@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
-export const maxDuration = 900
+/** Hobby plan max is 300s — values above this fail the Vercel build. */
+export const maxDuration = 300
 
 export async function GET() {
   try {
@@ -12,7 +13,7 @@ export async function GET() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
-      signal: AbortSignal.timeout(900_000),
+      signal: AbortSignal.timeout(300_000),
     })
 
     if (!response.ok) {
