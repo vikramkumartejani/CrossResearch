@@ -264,7 +264,7 @@ export default function GeographicalDistribution() {
                     Geographical Distribution
                 </h2>
 
-                <div className="bg-[#080A10] border border-[#FFFFFF0D] p-3 sm:p-4">
+                <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4">
                     {loading && (
                         <div className="py-20 text-center text-[#838388] text-[13px]">
                             Computing geopolitical risk map…
@@ -280,7 +280,7 @@ export default function GeographicalDistribution() {
                             onMouseLeave={() => setHover(null)}
                         >
                             {/* Layers sidebar */}
-                            <div className="absolute left-3 top-3 z-10 w-[172px] rounded-sm bg-[#0B0F18]/96 border border-[#2A3140] shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
+                            <div className="absolute left-3 top-3 z-10 w-[172px] rounded-sm bg-[#16161F] border border-[#2A3140] shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
                                 <div className="px-3 pt-2.5 pb-2 border-b border-[#2A3140]">
                                     <p className="text-[#D5DCE8] text-[11px] font-semibold tracking-[0.14em]">
                                         LAYERS
@@ -415,14 +415,14 @@ export default function GeographicalDistribution() {
                                                     style={{
                                                         default: {
                                                             fill,
-                                                            stroke: '#080A10',
+                                                            stroke: '#16161F',
                                                             strokeWidth: 0.4,
                                                             outline: 'none',
                                                             cursor: country ? 'pointer' : 'default',
                                                         },
                                                         hover: {
                                                             fill: country ? fill : BASE_HOVER,
-                                                            stroke: '#080A10',
+                                                            stroke: '#16161F',
                                                             strokeWidth: 0.4,
                                                             outline: 'none',
                                                             opacity: 0.92,
