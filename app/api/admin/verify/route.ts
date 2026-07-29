@@ -8,9 +8,5 @@ export async function OPTIONS(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  return proxyBackend(request, '/market-reports', 'GET')
-}
-
-export async function PUT(request: NextRequest) {
-  return proxyBackend(request, '/market-reports', 'PUT')
+  return proxyBackend(request, '/admin/verify', 'GET')
 }

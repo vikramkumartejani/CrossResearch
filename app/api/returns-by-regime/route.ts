@@ -1,31 +1,16 @@
-import { NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
+import { corsPreflight, proxyBackend } from '@/lib/adminCors'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
-  try {
-    const backendUrl = process.env.BACKEND_URL || 'http://127.0.0.1:8000'
-    const apiUrl = new URL('/returns-by-regime', backendUrl)
+export async function OPTIONS(request: NextRequest) {
+  return corsPreflight(request)
+}
 
-    const response = await fetch(apiUrl.toString(), {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      cache: 'no-store',
-    })
+export async function GET(request: NextRequest) {
+  return proxyBackend(request, '/returns-by-regime', 'GET')
+}
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }))
-      return NextResponse.json(
-        { error: 'Failed to fetch returns-by-regime', details: errorData.detail || errorData },
-        { status: response.status }
-      )
-    }
-
-    return NextResponse.json(await response.json())
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) },
-      { status: 500 }
-    )
-  }
+export async function PUT(request: NextRequest) {
+  return proxyBackend(request, '/returns-by-regime', 'PUT')
 }
