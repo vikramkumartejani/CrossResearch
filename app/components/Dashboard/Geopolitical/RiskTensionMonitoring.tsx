@@ -185,8 +185,8 @@ export default function RiskTensionMonitoring() {
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-4">Risk Tension Monitoring</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4">
-                <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col min-h-[280px]">
-                    <div className="flex sm:flex-row flex-col items-start justify-between gap-3">
+                <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col h-[360px] sm:h-[380px]">
+                    <div className="flex sm:flex-row flex-col items-start justify-between gap-3 shrink-0">
                         <div>
                             <p className="text-white text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-medium">
                                 Geopolitical Risk Index • 180d
@@ -206,7 +206,7 @@ export default function RiskTensionMonitoring() {
                     </div>
 
                     {tabs.length > 0 && (
-                        <div className="flex items-center gap-1 mt-4 overflow-x-auto">
+                        <div className="flex items-center gap-1 mt-4 overflow-x-auto shrink-0">
                             {tabs.map((t) => (
                                 <button
                                     key={t.id}
@@ -224,20 +224,20 @@ export default function RiskTensionMonitoring() {
                         </div>
                     )}
 
-                    <div className="flex-1 mt-4 min-h-[180px]">
+                    <div className="flex-1 mt-4 min-h-0 flex flex-col">
                         {loading && (
-                            <div className="flex items-center justify-center h-[180px] text-[#838388] text-sm">
+                            <div className="flex items-center justify-center flex-1 text-[#838388] text-sm">
                                 Loading GRI…
                             </div>
                         )}
                         {!loading && error && (
-                            <div className="flex items-center justify-center h-[180px] text-[#E25C3F] text-sm px-4 text-center">
+                            <div className="flex items-center justify-center flex-1 text-[#E25C3F] text-sm px-4 text-center">
                                 {error}
                             </div>
                         )}
                         {!loading && !error && values.length >= 2 && (
-                            <div className="flex flex-col h-full">
-                                <div className="flex gap-2 flex-1">
+                            <div className="flex flex-col h-full min-h-0">
+                                <div className="flex gap-2 flex-1 min-h-0">
                                     <div
                                         className="flex flex-col justify-between text-right flex-shrink-0 pb-5"
                                         style={{ width: 28 }}
@@ -248,10 +248,11 @@ export default function RiskTensionMonitoring() {
                                             </span>
                                         ))}
                                     </div>
-                                    <div className="flex-1 flex flex-col min-w-0">
-                                        <div style={{ height: 180 }}>
+                                    <div className="flex-1 flex flex-col min-w-0 min-h-0">
+                                        <div className="flex-1 min-h-[160px]">
                                             <OscillatorChart
                                                 series={values}
+                                                yDomain={tab?.y_domain ?? [-1, 1]}
                                                 lineColor={
                                                     activeTab === 'reversal_risk_momentum'
                                                         ? '#FF9F43'
@@ -259,7 +260,7 @@ export default function RiskTensionMonitoring() {
                                                 }
                                             />
                                         </div>
-                                        <div className="flex justify-between mt-1">
+                                        <div className="flex justify-between mt-1 shrink-0">
                                             {xLabels.map((l) => (
                                                 <span key={l} className="text-[#838388] text-[9px] leading-[11px]">
                                                     {l}
@@ -268,23 +269,28 @@ export default function RiskTensionMonitoring() {
                                         </div>
                                     </div>
                                 </div>
-                                {activeTab === 'reversal_risk_momentum' && latest?.state && (
-                                    <p className="text-[#838388] text-[11px] sm:text-[12px] leading-4 mt-3">
-                                        {latest.state}
-                                    </p>
-                                )}
+                                {/* Always reserve footer height so tabs don't jump */}
+                                <p
+                                    className={`text-[#838388] text-[11px] sm:text-[12px] leading-4 mt-3 h-8 overflow-hidden shrink-0 ${
+                                        activeTab === 'reversal_risk_momentum' && latest?.state
+                                            ? 'visible'
+                                            : 'invisible'
+                                    }`}
+                                >
+                                    {latest?.state || '—'}
+                                </p>
                             </div>
                         )}
                         {!loading && !error && values.length < 2 && (
-                            <div className="flex items-center justify-center h-[180px] text-[#838388] text-sm">
+                            <div className="flex items-center justify-center flex-1 text-[#838388] text-sm">
                                 No series available
                             </div>
                         )}
                     </div>
                 </div>
 
-                <div className="bg-[#16161F] p-4 flex flex-col">
-                    <div className="flex items-center justify-between mb-4">
+                <div className="bg-[#16161F] p-4 flex flex-col h-[360px] sm:h-[380px]">
+                    <div className="flex items-center justify-between mb-4 shrink-0">
                         <div className="flex items-center gap-2">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -309,7 +315,7 @@ export default function RiskTensionMonitoring() {
                         </div>
                     </div>
 
-                    <div className="flex-1 bg-[#FFFFFF08] overflow-hidden min-h-[160px] sm:min-h-[250px]" />
+                    <div className="flex-1 bg-[#FFFFFF08] overflow-hidden min-h-0" />
                 </div>
             </div>
         </div>
