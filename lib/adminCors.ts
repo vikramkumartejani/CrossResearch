@@ -24,7 +24,7 @@ export function withCors(request: NextRequest, response: NextResponse): NextResp
   const origin = corsOrigin(request)
   if (origin) {
     response.headers.set('Access-Control-Allow-Origin', origin)
-    response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS')
+    response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS')
     response.headers.set('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Key')
     response.headers.set('Vary', 'Origin')
   }
@@ -42,7 +42,7 @@ export function backendBase(): string {
 export async function proxyBackend(
   request: NextRequest,
   path: string,
-  method: 'GET' | 'PUT'
+  method: 'GET' | 'PUT' | 'POST'
 ): Promise<NextResponse> {
   try {
     const apiUrl = `${backendBase()}${path}`
@@ -57,7 +57,7 @@ export async function proxyBackend(
       headers,
       cache: 'no-store',
     }
-    if (method === 'PUT') {
+    if (method === 'PUT' || method === 'POST') {
       init.body = await request.text()
     }
 

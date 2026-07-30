@@ -1,129 +1,106 @@
 'use client'
-import { useState } from 'react'
-import NowcastCard from './NowcastCard'
+import { useEffect, useState } from 'react'
+import NowcastCard, { type NowcastCardProps } from './NowcastCard'
 
-const CARDS = [
-    {
-        region: 'US', quarter: 'Second Quarter',
-        vsConsensus: '+2.2 Vs', vsConsensusPositive: true,
-        indicator: 'Real GDP', value: '4.5', unit: '%QoQ SASR',
-        nowcast: 4.3, consensus: 2.1, prior: 3.1,
-        inRange: '5/8',
-        drivers: [
-            { label: 'Consumer Spending',   value: '+1.6', positive: true  },
-            { label: 'Business Investment', value: '+0.5', positive: true  },
-            { label: 'Net Exports',         value: '-0.3', positive: false },
-            { label: 'Government',          value: '+5.6', positive: true  },
-        ],
-        confidence: 74,
-    },
-    {
-        region: 'EU', quarter: 'Second Quarter',
-        vsConsensus: '-0.4 Vs', vsConsensusPositive: false,
-        indicator: 'Core CPI', value: '3.2', unit: '%YoY',
-        nowcast: 3.1, consensus: 3.5, prior: 3.8,
-        inRange: '5/8',
-        drivers: [
-            { label: 'Services Inflation',  value: '+2.1', positive: true  },
-            { label: 'Energy Prices',       value: '-0.8', positive: false },
-            { label: 'Food & Beverages',    value: '+0.6', positive: true  },
-            { label: 'Goods Inflation',     value: '+0.4', positive: true  },
-        ],
-        confidence: 68,
-    },
-    {
-        region: 'US', quarter: 'First Quarter',
-        vsConsensus: '+1.8 Vs', vsConsensusPositive: true,
-        indicator: 'PCE Deflator', value: '2.8', unit: '%YoY',
-        nowcast: 2.9, consensus: 1.1, prior: 2.6,
-        inRange: '7/8',
-        drivers: [
-            { label: 'Housing Services',    value: '+1.2', positive: true  },
-            { label: 'Medical Care',        value: '+0.4', positive: true  },
-            { label: 'Transportation',      value: '-0.2', positive: false },
-            { label: 'Recreation',          value: '+0.3', positive: true  },
-        ],
-        confidence: 81,
-    },
-    {
-        region: 'UK', quarter: 'Second Quarter',
-        vsConsensus: '-1.1 Vs', vsConsensusPositive: false,
-        indicator: 'Unemployment', value: '4.2', unit: '%',
-        nowcast: 4.4, consensus: 5.5, prior: 4.0,
-        inRange: '5/8',
-        drivers: [
-            { label: 'Youth Unemployment',  value: '+0.8', positive: false },
-            { label: 'Part-Time Workers',   value: '+0.3', positive: false },
-            { label: 'Long-Term Unemp.',    value: '-0.1', positive: true  },
-            { label: 'Job Vacancies',       value: '-0.4', positive: false },
-        ],
-        confidence: 61,
-    },
-    {
-        region: 'US', quarter: 'Second Quarter',
-        vsConsensus: '+3.1 Vs', vsConsensusPositive: true,
-        indicator: 'ISM Manufacturing', value: '52.4', unit: 'Index',
-        nowcast: 52.8, consensus: 49.7, prior: 50.3,
-        inRange: '8/8',
-        drivers: [
-            { label: 'New Orders',          value: '+2.4', positive: true  },
-            { label: 'Production',          value: '+1.7', positive: true  },
-            { label: 'Employment',          value: '-0.6', positive: false },
-            { label: 'Supplier Delivery',   value: '+0.8', positive: true  },
-        ],
-        confidence: 79,
-    },
-    {
-        region: 'JP', quarter: 'Second Quarter',
-        vsConsensus: '-0.7 Vs', vsConsensusPositive: false,
-        indicator: 'Trade Balance', value: '-¥1.2T', unit: 'JPY',
-        nowcast: -1.4, consensus: -0.7, prior: -0.9,
-        inRange: '4/8',
-        drivers: [
-            { label: 'Auto Exports',        value: '-1.8', positive: false },
-            { label: 'Energy Imports',      value: '+2.1', positive: false },
-            { label: 'Electronics',         value: '+0.6', positive: true  },
-            { label: 'Food Imports',        value: '+0.4', positive: false },
-        ],
-        confidence: 55,
-    },
-    {
-        region: 'US', quarter: 'Second Quarter',
-        vsConsensus: '+2.5 Vs', vsConsensusPositive: true,
-        indicator: 'Nonfarm Payrolls', value: '242K', unit: 'MoM',
-        nowcast: 248, consensus: 198, prior: 227,
-        inRange: '7/8',
-        drivers: [
-            { label: 'Leisure & Hospitality', value: '+52K', positive: true  },
-            { label: 'Healthcare',            value: '+38K', positive: true  },
-            { label: 'Manufacturing',         value: '-12K', positive: false },
-            { label: 'Government',            value: '+18K', positive: true  },
-        ],
-        confidence: 83,
-    },
-    {
-        region: 'CN', quarter: 'Second Quarter',
-        vsConsensus: '+1.4 Vs', vsConsensusPositive: true,
-        indicator: 'Retail Sales', value: '6.8', unit: '%YoY',
-        nowcast: 7.1, consensus: 5.7, prior: 5.5,
-        inRange: '6/8',
-        drivers: [
-            { label: 'Online Sales',        value: '+3.2', positive: true  },
-            { label: 'Auto Sales',          value: '+1.4', positive: true  },
-            { label: 'Catering Services',   value: '+0.9', positive: true  },
-            { label: 'Luxury Goods',        value: '-0.5', positive: false },
-        ],
-        confidence: 71,
-    },
-]
+interface ApiDriver {
+    label: string
+    value: string
+    positive?: boolean
+}
+
+interface ApiCard {
+    id?: string
+    region?: string
+    quarter?: string
+    indicator?: string
+    unit?: string
+    value?: string
+    nowcast?: number | null
+    consensus?: number | null
+    prior?: number | null
+    vsConsensus?: number | null
+    inRange?: string
+    drivers?: ApiDriver[]
+    confidence?: number
+    trendSeries?: { date: string; value: number }[]
+    modelVsActual?: { period: string; forecast: number | null; actual: number | null }[]
+}
+
+function formatVsConsensus(vs: number | null | undefined): { label: string; positive: boolean } {
+    if (vs == null || !Number.isFinite(vs)) {
+        return { label: '0 Vs', positive: true }
+    }
+    const sign = vs > 0 ? '+' : ''
+    const text = Number.isInteger(vs) ? String(vs) : String(Number(vs.toFixed(2)))
+    return { label: `${sign}${text} Vs`, positive: vs >= 0 }
+}
+
+function toCardProps(card: ApiCard): NowcastCardProps {
+    const vs = formatVsConsensus(card.vsConsensus)
+    return {
+        region: card.region || '—',
+        quarter: card.quarter || '—',
+        vsConsensus: vs.label,
+        vsConsensusPositive: vs.positive,
+        indicator: card.indicator || 'Indicator',
+        value: card.value ?? String(card.nowcast ?? ''),
+        unit: card.unit || '',
+        nowcast: Number(card.nowcast ?? 0),
+        consensus: Number(card.consensus ?? 0),
+        prior: Number(card.prior ?? 0),
+        inRange: card.inRange || '—',
+        drivers: (card.drivers || []).map((d) => ({
+            label: d.label,
+            value: d.value,
+            positive: d.positive ?? !String(d.value).trim().startsWith('-'),
+        })),
+        confidence: Number(card.confidence ?? 0),
+        trendSeries: card.trendSeries || [],
+        modelVsActual: card.modelVsActual || [],
+    }
+}
 
 const MOBILE_INITIAL = 4
 
 export default function NowcastsGrid() {
+    const [cards, setCards] = useState<NowcastCardProps[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
     const [showAll, setShowAll] = useState(false)
 
-    // On mobile show 4 initially, on sm+ always show all (handled via CSS grid)
-    const visibleCards = showAll ? CARDS : CARDS.slice(0, MOBILE_INITIAL)
+    useEffect(() => {
+        let cancelled = false
+        async function load() {
+            try {
+                setLoading(true)
+                setError(null)
+                const res = await fetch('/api/nowcast-cards', { cache: 'no-store' })
+                const body = await res.json().catch(() => ({}))
+                if (!res.ok) {
+                    throw new Error(
+                        typeof body.detail === 'string'
+                            ? body.detail
+                            : body.error || `Failed to load nowcasts (${res.status})`
+                    )
+                }
+                const list = Array.isArray(body.cards) ? body.cards.map(toCardProps) : []
+                if (!cancelled) setCards(list)
+            } catch (err) {
+                if (!cancelled) {
+                    setError(err instanceof Error ? err.message : 'Failed to load nowcasts')
+                    setCards([])
+                }
+            } finally {
+                if (!cancelled) setLoading(false)
+            }
+        }
+        void load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
+    const visibleCards = showAll ? cards : cards.slice(0, MOBILE_INITIAL)
 
     return (
         <div className="mb-4 sm:mb-5">
@@ -132,31 +109,39 @@ export default function NowcastsGrid() {
                 Model-driven current-quarter / current-period estimates vs consensus
             </p>
 
-            {/* sm+: always show all 8 in a 2/4 col grid */}
+            {loading && (
+                <p className="text-white/40 text-[13px] mb-3">Loading nowcasts…</p>
+            )}
+            {error && (
+                <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>
+            )}
+            {!loading && !error && cards.length === 0 && (
+                <p className="text-white/40 text-[13px] mb-3">No nowcast cards published yet.</p>
+            )}
+
             <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                {CARDS.map((card, i) => (
-                    <NowcastCard key={i} {...card} />
+                {cards.map((card, i) => (
+                    <NowcastCard key={`${card.region}-${card.indicator}-${i}`} {...card} />
                 ))}
             </div>
 
-            {/* mobile: show 4 or all with See More toggle */}
             <div className="sm:hidden">
                 <div className="grid grid-cols-1 gap-3">
                     {visibleCards.map((card, i) => (
-                        <NowcastCard key={i} {...card} />
+                        <NowcastCard key={`${card.region}-${card.indicator}-${i}`} {...card} />
                     ))}
                 </div>
 
-                {!showAll && CARDS.length > MOBILE_INITIAL && (
+                {!showAll && cards.length > MOBILE_INITIAL && (
                     <button
                         onClick={() => setShowAll(true)}
                         className="mt-3 w-full py-2 border border-[#FFFFFF1A] text-white/60 text-[14px] leading-[20px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
                     >
-                        See {CARDS.length - MOBILE_INITIAL} More Nowcasts ↓
+                        See {cards.length - MOBILE_INITIAL} More Nowcasts ↓
                     </button>
                 )}
 
-                {showAll && (
+                {showAll && cards.length > MOBILE_INITIAL && (
                     <button
                         onClick={() => setShowAll(false)}
                         className="mt-3 w-full py-2 border border-[#FFFFFF1A] text-white/60 text-[14px] leading-[20px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
