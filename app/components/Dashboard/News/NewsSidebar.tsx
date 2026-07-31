@@ -43,6 +43,7 @@ const MOST_READ = [
 
 export default function NewsSidebar() {
     const [signals, setSignals] = useState<SignalRow[]>([])
+    const [mostRead, setMostRead] = useState<{ num: string; title: string; source: string; url?: string }[]>(MOST_READ)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -53,9 +54,12 @@ export default function NewsSidebar() {
             try {
                 setLoading(true)
                 setError(null)
-                const res = await fetch('/api/market-signals')
-                if (!res.ok) throw new Error('Failed to load market signals')
-                const data = await res.json()
+                const [signalsRes, newsRes] = await Promise.all([
+                    fetch('/api/market-signals', { cache: 'no-store' }),
+                    fetch('/api/news-wire', { cache: 'no-store' }),
+                ])
+                if (!signalsRes.ok) throw new Error('Failed to load market signals')
+                const data = await signalsRes.json()
                 if (cancelled) return
 
                 const rows: SignalRow[] = (data.market_signals || []).map((row: any) => ({
@@ -74,6 +78,19 @@ export default function NewsSidebar() {
                     accent: String(row.accent || '#88C4FF'),
                 }))
                 setSignals(rows)
+
+                if (newsRes.ok) {
+                    const news = await newsRes.json()
+                    const mr = Array.isArray(news.most_read)
+                        ? news.most_read.map((item: any, i: number) => ({
+                              num: String(item.num || `${i + 1}`.padStart(2, '0')),
+                              title: String(item.title || ''),
+                              source: String(item.source || ''),
+                              url: item.url,
+                          }))
+                        : []
+                    if (mr.length) setMostRead(mr)
+                }
             } catch (err) {
                 if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
             } finally {
@@ -124,14 +141,20 @@ export default function NewsSidebar() {
                 </div>
 
                 <div className="flex flex-col gap-2.5 sm:gap-4">
-                    {MOST_READ.map((item) => (
+                    {mostRead.map((item) => (
                         <div key={item.num} className="flex gap-2 sm:gap-3 cursor-pointer group">
                             <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium flex-shrink-0 mt-0.5">
                                 {item.num}
                             </span>
                             <div>
                                 <p className="text-white text-[14px] sm:text-[16px] leading-5 sm:leading-[21px] font-medium">
-                                    {item.title}
+                                    {item.url ? (
+                                        <a href={item.url} target="_blank" rel="noreferrer" className="hover:underline">
+                                            {item.title}
+                                        </a>
+                                    ) : (
+                                        item.title
+                                    )}
                                 </p>
                                 <p className="text-white/60 text-[12px] sm:text-[14px] leading-[14px] sm:leading-[17px] mt-1">
                                     {item.source}
