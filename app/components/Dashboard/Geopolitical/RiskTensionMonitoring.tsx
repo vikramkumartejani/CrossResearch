@@ -127,7 +127,7 @@ export default function RiskTensionMonitoring() {
             try {
                 setLoading(true)
                 setError(null)
-                const res = await fetch('/api/geopolitical-risk-index?lookback_days=180')
+                const res = await fetch('/api/geopolitical-risk-index?lookback_days=730')
                 const body = await res.json().catch(() => ({}))
                 if (!res.ok) {
                     const detail =
@@ -170,12 +170,33 @@ export default function RiskTensionMonitoring() {
     const changeColor =
         change == null ? 'text-[#838388]' : change >= 0 ? 'text-[#5CEB8A]' : 'text-[#E25C3F]'
 
+    const lookbackLabel = useMemo(() => {
+        const days = payload?.tabs?.[0]?.series?.length
+            ? Math.round(
+                  (new Date(payload.tabs[0].series[payload.tabs[0].series.length - 1].t).getTime() -
+                      new Date(payload.tabs[0].series[0].t).getTime()) /
+                      (1000 * 60 * 60 * 24)
+              )
+            : 730
+        if (days >= 1000) return '3Y'
+        if (days >= 600) return '2Y'
+        if (days >= 300) return '1Y'
+        return `${days}d`
+    }, [payload])
+
     const xLabels = useMemo(() => {
         const series = tab?.series || []
         if (series.length < 2) return []
         const idxs = [0, Math.floor((series.length - 1) / 2), series.length - 1]
+        const spanDays =
+            (new Date(series[series.length - 1].t).getTime() - new Date(series[0].t).getTime()) /
+            (1000 * 60 * 60 * 24)
         return idxs.map((i) => {
             const d = new Date(series[i].t)
+            // Longer windows: month + year reads cleaner than day-of-month.
+            if (spanDays > 400) {
+                return d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+            }
             return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
         })
     }, [tab])
@@ -189,7 +210,7 @@ export default function RiskTensionMonitoring() {
                     <div className="flex sm:flex-row flex-col items-start justify-between gap-3 shrink-0">
                         <div>
                             <p className="text-white text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-medium">
-                                Geopolitical Risk Index • 180d
+                                Geopolitical Risk Index • {lookbackLabel}
                             </p>
                             <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[17px] font-normal mt-2">
                                 Global baseline methodology • mean-reverting risk premium
