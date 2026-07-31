@@ -331,7 +331,7 @@ export default function GeographicalDistribution() {
                                     {mapPayload?.legend?.title || 'Risk'}
                                 </span>
                                 <div
-                                    className="w-[10px] h-[120px] rounded-sm"
+                                    className="w-[10px] h-[90px] rounded-sm"
                                     style={{
                                         background: `linear-gradient(180deg, ${tiers
                                             .slice()
@@ -361,9 +361,9 @@ export default function GeographicalDistribution() {
 
                             <ComposableMap
                                 projection="geoEqualEarth"
-                                projectionConfig={{ scale: 155, center: [10, 8] }}
-                                style={{ width: '100%', height: 'auto' }}
-                                height={420}
+                                projectionConfig={{ scale: 125, center: [10, 8] }}
+                                style={{ width: '100%', height: 'auto', maxHeight: 300 }}
+                                height={280}
                             >
                                 <Geographies geography={GEO_URL}>
                                     {({ geographies }: { geographies: any[] }) =>
