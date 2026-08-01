@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type CSSProperties, type MouseEvent } fro
 import { ComposableMap, Geographies, Geography, Line, Marker } from 'react-simple-maps'
 import FlashpointBrief, { type FlashpointItem } from './FlashpointBrief'
 import CommodityRiskMap from './CommodityRiskMap'
+import StrategicChokepoints from './StrategicChokepoints'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -264,29 +265,30 @@ export default function GeographicalDistribution() {
                     Geographical Distribution
                 </h2>
 
-                <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 items-stretch">
+                    <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 flex flex-col h-[360px] sm:h-[380px]">
                     {loading && (
-                        <div className="py-20 text-center text-[#838388] text-[13px]">
+                        <div className="flex-1 grid place-items-center text-center text-[#838388] text-[13px]">
                             Computing geopolitical risk map…
                         </div>
                     )}
                     {error && !loading && (
-                        <div className="py-16 text-center text-[#E25C3F] text-[13px]">{error}</div>
+                        <div className="flex-1 grid place-items-center text-center text-[#E25C3F] text-[13px]">{error}</div>
                     )}
 
                     {!loading && !error && (
                         <div
-                            className="relative"
+                            className="relative flex-1 min-h-0"
                             onMouseLeave={() => setHover(null)}
                         >
                             {/* Layers sidebar */}
-                            <div className="absolute left-3 top-3 z-10 w-[172px] rounded-sm bg-[#16161F] border border-[#2A3140] shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
-                                <div className="px-3 pt-2.5 pb-2 border-b border-[#2A3140]">
-                                    <p className="text-[#D5DCE8] text-[11px] font-semibold tracking-[0.14em]">
+                            <div className="absolute left-2 top-2 z-10 w-[148px] sm:w-[160px] rounded-sm bg-[#16161F] border border-[#2A3140] shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
+                                <div className="px-2.5 pt-2 pb-1.5 border-b border-[#2A3140]">
+                                    <p className="text-[#D5DCE8] text-[10px] font-semibold tracking-[0.14em]">
                                         LAYERS
                                     </p>
                                 </div>
-                                <div className="flex flex-col gap-2.5 px-3 py-2.5">
+                                <div className="flex flex-col gap-2 px-2.5 py-2">
                                     {layerDefs.map((layer) => {
                                         const checked = activeLayers.has(layer.id)
                                         const disabled = !layer.enabled
@@ -296,14 +298,14 @@ export default function GeographicalDistribution() {
                                                 type="button"
                                                 disabled={disabled}
                                                 onClick={() => toggleLayer(layer.id, layer.enabled)}
-                                                className={`flex items-center gap-2.5 text-left text-[12px] leading-[14px] ${
+                                                className={`flex items-center gap-2 text-left text-[11px] leading-[13px] ${
                                                     disabled
                                                         ? 'text-[#5A6272] cursor-not-allowed'
                                                         : 'text-[#E8EDF5] cursor-pointer'
                                                 }`}
                                             >
                                                 <span
-                                                    className={`w-[13px] h-[13px] flex-shrink-0 rounded-[2px] border flex items-center justify-center ${
+                                                    className={`w-[12px] h-[12px] flex-shrink-0 rounded-[2px] border flex items-center justify-center ${
                                                         disabled
                                                             ? 'border-[#3A4150] bg-[#1A1F2A] opacity-60'
                                                             : checked
@@ -326,12 +328,12 @@ export default function GeographicalDistribution() {
                             </div>
 
                             {/* Risk legend */}
-                            <div className="absolute right-3 top-3 z-10 flex flex-col items-center gap-1">
+                            <div className="absolute right-2 top-2 z-10 flex flex-col items-center gap-1">
                                 <span className="text-white/70 text-[10px] font-medium mb-1">
                                     {mapPayload?.legend?.title || 'Risk'}
                                 </span>
                                 <div
-                                    className="w-[10px] h-[90px] rounded-sm"
+                                    className="w-[10px] h-[72px] rounded-sm"
                                     style={{
                                         background: `linear-gradient(180deg, ${tiers
                                             .slice()
@@ -340,7 +342,7 @@ export default function GeographicalDistribution() {
                                             .join(', ')})`,
                                     }}
                                 />
-                                <div className="flex flex-col gap-3 mt-1">
+                                <div className="flex flex-col gap-2.5 mt-1">
                                     {tiers.map((t) => (
                                         <span key={t.id} className="text-[10px] text-white/55 leading-none">
                                             {t.id}
@@ -361,9 +363,10 @@ export default function GeographicalDistribution() {
 
                             <ComposableMap
                                 projection="geoEqualEarth"
-                                projectionConfig={{ scale: 125, center: [10, 8] }}
-                                style={{ width: '100%', height: 'auto', maxHeight: 300 }}
-                                height={280}
+                                projectionConfig={{ scale: 118, center: [10, 8] }}
+                                style={{ width: '100%', height: '100%' }}
+                                height={320}
+                                className="h-full"
                             >
                                 <Geographies geography={GEO_URL}>
                                     {({ geographies }: { geographies: any[] }) =>
@@ -491,6 +494,9 @@ export default function GeographicalDistribution() {
                             </ComposableMap>
                         </div>
                     )}
+                    </div>
+
+                    <StrategicChokepoints />
                 </div>
             </div>
 
