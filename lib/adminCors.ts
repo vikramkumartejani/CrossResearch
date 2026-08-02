@@ -24,8 +24,8 @@ export function withCors(request: NextRequest, response: NextResponse): NextResp
   const origin = corsOrigin(request)
   if (origin) {
     response.headers.set('Access-Control-Allow-Origin', origin)
-    response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS')
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Key')
+    response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, PATCH, OPTIONS')
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Key, X-Support-Key')
     response.headers.set('Vary', 'Origin')
   }
   return response
@@ -42,7 +42,7 @@ export function backendBase(): string {
 export async function proxyBackend(
   request: NextRequest,
   path: string,
-  method: 'GET' | 'PUT' | 'POST'
+  method: 'GET' | 'PUT' | 'POST' | 'PATCH'
 ): Promise<NextResponse> {
   try {
     const apiUrl = `${backendBase()}${path}`
@@ -51,13 +51,15 @@ export async function proxyBackend(
     }
     const adminKey = request.headers.get('x-admin-key')
     if (adminKey) headers['X-Admin-Key'] = adminKey
+    const supportKey = request.headers.get('x-support-key')
+    if (supportKey) headers['X-Support-Key'] = supportKey
 
     const init: RequestInit = {
       method,
       headers,
       cache: 'no-store',
     }
-    if (method === 'PUT' || method === 'POST') {
+    if (method === 'PUT' || method === 'POST' || method === 'PATCH') {
       init.body = await request.text()
     }
 

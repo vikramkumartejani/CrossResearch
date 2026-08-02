@@ -49,7 +49,7 @@ export default function LoginForm() {
                         <path d="M11.9975 24C15.0971 24 17.9135 22.8138 20.0429 20.8848L16.3289 17.742C15.1241 18.6546 13.6265 19.2 11.9975 19.2C8.87625 19.2 6.22605 17.2098 5.22765 14.4324L1.31445 17.4474C3.30045 21.3336 7.33365 24 11.9975 24Z" fill="#4CAF50" />
                         <path d="M23.7666 9.64953H22.8V9.59973H12V14.3997H18.7818C18.3066 15.7419 17.4432 16.8993 16.3296 17.7423C16.3302 17.7417 16.3308 17.7417 16.3314 17.7411L20.0454 20.8839C19.7826 21.1227 24 17.9997 24 11.9997C24 11.1951 23.9172 10.4097 23.7666 9.64953Z" fill="#1976D2" />
                     </svg>
-                    Sign Up with google
+                    Sign in with google
                 </button>
 
                 <button
@@ -59,7 +59,7 @@ export default function LoginForm() {
                     <svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16.862 12.6827C16.8513 10.7162 17.7407 9.23204 19.5411 8.13898C18.5337 6.69765 17.012 5.90465 15.0027 5.74926C13.1006 5.59923 11.0217 6.85839 10.2608 6.85839C9.45708 6.85839 7.61389 5.80284 6.16719 5.80284C3.17736 5.85106 0 8.1872 0 12.9399C0 14.3437 0.25719 15.7939 0.771569 17.2906C1.45741 19.2571 3.93286 24.0794 6.51547 23.999C7.86572 23.9669 8.81946 23.0399 10.5769 23.0399C12.2808 23.0399 13.1649 23.999 14.6705 23.999C17.2746 23.9615 19.5143 19.5786 20.168 17.6068C16.6745 15.9618 16.862 12.7845 16.862 12.6827ZM13.8293 3.88464C15.2921 2.14861 15.1581 0.56796 15.1153 0C13.8239 0.0750136 12.329 0.878731 11.4771 1.86998C10.5394 2.93089 9.98753 4.24363 10.1054 5.72247C11.5039 5.82963 12.7791 5.11164 13.8293 3.88464Z" fill="white" />
                     </svg>
-                    Sign Up with apple
+                    Sign in with apple
                 </button>
             </div>
 
@@ -156,7 +156,7 @@ export default function LoginForm() {
                     type="submit"
                     className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer"
                 >
-                    Sign – UP
+                    Log In
                 </button>
             </form>
 
@@ -167,7 +167,7 @@ export default function LoginForm() {
                     href="/signup"
                     className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors"
                 >
-                    Sign - Up
+                    Sign Up
                 </Link>
             </p>
         </div>

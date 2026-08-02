@@ -1,185 +1,386 @@
 'use client'
 
-import { useState } from 'react'
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 type Status = 'Open' | 'In Progress' | 'Resolved' | 'Closed'
+type TabKey = 'All' | Status
 
 interface Ticket {
-    id: string
-    subject: string
-    category: string
-    status: Status
-    updated: string
-    msgs: number
+  id: string
+  subject: string
+  category: string
+  status: Status
+  updated: string
+  msgs: number
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const TICKETS: Ticket[] = [
-    { id: 'TCK-2417', subject: 'Macro Nowcast value seems delayed vs Atlanta Fed', category: 'Data & Signals', status: 'Open', updated: 'Apr 23, 2026', msgs: 3 },
-    { id: 'TCK-2408', subject: 'Cannot enable MFA on my Workspace', category: 'Account & Auth', status: 'In Progress', updated: 'Apr 21, 2026', msgs: 5 },
-    { id: 'TCK-2359', subject: 'Button alignment issue on dashboard', category: 'User Interface', status: 'Resolved', updated: 'Apr 20, 2026', msgs: 2 },
-    { id: 'TCK-2384', subject: 'Slow loading times in the app', category: 'Performance', status: 'Open', updated: 'Apr 19, 2026', msgs: 4 },
-    { id: 'TCK-2305', subject: 'Rate limit reached on API calls', category: 'API Services', status: 'In Progress', updated: 'Apr 18, 2026', msgs: 3 },
-    { id: 'TCK-2391', subject: 'Push notifications not working on iOS', category: 'Notifications', status: 'Resolved', updated: 'Apr 17, 2026', msgs: 1 },
-    { id: 'TCK-2401', subject: 'Discrepancy in recent invoice', category: 'Billing', status: 'Open', updated: 'Apr 16, 2026', msgs: 4 },
-    { id: 'TCK-2372', subject: 'Suspected unauthorized access attempt', category: 'Security', status: 'In Progress', updated: 'Apr 15, 2026', msgs: 5 },
-    { id: 'TCK-2368', subject: 'Feedback on recent UI changes', category: 'User Experience', status: 'Closed', updated: 'Apr 14, 2026', msgs: 2 },
-    { id: 'TCK-2410', subject: 'Issues with third-party integration setup', category: 'Integrations', status: 'In Progress', updated: 'Apr 13, 2026', msgs: 3 },
-    { id: 'TCK-2425', subject: 'Error in data reporting', category: 'Analytics', status: 'Open', updated: 'Apr 12, 2026', msgs: 4 },
-    { id: 'TCK-2409', subject: 'Screen reader compatibility issues', category: 'Accessibility', status: 'Resolved', updated: 'Apr 11, 2026', msgs: 1 },
-    { id: 'TCK-2437', subject: 'Missing API documentation for new features', category: 'Documentation', status: 'Open', updated: 'Apr 10, 2026', msgs: 5 },
+const CATEGORIES = [
+  'Data & Signals',
+  'Account & Auth',
+  'User Interface',
+  'Billing',
+  'Performance',
+  'API Services',
+  'Other',
 ]
 
-// ─── Status badge ─────────────────────────────────────────────────────────────
-
 const STATUS_STYLES: Record<Status, string> = {
-    'Open': 'text-[#6B7280]',
-    'In Progress': 'text-[#A16207]',
-    'Resolved': 'text-[#2CB37B]',
-    'Closed': 'text-[#E25C3F]',
+  Open: 'text-[#6B7280]',
+  'In Progress': 'text-[#A16207]',
+  Resolved: 'text-[#2CB37B]',
+  Closed: 'text-[#E25C3F]',
 }
 
 function StatusBadge({ status }: { status: Status }) {
-    return (
-        <span className={`text-[14px] leading-[18px] font-semibold ${STATUS_STYLES[status]}`}>
-            {status}
-        </span>
-    )
+  return (
+    <span className={`text-[14px] leading-[18px] font-semibold ${STATUS_STYLES[status] || 'text-[#838388]'}`}>
+      {status}
+    </span>
+  )
 }
-
-// ─── Tabs ─────────────────────────────────────────────────────────────────────
-
-type TabKey = 'All' | 'Open' | 'In Progress' | 'Resolved' | 'Closed'
 
 function getTabs(tickets: Ticket[]): { key: TabKey; label: string; count: number }[] {
-    return [
-        { key: 'All', label: 'All', count: tickets.length },
-        { key: 'Open', label: 'Open', count: tickets.filter(t => t.status === 'Open').length },
-        { key: 'In Progress', label: 'In Progress', count: tickets.filter(t => t.status === 'In Progress').length },
-        { key: 'Resolved', label: 'Resolved', count: tickets.filter(t => t.status === 'Resolved').length },
-        { key: 'Closed', label: 'Closed', count: tickets.filter(t => t.status === 'Closed').length },
-    ]
+  return [
+    { key: 'All', label: 'All', count: tickets.length },
+    { key: 'Open', label: 'Open', count: tickets.filter((t) => t.status === 'Open').length },
+    {
+      key: 'In Progress',
+      label: 'In Progress',
+      count: tickets.filter((t) => t.status === 'In Progress').length,
+    },
+    { key: 'Resolved', label: 'Resolved', count: tickets.filter((t) => t.status === 'Resolved').length },
+    { key: 'Closed', label: 'Closed', count: tickets.filter((t) => t.status === 'Closed').length },
+  ]
 }
 
-// ─── Mobile ticket card ───────────────────────────────────────────────────────
-
-function TicketCard({ ticket, isLast }: { ticket: Ticket; isLast: boolean }) {
-    return (
-        <div className={`px-3 py-3 cursor-pointer hover:bg-[#FFFFFF04] transition-colors ${!isLast ? 'border-b border-[#FFFFFF0D]' : ''}`}>
-            {/* top row: id + status */}
-            <div className="flex items-center justify-between mb-2">
-                <span className="text-[#838388] text-[14px] leading-5 font-normal">{ticket.id}</span>
-                <StatusBadge status={ticket.status} />
-            </div>
-            {/* subject */}
-            <p className="text-white text-[16px] leading-[20px] font-medium mb-2">{ticket.subject}</p>
-            {/* bottom row: category · updated · msgs */}
-            <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[#838388] text-[12px] leading-5">{ticket.category}</span>
-                <span className="text-[#838388] text-[14px] leading-5">•</span>
-                <span className="text-[#838388] text-[12px] leading-5">{ticket.updated}</span>
-                <span className="text-[#838388] text-[12px] leading-5">•</span>
-                <span className="text-[#838388] text-[12px] leading-5">{ticket.msgs} msgs</span>
-            </div>
-        </div>
-    )
+function TicketCard({
+  ticket,
+  isLast,
+  onOpen,
+}: {
+  ticket: Ticket
+  isLast: boolean
+  onOpen: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className={`w-full text-left px-3 py-3 cursor-pointer hover:bg-[#FFFFFF04] transition-colors ${!isLast ? 'border-b border-[#FFFFFF0D]' : ''}`}
+    >
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-[#838388] text-[14px] leading-5 font-normal">{ticket.id}</span>
+        <StatusBadge status={ticket.status} />
+      </div>
+      <p className="text-white text-[16px] leading-[20px] font-medium mb-2">{ticket.subject}</p>
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-[#838388] text-[12px] leading-5">{ticket.category}</span>
+        <span className="text-[#838388] text-[14px] leading-5">•</span>
+        <span className="text-[#838388] text-[12px] leading-5">{ticket.updated}</span>
+        <span className="text-[#838388] text-[12px] leading-5">•</span>
+        <span className="text-[#838388] text-[12px] leading-5">{ticket.msgs} msgs</span>
+      </div>
+    </button>
+  )
 }
-
-// ─── Main component ───────────────────────────────────────────────────────────
 
 export default function ContactSupportPage() {
-    const [activeTab, setActiveTab] = useState<TabKey>('All')
-    const tabs = getTabs(TICKETS)
+  const router = useRouter()
+  const [tickets, setTickets] = useState<Ticket[]>([])
+  const [activeTab, setActiveTab] = useState<TabKey>('All')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [showNew, setShowNew] = useState(false)
+  const [creating, setCreating] = useState(false)
+  const [form, setForm] = useState({
+    subject: '',
+    category: CATEGORIES[0],
+    body: '',
+    requester_name: '',
+    requester_email: '',
+  })
 
-    const filtered = activeTab === 'All'
-        ? TICKETS
-        : TICKETS.filter(t => t.status === activeTab)
+  const load = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const res = await fetch('/api/tickets', { cache: 'no-store' })
+      const body = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(
+          typeof body.details === 'string'
+            ? body.details
+            : body.error || body.detail || `Failed to load tickets (${res.status})`
+        )
+      }
+      setTickets(Array.isArray(body.tickets) ? body.tickets : [])
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load tickets')
+      setTickets([])
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
-    return (
-        <div className='px-4 lg:px-6'>
-            {/* Breadcrumb */}
-            <div className='mb-3 flex items-center gap-1'>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16.125 9C16.125 12.935 12.935 16.125 9 16.125C7.77893 16.125 6.62955 15.8178 5.625 15.2765C4.22383 14.5215 3.28097 15.2234 2.44944 15.3494C2.3233 15.3685 2.19768 15.3227 2.10748 15.2325C1.97056 15.0956 1.9445 14.8838 2.02013 14.7056C2.34649 13.9364 2.64615 12.4787 2.23756 11.25C2.00235 10.5428 1.875 9.78623 1.875 9C1.875 5.06497 5.06497 1.875 9 1.875C12.935 1.875 16.125 5.06497 16.125 9Z" stroke="#838388" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M9.09427 9H9.00052M6.09375 9H6M12.0937 9H12M9.18802 9C9.18802 9.10358 9.1041 9.1875 9.00052 9.1875C8.89702 9.1875 8.81302 9.10358 8.81302 9C8.81302 8.89643 8.89702 8.8125 9.00052 8.8125C9.1041 8.8125 9.18802 8.89643 9.18802 9ZM6.1875 9C6.1875 9.10358 6.10355 9.1875 6 9.1875C5.89645 9.1875 5.8125 9.10358 5.8125 9C5.8125 8.89643 5.89645 8.8125 6 8.8125C6.10355 8.8125 6.1875 8.89643 6.1875 9ZM12.1875 9C12.1875 9.10358 12.1036 9.1875 12 9.1875C11.8964 9.1875 11.8125 9.10358 11.8125 9C11.8125 8.89643 11.8964 8.8125 12 8.8125C12.1036 8.8125 12.1875 8.89643 12.1875 9Z" stroke="#838388" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <h2 className='text-[#838388] text-[12px] leading-3.5 font-medium'>Contact Support</h2>
-            </div>
+  useEffect(() => {
+    void load()
+  }, [load])
 
-            {/* Header — stacks on mobile, side-by-side on sm+ */}
-            <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5'>
-                <div>
-                    <h3 className='text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-1.5 sm:mb-2'>Your Tickets</h3>
-                    <p className='text-[#838388] text-[12px] leading-[17px]'>
-                        Open a new ticket, track conversations with the support desk, and search your Historical Requests.
-                    </p>
-                </div>
-                <button className='flex items-center gap-1 h-[33px] px-6 bg-[#88C4FF] text-black text-[14px] leading-5 font-medium hover:bg-[#88C4FF]/90 transition-colors cursor-pointer self-start sm:self-auto flex-shrink-0'>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 3.75V14.25" stroke="black" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M3.75 9H14.25" stroke="black" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    New Ticket
-                </button>
-            </div>
+  const tabs = useMemo(() => getTabs(tickets), [tickets])
+  const filtered = activeTab === 'All' ? tickets : tickets.filter((t) => t.status === activeTab)
 
-            {/* Tabs — scrollable on mobile */}
-            <div className='mb-5 overflow-x-auto'>
-                <div className='flex items-center sm:gap-2 bg-[#16161F] border border-[#FFFFFF0D] w-fit p-1 min-w-max'>
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.key}
-                            onClick={() => setActiveTab(tab.key)}
-                            className={`px-3 py-1 text-[12px] sm:text-[14px] leading-5 transition-colors cursor-pointer whitespace-nowrap ${activeTab === tab.key
-                                ? 'text-white bg-[#FFFFFF0D] font-semibold'
-                                : 'text-[#838388] hover:text-white/70 font-normal'
-                                }`}
-                        >
-                            {tab.label} {tab.count}
-                        </button>
-                    ))}
-                </div>
-            </div>
+  async function createTicket(e: React.FormEvent) {
+    e.preventDefault()
+    try {
+      setCreating(true)
+      setError(null)
+      const res = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const body = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(
+          typeof body.details === 'string'
+            ? body.details
+            : body.detail || body.error || 'Could not create ticket'
+        )
+      }
+      const id = body.ticket?.id
+      setShowNew(false)
+      setForm({
+        subject: '',
+        category: CATEGORIES[0],
+        body: '',
+        requester_name: '',
+        requester_email: '',
+      })
+      if (id) router.push(`/contact-support/${id}`)
+      else await load()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not create ticket')
+    } finally {
+      setCreating(false)
+    }
+  }
 
-            {/* Desktop table — hidden on mobile */}
-            <div className='hidden sm:block w-full bg-[#16161F] border border-[#FFFFFF08] overflow-x-auto'>
-                <table className='w-full border-collapse'>
-                    <thead>
-                        <tr className='border-b border-[#FFFFFF1A]'>
-                            {['TICKET', 'SUBJECT', 'CATEGORY', 'STATUS', 'UPDATED', 'MSGS'].map(col => (
-                                <th key={col} className='px-6 pt-6 pb-[17px] text-left text-[14px] leading-[17px] font-semibold text-white uppercase whitespace-nowrap'>
-                                    {col}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filtered.map((ticket, i) => (
-                            <tr
-                                key={ticket.id}
-                                className={`cursor-pointer hover:bg-[#FFFFFF04] transition-colors ${i !== filtered.length - 1 ? 'border-b border-[#FFFFFF0D]' : ''}`}
-                            >
-                                <td className='px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal whitespace-nowrap'>{ticket.id}</td>
-                                <td className='px-6 py-5 text-[14px] leading-[17px] text-white font-medium'>{ticket.subject}</td>
-                                <td className='px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal whitespace-nowrap'>{ticket.category}</td>
-                                <td className='px-6 py-5 whitespace-nowrap'><StatusBadge status={ticket.status} /></td>
-                                <td className='px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal whitespace-nowrap'>{ticket.updated}</td>
-                                <td className='px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal text-left whitespace-nowrap'>{ticket.msgs}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+  function openTicket(id: string) {
+    router.push(`/contact-support/${id}`)
+  }
 
-            {/* Mobile card list — hidden on sm+ */}
-            <div className='sm:hidden w-full bg-[#16161F]'>
-                {filtered.map((ticket, i) => (
-                    <TicketCard key={ticket.id} ticket={ticket} isLast={i === filtered.length - 1} />
-                ))}
-            </div>
+  return (
+    <div className="px-4 lg:px-6">
+      <div className="mb-3 flex items-center gap-1">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16.125 9C16.125 12.935 12.935 16.125 9 16.125C7.77893 16.125 6.62955 15.8178 5.625 15.2765C4.22383 14.5215 3.28097 15.2234 2.44944 15.3494C2.3233 15.3685 2.19768 15.3227 2.10748 15.2325C1.97056 15.0956 1.9445 14.8838 2.02013 14.7056C2.34649 13.9364 2.64615 12.4787 2.23756 11.25C2.00235 10.5428 1.875 9.78623 1.875 9C1.875 5.06497 5.06497 1.875 9 1.875C12.935 1.875 16.125 5.06497 16.125 9Z"
+            stroke="#838388"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <h2 className="text-[#838388] text-[12px] leading-3.5 font-medium">Contact Support</h2>
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+        <div>
+          <h3 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-1.5 sm:mb-2">
+            Your Tickets
+          </h3>
+          <p className="text-[#838388] text-[12px] leading-[17px]">
+            Open a new ticket, track conversations with the support desk, and search your historical
+            requests.
+          </p>
+          <p className="text-[#838388] text-[11px] mt-2">
+            Staff answers tickets at{' '}
+            <Link href="/support/login" className="text-[#88C4FF] underline underline-offset-2">
+              /support/login
+            </Link>
+          </p>
         </div>
-    )
+        <button
+          type="button"
+          onClick={() => setShowNew(true)}
+          className="flex items-center gap-1 h-[33px] px-6 bg-[#88C4FF] text-black text-[14px] leading-5 font-medium hover:bg-[#88C4FF]/90 transition-colors cursor-pointer self-start sm:self-auto flex-shrink-0"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 3.75V14.25" stroke="black" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3.75 9H14.25" stroke="black" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          New Ticket
+        </button>
+      </div>
+
+      {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
+      {loading && <p className="text-white/40 text-[13px] mb-3">Loading tickets…</p>}
+
+      <div className="mb-5 overflow-x-auto">
+        <div className="flex items-center sm:gap-2 bg-[#16161F] border border-[#FFFFFF0D] w-fit p-1 min-w-max">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setActiveTab(tab.key)}
+              className={`px-3 py-1 text-[12px] sm:text-[14px] leading-5 transition-colors cursor-pointer whitespace-nowrap ${
+                activeTab === tab.key
+                  ? 'text-white bg-[#FFFFFF0D] font-semibold'
+                  : 'text-[#838388] hover:text-white/70 font-normal'
+              }`}
+            >
+              {tab.label} {tab.count}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden sm:block w-full bg-[#16161F] border border-[#FFFFFF08] overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-b border-[#FFFFFF1A]">
+              {['TICKET', 'SUBJECT', 'CATEGORY', 'STATUS', 'UPDATED', 'MSGS'].map((col) => (
+                <th
+                  key={col}
+                  className="px-6 pt-6 pb-[17px] text-left text-[14px] leading-[17px] font-semibold text-white uppercase whitespace-nowrap"
+                >
+                  {col}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {!loading && filtered.length === 0 && (
+              <tr>
+                <td colSpan={6} className="px-6 py-10 text-[#838388] text-[14px]">
+                  No tickets yet. Click New Ticket to open one.
+                </td>
+              </tr>
+            )}
+            {filtered.map((ticket, i) => (
+              <tr
+                key={ticket.id}
+                onClick={() => openTicket(ticket.id)}
+                className={`cursor-pointer hover:bg-[#FFFFFF04] transition-colors ${i !== filtered.length - 1 ? 'border-b border-[#FFFFFF0D]' : ''}`}
+              >
+                <td className="px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal whitespace-nowrap">
+                  {ticket.id}
+                </td>
+                <td className="px-6 py-5 text-[14px] leading-[17px] text-white font-medium">{ticket.subject}</td>
+                <td className="px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal whitespace-nowrap">
+                  {ticket.category}
+                </td>
+                <td className="px-6 py-5 whitespace-nowrap">
+                  <StatusBadge status={ticket.status} />
+                </td>
+                <td className="px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal whitespace-nowrap">
+                  {ticket.updated}
+                </td>
+                <td className="px-6 py-5 text-[14px] leading-5 text-[#838388] font-normal text-left whitespace-nowrap">
+                  {ticket.msgs}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="sm:hidden w-full bg-[#16161F]">
+        {!loading && filtered.length === 0 && (
+          <p className="px-3 py-8 text-[#838388] text-[13px]">No tickets yet. Click New Ticket to open one.</p>
+        )}
+        {filtered.map((ticket, i) => (
+          <TicketCard
+            key={ticket.id}
+            ticket={ticket}
+            isLast={i === filtered.length - 1}
+            onOpen={() => openTicket(ticket.id)}
+          />
+        ))}
+      </div>
+
+      {showNew && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <form
+            onSubmit={createTicket}
+            className="w-full max-w-lg bg-[#16161F] border border-[#FFFFFF14] p-5 sm:p-6 space-y-3"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h4 className="text-white text-[20px] font-medium">New Ticket</h4>
+                <p className="text-[#838388] text-[12px] mt-1">Describe the issue and our desk will reply.</p>
+              </div>
+              <button
+                type="button"
+                className="text-[#838388] hover:text-white"
+                onClick={() => setShowNew(false)}
+              >
+                Close
+              </button>
+            </div>
+            <label className="block text-[12px] text-[#838388]">
+              Subject
+              <input
+                required
+                className="mt-1 w-full bg-[#0E0E16] border border-[#FFFFFF14] px-3 py-2 text-white text-[14px] outline-none"
+                value={form.subject}
+                onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+              />
+            </label>
+            <label className="block text-[12px] text-[#838388]">
+              Category
+              <select
+                className="mt-1 w-full bg-[#0E0E16] border border-[#FFFFFF14] px-3 py-2 text-white text-[14px] outline-none"
+                value={form.category}
+                onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+              >
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block text-[12px] text-[#838388]">
+                Your name
+                <input
+                  className="mt-1 w-full bg-[#0E0E16] border border-[#FFFFFF14] px-3 py-2 text-white text-[14px] outline-none"
+                  value={form.requester_name}
+                  onChange={(e) => setForm((f) => ({ ...f, requester_name: e.target.value }))}
+                />
+              </label>
+              <label className="block text-[12px] text-[#838388]">
+                Email
+                <input
+                  type="email"
+                  className="mt-1 w-full bg-[#0E0E16] border border-[#FFFFFF14] px-3 py-2 text-white text-[14px] outline-none"
+                  value={form.requester_email}
+                  onChange={(e) => setForm((f) => ({ ...f, requester_email: e.target.value }))}
+                />
+              </label>
+            </div>
+            <label className="block text-[12px] text-[#838388]">
+              Message
+              <textarea
+                required
+                rows={5}
+                className="mt-1 w-full bg-[#0E0E16] border border-[#FFFFFF14] px-3 py-2 text-white text-[14px] outline-none resize-y"
+                value={form.body}
+                onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={creating}
+              className="w-full h-[40px] bg-[#88C4FF] text-black font-medium text-[14px] disabled:opacity-50"
+            >
+              {creating ? 'Opening…' : 'Open ticket'}
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
+  )
 }

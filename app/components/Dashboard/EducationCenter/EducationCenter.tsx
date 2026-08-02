@@ -141,7 +141,7 @@ export default function EducationCenter() {
                 </div>
                 <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Library</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
-                    Open a new ticket, track conversations with the support desk, and search your historical Requests.
+                    Education articles and guides across Macro, Technical, and Psychology — filter by topic or search the library.
                 </p>
             </div>
 
@@ -173,7 +173,7 @@ export default function EducationCenter() {
                         <input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search Strategies"
+                            placeholder="Search articles"
                             className="bg-transparent text-white text-[12px] leading-[17px] placeholder:text-[#838388] outline-none w-full"
                         />
                     </div>

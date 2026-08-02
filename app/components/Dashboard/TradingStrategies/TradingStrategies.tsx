@@ -143,7 +143,7 @@ export default function TradingStrategies() {
                 </div>
                 <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Playbooks</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
-                    Open a new ticket, track conversations with the support desk, and search your historical Requests.
+                    Trading strategy playbooks by Momentum, Reversion, and Breakouts — browse recent setups or filter by style.
                 </p>
             </div>
 

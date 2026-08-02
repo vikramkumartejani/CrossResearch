@@ -3,18 +3,56 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import CustomCheckbox from "./CustomCheckbox";
 
 export default function SignupForm() {
+  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here
+    setError(null);
+    setMessage(null);
+    if (!agreed) {
+      setError("Please agree to the Terms & Privacy to continue.");
+      return;
+    }
+    try {
+      setLoading(true);
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: fullName,
+          email,
+          password,
+        }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(
+          typeof body.details === "string"
+            ? body.details
+            : body.detail || body.error || "Signup failed"
+        );
+      }
+      setMessage(body.message || "Account created.");
+      if (body.created) {
+        setTimeout(() => router.push("/login"), 900);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Signup failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -157,7 +195,7 @@ export default function SignupForm() {
         </div>
 
         {/* Agree to terms */}
-        <label className="mb-10 sm:mb-12 flex items-center gap-1.5 cursor-pointer select-none">
+        <label className="mb-4 flex items-center gap-1.5 cursor-pointer select-none">
           <CustomCheckbox checked={agreed} onChange={setAgreed} />
           <span className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal">I agree to the</span>
           <Link
@@ -168,23 +206,27 @@ export default function SignupForm() {
           </Link>
         </label>
 
+        {error && <p className="text-[#E25C3F] text-[14px] mb-4">{error}</p>}
+        {message && <p className="text-[#2CB37B] text-[14px] mb-4">{message}</p>}
+
         {/* Submit */}
         <button
           type="submit"
-          className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer"
+          disabled={loading}
+          className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
         >
-          Sign – UP
+          {loading ? "Creating…" : "Sign Up"}
         </button>
       </form>
 
       {/* Bottom link */}
       <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal text-center mt-8 sm:mt-10">
-        Don&apos;t have an account?{" "}
+        Already have an account?{" "}
         <Link
           href="/login"
           className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors"
         >
-          Log - In
+          Log In
         </Link>
       </p>
     </div>
