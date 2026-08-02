@@ -1,92 +1,103 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import MarketCard from './MarketCard'
 import GreeksSynthesis from './GreeksSynthesis'
 import SectorGammaDashboard from './SectorGammaDashboard'
 import MacroEventStress from './MacroEventStress'
 
-// ── Data ─────────────────────────────────────────────────────────────────────
-const CARDS = [
-    {
-        ticker: 'SPX',
-        regime: 'Pos Gamma',
-        regimeColor: '#2CB37B',
-        name: 'S&P 500 Index',
-        price: '5 841.1',
-        change: '+0.34%',
-        changePositive: true,
-        dealerBias: 'Long Gamma – Bullish',
-        trendDay: '22%',
-        odteDom: '34%',
-        meanRevert: '74%',
-        volRegime: 'Suppressed',
-        levels: [
-            { label: 'Call Wall', level: 5900, change: '+0.99%', positive: true },
-            { label: 'Vol Trigger', level: 5870, change: '+0.4%', positive: true },
-            { label: 'Price Alert', level: 5920, change: '+1.2%', positive: true },
-            { label: 'Trend Line', level: 5850, change: '-0.5%', positive: false },
-            { label: 'Support Level', level: 5800, change: '-1.0%', positive: false },
-            { label: 'Resistance Level', level: 5950, change: '-1.5%', positive: false },
-            { label: 'Market Sentiment', level: 5870, change: '-0.75%', positive: false },
-        ],
-        summary: 'SPX opens at 5,842, positioned +22 points above the gamma flip at 5,820, confirming a positive gamma regime. Dealers structurally long gamma with mechanical support anchored at the 5,800 put wall. The 5,900 call wall acts simultaneously as a magnet and resistance. ODTE concentration at 34% is below the critical 40% dominance threshold. Charm flows project mild bearish pressure into the close. Mean reversion probability is elevated at 74% — favor fading extremes today.',
-        tags: ['Long Gamma Regime', 'Vol Suppressed', 'Charm Bearish Close', 'Vanna Squeeze Risk'],
-    },
-    {
-        ticker: 'NDX',
-        regime: 'Transition',
-        regimeColor: '#F59E0B',
-        name: 'Nasdaq – 100 Futures',
-        price: '20 918.5',
-        change: '+0.51%',
-        changePositive: true,
-        dealerBias: 'Transitioning – Watch',
-        trendDay: '22%',
-        odteDom: '34%',
-        meanRevert: '74%',
-        volRegime: 'Suppressed',
-        levels: [
-            { label: 'Call Wall', level: 5900, change: '+0.99%', positive: true },
-            { label: 'Vol Trigger', level: 5870, change: '-0.4%', positive: false },
-            { label: 'Price Alert', level: 5920, change: '+1.2%', positive: true },
-            { label: 'Trend Line', level: 5850, change: '-0.5%', positive: false },
-            { label: 'Support Level', level: 5800, change: '-1.0%', positive: false },
-            { label: 'Resistance Level', level: 5950, change: '-1.5%', positive: false },
-            { label: 'Market Sentiment', level: 5870, change: '-0.75%', positive: false },
-        ],
-        summary: 'NQ is in a critical transition regime — spot at 20,918 sits only 31 points above the gamma flip at 20,950. The ODTE dominance at 48% breaches the critical 40% threshold, meaning intraday options mechanics now dominate risk. If NQ breaks below 20,900, dealers short gamma must sell futures to hedge — creating self-reinforcing downside acceleration. Upside reclaim above 21,100 vol trigger would flip flows structurally bullish.',
-        tags: ['Transition – Resolve Pending', 'Odte Dominant – 48%'],
-    },
-    {
-        ticker: 'DJIA',
-        regime: 'Pos Gamma',
-        regimeColor: '#2CB37B',
-        name: 'Dow Jones Industrial',
-        price: '42 545.8',
-        change: '+0.21%',
-        changePositive: true,
-        dealerBias: 'Long Gamma – Stable',
-        trendDay: '22%',
-        odteDom: '34%',
-        meanRevert: '74%',
-        volRegime: 'Suppressed',
-        levels: [
-            { label: 'Call Wall', level: 5900, change: '+0.99%', positive: true },
-            { label: 'Vol Trigger', level: 5870, change: '+0.4%', positive: true },
-            { label: 'Price Alert', level: 5920, change: '+1.2%', positive: true },
-            { label: 'Trend Line', level: 5850, change: '-0.5%', positive: false },
-            { label: 'Support Level', level: 5800, change: '-1.0%', positive: false },
-            { label: 'Resistance Level', level: 5950, change: '-1.5%', positive: false },
-            { label: 'Market Sentiment', level: 5870, change: '-0.75%', positive: false },
-        ],
-        summary: 'DJIA at 42,654 sits comfortably +454 points above its gamma flip at 42,200. The most stable of the three indices today — positive gamma regime, ODTE dominance at only 27%, mean reversion probability at 81%. The 42,500 pin zone is gravitationally active heading into Friday\'s OPEX. IV term structure in contango. VIX suppressed. DJIA is the safest mean-reversion environment.',
-        tags: ['Long Gamma – Stable', 'Pin Zone Active 42,500', 'Vol Suppressed'],
-    },
-]
+type DealerLevel = {
+    label: string
+    level: number
+    change: string
+    positive: boolean
+}
 
-// ── Page ──────────────────────────────────────────────────────────────────────
+type StructureCard = {
+    ticker: string
+    regime: string
+    regimeColor: string
+    name: string
+    price: string
+    change: string
+    changePositive: boolean
+    dealerBias: string
+    trendDay: string
+    odteDom: string
+    meanRevert: string
+    volRegime: string
+    levels: DealerLevel[]
+    summary: string
+    tags: string[]
+}
+
 export default function OptionsPositioning() {
+    const [sectionTitle, setSectionTitle] = useState('Market Structure')
+    const [cards, setCards] = useState<StructureCard[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        let cancelled = false
+        async function load() {
+            try {
+                setLoading(true)
+                setError(null)
+                const res = await fetch('/api/market-structure', { cache: 'no-store' })
+                const body = await res.json().catch(() => ({}))
+                if (!res.ok) {
+                    throw new Error(
+                        typeof body.details === 'string'
+                            ? body.details
+                            : body.error || body.detail || `Failed to load market structure (${res.status})`
+                    )
+                }
+                const mapped: StructureCard[] = (Array.isArray(body.cards) ? body.cards : [])
+                    .filter((c: { active?: boolean }) => c.active !== false)
+                    .sort(
+                        (a: { sort_order?: number }, b: { sort_order?: number }) =>
+                            Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0)
+                    )
+                    .map((c: StructureCard) => ({
+                        ticker: c.ticker || '—',
+                        regime: c.regime || '—',
+                        regimeColor: c.regimeColor || '#2CB37B',
+                        name: c.name || '',
+                        price: c.price || '—',
+                        change: c.change || '',
+                        changePositive: Boolean(c.changePositive),
+                        dealerBias: c.dealerBias || '',
+                        trendDay: c.trendDay || '—',
+                        odteDom: c.odteDom || '—',
+                        meanRevert: c.meanRevert || '—',
+                        volRegime: c.volRegime || '—',
+                        levels: Array.isArray(c.levels) ? c.levels : [],
+                        summary: c.summary || '',
+                        tags: Array.isArray(c.tags) ? c.tags : [],
+                    }))
+                if (!cancelled) {
+                    if (typeof body.title === 'string' && body.title.trim()) {
+                        setSectionTitle(body.title.trim())
+                    }
+                    setCards(mapped)
+                }
+            } catch (err) {
+                if (!cancelled) {
+                    setError(err instanceof Error ? err.message : 'Failed to load market structure')
+                    setCards([])
+                }
+            } finally {
+                if (!cancelled) setLoading(false)
+            }
+        }
+        void load()
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
     return (
         <div>
-            {/* Header */}
             <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,18 +115,17 @@ export default function OptionsPositioning() {
             </div>
 
             <div className="px-4 lg:px-6">
-                {/* Market Structure — unchanged */}
-                <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">Market Structure</h2>
+                <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">{sectionTitle}</h2>
+                {loading && <p className="text-white/40 text-[13px] mb-3">Loading market structure…</p>}
+                {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4 sm:mb-5">
-                    {CARDS.map(card => (
+                    {cards.map((card) => (
                         <MarketCard key={card.ticker} {...card} />
                     ))}
                 </div>
 
-                {/* Greeks Synthesis */}
                 <GreeksSynthesis />
 
-                {/* Sector Gamma Dashboard + Macro Event Stress */}
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 grow">
                     <SectorGammaDashboard />
                     <MacroEventStress />
