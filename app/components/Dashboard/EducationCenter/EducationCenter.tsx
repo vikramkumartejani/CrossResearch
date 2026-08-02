@@ -1,55 +1,129 @@
 'use client'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
-const TABS = ['Recent', 'Strategies & Tips', 'Product Updates', 'Education']
+const TABS = ['Recent', 'Macro', 'Technical', 'Psychology', 'All'] as const
+type Tab = (typeof TABS)[number]
+type Topic = 'Macro' | 'Technical' | 'Psychology'
+type Level = 'Beginner' | 'Advanced'
 
-const FEATURED = {
-    category: 'Product Update',
-    categoryColor: 'text-[#88C4FF]',
+type Article = {
+    topic: Topic
+    level: Level
+    title: string
+    desc?: string
+    author: string
+    date: string
+}
+
+function topicLabel(article: Pick<Article, 'topic' | 'level'>) {
+    return `${article.topic} • ${article.level}`
+}
+
+const FEATURED: Article = {
+    topic: 'Technical',
+    level: 'Beginner',
     title: 'BTB Quant Update: Integrated Charts Are Here',
     desc: "The biggest challenge with curating macro signals has never been finding data — it's been keeping every chart on the same screen, calibrated to the same regime.",
     author: 'Jacob Denbrock',
     date: 'Apr 22, 2026',
 }
 
-const GRID_CARDS = [
-    { category: 'Product Updates', categoryColor: 'text-[#88C4FF]', title: 'BTB Quant Update: Integrated Charts Are Here', author: 'Jacob Denbrock', date: 'Apr 22, 2026' },
-    { category: 'Product Updates', categoryColor: 'text-[#88C4FF]', title: 'Central Banking 101: How Policy Drives Markets', author: 'Jacob Denbrock', date: 'Apr 22, 2026' },
-    { category: 'Product Updates', categoryColor: 'text-[#88C4FF]', title: 'Bitcoin and the Ripple Effect on Risk Assets', author: 'Jacob Denbrock', date: 'Apr 22, 2026' },
-    { category: 'Commodities', categoryColor: 'text-[#E8A020]', title: 'Central Banking 101 Liquidity Plumbing', author: 'Jacob Dettore', date: 'Apr 22, 2026' },
+const GRID_CARDS: Article[] = [
+    {
+        topic: 'Technical',
+        level: 'Beginner',
+        title: 'BTB Quant Update: Integrated Charts Are Here',
+        author: 'Jacob Denbrock',
+        date: 'Apr 22, 2026',
+    },
+    {
+        topic: 'Macro',
+        level: 'Beginner',
+        title: 'Central Banking 101: How Policy Drives Markets',
+        author: 'Jacob Denbrock',
+        date: 'Apr 22, 2026',
+    },
+    {
+        topic: 'Macro',
+        level: 'Advanced',
+        title: 'Bitcoin and the Ripple Effect on Risk Assets',
+        author: 'Jacob Denbrock',
+        date: 'Apr 22, 2026',
+    },
+    {
+        topic: 'Psychology',
+        level: 'Beginner',
+        title: 'Central Banking 101 Liquidity Plumbing',
+        author: 'Jacob Dettore',
+        date: 'Apr 22, 2026',
+    },
 ]
 
-const BOTTOM_CARDS = [
+const BOTTOM_CARDS: Article[] = [
     {
-        category: 'Product Updates', categoryColor: 'text-[#88C4FF]',
+        topic: 'Technical',
+        level: 'Advanced',
         title: 'BTB Quant Update: Integrated Charts Here',
         desc: "The biggest challenge with curating macro signals has never been finding data — it's been keeping every chart on the same screen, calibrated to the same regime.",
-        author: 'Jacob Denbrock', date: 'Apr 22, 2026',
+        author: 'Jacob Denbrock',
+        date: 'Apr 22, 2026',
     },
     {
-        category: 'Education', categoryColor: 'text-[#2CB37B]',
+        topic: 'Psychology',
+        level: 'Advanced',
         title: 'How To Read The Dealer Positioning Tape',
-        desc: 'Gamma flips, VOI triggers and put walls are the three levels that drive 80% of intraday mechanics. Here\'s how to spot them at a glance.',
-        author: 'Seth Dettore', date: 'Apr 14, 2026',
+        desc: "Gamma flips, VOI triggers and put walls are the three levels that drive 80% of intraday mechanics. Here's how to spot them at a glance.",
+        author: 'Seth Dettore',
+        date: 'Apr 14, 2026',
     },
 ]
 
-function SmallCard({ card }: { card: typeof GRID_CARDS[0] }) {
+function matchesTab(article: Article, tab: Tab) {
+    if (tab === 'Recent' || tab === 'All') return true
+    return article.topic === tab
+}
+
+function matchesSearch(article: Article, search: string) {
+    const q = search.trim().toLowerCase()
+    if (!q) return true
+    return [article.title, article.desc, article.author, article.topic, article.level]
+        .filter(Boolean)
+        .some((v) => String(v).toLowerCase().includes(q))
+}
+
+function SmallCard({ card }: { card: Article }) {
     return (
         <div className="bg-[#16161F] flex flex-col cursor-pointer transition-colors">
             <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[199px]" />
-            <div className='p-3 sm:p-4'>
-                <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">{card.category}</p>
-                <p className="2xl:pr-10 text-white text-[16px] sm:text-[18px] 2xl:text-[22px] leading-[20px] sm:leading-6 2xl:leading-[29px] font-medium mt-2 2xl:mt-3 mb-2">{card.title}</p>
-                <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">By {card.author} • {card.date}</p>
+            <div className="p-3 sm:p-4">
+                <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">
+                    {topicLabel(card)}
+                </p>
+                <p className="2xl:pr-10 text-white text-[16px] sm:text-[18px] 2xl:text-[22px] leading-[20px] sm:leading-6 2xl:leading-[29px] font-medium mt-2 2xl:mt-3 mb-2">
+                    {card.title}
+                </p>
+                <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">
+                    By {card.author} • {card.date}
+                </p>
             </div>
         </div>
     )
 }
 
 export default function EducationCenter() {
-    const [activeTab, setActiveTab] = useState('Recent')
+    const [activeTab, setActiveTab] = useState<Tab>('Recent')
     const [search, setSearch] = useState('')
+
+    const gridCards = useMemo(
+        () => GRID_CARDS.filter((c) => matchesTab(c, activeTab) && matchesSearch(c, search)),
+        [activeTab, search]
+    )
+    const bottomCards = useMemo(
+        () => BOTTOM_CARDS.filter((c) => matchesTab(c, activeTab) && matchesSearch(c, search)),
+        [activeTab, search]
+    )
+    const showFeatured =
+        matchesTab(FEATURED, activeTab) && matchesSearch(FEATURED, search)
 
     return (
         <div>
@@ -78,7 +152,7 @@ export default function EducationCenter() {
                     {/* Tabs — scrollable on mobile */}
                     <div className="overflow-x-auto">
                         <div className="flex items-center sm:gap-2 p-1 bg-[#16161F] w-fit border border-[#FFFFFF0D] min-w-max">
-                            {TABS.map(tab => (
+                            {TABS.map((tab) => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
@@ -98,7 +172,7 @@ export default function EducationCenter() {
                         </svg>
                         <input
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search Strategies"
                             className="bg-transparent text-white text-[12px] leading-[17px] placeholder:text-[#838388] outline-none w-full"
                         />
@@ -108,32 +182,52 @@ export default function EducationCenter() {
                 {/* Row 1: Featured (top on mobile, left on desktop) + 2×2 grid */}
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-3 sm:mb-4">
                     {/* Featured card */}
-                    <div className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
-                        <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
-                        <div className='p-3 sm:p-0'>
-                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">{FEATURED.category}</span>
-                            <h2 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-4">{FEATURED.title}</h2>
-                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4">{FEATURED.desc}</p>
-                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">By {FEATURED.author} • {FEATURED.date}</p>
+                    {showFeatured ? (
+                        <div className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
+                            <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
+                            <div className="p-3 sm:p-0">
+                                <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
+                                    {topicLabel(FEATURED)}
+                                </span>
+                                <h2 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-4">
+                                    {FEATURED.title}
+                                </h2>
+                                <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4">
+                                    {FEATURED.desc}
+                                </p>
+                                <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">
+                                    By {FEATURED.author} • {FEATURED.date}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="hidden xl:block" />
+                    )}
 
                     {/* 2×2 grid — stays 2 cols even on mobile since cards are compact */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                        {GRID_CARDS.map((card, i) => (
-                            <SmallCard key={i} card={card} />
+                        {gridCards.map((card, i) => (
+                            <SmallCard key={`${card.title}-${i}`} card={card} />
                         ))}
                     </div>
                 </div>
 
                 {/* Row 2: bottom cards */}
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
-                    {BOTTOM_CARDS.map((card, i) => (
-                        <div key={i} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
-                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">{card.category}</span>
-                            <h3 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-3">{card.title}</h3>
-                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] font-normal mb-2 sm:mb-3">{card.desc}</p>
-                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">By {card.author} • {card.date}</p>
+                    {bottomCards.map((card, i) => (
+                        <div key={`${card.title}-${i}`} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
+                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
+                                {topicLabel(card)}
+                            </span>
+                            <h3 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-3">
+                                {card.title}
+                            </h3>
+                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] font-normal mb-2 sm:mb-3">
+                                {card.desc}
+                            </p>
+                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">
+                                By {card.author} • {card.date}
+                            </p>
                         </div>
                     ))}
                 </div>

@@ -1,66 +1,97 @@
 'use client'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
-const TABS = ['Recent', 'Equities', 'Crypto', 'FX', 'Commodities']
+const TABS = ['Recent', 'Momentum', 'Reversals', 'Breakouts', 'All'] as const
+type Tab = (typeof TABS)[number]
+/** Blue label above titles — strategy style only (no Beginner/Advanced). */
+type StrategyType = 'Momentum' | 'Reversion' | 'Breakouts'
 
-const FEATURED = {
-    category: 'Equities',
-    categoryColor: 'text-[#88C4FF]',
+type Strategy = {
+    type: StrategyType
+    title: string
+    desc?: string
+    tag?: string | null
+    author: string
+    date: string
+}
+
+function matchesTab(item: Strategy, tab: Tab) {
+    if (tab === 'Recent' || tab === 'All') return true
+    if (tab === 'Reversals') return item.type === 'Reversion'
+    return item.type === tab
+}
+
+function matchesSearch(item: Strategy, search: string) {
+    const q = search.trim().toLowerCase()
+    if (!q) return true
+    return [item.title, item.desc, item.author, item.type, item.tag]
+        .filter(Boolean)
+        .some((v) => String(v).toLowerCase().includes(q))
+}
+
+const FEATURED: Strategy = {
+    type: 'Breakouts',
     title: 'ODTE Gamma Squeeze Playbook',
-    desc: "When dealers are short gamma into the close and ODTE dominance exceeds 40%, a measured Upside breakout creates a self-reinforcing flow. The mechanical setup explained step-by-step.",
+    desc: 'When dealers are short gamma into the close and ODTE dominance exceeds 40%, a measured Upside breakout creates a self-reinforcing flow. The mechanical setup explained step-by-step.',
     author: 'Seth Murphy',
     date: 'Apr 22, 2026',
 }
 
-const GRID_CARDS = [
+const GRID_CARDS: Strategy[] = [
     {
-        category: 'Crypto', categoryColor: 'text-[#88C4FF]',
+        type: 'Reversion',
         title: 'BTC Mean-Reversion at Vol Extremes',
         tag: 'BTC Mean-Reversion at Vol Extremes',
-        author: 'Jacob Dettore', date: 'Apr 22, 2026',
+        author: 'Jacob Dettore',
+        date: 'Apr 22, 2026',
     },
     {
-        category: 'Crypto', categoryColor: 'text-[#88C4FF]',
+        type: 'Momentum',
         title: 'Carry & Vol I- Long CHF/JPY Setup',
         tag: null,
-        author: 'Jacob Murphy', date: 'Apr 22, 2026',
+        author: 'Jacob Murphy',
+        date: 'Apr 22, 2026',
     },
     {
-        category: 'Equities', categoryColor: 'text-[#88C4FF]',
+        type: 'Breakouts',
         title: 'Trading the SPX Gamma Flip',
         tag: null,
-        author: 'Jacob Murphy', date: 'Apr 22, 2026',
+        author: 'Jacob Murphy',
+        date: 'Apr 22, 2026',
     },
     {
-        category: 'Commodities', categoryColor: 'text-[#E8A020]',
+        type: 'Reversion',
         title: 'WTI Contango Reversal Trade',
         tag: null,
-        author: 'Jacob Murphy', date: 'Apr 22, 2026',
+        author: 'Jacob Murphy',
+        date: 'Apr 22, 2026',
     },
 ]
 
-const BOTTOM_CARDS = [
+const BOTTOM_CARDS: Strategy[] = [
     {
-        category: 'Equities', categoryColor: 'text-[#88C4FF]',
+        type: 'Momentum',
         title: 'Pre-OPEX Vol Compression Playbook',
         desc: 'Long gamma regimes pin price into equity. Three filters confirm the regime, two timers time the entry, and one filter exits before VOI expansion.',
-        author: 'Seth Murphy', date: 'Apr 22, 2026',
+        author: 'Seth Murphy',
+        date: 'Apr 22, 2026',
     },
     {
-        category: 'Crypto', categoryColor: 'text-[#88C4FF]',
+        type: 'Breakouts',
         title: 'ETF Flow Divergence as a Macro Tell',
         desc: 'Persistent positive ETF inflow alongside softening spot is a clean institutional accumulation tell. Backtested across the last six 2Q windows.',
-        author: 'Seth Dettore', date: 'Apr 14, 2026',
+        author: 'Seth Dettore',
+        date: 'Apr 14, 2026',
     },
 ]
 
-function SmallCard({ card }: { card: typeof GRID_CARDS[0] }) {
+function SmallCard({ card }: { card: Strategy }) {
     return (
         <div className="bg-[#16161F] flex flex-col cursor-pointer transition-colors">
             <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[199px] relative">
                 {card.tag && (
                     <div className="absolute z-10 top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5 rounded">
-                          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z" stroke="white" strokeWidth="1.2" />
                             <path d="M7.125 12V6" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
                             <path d="M8.25 6V4.5M10.125 6V4.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
@@ -72,18 +103,32 @@ function SmallCard({ card }: { card: typeof GRID_CARDS[0] }) {
                     </div>
                 )}
             </div>
-            <div className='p-3 sm:p-4'>
-                <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">{card.category}</p>
-                <p className="2xl:pr-8 text-white text-[16px] sm:text-[18px] 2xl:text-[22px] leading-[20px] sm:leading-6 2xl:leading-[29px] font-medium mt-2 2xl:mt-3 mb-2">{card.title}</p>
-                <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">By {card.author} • {card.date}</p>
+            <div className="p-3 sm:p-4">
+                <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">{card.type}</p>
+                <p className="2xl:pr-8 text-white text-[16px] sm:text-[18px] 2xl:text-[22px] leading-[20px] sm:leading-6 2xl:leading-[29px] font-medium mt-2 2xl:mt-3 mb-2">
+                    {card.title}
+                </p>
+                <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">
+                    By {card.author} • {card.date}
+                </p>
             </div>
         </div>
     )
 }
 
 export default function TradingStrategies() {
-    const [activeTab, setActiveTab] = useState('Recent')
+    const [activeTab, setActiveTab] = useState<Tab>('Recent')
     const [search, setSearch] = useState('')
+
+    const gridCards = useMemo(
+        () => GRID_CARDS.filter((c) => matchesTab(c, activeTab) && matchesSearch(c, search)),
+        [activeTab, search]
+    )
+    const bottomCards = useMemo(
+        () => BOTTOM_CARDS.filter((c) => matchesTab(c, activeTab) && matchesSearch(c, search)),
+        [activeTab, search]
+    )
+    const showFeatured = matchesTab(FEATURED, activeTab) && matchesSearch(FEATURED, search)
 
     return (
         <div>
@@ -106,10 +151,9 @@ export default function TradingStrategies() {
             <div className="px-4 lg:px-6">
                 {/* Tabs + Search */}
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-4 sm:mb-5">
-                    {/* Tabs — scrollable on mobile */}
                     <div className="overflow-x-auto">
                         <div className="flex items-center sm:gap-2 p-1 bg-[#16161F] w-fit border border-[#FFFFFF0D] min-w-max">
-                            {TABS.map(tab => (
+                            {TABS.map((tab) => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
@@ -121,7 +165,6 @@ export default function TradingStrategies() {
                         </div>
                     </div>
 
-                    {/* Search */}
                     <div className="flex items-center gap-1.5 bg-[#16161F] border border-[#FFFFFF0D] px-3 py-[9px]">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                             <path d="M12.75 12.75L15.75 15.75" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
@@ -129,42 +172,58 @@ export default function TradingStrategies() {
                         </svg>
                         <input
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search Strategies"
                             className="bg-transparent text-white text-[12px] leading-[17px] placeholder:text-[#838388] outline-none w-full"
                         />
                     </div>
                 </div>
 
-                {/* Row 1: Featured + 2×2 grid */}
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-3 sm:mb-4">
-                    {/* Featured card */}
-                    <div className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
-                        <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
-                        <div className='p-3 sm:p-0'>
-                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">{FEATURED.category}</span>
-                            <h2 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-4">{FEATURED.title}</h2>
-                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4">{FEATURED.desc}</p>
-                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">By {FEATURED.author} • {FEATURED.date}</p>
+                    {showFeatured ? (
+                        <div className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
+                            <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
+                            <div className="p-3 sm:p-0">
+                                <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
+                                    {FEATURED.type}
+                                </span>
+                                <h2 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-4">
+                                    {FEATURED.title}
+                                </h2>
+                                <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4">
+                                    {FEATURED.desc}
+                                </p>
+                                <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">
+                                    By {FEATURED.author} • {FEATURED.date}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="hidden xl:block" />
+                    )}
 
-                    {/* 2×2 grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                        {GRID_CARDS.map((card, i) => (
-                            <SmallCard key={i} card={card} />
+                        {gridCards.map((card, i) => (
+                            <SmallCard key={`${card.title}-${i}`} card={card} />
                         ))}
                     </div>
                 </div>
 
-                {/* Row 2: bottom cards */}
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
-                    {BOTTOM_CARDS.map((card, i) => (
-                        <div key={i} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
-                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">{card.category}</span>
-                            <h3 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-3">{card.title}</h3>
-                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] font-normal mb-2 sm:mb-3">{card.desc}</p>
-                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">By {card.author} • {card.date}</p>
+                    {bottomCards.map((card, i) => (
+                        <div key={`${card.title}-${i}`} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
+                            <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
+                                {card.type}
+                            </span>
+                            <h3 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-3">
+                                {card.title}
+                            </h3>
+                            <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] font-normal mb-2 sm:mb-3">
+                                {card.desc}
+                            </p>
+                            <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">
+                                By {card.author} • {card.date}
+                            </p>
                         </div>
                     ))}
                 </div>
