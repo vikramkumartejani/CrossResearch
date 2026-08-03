@@ -240,10 +240,10 @@ export default function ContactSupportPage() {
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-[#FFFFFF1A]">
-              {['TICKET', 'SUBJECT', 'CATEGORY', 'STATUS', 'UPDATED', 'MSGS'].map((col) => (
+              {['Ticket', 'Subject', 'Category', 'Status', 'Updated', 'Msgs'].map((col) => (
                 <th
                   key={col}
-                  className="px-6 pt-6 pb-[17px] text-left text-[14px] leading-[17px] font-semibold text-white uppercase whitespace-nowrap"
+                  className="px-6 pt-6 pb-[17px] text-left text-[14px] leading-[17px] font-semibold text-white whitespace-nowrap"
                 >
                   {col}
                 </th>

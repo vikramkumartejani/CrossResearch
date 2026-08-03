@@ -6,7 +6,7 @@ import ReportDetailModal from './ReportDetailModal'
 
 function Tag({ label }: { label: string }) {
     return (
-        <span className="inline-flex items-center px-3 sm:px-[15px] h-[26px] sm:h-[29px] text-[#88C4FF] text-[11px] sm:text-[12px] leading-[17px] uppercase font-medium rounded-[72px] border border-[#FFFFFF1A]">
+        <span className="inline-flex items-center px-3 sm:px-[15px] h-[26px] sm:h-[29px] text-[#88C4FF] text-[11px] sm:text-[12px] leading-[17px] font-medium rounded-[72px] border border-[#FFFFFF1A]">
             {label}
         </span>
     )
@@ -138,7 +138,9 @@ export default function MarketReport() {
                 if (cancelled) return
 
                 setPage({ ...DEFAULT_PAGE, ...(data.page || {}) })
-                setReports(Array.isArray(data.reports) ? data.reports : [])
+                const list = Array.isArray(data.reports) ? [...data.reports] : []
+                list.sort((a, b) => Number(b.id) - Number(a.id))
+                setReports(list)
                 setSidebarIds(Array.isArray(data.sidebarIds) ? data.sidebarIds : [])
             } catch (err) {
                 if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
