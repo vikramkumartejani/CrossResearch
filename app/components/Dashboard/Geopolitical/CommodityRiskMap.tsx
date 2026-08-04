@@ -20,107 +20,123 @@ const GROUP_COLOR: Record<CommodityGroup, string> = {
 
 function CommodityScatterChart({ points }: { points: CommodityPoint[] }) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    const wrapRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+        const wrap = wrapRef.current
         const c = canvasRef.current
-        if (!c || points.length === 0) return
-        const ctx = c.getContext('2d')
-        if (!ctx) return
+        if (!wrap || !c || points.length === 0) return
 
-        const dpr = window.devicePixelRatio || 1
-        const W = c.offsetWidth || 520
-        const H = c.offsetHeight || 320
-        c.width = W * dpr
-        c.height = H * dpr
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-        ctx.clearRect(0, 0, W, H)
+        const draw = () => {
+            const ctx = c.getContext('2d')
+            if (!ctx) return
 
-        const padL = 44
-        const padR = 16
-        const padT = 12
-        const padB = 28
-        const chartW = W - padL - padR
-        const chartH = H - padT - padB
+            const dpr = window.devicePixelRatio || 1
+            const W = Math.max(wrap.clientWidth || 360, 280)
+            const H = Math.max(wrap.clientHeight || 280, 220)
+            c.width = W * dpr
+            c.height = H * dpr
+            c.style.width = `${W}px`
+            c.style.height = `${H}px`
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+            ctx.clearRect(0, 0, W, H)
 
-        const xs = points.map((p) => p.returnPct)
-        const ys = points.map((p) => p.volPct)
-        const minX = Math.min(...xs)
-        const maxX = Math.max(...xs)
-        const minY = Math.min(...ys)
-        const maxY = Math.max(...ys)
-        const padX = Math.max((maxX - minX) * 0.12, 1)
-        const padY = Math.max((maxY - minY) * 0.12, 2)
-        const x0 = minX - padX
-        const x1 = maxX + padX
-        const y0 = Math.max(0, minY - padY)
-        const y1 = maxY + padY
-        const spanX = x1 - x0 || 1
-        const spanY = y1 - y0 || 1
+            const padL = 42
+            const padR = 12
+            const padT = 14
+            const padB = 28
+            const chartW = W - padL - padR
+            const chartH = H - padT - padB
 
-        const toX = (v: number) => padL + ((v - x0) / spanX) * chartW
-        const toY = (v: number) => padT + ((y1 - v) / spanY) * chartH
+            const xs = points.map((p) => p.returnPct)
+            const ys = points.map((p) => p.volPct)
+            const minX = Math.min(...xs)
+            const maxX = Math.max(...xs)
+            const minY = Math.min(...ys)
+            const maxY = Math.max(...ys)
+            const padX = Math.max((maxX - minX) * 0.12, 1)
+            const padY = Math.max((maxY - minY) * 0.12, 2)
+            const x0 = minX - padX
+            const x1 = maxX + padX
+            const y0 = Math.max(0, minY - padY)
+            const y1 = maxY + padY
+            const spanX = x1 - x0 || 1
+            const spanY = y1 - y0 || 1
 
-        ctx.strokeStyle = 'rgba(255,255,255,0.08)'
-        ctx.lineWidth = 1
-        for (let i = 0; i <= 5; i++) {
-            const y = y0 + (spanY * i) / 5
-            const py = toY(y)
-            ctx.beginPath()
-            ctx.moveTo(padL, py)
-            ctx.lineTo(padL + chartW, py)
-            ctx.stroke()
-        }
-        for (let i = 0; i <= 5; i++) {
-            const x = padL + (i / 5) * chartW
-            ctx.beginPath()
-            ctx.moveTo(x, padT)
-            ctx.lineTo(x, padT + chartH)
-            ctx.stroke()
-        }
+            const toX = (v: number) => padL + ((v - x0) / spanX) * chartW
+            const toY = (v: number) => padT + ((y1 - v) / spanY) * chartH
 
-        ctx.fillStyle = 'rgba(255,255,255,0.45)'
-        ctx.font = '10px sans-serif'
-        ctx.textAlign = 'right'
-        ctx.textBaseline = 'middle'
-        for (let i = 0; i <= 5; i++) {
-            const y = y0 + (spanY * i) / 5
-            ctx.fillText(`${Math.round(y)}%`, padL - 6, toY(y))
-        }
+            ctx.strokeStyle = 'rgba(255,255,255,0.08)'
+            ctx.lineWidth = 1
+            for (let i = 0; i <= 5; i++) {
+                const y = y0 + (spanY * i) / 5
+                const py = toY(y)
+                ctx.beginPath()
+                ctx.moveTo(padL, py)
+                ctx.lineTo(padL + chartW, py)
+                ctx.stroke()
+            }
+            for (let i = 0; i <= 5; i++) {
+                const x = padL + (i / 5) * chartW
+                ctx.beginPath()
+                ctx.moveTo(x, padT)
+                ctx.lineTo(x, padT + chartH)
+                ctx.stroke()
+            }
 
-        ctx.save()
-        ctx.translate(12, padT + chartH / 2)
-        ctx.rotate(-Math.PI / 2)
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-        ctx.fillStyle = 'rgba(255,255,255,0.4)'
-        ctx.font = '10px sans-serif'
-        ctx.fillText('20D annualised volatility', 0, 0)
-        ctx.restore()
-
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'top'
-        ctx.fillStyle = 'rgba(255,255,255,0.4)'
-        ctx.fillText('1M return', padL + chartW / 2, padT + chartH + 10)
-
-        points.forEach((p) => {
-            const x = toX(p.returnPct)
-            const y = toY(p.volPct)
-            const color = GROUP_COLOR[p.group] || '#88C4FF'
-
-            ctx.beginPath()
-            ctx.arc(x, y, 4, 0, Math.PI * 2)
-            ctx.fillStyle = color
-            ctx.fill()
-
-            ctx.fillStyle = 'rgba(255,255,255,0.85)'
+            ctx.fillStyle = 'rgba(255,255,255,0.45)'
             ctx.font = '10px sans-serif'
-            ctx.textAlign = 'left'
-            ctx.textBaseline = 'bottom'
-            ctx.fillText(p.name, x + 6, y - 2)
-        })
+            ctx.textAlign = 'right'
+            ctx.textBaseline = 'middle'
+            for (let i = 0; i <= 5; i++) {
+                const y = y0 + (spanY * i) / 5
+                ctx.fillText(`${Math.round(y)}%`, padL - 6, toY(y))
+            }
+
+            ctx.save()
+            ctx.translate(12, padT + chartH / 2)
+            ctx.rotate(-Math.PI / 2)
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+            ctx.fillStyle = 'rgba(255,255,255,0.4)'
+            ctx.font = '10px sans-serif'
+            ctx.fillText('20D annualised volatility', 0, 0)
+            ctx.restore()
+
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'top'
+            ctx.fillStyle = 'rgba(255,255,255,0.4)'
+            ctx.fillText('1M return', padL + chartW / 2, padT + chartH + 10)
+
+            points.forEach((p) => {
+                const x = toX(p.returnPct)
+                const y = toY(p.volPct)
+                const color = GROUP_COLOR[p.group] || '#88C4FF'
+
+                ctx.beginPath()
+                ctx.arc(x, y, 4, 0, Math.PI * 2)
+                ctx.fillStyle = color
+                ctx.fill()
+
+                ctx.fillStyle = 'rgba(255,255,255,0.85)'
+                ctx.font = '10px sans-serif'
+                ctx.textAlign = 'left'
+                ctx.textBaseline = 'bottom'
+                ctx.fillText(p.name, x + 6, y - 2)
+            })
+        }
+
+        draw()
+        const ro = new ResizeObserver(() => draw())
+        ro.observe(wrap)
+        return () => ro.disconnect()
     }, [points])
 
-    return <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
+    return (
+        <div ref={wrapRef} className="w-full h-full min-h-0">
+            <canvas ref={canvasRef} className="block w-full h-full" />
+        </div>
+    )
 }
 
 export default function CommodityRiskMap() {
@@ -172,14 +188,20 @@ export default function CommodityRiskMap() {
     }, [])
 
     return (
-        <div className="flex flex-col h-full">
-            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">Commodity Risk</h2>
-            <div className="bg-[#16161F] p-3 sm:p-4 flex-1 flex flex-col min-h-[320px]">
-                <p className="text-white text-[14px] sm:text-[16px] leading-[20px] sm:leading-[22px] font-semibold mb-3">
+        <div className="flex flex-col h-full min-h-0">
+            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4 shrink-0">
+                Commodity Risk
+            </h2>
+            <div className="bg-[#16161F] p-3 sm:p-4 flex-1 flex flex-col min-h-0">
+                <p className="text-white text-[14px] sm:text-[16px] leading-[20px] sm:leading-[22px] font-semibold mb-3 shrink-0">
                     Commodity Risk / Return Map
                 </p>
 
-                {loading && <div className="flex-1 flex items-center justify-center text-[#838388] text-[12px]">Loading commodities...</div>}
+                {loading && (
+                    <div className="flex-1 flex items-center justify-center text-[#838388] text-[12px]">
+                        Loading commodities...
+                    </div>
+                )}
                 {error && !loading && (
                     <div className="flex-1 flex items-center justify-center text-[#E25C3F] text-[12px]">{error}</div>
                 )}
@@ -189,12 +211,12 @@ export default function CommodityRiskMap() {
                     </div>
                 )}
                 {!loading && !error && points.length > 0 && (
-                    <div className="flex-1" style={{ minHeight: 280 }}>
+                    <div className="flex-1 min-h-0">
                         <CommodityScatterChart points={points} />
                     </div>
                 )}
 
-                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3 text-[10px] text-[#838388]">
+                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3 text-[10px] text-[#838388] shrink-0">
                     <span className="flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-[#C4A0FF] inline-block" /> Softs
                     </span>
