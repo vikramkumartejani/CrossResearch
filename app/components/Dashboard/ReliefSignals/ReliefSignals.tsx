@@ -70,14 +70,17 @@ function ReliefSignalsContent() {
                 </div>
             </div>
 
-            <div className="px-4 lg:px-6 flex flex-col gap-4">
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4">
-                    <LatestAlerts />
-                    <Watchlist />
-                </div>
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4">
+            <div className="px-4 lg:px-6 flex flex-col xl:flex-row gap-4 xl:h-[760px]">
+                <div className="flex-1 min-w-0 min-h-0 h-[420px] xl:h-full">
                     <ProbabilityMovers />
-                    <AlertsDetail />
+                </div>
+                <div className="flex flex-col gap-4 flex-1 min-w-0 min-h-0 xl:h-full">
+                    <div className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
+                        <Watchlist />
+                    </div>
+                    <div className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
+                        <AlertsDetail />
+                    </div>
                 </div>
             </div>
         </div>

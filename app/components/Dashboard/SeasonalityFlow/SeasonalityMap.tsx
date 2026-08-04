@@ -64,6 +64,11 @@ function formatReturn(val: number | null) {
     return val > 0 ? `+${val.toFixed(2)}` : val.toFixed(2)
 }
 
+function formatAvgCompact(val: number | null) {
+    if (val == null || !Number.isFinite(val)) return '—'
+    return val > 0 ? `+${val.toFixed(1)}` : val.toFixed(1)
+}
+
 export default function SeasonalityMap() {
     const [instrument, setInstrument] = useState<SeasonalityInstrument>('EURUSD')
     const [view, setView] = useState<MapView>('yearly')
@@ -152,7 +157,14 @@ export default function SeasonalityMap() {
     const rows = isYearly ? yearlyRows : monthlyRows
     const avgRow = isYearly ? yearlyAvg : monthlyAvg
     const columns = isYearly ? MONTHS : DAYS.map(String)
-    const showValues = isYearly
+    const showBodyValues = isYearly
+    const cellGap = isYearly ? '4px' : '2px'
+    const bodyCellClass = isYearly
+        ? 'flex-1 min-w-0 text-[11px] sm:text-[12px] leading-[14px] font-semibold py-2.5'
+        : 'w-7 sm:w-8 flex-shrink-0 h-7 sm:h-8'
+    const avgCellClass = isYearly
+        ? 'flex-1 min-w-0 text-[11px] sm:text-[12px] leading-[14px] font-semibold py-2.5'
+        : 'w-7 sm:w-8 flex-shrink-0 text-[8px] sm:text-[9px] leading-[10px] font-semibold py-1.5 flex items-center justify-center'
 
     return (
         <div className="mb-4 sm:mb-5">
@@ -189,7 +201,7 @@ export default function SeasonalityMap() {
                         <p className="text-white/50 text-[12px] leading-[14px] font-normal mt-2">
                             {isYearly
                                 ? 'Color encodes monthly return. Bottom row is the average per calendar month.'
-                                : 'Color encodes average daily return by day-of-month. Hover a cell for the exact value.'}
+                                : 'Color encodes average daily return by day-of-month. Avg row shows the numeric average.'}
                         </p>
                     </div>
                     <span className="text-white/50 text-[11px] sm:text-[12px] leading-[14px] font-medium flex-shrink-0">
@@ -202,16 +214,16 @@ export default function SeasonalityMap() {
 
                 {!loading && !error && (
                     <div className="overflow-x-auto">
-                        <div className={isYearly ? 'min-w-[700px]' : 'min-w-[980px]'}>
-                            <div className="flex items-center mb-3" style={{ gap: isYearly ? '4px' : '2px' }}>
+                        <div className={isYearly ? 'min-w-[700px]' : 'inline-block min-w-max'}>
+                            <div className="flex items-center mb-3" style={{ gap: cellGap }}>
                                 <div className="w-12 sm:w-14 flex-shrink-0" />
                                 {columns.map((col) => (
                                     <div
                                         key={col}
-                                        className={`flex-1 text-white/50 font-normal text-center ${
+                                        className={`text-white/50 font-normal text-center ${
                                             isYearly
-                                                ? 'text-[12px] leading-[14px]'
-                                                : 'text-[9px] sm:text-[10px] leading-[12px]'
+                                                ? 'flex-1 text-[12px] leading-[14px]'
+                                                : 'w-7 sm:w-8 flex-shrink-0 text-[9px] sm:text-[10px] leading-[12px]'
                                         }`}
                                     >
                                         {col}
@@ -219,12 +231,12 @@ export default function SeasonalityMap() {
                                 ))}
                             </div>
 
-                            <div className="flex flex-col" style={{ gap: isYearly ? '4px' : '2px' }}>
+                            <div className="flex flex-col" style={{ gap: cellGap }}>
                                 {rows.map((row) => (
                                     <div
                                         key={row.label}
                                         className="flex items-stretch"
-                                        style={{ gap: isYearly ? '4px' : '2px' }}
+                                        style={{ gap: cellGap }}
                                     >
                                         <div className="w-12 sm:w-14 flex-shrink-0 text-white/50 text-[12px] leading-[14px] font-normal flex items-center">
                                             {row.label}
@@ -233,33 +245,25 @@ export default function SeasonalityMap() {
                                             <div
                                                 key={mi}
                                                 title={`${row.label} ${columns[mi]}: ${formatReturn(val)}%`}
-                                                className={`flex-1 ${cellColor(val)} text-white text-center ${
-                                                    showValues
-                                                        ? 'text-[11px] sm:text-[12px] leading-[14px] font-semibold py-2.5'
-                                                        : 'h-7 sm:h-8'
-                                                }`}
+                                                className={`${cellColor(val)} text-white text-center ${bodyCellClass}`}
                                             >
-                                                {showValues ? formatReturn(val) : null}
+                                                {showBodyValues ? formatReturn(val) : null}
                                             </div>
                                         ))}
                                     </div>
                                 ))}
 
-                                <div className="flex items-stretch" style={{ gap: isYearly ? '4px' : '2px' }}>
+                                <div className="flex items-stretch" style={{ gap: cellGap }}>
                                     <div className="w-12 sm:w-14 flex-shrink-0 text-[#88C4FF] text-[10px] leading-[12px] font-semibold flex items-center">
                                         avg
                                     </div>
                                     {avgRow.map((val, mi) => (
                                         <div
                                             key={mi}
-                                            title={`Avg day ${columns[mi]}: ${formatReturn(val)}%`}
-                                            className={`flex-1 ${cellColor(val)} text-white text-center ${
-                                                showValues
-                                                    ? 'text-[11px] sm:text-[12px] leading-[14px] font-semibold py-2.5'
-                                                    : 'h-7 sm:h-8'
-                                                }`}
+                                            title={`Avg ${columns[mi]}: ${formatReturn(val)}%`}
+                                            className={`${cellColor(val)} text-white text-center ${avgCellClass}`}
                                         >
-                                            {showValues ? formatReturn(val) : null}
+                                            {isYearly ? formatReturn(val) : formatAvgCompact(val)}
                                         </div>
                                     ))}
                                 </div>

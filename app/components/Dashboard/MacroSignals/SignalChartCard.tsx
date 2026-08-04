@@ -1,4 +1,5 @@
 'use client'
+import type { ReactNode } from 'react'
 import type { SignalChart } from './signalChartsData'
 
 // ── Arrow right icon ─────────────────────────────────────────────────────────
@@ -27,12 +28,27 @@ function Badge({ label }: { label: string }) {
 }
 
 // ── SVG chart constants ──────────────────────────────────────────────────────
-const Y_LABEL_W = 36
-const CHART_H = 140
-const CHART_W = 260
+const Y_LABEL_W = 40
+const CHART_H = 200
+const CHART_W = 560
 const PLOT_W = CHART_W - Y_LABEL_W
-const X_LABEL_H = 18
+const X_LABEL_H = 20
 const VB_H = CHART_H + X_LABEL_H
+const CHART_ASPECT = `${CHART_W} / ${VB_H}`
+
+function ChartSvg({ children }: { children: ReactNode }) {
+    return (
+        <svg
+            viewBox={`0 0 ${CHART_W} ${VB_H}`}
+            preserveAspectRatio="xMidYMid meet"
+            width="100%"
+            className="block w-full h-auto"
+            style={{ aspectRatio: CHART_ASPECT }}
+        >
+            {children}
+        </svg>
+    )
+}
 
 function toPlotX(i: number, n: number) {
     return Y_LABEL_W + (n < 2 ? 0 : (i / (n - 1)) * PLOT_W)
@@ -134,7 +150,7 @@ function AreaChart({ values, yLabels }: { values: number[]; yLabels?: string[] }
     const fillPts = [`${Y_LABEL_W},${CHART_H}`, ...pts, `${CHART_W},${CHART_H}`].join(' ')
     const gradId = `area_${values[0]}_${n}`
     return (
-        <svg viewBox={`0 0 ${CHART_W} ${VB_H}`} preserveAspectRatio="none" width="100%" className="block" style={{ height: 180 }}>
+        <ChartSvg>
             <defs>
                 <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#88C4FF" stopOpacity="0.20" />
@@ -144,9 +160,9 @@ function AreaChart({ values, yLabels }: { values: number[]; yLabels?: string[] }
             <GridLines count={yLabels?.length ?? 5} />
             {yLabels && <YLabels labels={yLabels} />}
             <polygon points={fillPts} fill={`url(#${gradId})`} />
-            <polyline points={pts.join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" />
+            <polyline points={pts.join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
             <NumberedXLabels n={n} />
-        </svg>
+        </ChartSvg>
     )
 }
 
@@ -158,7 +174,7 @@ function AreaTenorChart({ values, yLabels, xLabels }: { values: number[]; yLabel
     const fillPts = [`${Y_LABEL_W},${CHART_H}`, ...pts, `${CHART_W},${CHART_H}`].join(' ')
     const gradId = `areatenor_${values[0]}_${n}`
     return (
-        <svg viewBox={`0 0 ${CHART_W} ${VB_H}`} preserveAspectRatio="none" width="100%" className="block" style={{ height: 180 }}>
+        <ChartSvg>
             <defs>
                 <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#88C4FF" stopOpacity="0.20" />
@@ -168,9 +184,9 @@ function AreaTenorChart({ values, yLabels, xLabels }: { values: number[]; yLabel
             <GridLines count={yLabels?.length ?? 5} />
             {yLabels && <YLabels labels={yLabels} />}
             <polygon points={fillPts} fill={`url(#${gradId})`} />
-            <polyline points={pts.join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" />
+            <polyline points={pts.join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
             {xLabels && <XLabels labels={xLabels} n={n} />}
-        </svg>
+        </ChartSvg>
     )
 }
 
@@ -182,18 +198,18 @@ function DashedChart({ values, yLabels }: { values: number[]; yLabels?: string[]
     const highlightIdx = [0, Math.floor(n * 0.55)]
     const zeroY = toPlotY(0, minV, maxV)
     return (
-        <svg viewBox={`0 0 ${CHART_W} ${VB_H}`} preserveAspectRatio="none" width="100%" className="block" style={{ height: 180 }}>
+        <ChartSvg>
             <GridLines count={yLabels?.length ?? 5} />
             {yLabels && <YLabels labels={yLabels} />}
             {zeroY > 4 && zeroY < CHART_H - 4 && (
                 <line x1={Y_LABEL_W} y1={zeroY} x2={CHART_W} y2={zeroY} stroke="rgba(255,255,255,0.18)" strokeWidth="0.6" />
             )}
-            <polyline points={pts.join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1.2" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="4 3" />
+            <polyline points={pts.join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="4 3" />
             {highlightIdx.map((idx) => (
                 <circle key={idx} cx={toPlotX(idx, n)} cy={toPlotY(values[idx], minV, maxV)} r="3" fill="#fff" stroke="#88C4FF" strokeWidth="1" />
             ))}
             <NumberedXLabels n={n} />
-        </svg>
+        </ChartSvg>
     )
 }
 
@@ -203,15 +219,15 @@ function DotsChart({ values, yLabels, xLabels }: { values: number[]; yLabels?: s
     const maxV = Math.max(...values)
     const coords = values.map((v, i) => ({ x: toPlotX(i, n), y: toPlotY(v, minV, maxV, 0.15) }))
     return (
-        <svg viewBox={`0 0 ${CHART_W} ${VB_H}`} preserveAspectRatio="none" width="100%" className="block" style={{ height: 180 }}>
+        <ChartSvg>
             <GridLines count={yLabels?.length ?? 5} />
             {yLabels && <YLabels labels={yLabels} />}
-            <polyline points={coords.map(c => `${c.x},${c.y}`).join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1" strokeLinejoin="round" />
+            <polyline points={coords.map(c => `${c.x},${c.y}`).join(' ')} fill="none" stroke="#88C4FF" strokeWidth="1.5" strokeLinejoin="round" />
             {coords.map((c, i) => (
                 <circle key={i} cx={c.x} cy={c.y} r="3.5" fill="#fff" stroke="#88C4FF" strokeWidth="1" />
             ))}
             {xLabels && <XLabels labels={xLabels} n={n} />}
-        </svg>
+        </ChartSvg>
     )
 }
 
@@ -222,7 +238,7 @@ function BarChart({ labels, values }: { labels: string[]; values: number[] }) {
     const barW = (PLOT_W - barGap * (n + 1)) / n
     const zeroY = CHART_H / 2
     return (
-        <svg viewBox={`0 0 ${CHART_W} ${VB_H}`} preserveAspectRatio="none" width="100%" className="block" style={{ height: 180 }}>
+        <ChartSvg>
             <line x1={Y_LABEL_W} y1={zeroY} x2={CHART_W} y2={zeroY} stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" />
             {values.map((v, i) => {
                 const x = Y_LABEL_W + barGap + i * (barW + barGap)
@@ -236,7 +252,7 @@ function BarChart({ labels, values }: { labels: string[]; values: number[] }) {
                     {lbl}
                 </text>
             ))}
-        </svg>
+        </ChartSvg>
     )
 }
 
@@ -254,7 +270,7 @@ export default function SignalChartCard({ chart }: { chart: SignalChart }) {
 
                 <p className="mt-1 sm:mt-2 mb-4 text-white text-[14px] sm:text-[15px] sm:text-[16px] leading-[19px] font-medium">{chart.title}</p>
 
-                <div className="h-[180px]">
+                <div className="w-full">
                     {chart.chartType === 'bar' && chart.barLabels && chart.barValues ? (
                         <BarChart labels={chart.barLabels} values={chart.barValues} />
                     ) : chart.chartType === 'dots' && chart.lineValues ? (
@@ -266,7 +282,7 @@ export default function SignalChartCard({ chart }: { chart: SignalChart }) {
                     ) : chart.lineValues && chart.lineValues.length > 1 ? (
                         <AreaChart values={chart.lineValues} yLabels={chart.yLabels} />
                     ) : (
-                        <div className="h-full flex items-center justify-center text-white/35 text-[13px]">
+                        <div className="h-[180px] flex items-center justify-center text-white/35 text-[13px]">
                             Chart unavailable
                         </div>
                     )}
