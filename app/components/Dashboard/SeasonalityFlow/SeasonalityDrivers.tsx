@@ -312,73 +312,70 @@ export default function SeasonalityDrivers() {
                     )}
 
                     {!regimeLoading && !regimeError && countries.length > 0 && (
-                        <div className="overflow-x-auto flex-1 flex flex-col">
-                            <table className="w-full min-w-[560px] h-full border-collapse text-left table-fixed">
-                                <thead>
-                                    <tr className="border-b border-[#FFFFFF14]">
-                                        <th className="py-3 pr-3 w-[12%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
-                                            Country
-                                        </th>
-                                        <th className="py-3 pr-3 w-[22%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
-                                            Current Regime
-                                        </th>
-                                        <th className="py-3 pr-3 w-[16%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium text-right">
-                                            Conviction %
-                                        </th>
-                                        <th className="py-3 pr-3 w-[14%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium text-right">
-                                            Growth
-                                        </th>
-                                        <th className="py-3 pr-3 w-[14%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium text-right">
-                                            Inflation
-                                        </th>
-                                        <th className="py-3 w-[22%] text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
-                                            Strength
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {countries.map((row, idx) => (
-                                        <tr
-                                            key={row.country}
-                                            className={idx % 2 === 0 ? 'bg-[#FFFFFF05]' : 'bg-transparent'}
-                                            style={{ height: `${Math.floor(100 / countries.length)}%` }}
+                        <div className="overflow-x-auto flex-1">
+                            <div className="min-w-[640px]">
+                                <div className="grid grid-cols-[72px_minmax(0,1.35fr)_minmax(0,1fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,1.1fr)] gap-x-4 border-b border-[#FFFFFF14] pb-3">
+                                    <span className="text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
+                                        Country
+                                    </span>
+                                    <span className="text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
+                                        Current Regime
+                                    </span>
+                                    <span className="text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
+                                        Conviction %
+                                    </span>
+                                    <span className="text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
+                                        Growth
+                                    </span>
+                                    <span className="text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
+                                        Inflation
+                                    </span>
+                                    <span className="text-[#838388] text-[12px] sm:text-[13px] leading-[16px] font-medium">
+                                        Strength
+                                    </span>
+                                </div>
+                                {countries.map((row, idx) => (
+                                    <div
+                                        key={row.country}
+                                        className={`grid grid-cols-[72px_minmax(0,1.35fr)_minmax(0,1fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,1.1fr)] gap-x-4 items-center py-4 sm:py-5 ${
+                                            idx % 2 === 0 ? 'bg-[#FFFFFF05]' : 'bg-transparent'
+                                        }`}
+                                    >
+                                        <span className="text-white text-[15px] sm:text-[16px] leading-5 font-semibold">
+                                            {row.country}
+                                        </span>
+                                        <span className="text-white/90 text-[14px] sm:text-[15px] leading-5">
+                                            {row.current_regime || '—'}
+                                        </span>
+                                        <span className="text-white text-[14px] sm:text-[15px] leading-5 tabular-nums">
+                                            {row.regime_conviction_percent != null
+                                                ? row.regime_conviction_percent.toFixed(1)
+                                                : '—'}
+                                        </span>
+                                        <span
+                                            className={`text-[14px] sm:text-[15px] leading-5 tabular-nums ${
+                                                (row.growth_score ?? 0) >= 0
+                                                    ? 'text-[#5CEB8A]'
+                                                    : 'text-[#E25C3F]'
+                                            }`}
                                         >
-                                            <td className="py-4 sm:py-5 pr-3 text-white text-[15px] sm:text-[16px] leading-5 font-semibold align-middle">
-                                                {row.country}
-                                            </td>
-                                            <td className="py-4 sm:py-5 pr-3 text-white/90 text-[14px] sm:text-[15px] leading-5 align-middle">
-                                                {row.current_regime || '—'}
-                                            </td>
-                                            <td className="py-4 sm:py-5 pr-3 text-white text-[14px] sm:text-[15px] leading-5 text-right tabular-nums align-middle">
-                                                {row.regime_conviction_percent != null
-                                                    ? row.regime_conviction_percent.toFixed(1)
-                                                    : '—'}
-                                            </td>
-                                            <td
-                                                className={`py-4 sm:py-5 pr-3 text-[14px] sm:text-[15px] leading-5 text-right tabular-nums align-middle ${
-                                                    (row.growth_score ?? 0) >= 0
-                                                        ? 'text-[#5CEB8A]'
-                                                        : 'text-[#E25C3F]'
-                                                }`}
-                                            >
-                                                {formatSigned(row.growth_score)}
-                                            </td>
-                                            <td
-                                                className={`py-4 sm:py-5 pr-3 text-[14px] sm:text-[15px] leading-5 text-right tabular-nums align-middle ${
-                                                    (row.inflation_score ?? 0) >= 0
-                                                        ? 'text-[#5CEB8A]'
-                                                        : 'text-[#E25C3F]'
-                                                }`}
-                                            >
-                                                {formatSigned(row.inflation_score)}
-                                            </td>
-                                            <td className="py-4 sm:py-5 text-[#88C4FF] text-[14px] sm:text-[15px] leading-5 align-middle">
-                                                {row.conviction_strength || '—'}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                            {formatSigned(row.growth_score)}
+                                        </span>
+                                        <span
+                                            className={`text-[14px] sm:text-[15px] leading-5 tabular-nums ${
+                                                (row.inflation_score ?? 0) >= 0
+                                                    ? 'text-[#5CEB8A]'
+                                                    : 'text-[#E25C3F]'
+                                            }`}
+                                        >
+                                            {formatSigned(row.inflation_score)}
+                                        </span>
+                                        <span className="text-[#88C4FF] text-[14px] sm:text-[15px] leading-5">
+                                            {row.conviction_strength || '—'}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
 
