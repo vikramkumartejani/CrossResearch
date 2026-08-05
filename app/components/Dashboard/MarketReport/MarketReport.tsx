@@ -156,10 +156,16 @@ export default function MarketReport() {
     }, [])
 
     const sidebarReports = useMemo(() => {
-        if (!sidebarIds.length) return reports.slice(0, 3)
-        return sidebarIds
-            .map((id) => reports.find((r) => r.id === id))
-            .filter((r): r is Report => Boolean(r))
+        // Prefer CMS picks, then fill with remaining reports so the rail matches the main list height.
+        const picked = sidebarIds.length
+            ? sidebarIds
+                  .map((id) => reports.find((r) => r.id === id))
+                  .filter((r): r is Report => Boolean(r))
+            : []
+        const seen = new Set(picked.map((r) => r.id))
+        const fillers = reports.filter((r) => !seen.has(r.id))
+        const merged = [...picked, ...fillers]
+        return merged.length ? merged : reports
     }, [reports, sidebarIds])
 
     return (
