@@ -20,6 +20,8 @@ type Strategy = {
   active: boolean
 }
 
+const ALL_PAGE_SIZE = 8
+
 function matchesTab(item: Strategy, tab: Tab) {
   if (tab === 'Recent' || tab === 'All') return true
   if (tab === 'Reversals') return item.type === 'Reversion'
@@ -73,9 +75,57 @@ function SmallCard({ card }: { card: Strategy }) {
   )
 }
 
+function Pagination({
+  page,
+  totalPages,
+  onChange,
+}: {
+  page: number
+  totalPages: number
+  onChange: (page: number) => void
+}) {
+  if (totalPages <= 1) return null
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <button
+        type="button"
+        disabled={page <= 1}
+        onClick={() => onChange(page - 1)}
+        aria-label="Previous page"
+        className="px-2 py-1 text-[12px] text-[#838388] disabled:opacity-30 hover:text-white transition-colors"
+      >
+        ‹
+      </button>
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+        <button
+          key={n}
+          type="button"
+          onClick={() => onChange(n)}
+          className={`min-w-7 h-7 text-[12px] transition-colors ${
+            n === page ? 'text-white font-semibold' : 'text-[#838388] hover:text-white'
+          }`}
+        >
+          {n}
+        </button>
+      ))}
+      <button
+        type="button"
+        disabled={page >= totalPages}
+        onClick={() => onChange(page + 1)}
+        aria-label="Next page"
+        className="px-2 py-1 text-[12px] text-[#838388] disabled:opacity-30 hover:text-white transition-colors"
+      >
+        ›
+      </button>
+    </div>
+  )
+}
+
 export default function TradingStrategies() {
   const [activeTab, setActiveTab] = useState<Tab>('Recent')
   const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
   const [pageTitle, setPageTitle] = useState('Playbooks')
   const [subtitle, setSubtitle] = useState(
     'Trading strategy playbooks by Momentum, Reversion, and Breakouts — browse recent setups or filter by style.'
@@ -118,6 +168,8 @@ export default function TradingStrategies() {
     }
   }, [])
 
+  const activeItems = useMemo(() => items.filter((item) => item.active !== false), [items])
+
   const featured = useMemo(() => byPlacement(items, 'featured')[0] || null, [items])
   const gridCards = useMemo(
     () =>
@@ -133,6 +185,22 @@ export default function TradingStrategies() {
   )
   const showFeatured =
     !!featured && matchesTab(featured, activeTab) && matchesSearch(featured, search)
+
+  const listItems = useMemo(
+    () =>
+      activeItems
+        .filter((item) => matchesTab(item, activeTab) && matchesSearch(item, search))
+        .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0)),
+    [activeItems, activeTab, search]
+  )
+  const totalPages = Math.max(1, Math.ceil(listItems.length / ALL_PAGE_SIZE))
+  const safePage = Math.min(page, totalPages)
+  const pageItems = listItems.slice(
+    (safePage - 1) * ALL_PAGE_SIZE,
+    safePage * ALL_PAGE_SIZE
+  )
+  const showRecent = activeTab === 'Recent' && !search.trim()
+  const showPaged = activeTab !== 'Recent' || !!search.trim()
 
   return (
     <div>
@@ -160,7 +228,10 @@ export default function TradingStrategies() {
               {TABS.map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => {
+                    setActiveTab(tab)
+                    setPage(1)
+                  }}
                   className={`px-3 py-1 text-[13px] sm:text-[14px] leading-[20px] transition-colors cursor-pointer whitespace-nowrap ${activeTab === tab ? 'text-white bg-[#FFFFFF0D] font-semibold' : 'font-normal text-[#838388] hover:text-white/70'}`}
                 >
                   {tab}
@@ -169,68 +240,91 @@ export default function TradingStrategies() {
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-[#16161F] border border-[#FFFFFF0D] px-3 py-[9px]">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
-              <path d="M12.75 12.75L15.75 15.75" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25Z" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search Strategies"
-              className="bg-transparent text-white text-[12px] leading-[17px] placeholder:text-[#838388] outline-none w-full"
-            />
+          <div className="flex flex-col gap-2">
+            {showPaged && (
+              <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
+            )}
+            <div className="flex items-center gap-1.5 bg-[#16161F] border border-[#FFFFFF0D] px-3 py-[9px]">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                <path d="M12.75 12.75L15.75 15.75" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25Z" stroke="#838388" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <input
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value)
+                  setPage(1)
+                }}
+                placeholder="Search Strategies"
+                className="bg-transparent text-white text-[12px] leading-[17px] placeholder:text-[#838388] outline-none w-full"
+              />
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-3 sm:mb-4">
-          {showFeatured && featured ? (
-            <div className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
-              <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
-              <div className="p-3 sm:p-0">
-                <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
-                  {featured.type}
-                </span>
-                <h2 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-4">
-                  {featured.title}
-                </h2>
-                <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4">
-                  {featured.desc}
-                </p>
-                <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">
-                  By {featured.author} • {featured.date}
-                </p>
+        {showRecent && (
+          <>
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-3 sm:mb-4">
+              {showFeatured && featured ? (
+                <div className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
+                  <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
+                  <div className="p-3 sm:p-0">
+                    <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
+                      {featured.type}
+                    </span>
+                    <h2 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-4">
+                      {featured.title}
+                    </h2>
+                    <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4">
+                      {featured.desc}
+                    </p>
+                    <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">
+                      By {featured.author} • {featured.date}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="hidden xl:block" />
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                {gridCards.map((card) => (
+                  <SmallCard key={card.id} card={card} />
+                ))}
               </div>
             </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
+              {bottomCards.map((card) => (
+                <div key={card.id} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
+                  <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
+                    {card.type}
+                  </span>
+                  <h3 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-3">
+                    {card.title}
+                  </h3>
+                  <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] font-normal mb-2 sm:mb-3">
+                    {card.desc}
+                  </p>
+                  <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">
+                    By {card.author} • {card.date}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {showPaged &&
+          (pageItems.length === 0 && !loading ? (
+            <p className="text-[#838388] text-[13px] py-8">No strategies match.</p>
           ) : (
-            <div className="hidden xl:block" />
-          )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {gridCards.map((card) => (
-              <SmallCard key={card.id} card={card} />
-            ))}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
-          {bottomCards.map((card) => (
-            <div key={card.id} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
-              <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
-                {card.type}
-              </span>
-              <h3 className="text-white text-[16px] lg:text-[20px] 2xl:text-[32px] leading-5 lg:leading-[24px] 2xl:leading-[38px] font-semibold my-2 sm:my-3">
-                {card.title}
-              </h3>
-              <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] font-normal mb-2 sm:mb-3">
-                {card.desc}
-              </p>
-              <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">
-                By {card.author} • {card.date}
-              </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+              {pageItems.map((card) => (
+                <SmallCard key={card.id} card={card} />
+              ))}
             </div>
           ))}
-        </div>
       </div>
     </div>
   )
