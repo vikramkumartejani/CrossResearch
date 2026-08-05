@@ -227,7 +227,38 @@ const NAV_SECTIONS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function DashboardSidebar() {
+type DashboardSidebarProps = {
+    collapsed?: boolean
+    onToggleCollapse?: () => void
+    ready?: boolean
+}
+
+function IconCollapseChevron({ collapsed }: { collapsed: boolean }) {
+    return (
+        <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            className={`transition-transform duration-200 ${collapsed ? 'rotate-180' : ''}`}
+            aria-hidden
+        >
+            <path
+                d="M10 4L6 8L10 12"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
+export default function DashboardSidebar({
+    collapsed = false,
+    onToggleCollapse,
+    ready = true,
+}: DashboardSidebarProps) {
     const pathname = usePathname()
     const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -245,101 +276,196 @@ export default function DashboardSidebar() {
         return () => document.removeEventListener('mousedown', handler)
     }, [])
 
-    const sidebarContent = (
-        <div className='w-full flex flex-col h-full pt-4'>
-            {/* User */}
-            <div ref={ref} className='px-4 relative pb-6'>
-                <button
-                    onClick={() => setOpen(prev => !prev)}
-                    className='w-full flex items-center justify-between gap-2 group cursor-pointer'
-                >
-                    {/* Avatar with online dot */}
-                    <div className='flex items-center gap-2'>
-                        <div className='relative flex-shrink-0'>
-                            <div className='w-10 h-10 rounded-full bg-[#FFFFFF08] border border-[#FFFFFF1A] flex items-center justify-center text-white/60 text-[15px] font-medium leading-[12px]'>
-                                SM
-                            </div>
-                            <span className='absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 border-[#0D1115]' />
-                        </div>
-                        {/* Name + role */}
-                        <div className='block text-left'>
-                            <p className='text-white text-[14px] leading-[17px] font-semibold'>Smith Murphy</p>
-                            <p className='text-white/60 text-[11px] leading-[13px] font-normal mt-1'>Early Bird</p>
-                        </div>
-                    </div>
-                    {/* Chevron */}
-                    <svg className={`flex items-end justify-end text-white group-hover:text-white/70 transition-all duration-200 ml-2 ${open ? 'rotate-180' : 'rotate-0'}`} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </button>
+    // Close user menu when collapsing
+    useEffect(() => {
+        if (collapsed) setOpen(false)
+    }, [collapsed])
 
-                {/* Dropdown */}
-                {open && (
-                    <div className='absolute right-4 top-[calc(100%-16px)] w-[200px] bg-[#1E1E2A] border border-[#FFFFFF0F] rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)] z-50'>
-                        <Link
-                            href='/login'
-                            onClick={() => setOpen(false)}
-                            className='flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] hover:bg-[#FFFFFF08] transition-colors'
-                        >
-                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                                <path d="M5.5 13H3a1 1 0 01-1-1V3a1 1 0 011-1h2.5M10 10.5L13 7.5M13 7.5L10 4.5M13 7.5H6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            Logout
-                        </Link>
-                    </div>
+    function renderSidebarContent(opts: {
+        compact: boolean
+        showCollapseToggle: boolean
+        attachUserRef?: boolean
+    }) {
+        const { compact, showCollapseToggle, attachUserRef } = opts
+
+        return (
+            <div className="relative w-full flex flex-col h-full pt-4">
+                {/* Collapse toggle (desktop only) */}
+                {showCollapseToggle && onToggleCollapse && (
+                    <button
+                        type="button"
+                        onClick={onToggleCollapse}
+                        aria-label={compact ? 'Expand sidebar' : 'Collapse sidebar'}
+                        title={compact ? 'Expand sidebar' : 'Collapse sidebar'}
+                        className="absolute top-5 -right-3 z-10 inline-flex items-center justify-center w-6 h-6 rounded-full border border-[#FFFFFF1A] bg-[#16161F] text-white/50 hover:text-white hover:bg-[#22222E] transition-colors cursor-pointer"
+                    >
+                        <IconCollapseChevron collapsed={compact} />
+                    </button>
                 )}
-            </div>
 
-            {/* Nav sections */}
-            <nav className='dashboard-nav flex-1 overflow-y-auto px-4'>
-                {NAV_SECTIONS.map((section) => (
-                    <div key={section.label} className='mb-5'>
-                        <p className='text-white/60 text-[12px] leading-[14px] font-semibold uppercase mb-2.5'>
-                            {section.label}
-                        </p>
-                        <ul className='space-y-1'>
-                            {section.items.map((item) => {
-                                const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
-                                return (
-                                    <li key={item.href}>
-                                        <Link
-                                            href={item.href}
-                                            className={`border-l flex items-center gap-2 p-3 h-10 text-[14px] leading-[17px] transition-colors duration-150 group ${isActive
-                                                ? 'bg-[#88C4FF26] text-[#88C4FF] font-semibold border-[#88C4FF]'
-                                                : 'text-[#FFFFFF60] hover:text-white hover:bg-[#FFFFFF08] font-medium border-transparent'
+                {/* User */}
+                <div ref={attachUserRef ? ref : undefined} className={`relative pb-6 ${compact ? 'px-2' : 'px-4'}`}>
+                    <button
+                        onClick={() => {
+                            if (compact) return
+                            setOpen((prev) => !prev)
+                        }}
+                        className={`w-full flex items-center gap-2 group ${
+                            compact ? 'justify-center cursor-default' : 'justify-between cursor-pointer'
+                        }`}
+                        title={compact ? 'Smith Murphy' : undefined}
+                    >
+                        <div className={`flex items-center gap-2 ${compact ? 'justify-center' : ''}`}>
+                            <div className="relative flex-shrink-0">
+                                <div className="w-10 h-10 rounded-full bg-[#FFFFFF08] border border-[#FFFFFF1A] flex items-center justify-center text-white/60 text-[15px] font-medium leading-[12px]">
+                                    SM
+                                </div>
+                                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 border-[#0D1115]" />
+                            </div>
+                            {!compact && (
+                                <div className="block text-left">
+                                    <p className="text-white text-[14px] leading-[17px] font-semibold">
+                                        Smith Murphy
+                                    </p>
+                                    <p className="text-white/60 text-[11px] leading-[13px] font-normal mt-1">
+                                        Early Bird
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        {!compact && (
+                            <svg
+                                className={`flex items-end justify-end text-white group-hover:text-white/70 transition-all duration-200 ml-2 ${open ? 'rotate-180' : 'rotate-0'}`}
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M5 7.5L10 12.5L15 7.5"
+                                    stroke="currentColor"
+                                    strokeOpacity="0.6"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        )}
+                    </button>
+
+                    {!compact && open && (
+                        <div className="absolute right-4 top-[calc(100%-16px)] w-[200px] bg-[#1E1E2A] border border-[#FFFFFF0F] rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)] z-50">
+                            <Link
+                                href="/login"
+                                onClick={() => setOpen(false)}
+                                className="flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] hover:bg-[#FFFFFF08] transition-colors"
+                            >
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                    <path
+                                        d="M5.5 13H3a1 1 0 01-1-1V3a1 1 0 011-1h2.5M10 10.5L13 7.5M13 7.5L10 4.5M13 7.5H6"
+                                        stroke="currentColor"
+                                        strokeWidth="1.3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                                Logout
+                            </Link>
+                        </div>
+                    )}
+                </div>
+
+                {/* Nav sections */}
+                <nav className={`dashboard-nav flex-1 overflow-y-auto ${compact ? 'px-2' : 'px-4'}`}>
+                    {NAV_SECTIONS.map((section) => (
+                        <div key={section.label} className="mb-5">
+                            {!compact && (
+                                <p className="text-white/60 text-[12px] leading-[14px] font-semibold uppercase mb-2.5">
+                                    {section.label}
+                                </p>
+                            )}
+                            <ul className="space-y-1">
+                                {section.items.map((item) => {
+                                    const isActive =
+                                        pathname === item.href || pathname.startsWith(item.href + '/')
+                                    return (
+                                        <li key={item.href}>
+                                            <Link
+                                                href={item.href}
+                                                title={compact ? item.label : undefined}
+                                                onClick={() => setMobileOpen(false)}
+                                                className={`flex items-center h-10 text-[14px] leading-[17px] transition-colors duration-150 group ${
+                                                    compact
+                                                        ? `justify-center rounded-md border-transparent ${
+                                                              isActive
+                                                                  ? 'bg-[#88C4FF26] text-[#88C4FF]'
+                                                                  : 'text-[#FFFFFF60] hover:text-white hover:bg-[#FFFFFF08]'
+                                                          }`
+                                                        : `border-l gap-2 p-3 ${
+                                                              isActive
+                                                                  ? 'bg-[#88C4FF26] text-[#88C4FF] font-semibold border-[#88C4FF]'
+                                                                  : 'text-[#FFFFFF60] hover:text-white hover:bg-[#FFFFFF08] font-medium border-transparent'
+                                                          }`
                                                 }`}
-                                        >
-                                            <span className={`flex-shrink-0 ${isActive ? 'text-[#88C4FF]' : 'text-[#9498A8] group-hover:text-white'} transition-colors`}>
-                                                {item.icon}
-                                            </span>
-                                            {item.label}
-                                        </Link>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                ))}
-            </nav>
+                                            >
+                                                <span
+                                                    className={`flex-shrink-0 ${
+                                                        isActive
+                                                            ? 'text-[#88C4FF]'
+                                                            : 'text-[#9498A8] group-hover:text-white'
+                                                    } transition-colors`}
+                                                >
+                                                    {item.icon}
+                                                </span>
+                                                {!compact && item.label}
+                                            </Link>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </div>
+                    ))}
+                </nav>
 
-            {/* Bottom logo */}
-            <div className='px-4 py-5 mt-auto'>
-                <Image
-                    src='/assets/full-logo.svg'
-                    alt='CrossResearch'
-                    width={218}
-                    height={28}
-                />
+                {/* Bottom logo */}
+                <div className={`py-5 mt-auto ${compact ? 'px-2 flex justify-center' : 'px-4'}`}>
+                    {compact ? (
+                        <Image
+                            src="/assets/logo.svg"
+                            alt="CrossResearch"
+                            width={28}
+                            height={28}
+                            className="object-contain"
+                        />
+                    ) : (
+                        <Image src="/assets/full-logo.svg" alt="CrossResearch" width={218} height={28} />
+                    )}
+                </div>
             </div>
+        )
+    }
 
-        </div>
-    )
+    const desktopContent = renderSidebarContent({
+        compact: collapsed,
+        showCollapseToggle: true,
+        attachUserRef: !collapsed && !mobileOpen,
+    })
+    const mobileContent = renderSidebarContent({
+        compact: false,
+        showCollapseToggle: false,
+        attachUserRef: true,
+    })
 
     return (
         <>
             {/* Desktop sidebar — fixed */}
-            <aside className='hidden lg:flex fixed top-0 left-0 h-full w-[268px] bg-[#16161F] border-r border-[#FFFFFF0F] flex-col z-40'>
-                {sidebarContent}
+            <aside
+                className={`hidden lg:flex fixed top-0 left-0 h-full bg-[#16161F] border-r border-[#FFFFFF0F] flex-col z-40 transition-[width] duration-200 ${
+                    ready ? '' : 'opacity-0'
+                } ${collapsed ? 'w-[72px]' : 'w-[268px]'}`}
+            >
+                {desktopContent}
             </aside>
 
             {/* Mobile header bar */}
@@ -402,7 +528,7 @@ export default function DashboardSidebar() {
                             exit={{ x: '-100%' }}
                             transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
                         >
-                            {sidebarContent}
+                            {mobileContent}
                         </motion.aside>
                     </>
                 )}

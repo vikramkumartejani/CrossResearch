@@ -5,18 +5,11 @@ import { useEffect, useState } from 'react'
 type Chokepoint = {
     name: string
     risk: number | null
-    delta: number | null
 }
 
 function formatRisk(value: number | null): string {
     if (value == null || !Number.isFinite(value)) return '—'
     return value.toFixed(1)
-}
-
-function formatDelta(value: number | null): string {
-    if (value == null || !Number.isFinite(value)) return '—'
-    const sign = value > 0 ? '+' : ''
-    return `${sign}${value.toFixed(1)}`
 }
 
 export default function StrategicChokepoints() {
@@ -50,10 +43,9 @@ export default function StrategicChokepoints() {
                             return Number(b.risk ?? 0) - Number(a.risk ?? 0)
                         }
                     )
-                    .map((r: { name?: string; risk?: number | null; delta?: number | null }) => ({
+                    .map((r: { name?: string; risk?: number | null }) => ({
                         name: r.name || '—',
                         risk: r.risk == null || !Number.isFinite(Number(r.risk)) ? null : Number(r.risk),
-                        delta: r.delta == null || !Number.isFinite(Number(r.delta)) ? null : Number(r.delta),
                     }))
                 if (!cancelled) {
                     if (typeof body.title === 'string' && body.title.trim()) setTitle(body.title.trim())
@@ -80,10 +72,9 @@ export default function StrategicChokepoints() {
                 {title}
             </p>
 
-            <div className="grid grid-cols-[1fr_56px_48px] gap-2 px-1 pb-2 border-b border-[#FFFFFF14] shrink-0">
+            <div className="grid grid-cols-[1fr_64px] gap-3 px-1 pb-2 border-b border-[#FFFFFF14] shrink-0">
                 <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em] uppercase">Chokepoint</span>
                 <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em] uppercase text-right">Risk</span>
-                <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em] uppercase text-right">Δ</span>
             </div>
 
             {loading && <p className="text-white/40 text-[12px] mt-3">Loading…</p>}
@@ -96,16 +87,13 @@ export default function StrategicChokepoints() {
                 {rows.map((row) => (
                     <div
                         key={row.name}
-                        className="grid grid-cols-[1fr_56px_48px] gap-2 px-1 py-2.5 border-b border-[#FFFFFF0F] last:border-0 items-center"
+                        className="grid grid-cols-[1fr_64px] gap-3 px-1 py-2.5 border-b border-[#FFFFFF0F] last:border-0 items-center"
                     >
                         <span className="text-[#E8EDF5] text-[12px] sm:text-[13px] leading-[16px] font-medium truncate pr-2">
                             {row.name}
                         </span>
                         <span className="text-[#F59E0B] text-[12px] sm:text-[13px] leading-[16px] font-semibold text-right tabular-nums">
                             {formatRisk(row.risk)}
-                        </span>
-                        <span className="text-[#838388] text-[12px] sm:text-[13px] leading-[16px] text-right tabular-nums">
-                            {formatDelta(row.delta)}
                         </span>
                     </div>
                 ))}

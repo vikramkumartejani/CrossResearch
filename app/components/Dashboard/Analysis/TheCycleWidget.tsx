@@ -137,8 +137,8 @@ export default function TheCycleWidget() {
         </p>
       </div>
 
-      <div className="p-3 sm:p-4">
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 flex-1">
+      <div className="p-3 sm:p-4 flex flex-col flex-1 min-h-0">
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
           {CYCLE_ITEMS.map((item) => (
             <div
               key={item.label}
@@ -173,7 +173,7 @@ export default function TheCycleWidget() {
           </div>
         </div>
 
-        <div className="mt-2.5 sm:mt-4 flex items-center justify-between bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3">
+        <div className="mt-auto flex items-center justify-between bg-[#FFFFFF0D] border border-[#FFFFFF05] p-3">
           <span className="text-white/60 text-[12px] leading-[14px] font-normal flex items-center gap-1">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path

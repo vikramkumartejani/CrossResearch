@@ -166,6 +166,7 @@ export default function GeographicalDistribution() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [hover, setHover] = useState<HoverState | null>(null)
+    const [layersCollapsed, setLayersCollapsed] = useState(false)
     const [activeLayers, setActiveLayers] = useState<Set<string>>(
         new Set(FALLBACK_LAYERS.filter((l) => l.default).map((l) => l.id))
     )
@@ -282,13 +283,40 @@ export default function GeographicalDistribution() {
                             onMouseLeave={() => setHover(null)}
                         >
                             {/* Layers sidebar */}
-                            <div className="absolute left-2 top-2 z-10 w-[148px] sm:w-[160px] rounded-sm bg-[#16161F] border border-[#2A3140] shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
-                                <div className="px-2.5 pt-2 pb-1.5 border-b border-[#2A3140]">
+                            <div
+                                className={`absolute left-2 top-2 z-10 rounded-sm bg-[#16161F] border border-[#2A3140] shadow-[0_8px_24px_rgba(0,0,0,0.45)] transition-[width] duration-200 ${
+                                    layersCollapsed ? 'w-[82px]' : 'w-[148px] sm:w-[160px]'
+                                }`}
+                            >
+                                <div className={`px-2.5 py-2 flex items-center justify-between gap-2 ${layersCollapsed ? '' : 'border-b border-[#2A3140]'}`}>
                                     <p className="text-[#D5DCE8] text-[10px] font-semibold tracking-[0.14em]">
                                         LAYERS
                                     </p>
+                                    <button
+                                        type="button"
+                                        onClick={() => setLayersCollapsed((value) => !value)}
+                                        className="w-5 h-5 grid place-items-center text-[#838388] hover:text-white transition-colors"
+                                        aria-label={layersCollapsed ? 'Expand layers' : 'Collapse layers'}
+                                        title={layersCollapsed ? 'Expand layers' : 'Collapse layers'}
+                                    >
+                                        <svg
+                                            width="12"
+                                            height="12"
+                                            viewBox="0 0 12 12"
+                                            fill="none"
+                                            className={`transition-transform ${layersCollapsed ? 'rotate-180' : ''}`}
+                                        >
+                                            <path
+                                                d="M8 2.5L4.5 6L8 9.5"
+                                                stroke="currentColor"
+                                                strokeWidth="1.4"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    </button>
                                 </div>
-                                <div className="flex flex-col gap-2 px-2.5 py-2">
+                                {!layersCollapsed && <div className="flex flex-col gap-2 px-2.5 py-2">
                                     {layerDefs.map((layer) => {
                                         const checked = activeLayers.has(layer.id)
                                         const disabled = !layer.enabled
@@ -324,7 +352,7 @@ export default function GeographicalDistribution() {
                                             </button>
                                         )
                                     })}
-                                </div>
+                                </div>}
                             </div>
 
                             {/* Risk legend */}
