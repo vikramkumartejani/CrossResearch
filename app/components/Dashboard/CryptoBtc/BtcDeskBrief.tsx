@@ -210,7 +210,7 @@ export default function BtcDeskBrief() {
                                 {fgValue != null ? `${fgValue.toFixed(0)}·${data.fearRegime}` : '—'}
                             </span>
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between border-b border-[#FFFFFF1A] pb-3 sm:pb-4">
                             <span className="text-[#838388] text-[14px] leading-[17px] font-medium">5d ETF Flow</span>
                             <span
                                 className={`text-[14px] leading-[17px] font-medium ${

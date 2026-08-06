@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import type { MarketReportsPage, Report } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
 
@@ -91,14 +91,14 @@ function SideCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
             }}
             className="cursor-pointer transition-colors h-full flex flex-col min-h-0"
         >
-            <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
                 {r.tags.map((t) => (
                     <Tag key={t} label={t} />
                 ))}
             </div>
 
             <div className="max-w-[337px] flex-1">
-                <h4 className="text-white text-[20px] font-medium leading-[24px] mb-2">{r.title}</h4>
+                <h4 className="mt-3 text-white text-[20px] font-medium leading-[24px] mb-2">{r.title}</h4>
                 <p className="text-[#88C4FF] text-[12px] leading-[16px] font-medium mb-2">{r.subtitle}</p>
                 <p className="text-white/60 font-normal text-[12px] leading-[19px]">{r.body}</p>
             </div>
@@ -202,20 +202,21 @@ export default function MarketReport() {
             )}
 
             {!loading && !error && (
-                <div className="grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-4 items-stretch px-4 lg:px-6">
-                    <div className="flex flex-col gap-3 sm:gap-4">
-                        {reports.map((r) => (
-                            <MainCard key={r.id} r={r} onOpen={setSelected} />
-                        ))}
-                    </div>
+                <div className="relative grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-x-4 gap-y-3 sm:gap-y-4 items-stretch px-4 lg:px-6">
+                    {/* Continuous right rail background (desktop) */}
+                    <div
+                        aria-hidden
+                        className="hidden xl:block absolute top-0 bottom-0 right-4 lg:right-6 w-[389px] bg-[#16161F] pointer-events-none"
+                    />
 
-                    <div className="flex flex-col gap-3 sm:gap-4 p-3.5 sm:p-4 bg-[#16161F] h-full self-stretch">
-                        {reports.map((r) => (
-                            <div key={`side-${r.id}`} className="flex-1 min-h-0">
+                    {reports.map((r) => (
+                        <Fragment key={r.id}>
+                            <MainCard r={r} onOpen={setSelected} />
+                            <div className="relative z-10 bg-[#16161F] xl:bg-transparent p-3.5 sm:p-5 h-full flex flex-col">
                                 <SideCard r={r} onOpen={setSelected} />
                             </div>
-                        ))}
-                    </div>
+                        </Fragment>
+                    ))}
                 </div>
             )}
 
