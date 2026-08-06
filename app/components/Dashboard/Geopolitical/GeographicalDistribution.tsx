@@ -528,7 +528,7 @@ export default function GeographicalDistribution() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(320px,420px)_1fr] gap-3 sm:gap-4 items-stretch xl:h-[480px]">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(320px,420px)] gap-3 sm:gap-4 items-stretch xl:h-[480px]">
                 <div className="min-h-0 h-[420px] lg:h-full">
                     <FlashpointBrief items={flashpoints} loading={loading} error={null} />
                 </div>
