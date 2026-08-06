@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { MarketReportsPage, Report } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
 
@@ -89,7 +89,7 @@ function SideCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
             onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') onOpen(r)
             }}
-            className="cursor-pointer transition-colors"
+            className="cursor-pointer transition-colors h-full flex flex-col min-h-0"
         >
             <div className="flex items-center gap-2 mb-3 flex-wrap">
                 {r.tags.map((t) => (
@@ -97,7 +97,7 @@ function SideCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
                 ))}
             </div>
 
-            <div className="max-w-[337px]">
+            <div className="max-w-[337px] flex-1">
                 <h4 className="text-white text-[20px] font-medium leading-[24px] mb-2">{r.title}</h4>
                 <p className="text-[#88C4FF] text-[12px] leading-[16px] font-medium mb-2">{r.subtitle}</p>
                 <p className="text-white/60 font-normal text-[12px] leading-[19px]">{r.body}</p>
@@ -121,7 +121,6 @@ export default function MarketReport() {
     const [selected, setSelected] = useState<Report | null>(null)
     const [page, setPage] = useState<MarketReportsPage>(DEFAULT_PAGE)
     const [reports, setReports] = useState<Report[]>([])
-    const [sidebarIds, setSidebarIds] = useState<number[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -141,7 +140,6 @@ export default function MarketReport() {
                 const list = Array.isArray(data.reports) ? [...data.reports] : []
                 list.sort((a, b) => Number(b.id) - Number(a.id))
                 setReports(list)
-                setSidebarIds(Array.isArray(data.sidebarIds) ? data.sidebarIds : [])
             } catch (err) {
                 if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
             } finally {
@@ -154,19 +152,6 @@ export default function MarketReport() {
             cancelled = true
         }
     }, [])
-
-    const sidebarReports = useMemo(() => {
-        // Prefer CMS picks, then fill with remaining reports so the rail matches the main list height.
-        const picked = sidebarIds.length
-            ? sidebarIds
-                  .map((id) => reports.find((r) => r.id === id))
-                  .filter((r): r is Report => Boolean(r))
-            : []
-        const seen = new Set(picked.map((r) => r.id))
-        const fillers = reports.filter((r) => !seen.has(r.id))
-        const merged = [...picked, ...fillers]
-        return merged.length ? merged : reports
-    }, [reports, sidebarIds])
 
     return (
         <div className="">
@@ -217,16 +202,18 @@ export default function MarketReport() {
             )}
 
             {!loading && !error && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_389px] gap-4 items-stretch px-4 lg:px-6">
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-4 items-stretch px-4 lg:px-6">
                     <div className="flex flex-col gap-3 sm:gap-4">
                         {reports.map((r) => (
                             <MainCard key={r.id} r={r} onOpen={setSelected} />
                         ))}
                     </div>
 
-                    <div className="flex flex-col gap-5 sm:gap-8 p-3.5 sm:p-4 bg-[#16161F] h-full self-stretch">
-                        {sidebarReports.map((r) => (
-                            <SideCard key={`side-${r.id}`} r={r} onOpen={setSelected} />
+                    <div className="flex flex-col gap-3 sm:gap-4 p-3.5 sm:p-4 bg-[#16161F] h-full self-stretch">
+                        {reports.map((r) => (
+                            <div key={`side-${r.id}`} className="flex-1 min-h-0">
+                                <SideCard r={r} onOpen={setSelected} />
+                            </div>
                         ))}
                     </div>
                 </div>
