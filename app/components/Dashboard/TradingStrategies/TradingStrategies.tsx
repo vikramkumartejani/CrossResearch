@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import ContentDetailModal from '../shared/ContentDetailModal'
 
 const TABS = ['Recent', 'Momentum', 'Reversals', 'Breakouts', 'All'] as const
 type Tab = (typeof TABS)[number]
@@ -12,6 +13,7 @@ type Strategy = {
   type: StrategyType
   title: string
   desc?: string
+  contentHtml?: string
   tag?: string | null
   author: string
   date: string
@@ -42,9 +44,17 @@ function byPlacement(list: Strategy[], placement: Placement) {
     .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
 }
 
-function SmallCard({ card }: { card: Strategy }) {
+function SmallCard({ card, onOpen }: { card: Strategy; onOpen: (card: Strategy) => void }) {
   return (
-    <div className="bg-[#16161F] flex flex-col cursor-pointer transition-colors">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(card)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') onOpen(card)
+      }}
+      className="bg-[#16161F] flex flex-col cursor-pointer transition-colors hover:bg-[#1A1A24]"
+    >
       <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[199px] relative">
         {card.tag && (
           <div className="absolute z-10 top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5 rounded">
@@ -133,6 +143,7 @@ export default function TradingStrategies() {
   const [items, setItems] = useState<Strategy[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selected, setSelected] = useState<Strategy | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -266,7 +277,15 @@ export default function TradingStrategies() {
           <>
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-3 sm:mb-4">
               {showFeatured && featured ? (
-                <div className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelected(featured)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') setSelected(featured)
+                  }}
+                  className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors hover:bg-[#1A1A24]"
+                >
                   <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
                   <div className="p-3 sm:p-0">
                     <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
@@ -289,14 +308,23 @@ export default function TradingStrategies() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {gridCards.map((card) => (
-                  <SmallCard key={card.id} card={card} />
+                  <SmallCard key={card.id} card={card} onOpen={setSelected} />
                 ))}
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
               {bottomCards.map((card) => (
-                <div key={card.id} className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors">
+                <div
+                  key={card.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelected(card)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') setSelected(card)
+                  }}
+                  className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors hover:bg-[#1A1A24]"
+                >
                   <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
                     {card.type}
                   </span>
@@ -321,11 +349,26 @@ export default function TradingStrategies() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
               {pageItems.map((card) => (
-                <SmallCard key={card.id} card={card} />
+                <SmallCard key={card.id} card={card} onOpen={setSelected} />
               ))}
             </div>
           ))}
       </div>
+
+      {selected && (
+        <ContentDetailModal
+          item={{
+            title: selected.title,
+            subtitle: selected.desc,
+            tags: [selected.type, ...(selected.tag ? [selected.tag] : [])],
+            author: selected.author,
+            date: selected.date,
+            desc: selected.desc,
+            contentHtml: selected.contentHtml,
+          }}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </div>
   )
 }

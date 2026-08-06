@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import ContentDetailModal from '../shared/ContentDetailModal'
 
 const TABS = ['Recent', 'Macro', 'Technical', 'Psychology', 'All'] as const
 type Tab = (typeof TABS)[number]
@@ -14,6 +15,7 @@ type Article = {
   level: Level
   title: string
   desc?: string
+  contentHtml?: string
   author: string
   date: string
   placement: Placement
@@ -41,9 +43,17 @@ function byPlacement(list: Article[], placement: Placement) {
     .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
 }
 
-function SmallCard({ card }: { card: Article }) {
+function SmallCard({ card, onOpen }: { card: Article; onOpen: (card: Article) => void }) {
   return (
-    <div className="bg-[#16161F] flex flex-col cursor-pointer transition-colors h-full">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(card)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') onOpen(card)
+      }}
+      className="bg-[#16161F] flex flex-col cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
+    >
       <div className="flex-1 bg-[#FFFFFF08] min-h-[140px] sm:min-h-[180px]" />
       <div className="p-3 sm:p-4">
         <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">
@@ -60,9 +70,17 @@ function SmallCard({ card }: { card: Article }) {
   )
 }
 
-function BottomCard({ card }: { card: Article }) {
+function BottomCard({ card, onOpen }: { card: Article; onOpen: (card: Article) => void }) {
   return (
-    <div className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors h-full">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(card)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') onOpen(card)
+      }}
+      className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
+    >
       <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
         {topicLabel(card)}
       </span>
@@ -139,6 +157,7 @@ export default function EducationCenter() {
   const [articles, setArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selected, setSelected] = useState<Article | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -322,40 +341,57 @@ export default function EducationCenter() {
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] gap-3 sm:gap-4 mb-3 sm:mb-4">
               <div className="min-h-0">
                 {recentLayout.left ? (
-                  <SmallCard card={recentLayout.left} />
+                  <SmallCard card={recentLayout.left} onOpen={setSelected} />
                 ) : (
                   <div className="bg-[#16161F] h-full min-h-[220px]" />
                 )}
               </div>
 
               {recentLayout.bigRight ? (
-                <div className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors h-full">
-                  <div className="flex-1 bg-[#FFFFFF08] min-h-[180px] sm:min-h-[260px] xl:min-h-[320px]" />
-                  <div className="p-3 sm:p-0">
-                    <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
-                      {topicLabel(recentLayout.bigRight)}
-                    </span>
-                    <h2 className="text-white text-[16px] lg:text-[22px] 2xl:text-[28px] leading-5 lg:leading-[28px] 2xl:leading-[34px] font-semibold my-2 sm:my-4">
-                      {recentLayout.bigRight.title}
-                    </h2>
-                    {recentLayout.bigRight.desc ? (
-                      <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4 line-clamp-4">
-                        {recentLayout.bigRight.desc}
-                      </p>
-                    ) : null}
-                    <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">
-                      By {recentLayout.bigRight.author} • {recentLayout.bigRight.date}
-                    </p>
-                  </div>
-                </div>
+                (() => {
+                  const featured = recentLayout.bigRight
+                  return (
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelected(featured)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') setSelected(featured)
+                      }}
+                      className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
+                    >
+                      <div className="flex-1 bg-[#FFFFFF08] min-h-[180px] sm:min-h-[260px] xl:min-h-[320px]" />
+                      <div className="p-3 sm:p-0">
+                        <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
+                          {topicLabel(featured)}
+                        </span>
+                        <h2 className="text-white text-[16px] lg:text-[22px] 2xl:text-[28px] leading-5 lg:leading-[28px] 2xl:leading-[34px] font-semibold my-2 sm:my-4">
+                          {featured.title}
+                        </h2>
+                        {featured.desc ? (
+                          <p className="text-[#838388] text-[14px] sm:text-[16px] leading-[18px] sm:leading-[24px] mb-3 sm:mb-4 line-clamp-4">
+                            {featured.desc}
+                          </p>
+                        ) : null}
+                        <p className="text-[#838388] text-[12px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal">
+                          By {featured.author} • {featured.date}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })()
               ) : (
                 <div className="bg-[#16161F] min-h-[220px]" />
               )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-              {recentLayout.bottomLeft && <BottomCard card={recentLayout.bottomLeft} />}
-              {recentLayout.bottomRight && <BottomCard card={recentLayout.bottomRight} />}
+              {recentLayout.bottomLeft && (
+                <BottomCard card={recentLayout.bottomLeft} onOpen={setSelected} />
+              )}
+              {recentLayout.bottomRight && (
+                <BottomCard card={recentLayout.bottomRight} onOpen={setSelected} />
+              )}
             </div>
           </>
         )}
@@ -366,12 +402,27 @@ export default function EducationCenter() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
               {pageArticles.map((card) => (
-                <SmallCard key={card.id} card={card} />
+                <SmallCard key={card.id} card={card} onOpen={setSelected} />
               ))}
             </div>
           )
         )}
       </div>
+
+      {selected && (
+        <ContentDetailModal
+          item={{
+            title: selected.title,
+            subtitle: selected.desc,
+            tags: [selected.topic, selected.level],
+            author: selected.author,
+            date: selected.date,
+            desc: selected.desc,
+            contentHtml: selected.contentHtml,
+          }}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </div>
   )
 }
