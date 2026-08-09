@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
 import { authErrorMessage } from "@/lib/authUi";
+import { postAuthPath } from "@/lib/authRedirect";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function SignupForm() {
         throw new Error(authErrorMessage(body, "Signup failed"));
       }
       toast.success(body.message || "Account created.");
-      router.replace("/analysis");
+      router.replace(postAuthPath(body.user));
       router.refresh();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Signup failed");

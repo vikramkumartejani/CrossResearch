@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
 import { authErrorMessage } from "@/lib/authUi";
+import { postAuthPath } from "@/lib/authRedirect";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -33,8 +34,7 @@ export default function LoginForm() {
             const name =
                 typeof body?.user?.full_name === "string" ? body.user.full_name : "Welcome back";
             toast.success(`Welcome back, ${name}`);
-            const next = searchParams.get("next") || "/analysis";
-            router.replace(next.startsWith("/") ? next : "/analysis");
+            router.replace(postAuthPath(body.user, searchParams.get("next")));
             router.refresh();
         } catch (err) {
             toast.error(err instanceof Error ? err.message : "Login failed");

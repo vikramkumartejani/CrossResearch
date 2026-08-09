@@ -22,6 +22,8 @@ const DASHBOARD_PREFIXES = [
 
 const AUTH_PAGES = ['/login', '/signup', '/forgot-password']
 
+type AccessInfo = { valid: boolean; onboardingDone: boolean }
+
 function isDashboardPath(pathname: string) {
   return DASHBOARD_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
 }
@@ -38,13 +40,16 @@ function jwtSecretKey() {
   return new TextEncoder().encode(fallback)
 }
 
-async function accessValid(token: string | undefined): Promise<boolean> {
-  if (!token) return false
+async function readAccess(token: string | undefined): Promise<AccessInfo> {
+  if (!token) return { valid: false, onboardingDone: false }
   try {
     const { payload } = await jwtVerify(token, jwtSecretKey(), { algorithms: ['HS256'] })
-    return payload.type === 'access'
+    if (payload.type !== 'access') return { valid: false, onboardingDone: false }
+    // Missing `ob` = legacy tokens treated as complete
+    const onboardingDone = payload.ob !== 0 && payload.ob !== '0'
+    return { valid: true, onboardingDone }
   } catch {
-    return false
+    return { valid: false, onboardingDone: false }
   }
 }
 
@@ -53,6 +58,20 @@ function loginRedirect(request: NextRequest) {
   url.pathname = '/login'
   url.searchParams.set('next', request.nextUrl.pathname)
   return NextResponse.redirect(url)
+}
+
+function redirectTo(request: NextRequest, pathname: string, tokens?: {
+  access_token: string
+  refresh_token: string
+  access_expires_in: number
+  refresh_expires_in: number
+}) {
+  const url = request.nextUrl.clone()
+  url.pathname = pathname
+  url.search = ''
+  const res = NextResponse.redirect(url)
+  if (tokens) applyAuthCookies(res, tokens)
+  return res
 }
 
 async function refreshViaBackend(request: NextRequest) {
@@ -81,36 +100,54 @@ async function refreshViaBackend(request: NextRequest) {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const access = request.cookies.get(ACCESS_COOKIE)?.value
+  let info = await readAccess(access)
 
   if (isDashboardPath(pathname)) {
-    if (await accessValid(access)) {
-      return NextResponse.next()
-    }
-    const tokens = await refreshViaBackend(request)
-    if (!tokens?.access_token) {
-      return loginRedirect(request)
-    }
-    const res = NextResponse.next()
-    applyAuthCookies(res, tokens)
-    return res
-  }
-
-  if (isAuthPage(pathname)) {
-    if (await accessValid(access)) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/analysis'
-      url.search = ''
-      return NextResponse.redirect(url)
-    }
-    const tokens = await refreshViaBackend(request)
-    if (tokens?.access_token) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/analysis'
-      url.search = ''
-      const res = NextResponse.redirect(url)
+    if (!info.valid) {
+      const tokens = await refreshViaBackend(request)
+      if (!tokens?.access_token) return loginRedirect(request)
+      info = await readAccess(tokens.access_token)
+      if (!info.valid) return loginRedirect(request)
+      if (!info.onboardingDone) return redirectTo(request, '/onboarding', tokens)
+      const res = NextResponse.next()
       applyAuthCookies(res, tokens)
       return res
     }
+    if (!info.onboardingDone) return redirectTo(request, '/onboarding')
+    return NextResponse.next()
+  }
+
+  if (pathname === '/onboarding' || pathname.startsWith('/onboarding/')) {
+    if (!info.valid) {
+      const tokens = await refreshViaBackend(request)
+      if (!tokens?.access_token) return loginRedirect(request)
+      info = await readAccess(tokens.access_token)
+      if (!info.valid) return loginRedirect(request)
+      if (info.onboardingDone) return redirectTo(request, '/analysis', tokens)
+      const res = NextResponse.next()
+      applyAuthCookies(res, tokens)
+      return res
+    }
+    if (info.onboardingDone) return redirectTo(request, '/analysis')
+    return NextResponse.next()
+  }
+
+  if (isAuthPage(pathname)) {
+    if (!info.valid) {
+      const tokens = await refreshViaBackend(request)
+      if (tokens?.access_token) {
+        info = await readAccess(tokens.access_token)
+        if (info.valid) {
+          return redirectTo(
+            request,
+            info.onboardingDone ? '/analysis' : '/onboarding',
+            tokens
+          )
+        }
+      }
+      return NextResponse.next()
+    }
+    return redirectTo(request, info.onboardingDone ? '/analysis' : '/onboarding')
   }
 
   return NextResponse.next()
@@ -133,6 +170,8 @@ export const config = {
     '/trading-strategies/:path*',
     '/help-center/:path*',
     '/contact-support/:path*',
+    '/onboarding',
+    '/onboarding/:path*',
     '/login',
     '/signup',
     '/forgot-password',
