@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
+  REFRESH_COOKIE,
   applyAuthCookies,
   backendAuth,
+  clearAuthCookies,
   publicAuthBody,
   type AuthTokenPayload,
 } from '@/lib/authCookies'
@@ -9,10 +11,15 @@ import {
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
-  const payload = await request.json().catch(() => ({}))
-  const { ok, status, body } = await backendAuth('/auth/signup', {
+  const refresh = request.cookies.get(REFRESH_COOKIE)?.value
+  if (!refresh) {
+    const res = NextResponse.json({ error: 'Unauthorized', detail: 'No session' }, { status: 401 })
+    return clearAuthCookies(res)
+  }
+
+  const { ok, status, body } = await backendAuth('/auth/refresh', {
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ refresh_token: refresh }),
     headers: {
       'User-Agent': request.headers.get('user-agent') || '',
       'X-Forwarded-For': request.headers.get('x-forwarded-for') || '',
@@ -20,14 +27,11 @@ export async function POST(request: NextRequest) {
   })
 
   if (!ok) {
-    return NextResponse.json(
-      {
-        error: 'Signup failed',
-        details: body.detail ?? body,
-        detail: body.detail,
-      },
-      { status }
+    const res = NextResponse.json(
+      { error: 'Unauthorized', details: body.detail ?? body, detail: body.detail },
+      { status: status || 401 }
     )
+    return clearAuthCookies(res)
   }
 
   const tokens = body as unknown as AuthTokenPayload

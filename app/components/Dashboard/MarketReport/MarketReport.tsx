@@ -1,8 +1,9 @@
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { MarketReportsPage, Report } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
+import LockedSection from '../LockedSection'
 
 function Tag({ label }: { label: string }) {
     return (
@@ -202,20 +203,29 @@ export default function MarketReport() {
             )}
 
             {!loading && !error && (
-                <div className="relative grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-x-4 gap-y-3 sm:gap-y-4 items-stretch px-4 lg:px-6">
-                    {/* Continuous right rail background (desktop) */}
-                    <div
-                        aria-hidden
-                        className="hidden xl:block absolute top-0 bottom-0 right-4 lg:right-6 w-[389px] bg-[#16161F] pointer-events-none"
-                    />
-
-                    {reports.map((r) => (
-                        <Fragment key={r.id}>
-                            <MainCard r={r} onOpen={setSelected} />
+                <div className="px-4 lg:px-6 flex flex-col gap-4">
+                    {reports[0] && (
+                        <div className="relative grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-x-4 gap-y-3 sm:gap-y-4 items-stretch">
+                            <div
+                                aria-hidden
+                                className="hidden xl:block absolute top-0 bottom-0 right-0 w-[389px] bg-[#16161F] pointer-events-none"
+                            />
+                            <MainCard r={reports[0]} onOpen={setSelected} />
                             <div className="relative z-10 bg-[#16161F] xl:bg-transparent p-3.5 sm:p-5 h-full flex flex-col">
-                                <SideCard r={r} onOpen={setSelected} />
+                                <SideCard r={reports[0]} onOpen={setSelected} />
                             </div>
-                        </Fragment>
+                        </div>
+                    )}
+
+                    {reports.slice(1).map((r) => (
+                        <LockedSection key={r.id} title="Market Report">
+                            <div className="relative grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-x-4 gap-y-3 sm:gap-y-4 items-stretch">
+                                <MainCard r={r} onOpen={setSelected} />
+                                <div className="relative z-10 bg-[#16161F] p-3.5 sm:p-5 h-full flex flex-col">
+                                    <SideCard r={r} onOpen={setSelected} />
+                                </div>
+                            </div>
+                        </LockedSection>
                     ))}
                 </div>
             )}

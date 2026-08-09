@@ -2,11 +2,11 @@
 import CotPositioning from './CotPositioning'
 import SeasonalityMap from './SeasonalityMap'
 import SeasonalityDrivers from './SeasonalityDrivers'
+import LockedSection from '../LockedSection'
 
 export default function SeasonalityFlow() {
     return (
         <div>
-            {/* Header */}
             <div className="border-b border-[#FFFFFF0D] pb-2 mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,11 +29,14 @@ export default function SeasonalityFlow() {
                 </p>
             </div>
 
-            {/* ── Body ── */}
-            <div className="px-4 lg:px-6">
+            <div className="px-4 lg:px-6 flex flex-col gap-4">
                 <CotPositioning />
-                <SeasonalityMap />
-                <SeasonalityDrivers />
+                <LockedSection title="Seasonality Map">
+                    <SeasonalityMap />
+                </LockedSection>
+                <LockedSection title="Seasonality Drivers">
+                    <SeasonalityDrivers />
+                </LockedSection>
             </div>
         </div>
     )

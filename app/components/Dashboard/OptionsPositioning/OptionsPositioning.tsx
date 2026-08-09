@@ -5,6 +5,7 @@ import MarketCard from './MarketCard'
 import GreeksSynthesis from './GreeksSynthesis'
 import SectorGammaDashboard from './SectorGammaDashboard'
 import MacroEventStress from './MacroEventStress'
+import LockedSection from '../LockedSection'
 
 type DealerLevel = {
     label: string
@@ -124,11 +125,17 @@ export default function OptionsPositioning() {
                     ))}
                 </div>
 
-                <GreeksSynthesis />
+                <LockedSection title="Greeks Synthesis" className="mb-4 sm:mb-5">
+                    <GreeksSynthesis />
+                </LockedSection>
 
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 grow">
-                    <SectorGammaDashboard />
-                    <MacroEventStress />
+                    <LockedSection title="Sector Gamma">
+                        <SectorGammaDashboard />
+                    </LockedSection>
+                    <LockedSection title="Macro Event Stress">
+                        <MacroEventStress />
+                    </LockedSection>
                 </div>
             </div>
         </div>

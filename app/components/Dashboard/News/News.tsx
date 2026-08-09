@@ -1,10 +1,10 @@
 import NewsFeed from './NewsFeed'
 import NewsSidebar from './NewsSidebar'
+import LockedSection from '../LockedSection'
 
 export default function News() {
     return (
         <div>
-            {/* ── Header ── */}
             <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,11 +22,12 @@ export default function News() {
                 </p>
             </div>
 
-            {/* ── Body: Left feed + Right sidebar ── */}
             <div className="px-4 lg:px-6">
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_424px] 2xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 items-start">
                     <NewsFeed />
-                    <NewsSidebar />
+                    <LockedSection title="Desk Briefing">
+                        <NewsSidebar />
+                    </LockedSection>
                 </div>
             </div>
         </div>

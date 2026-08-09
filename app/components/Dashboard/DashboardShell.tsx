@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react'
 import DashboardSidebar from './DashboardSidebar'
+import { PlanProvider } from './PlanProvider'
 
 const STORAGE_KEY = 'cr_dashboard_sidebar_collapsed'
 
@@ -33,26 +34,28 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen bg-[#070711] overflow-hidden">
-      <DashboardSidebar
-        collapsed={collapsed}
-        onToggleCollapse={toggleCollapsed}
-        ready={ready}
-      />
+    <PlanProvider>
+      <div className="flex h-screen bg-[#070711] overflow-hidden">
+        <DashboardSidebar
+          collapsed={collapsed}
+          onToggleCollapse={toggleCollapsed}
+          ready={ready}
+        />
 
-      <div
-        className={`flex flex-col flex-1 min-w-0 min-h-0 transition-[padding] duration-200 ${
-          collapsed ? 'lg:pl-[72px]' : 'lg:pl-[268px]'
-        }`}
-      >
-        <main className="flex-1 overflow-y-auto pt-18 lg:pt-6 min-h-0 dashboard-scroll">
-          {children}
-        </main>
-        <p className="shrink-0 border-t border-[#FFFFFF0D] bg-[#070711] py-3 px-4 text-center text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">
-          Market intelligence • Not investment advice • Users remain solely responsible for all
-          investment decisions and associated risks
-        </p>
+        <div
+          className={`flex flex-col flex-1 min-w-0 min-h-0 transition-[padding] duration-200 ${
+            collapsed ? 'lg:pl-[72px]' : 'lg:pl-[268px]'
+          }`}
+        >
+          <main className="flex-1 overflow-y-auto pt-18 lg:pt-6 min-h-0 dashboard-scroll">
+            {children}
+          </main>
+          <p className="shrink-0 border-t border-[#FFFFFF0D] bg-[#070711] py-3 px-4 text-center text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">
+            Market intelligence • Not investment advice • Users remain solely responsible for all
+            investment decisions and associated risks
+          </p>
+        </div>
       </div>
-    </div>
+    </PlanProvider>
   )
 }

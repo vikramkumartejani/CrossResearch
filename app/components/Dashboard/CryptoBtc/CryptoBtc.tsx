@@ -4,6 +4,7 @@ import BtcDeskBrief from './BtcDeskBrief'
 import InstitutionalFlow from './InstitutionalFlow'
 import ForecastVolatility from './ForecastVolatility'
 import Sentiment from './Sentiment'
+import LockedSection from '../LockedSection'
 import { CryptoBtcCopyProvider, useCryptoBtcCopy } from './cryptoBtcCopy'
 
 function CryptoBtcContent() {
@@ -61,21 +62,17 @@ function CryptoBtcContent() {
                 </div>
 
                 <div className="flex-1 flex flex-col gap-3 sm:gap-5">
-                    <div>
-                        <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
-                            {copy.sections.institutional_flow}
-                        </h2>
+                    <LockedSection title={copy.sections.institutional_flow} keepTitle>
                         <InstitutionalFlow />
-                    </div>
+                    </LockedSection>
 
-                    <div>
-                        <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
-                            {copy.sections.forecast_volatility}
-                        </h2>
+                    <LockedSection title={copy.sections.forecast_volatility} keepTitle>
                         <ForecastVolatility />
-                    </div>
+                    </LockedSection>
 
-                    <Sentiment />
+                    <LockedSection title="Sentiment" keepTitle>
+                        <Sentiment />
+                    </LockedSection>
                 </div>
             </div>
         </div>

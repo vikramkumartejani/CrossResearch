@@ -2,9 +2,13 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { toast } from 'sonner'
+import { initialsFromName } from '@/lib/authUi'
+import { PLAN_LABEL } from '@/lib/plans'
+import { usePlan } from './PlanProvider'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -260,10 +264,32 @@ export default function DashboardSidebar({
     ready = true,
 }: DashboardSidebarProps) {
     const pathname = usePathname()
+    const router = useRouter()
+    const { user, plan, refresh } = usePlan()
     const [mobileOpen, setMobileOpen] = useState(false)
 
     const [open, setOpen] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        void refresh()
+    }, [refresh])
+
+    async function handleLogout() {
+        setOpen(false)
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' })
+            toast.success('Logged out')
+        } catch {
+            toast.error('Logout failed')
+        }
+        router.replace('/login')
+        router.refresh()
+    }
+
+    const displayName = user?.full_name?.trim() || 'Account'
+    const displaySub = PLAN_LABEL[plan] || 'Starter'
+    const initials = initialsFromName(displayName)
 
     // Close on outside click
     useEffect(() => {
@@ -313,22 +339,22 @@ export default function DashboardSidebar({
                         className={`w-full flex items-center gap-2 group ${
                             compact ? 'justify-center cursor-default' : 'justify-between cursor-pointer'
                         }`}
-                        title={compact ? 'Smith Murphy' : undefined}
+                        title={compact ? displayName : undefined}
                     >
                         <div className={`flex items-center gap-2 ${compact ? 'justify-center' : ''}`}>
                             <div className="relative flex-shrink-0">
                                 <div className="w-10 h-10 rounded-full bg-[#FFFFFF08] border border-[#FFFFFF1A] flex items-center justify-center text-white/60 text-[15px] font-medium leading-[12px]">
-                                    SM
+                                    {initials}
                                 </div>
                                 <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 border-[#0D1115]" />
                             </div>
                             {!compact && (
-                                <div className="block text-left">
-                                    <p className="text-white text-[14px] leading-[17px] font-semibold">
-                                        Smith Murphy
+                                <div className="block text-left min-w-0">
+                                    <p className="text-white text-[14px] leading-[17px] font-semibold truncate max-w-[140px]">
+                                        {displayName}
                                     </p>
-                                    <p className="text-white/60 text-[11px] leading-[13px] font-normal mt-1">
-                                        Early Bird
+                                    <p className="text-white/60 text-[11px] leading-[13px] font-normal mt-1 truncate max-w-[140px]">
+                                        {displaySub}
                                     </p>
                                 </div>
                             )}
@@ -356,9 +382,9 @@ export default function DashboardSidebar({
 
                     {!compact && open && (
                         <div className="absolute right-4 top-[calc(100%-16px)] w-[200px] bg-[#1E1E2A] border border-[#FFFFFF0F] rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)] z-50">
-                            <Link
-                                href="/login"
-                                onClick={() => setOpen(false)}
+                            <button
+                                type="button"
+                                onClick={() => void handleLogout()}
                                 className="flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] hover:bg-[#FFFFFF08] transition-colors"
                             >
                                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
@@ -371,7 +397,7 @@ export default function DashboardSidebar({
                                     />
                                 </svg>
                                 Logout
-                            </Link>
+                            </button>
                         </div>
                     )}
                 </div>

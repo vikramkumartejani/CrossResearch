@@ -2,11 +2,11 @@ import StatsBar from './StatsBar'
 import NowcastsGrid from './NowcastsGrid'
 import RegimeProbabilityMatrix from './RegimeProbabilityMatrix'
 import UpcomingReleases from './UpcomingReleases'
+import LockedSection from '../LockedSection'
 
 export default function MacroNowcast() {
     return (
         <div>
-            {/* ── Header ── */}
             <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
                 <div>
                     <div className="mb-3 flex items-center gap-1">
@@ -28,12 +28,17 @@ export default function MacroNowcast() {
                 </div>
             </div>
 
-            {/* ── Sections ── */}
-            <div className="px-4 lg:px-6">
+            <div className="px-4 lg:px-6 flex flex-col gap-4">
                 <StatsBar />
-                <NowcastsGrid />
-                <RegimeProbabilityMatrix />
-                <UpcomingReleases />
+                <LockedSection title="Nowcast Grid">
+                    <NowcastsGrid />
+                </LockedSection>
+                <LockedSection title="Regime Probability">
+                    <RegimeProbabilityMatrix />
+                </LockedSection>
+                <LockedSection title="Upcoming Releases">
+                    <UpcomingReleases />
+                </LockedSection>
             </div>
         </div>
     )

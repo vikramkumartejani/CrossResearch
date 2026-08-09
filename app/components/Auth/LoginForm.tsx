@@ -3,17 +3,44 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
+import { authErrorMessage } from "@/lib/authUi";
 
 export default function LoginForm() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [remember, setRemember] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle login logic here
+        try {
+            setLoading(true);
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password, remember }),
+            });
+            const body = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                throw new Error(authErrorMessage(body, "Login failed"));
+            }
+            const name =
+                typeof body?.user?.full_name === "string" ? body.user.full_name : "Welcome back";
+            toast.success(`Welcome back, ${name}`);
+            const next = searchParams.get("next") || "/analysis";
+            router.replace(next.startsWith("/") ? next : "/analysis");
+            router.refresh();
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Login failed");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -154,9 +181,10 @@ export default function LoginForm() {
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer"
+                    disabled={loading}
+                    className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
                 >
-                    Log In
+                    {loading ? "Logging in…" : "Log In"}
                 </button>
             </form>
 

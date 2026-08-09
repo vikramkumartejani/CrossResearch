@@ -1,9 +1,9 @@
 'use client'
 
-import LatestAlerts from './LatestAlerts'
 import Watchlist from './Watchlist'
 import ProbabilityMovers from './ProbabilityMovers'
 import AlertsDetail from './AlertsDetail'
+import LockedSection from '../LockedSection'
 import { BeliefMarketsProvider, useBeliefMarkets } from './beliefMarkets'
 
 function ReliefSignalsContent() {
@@ -75,12 +75,12 @@ function ReliefSignalsContent() {
                     <ProbabilityMovers />
                 </div>
                 <div className="flex flex-col gap-4 flex-1 min-w-0 min-h-0 xl:h-full">
-                    <div className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
+                    <LockedSection title="Watchlist" className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
                         <Watchlist />
-                    </div>
-                    <div className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
+                    </LockedSection>
+                    <LockedSection title="Alerts" className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
                         <AlertsDetail />
-                    </div>
+                    </LockedSection>
                 </div>
             </div>
         </div>

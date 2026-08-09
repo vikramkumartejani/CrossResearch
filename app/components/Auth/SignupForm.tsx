@@ -4,7 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
+import { authErrorMessage } from "@/lib/authUi";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -14,15 +16,11 @@ export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setMessage(null);
     if (!agreed) {
-      setError("Please agree to the Terms & Privacy to continue.");
+      toast.error("Please agree to the Terms & Privacy to continue.");
       return;
     }
     try {
@@ -38,18 +36,13 @@ export default function SignupForm() {
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(
-          typeof body.details === "string"
-            ? body.details
-            : body.detail || body.error || "Signup failed"
-        );
+        throw new Error(authErrorMessage(body, "Signup failed"));
       }
-      setMessage(body.message || "Account created.");
-      if (body.created) {
-        setTimeout(() => router.push("/login"), 900);
-      }
+      toast.success(body.message || "Account created.");
+      router.replace("/analysis");
+      router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Signup failed");
+      toast.error(err instanceof Error ? err.message : "Signup failed");
     } finally {
       setLoading(false);
     }
@@ -205,9 +198,6 @@ export default function SignupForm() {
             Terms &amp; Privacy
           </Link>
         </label>
-
-        {error && <p className="text-[#E25C3F] text-[14px] mb-4">{error}</p>}
-        {message && <p className="text-[#2CB37B] text-[14px] mb-4">{message}</p>}
 
         {/* Submit */}
         <button

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import WeeklyHighlights from './WeeklyHighlights'
 import SignalChartCard from './SignalChartCard'
+import LockedSection from '../LockedSection'
 import type { SignalChart } from './signalChartsData'
 import type { MacroBrief } from './weeklyHighlightsData'
 
@@ -81,9 +82,7 @@ export default function MacroSignals() {
                     <WeeklyHighlights brief={brief} />
                 </div>
 
-                <div className="flex-1">
-                    <h2 className="text-white text-[16px] font-medium leading-[22px] mb-3 sm:mb-4">Liquidity & Cross Signals</h2>
-
+                <LockedSection title="Liquidity & Cross Signals" keepTitle className="flex-1">
                     {error && (
                         <div className="mb-3 text-[#E25C3F] text-[13px] leading-[18px]">{error}</div>
                     )}
@@ -96,7 +95,7 @@ export default function MacroSignals() {
                             <SignalChartCard key={chart.id} chart={chart} />
                         ))}
                     </div>
-                </div>
+                </LockedSection>
             </div>
         </div>
     )
