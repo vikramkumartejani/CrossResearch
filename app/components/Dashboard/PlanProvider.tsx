@@ -15,6 +15,7 @@ type AuthUser = {
   id: string
   email: string
   full_name: string
+  tradingview_username: string | null
   plan: PlanId
 }
 
@@ -49,6 +50,10 @@ export function PlanProvider({ children }: { children: ReactNode }) {
         id: String(u.id || ''),
         email: String(u.email || ''),
         full_name: String(u.full_name || ''),
+        tradingview_username:
+          typeof u.tradingview_username === 'string' && u.tradingview_username.trim()
+            ? u.tradingview_username.trim()
+            : null,
         plan: normalizePlan(u.plan),
       })
     } catch {

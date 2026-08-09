@@ -12,6 +12,8 @@ import { postAuthPath } from "@/lib/authRedirect";
 export default function SignupForm() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
+  const [tradingViewUsername, setTradingViewUsername] = useState("");
+  const [noTradingView, setNoTradingView] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -24,15 +26,24 @@ export default function SignupForm() {
       toast.error("Please agree to the Terms & Privacy to continue.");
       return;
     }
+    if (!fullName.trim()) {
+      toast.error("Please enter your name.");
+      return;
+    }
+    if (!noTradingView && !tradingViewUsername.trim()) {
+      toast.error("Enter your TradingView username, or check that you don't have one.");
+      return;
+    }
     try {
       setLoading(true);
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          full_name: fullName,
+          full_name: fullName.trim(),
           email,
           password,
+          tradingview_username: noTradingView ? null : tradingViewUsername.trim(),
         }),
       });
       const body = await res.json().catch(() => ({}));
@@ -120,9 +131,43 @@ export default function SignupForm() {
             placeholder="Full Name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
+            autoComplete="name"
             required
             className="bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] pl-12 sm:pl-[60px] pr-5 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors"
           />
+        </div>
+
+        {/* TradingView username */}
+        <div className="mb-5">
+          <div className="relative">
+            <span className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white/40">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                <path d="M4 18V6L10 12L14 8L20 14" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M16 14H20V10" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <input
+              type="text"
+              placeholder="TradingView username"
+              value={tradingViewUsername}
+              onChange={(e) => setTradingViewUsername(e.target.value)}
+              disabled={noTradingView}
+              autoComplete="off"
+              className="bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] pl-12 sm:pl-[60px] pr-5 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            />
+          </div>
+          <label className="mt-3 flex items-center gap-1.5 cursor-pointer select-none px-1">
+            <CustomCheckbox
+              checked={noTradingView}
+              onChange={(checked) => {
+                setNoTradingView(checked);
+                if (checked) setTradingViewUsername("");
+              }}
+            />
+            <span className="text-white/60 text-[14px] sm:text-[16px] leading-[22px] sm:leading-[29px] font-normal">
+              I don't have a TradingView username
+            </span>
+          </label>
         </div>
 
         {/* Email */}
