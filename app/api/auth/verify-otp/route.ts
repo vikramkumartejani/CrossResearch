@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   const payload = await request.json().catch(() => ({}))
-  const { ok, status, body } = await backendAuth('/auth/signup', {
+  const { ok, status, body } = await backendAuth('/auth/verify-otp', {
     method: 'POST',
     body: JSON.stringify(payload),
     headers: {
@@ -22,17 +22,12 @@ export async function POST(request: NextRequest) {
   if (!ok) {
     return NextResponse.json(
       {
-        error: 'Signup failed',
+        error: 'Verification failed',
         details: body.detail ?? body,
         detail: body.detail,
       },
       { status }
     )
-  }
-
-  // OTP pending — no cookies yet
-  if (body.needs_verification) {
-    return NextResponse.json(publicAuthBody(body))
   }
 
   const tokens = body as unknown as AuthTokenPayload
