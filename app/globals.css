@@ -135,3 +135,131 @@ body {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* ── Dashboard light theme (whole shell) ── */
+[data-dashboard-theme="light"] {
+  color-scheme: light;
+}
+
+[data-dashboard-theme="light"] .dashboard-scroll,
+[data-dashboard-theme="light"] .dashboard-scroll * {
+  scrollbar-color: rgba(15, 23, 42, 0.2) transparent;
+}
+
+[data-dashboard-theme="light"] .dashboard-scroll::-webkit-scrollbar-thumb,
+[data-dashboard-theme="light"] .dashboard-scroll *::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.18);
+}
+
+[data-dashboard-theme="light"] .dashboard-nav::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.15);
+}
+
+/* Common dark surfaces → light */
+[data-dashboard-theme="light"] .bg-\[\#070711\],
+[data-dashboard-theme="light"] .bg-\[\#0A0F1C\],
+[data-dashboard-theme="light"] .bg-\[\#0C0C14\],
+[data-dashboard-theme="light"] .bg-\[\#0D1115\],
+[data-dashboard-theme="light"] .bg-\[\#0F0F18\],
+[data-dashboard-theme="light"] .bg-\[\#101018\] {
+  background-color: #F3F5F8 !important;
+}
+
+[data-dashboard-theme="light"] .bg-\[\#151B29\],
+[data-dashboard-theme="light"] .bg-\[\#16161F\],
+[data-dashboard-theme="light"] .bg-\[\#1A1A24\],
+[data-dashboard-theme="light"] .bg-\[\#1C1C26\],
+[data-dashboard-theme="light"] .bg-\[\#1C1E2E\],
+[data-dashboard-theme="light"] .bg-\[\#1E1E2A\],
+[data-dashboard-theme="light"] .bg-\[\#1E2A3A\],
+[data-dashboard-theme="light"] .bg-\[\#22222E\],
+[data-dashboard-theme="light"] .bg-\[\#2A2A35\] {
+  background-color: #FFFFFF !important;
+}
+
+[data-dashboard-theme="light"] .bg-\[\#FFFFFF05\],
+[data-dashboard-theme="light"] .bg-\[\#FFFFFF08\],
+[data-dashboard-theme="light"] .bg-\[\#FFFFFF0A\],
+[data-dashboard-theme="light"] .bg-\[\#FFFFFF0D\],
+[data-dashboard-theme="light"] .bg-\[\#FFFFFF12\],
+[data-dashboard-theme="light"] .bg-\[\#FFFFFF14\] {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+[data-dashboard-theme="light"] .bg-\[\#FFFFFF0D\]\/40,
+[data-dashboard-theme="light"] .bg-\[\#0C0C14\]\/40,
+[data-dashboard-theme="light"] .bg-\[\#101018\]\/88 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Text */
+[data-dashboard-theme="light"] .text-white {
+  color: #0F172A !important;
+}
+[data-dashboard-theme="light"] .text-white\/70 {
+  color: rgba(15, 23, 42, 0.7) !important;
+}
+[data-dashboard-theme="light"] .text-white\/60 {
+  color: rgba(15, 23, 42, 0.6) !important;
+}
+[data-dashboard-theme="light"] .text-white\/50 {
+  color: rgba(15, 23, 42, 0.5) !important;
+}
+[data-dashboard-theme="light"] .text-white\/40 {
+  color: rgba(15, 23, 42, 0.4) !important;
+}
+[data-dashboard-theme="light"] .text-white\/30 {
+  color: rgba(15, 23, 42, 0.3) !important;
+}
+
+/* Borders */
+[data-dashboard-theme="light"] .border-\[\#FFFFFF05\],
+[data-dashboard-theme="light"] .border-\[\#FFFFFF0A\],
+[data-dashboard-theme="light"] .border-\[\#FFFFFF0D\],
+[data-dashboard-theme="light"] .border-\[\#FFFFFF0F\],
+[data-dashboard-theme="light"] .border-\[\#FFFFFF12\],
+[data-dashboard-theme="light"] .border-\[\#FFFFFF14\],
+[data-dashboard-theme="light"] .border-\[\#FFFFFF1A\] {
+  border-color: #D5D8E0 !important;
+}
+
+[data-dashboard-theme="light"] .border-\[\#FFFFFF0D\] {
+  border-color: #D5D8E0 !important;
+}
+
+/* Hover surfaces */
+[data-dashboard-theme="light"] .hover\:bg-\[\#1A1A24\]:hover,
+[data-dashboard-theme="light"] .hover\:bg-\[\#FFFFFF08\]:hover,
+[data-dashboard-theme="light"] .hover\:bg-\[\#FFFFFF0A\]:hover {
+  background-color: #F3F5F8 !important;
+}
+
+/* Theme toggle — readable in both themes (not a black pill on light) */
+[data-dashboard-theme="light"] .dashboard-theme-toggle {
+  background: #ffffff !important;
+  border: 1px solid #C8CDD8 !important;
+  color: #0F172A !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+[data-dashboard-theme="dark"] .dashboard-theme-toggle {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.32) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Subtle icon spin/fade when theme flips */
+@keyframes dashboard-theme-icon-in {
+  from {
+    opacity: 0.35;
+    transform: rotate(-40deg) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+.dashboard-theme-toggle__icon {
+  display: inline-flex;
+  animation: dashboard-theme-icon-in 0.28s ease-out;
+}

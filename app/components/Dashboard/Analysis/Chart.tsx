@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import uPlot from 'uplot'
 import 'uplot/dist/uPlot.min.css'
+import { dashCardClass, useDashboardTheme } from '../DashboardTheme'
 
 type Period = '1M' | '1D' | '1W' | '1Y' | 'YTD'
 
@@ -23,7 +24,7 @@ export interface CurrencyPair {
 }
 
 export const CURRENCY_PAIRS: CurrencyPair[] = [
-    { symbol: 'EURUSD', base: 'EUR', quote: 'USD', baseName: 'Euro', quoteName: 'U.S. Dollar', baseFlag: 'EU', quoteFlag: 'US', price: '1.05195', change: '-0.00185 (-0.42%)', changePositive: false, prevClose: '1.05214', openPrice: '1.05524', dayHigh: '1.05600', dayLow: '1.04620' },
+    { symbol: 'EURUSD', base: 'EUR', quote: 'USD', baseName: 'Euro', quoteName: 'U.S. Dollar', baseFlag: 'EU', quoteFlag: 'US', price: '1.05195', change: '-0.00247 (-0.23%)', changePositive: false, prevClose: '1.05442', openPrice: '1.05273', dayHigh: '1.06276', dayLow: '1.04890' },
     { symbol: 'GBPUSD', base: 'GBP', quote: 'USD', baseName: 'British Pound', quoteName: 'U.S. Dollar', baseFlag: 'GB', quoteFlag: 'US', price: '1.27340', change: '+0.00210 (+0.17%)', changePositive: true, prevClose: '1.27130', openPrice: '1.27180', dayHigh: '1.27560', dayLow: '1.27020' },
     { symbol: 'USDJPY', base: 'USD', quote: 'JPY', baseName: 'U.S. Dollar', quoteName: 'Japanese Yen', baseFlag: 'US', quoteFlag: 'JP', price: '149.820', change: '+0.350 (+0.23%)', changePositive: true, prevClose: '149.470', openPrice: '149.510', dayHigh: '150.100', dayLow: '149.300' },
     { symbol: 'XAUUSD', base: 'XAU', quote: 'USD', baseName: 'Gold', quoteName: 'U.S. Dollar', baseFlag: 'XAU', quoteFlag: 'US', price: '2341.50', change: '+12.30 (+0.53%)', changePositive: true, prevClose: '2329.20', openPrice: '2330.00', dayHigh: '2348.00', dayLow: '2325.50' },
@@ -34,89 +35,6 @@ export const CURRENCY_PAIRS: CurrencyPair[] = [
     { symbol: 'SP500', base: 'SP5', quote: 'USD', baseName: 'S&P 500', quoteName: 'U.S. Dollar', baseFlag: 'SP5', quoteFlag: 'US', price: '5021.80', change: '-8.40 (-0.17%)', changePositive: false, prevClose: '5030.20', openPrice: '5028.00', dayHigh: '5045.00', dayLow: '5015.00' },
     { symbol: 'BTCUSD', base: 'BTC', quote: 'USD', baseName: 'Bitcoin', quoteName: 'U.S. Dollar', baseFlag: 'BTC', quoteFlag: 'US', price: '67420.0', change: '+820.0 (+1.23%)', changePositive: true, prevClose: '66600.0', openPrice: '66700.0', dayHigh: '67800.0', dayLow: '66400.0' },
 ]
-
-const COMMODITY_ICONS: Record<string, string> = {
-    XAU: '🥇', XAG: '🥈', USO: '🛢️', NAS: '📈', US3: '📊', SP5: '📉', BTC: '₿',
-}
-
-// ISO country code map for flagcdn.com
-const FLAG_URL: Record<string, string> = {
-    EU: 'https://flagcdn.com/eu.svg',
-    US: 'https://flagcdn.com/us.svg',
-    GB: 'https://flagcdn.com/gb.svg',
-    JP: 'https://flagcdn.com/jp.svg',
-    AU: 'https://flagcdn.com/au.svg',
-    CA: 'https://flagcdn.com/ca.svg',
-    CH: 'https://flagcdn.com/ch.svg',
-    NZ: 'https://flagcdn.com/nz.svg',
-    CN: 'https://flagcdn.com/cn.svg',
-    HK: 'https://flagcdn.com/hk.svg',
-}
-
-// ── Flag helpers ──────────────────────────────────────────────────────────────
-function FlagIcon({ code, size = 48 }: { code: string; size?: number }) {
-    // Commodity / index — show emoji in circle
-    if (code in COMMODITY_ICONS) {
-        return (
-            <div
-                style={{
-                    width: size, height: size, borderRadius: '50%',
-                    background: '#1E2A3A', display: 'flex',
-                    alignItems: 'center', justifyContent: 'center',
-                    fontSize: size * 0.52, flexShrink: 0,
-                }}
-            >
-                {COMMODITY_ICONS[code]}
-            </div>
-        )
-    }
-
-    const url = FLAG_URL[code]
-    if (!url) {
-        return (
-            <div
-                style={{ width: size, height: size, borderRadius: '50%', flexShrink: 0 }}
-                className="bg-white/10"
-            />
-        )
-    }
-
-    return (
-        <div
-            style={{
-                width: size, height: size, borderRadius: '50%',
-                overflow: 'hidden', flexShrink: 0, background: '#1a1a2e',
-            }}
-        >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-                src={url}
-                alt={code}
-                width={size}
-                height={size}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-        </div>
-    )
-}
-
-function PairFlags({ pair }: { pair: CurrencyPair }) {
-    const size = 48
-    const overlap = 20
-    return (
-        <div
-            className="relative flex-shrink-0"
-            style={{ width: size + overlap, height: size }}
-        >
-            <div className="absolute left-0 top-0" style={{ zIndex: 1 }}>
-                <FlagIcon code={pair.baseFlag} size={size} />
-            </div>
-            <div className="absolute top-0" style={{ left: overlap, zIndex: 2 }}>
-                <FlagIcon code={pair.quoteFlag} size={size} />
-            </div>
-        </div>
-    )
-}
 
 // ── Y-axis width (pixels reserved for right-side labels) ─────────────────────
 const Y_AXIS_W        = 60   // desktop
@@ -218,12 +136,13 @@ const CHART_H = 274  // canvas height (excludes X label row)
 const X_LABEL_H = 24 // height of the HTML X label row below canvas
 
 function UPlotChart({
-    timestamps, prices, decimals, period,
+    timestamps, prices, decimals, period, light = false,
 }: {
     timestamps: number[]
     prices: number[]
     decimals: number
     period: Period
+    light?: boolean
 }) {
     const wrapRef    = useRef<HTMLDivElement>(null)
     const plotRef    = useRef<uPlot | null>(null)
@@ -237,6 +156,9 @@ function UPlotChart({
     const yFontSize = isMobile ? 10 : 13
     const plotW     = Math.max(0, containerW - yAxisW)
     const xLabels   = useMemo(() => pickXLabels(timestamps, period, plotW), [timestamps, period, plotW])
+    const gridStroke = light ? 'rgba(15,23,42,0.10)' : '#FFFFFF1A'
+    const axisStroke = light ? 'rgba(15,23,42,0.55)' : '#FFFFFF99'
+    const labelColor = light ? 'rgba(15,23,42,0.55)' : 'rgba(255,255,255,0.6)'
 
     const buildOpts = useCallback((w: number, axisW: number, fontSize: number): uPlot.Options => {
         const minP = Math.min(...prices)
@@ -252,7 +174,7 @@ function UPlotChart({
                 y: false,
                 points: {
                     size: 8,
-                    fill: '#ffffff',
+                    fill: light ? '#0F172A' : '#ffffff',
                     stroke: '#88C4FF',
                     width: 2,
                 },
@@ -278,8 +200,8 @@ function UPlotChart({
                         const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 
                         tooltip.innerHTML = `
-                            <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-bottom:3px;">${dateStr} ${timeStr}</div>
-                            <div style="font-size:13px;color:#fff;font-weight:600;">${price.toFixed(decimals)}</div>
+                            <div style="font-size:11px;color:${light ? 'rgba(15,23,42,0.55)' : 'rgba(255,255,255,0.55)'};margin-bottom:3px;">${dateStr} ${timeStr}</div>
+                            <div style="font-size:13px;color:${light ? '#0F172A' : '#fff'};font-weight:600;">${price.toFixed(decimals)}</div>
                         `
 
                         const left = u.valToPos(ts, 'x')
@@ -316,14 +238,14 @@ function UPlotChart({
                     side:  1,
                     ticks: { show: false },
                     grid: {
-                        stroke: '#FFFFFF1A',
+                        stroke: gridStroke,
                         width:  1,
                         dash:   [4, 4],
                     },
                     gap:  8,
                     size: axisW,
                     font: `500 ${fontSize}px Inter,sans-serif`,
-                    stroke: '#FFFFFF99',
+                    stroke: axisStroke,
                     values: (_u: uPlot, vals: number[]) =>
                         vals.map(v => (v != null ? v.toFixed(decimals) : '')),
                 },
@@ -344,7 +266,7 @@ function UPlotChart({
                 },
             ],
         }
-    }, [prices, decimals, timestamps, yAxisW, yFontSize])
+    }, [prices, decimals, timestamps, gridStroke, axisStroke, light])
 
     // Init / re-init uPlot whenever data or width changes
     useEffect(() => {
@@ -359,21 +281,21 @@ function UPlotChart({
         let tooltip = tooltipRef.current
         if (!tooltip) {
             tooltip = document.createElement('div')
-            tooltip.style.cssText = [
-                'position:absolute',
-                'display:none',
-                'pointer-events:none',
-                'background:#1C1E2E',
-                'border:1px solid rgba(255,255,255,0.10)',
-                'border-radius:6px',
-                'padding:7px 11px',
-                'z-index:20',
-                'white-space:nowrap',
-                'box-shadow:0 4px 16px rgba(0,0,0,0.45)',
-            ].join(';')
             wrap.appendChild(tooltip)
             tooltipRef.current = tooltip
         }
+        tooltip.style.cssText = [
+            'position:absolute',
+            'display:none',
+            'pointer-events:none',
+            light ? 'background:#FFFFFF' : 'background:#1C1E2E',
+            light ? 'border:1px solid rgba(15,23,42,0.10)' : 'border:1px solid rgba(255,255,255,0.10)',
+            'border-radius:6px',
+            'padding:7px 11px',
+            'z-index:20',
+            'white-space:nowrap',
+            'box-shadow:0 4px 16px rgba(0,0,0,0.45)',
+        ].join(';')
 
         const opts = buildOpts(containerW, yAxisW, yFontSize)
         const plot = new uPlot(opts, [timestamps, prices], wrap)
@@ -383,7 +305,7 @@ function UPlotChart({
             plot.destroy()
             plotRef.current = null
         }
-    }, [timestamps, prices, containerW, yAxisW, yFontSize, buildOpts])
+    }, [timestamps, prices, containerW, yAxisW, yFontSize, buildOpts, light])
 
     // ResizeObserver — only track width
     useEffect(() => {
@@ -429,7 +351,7 @@ function UPlotChart({
                                 fontSize:   isMobile ? 10 : 13,
                                 fontWeight: 500,
                                 lineHeight: '16px',
-                                color:      'rgba(255,255,255,0.6)',
+                                color:      labelColor,
                                 whiteSpace: 'nowrap',
                                 ...(isFirst ? { left: 0, transform: 'none' } :
                                     isLast  ? { left: 'auto', right: 0, transform: 'none' } :
@@ -448,13 +370,12 @@ function UPlotChart({
 // ── Main component ────────────────────────────────────────────────────────────
 interface ChartProps {
     selectedPair: CurrencyPair
-    setSelectedPair: (pair: CurrencyPair) => void
 }
 
-export default function Chart({ selectedPair, setSelectedPair }: ChartProps) {
+export default function Chart({ selectedPair }: ChartProps) {
+    const { theme } = useDashboardTheme()
+    const isLight = theme === 'light'
     const [activePeriod, setActivePeriod] = useState<Period>('1D')
-    const [dropdownOpen, setDropdownOpen] = useState(false)
-    const dropdownRef = useRef<HTMLDivElement>(null)
     const periods: Period[] = ['1M', '1D', '1W', '1Y', 'YTD']
 
     const [timestamps, prices] = useMemo(
@@ -463,102 +384,47 @@ export default function Chart({ selectedPair, setSelectedPair }: ChartProps) {
     )
 
     const decimals = parseFloat(selectedPair.price) < 100 ? 5 : 1
-
-    useEffect(() => {
-        const handler = (e: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node))
-                setDropdownOpen(false)
-        }
-        document.addEventListener('mousedown', handler)
-        return () => document.removeEventListener('mousedown', handler)
-    }, [])
+    const periodLabel = activePeriod === '1D' ? '15m' : activePeriod
 
     return (
-        <div className="bg-[#16161F] p-4 sm:p-5 flex flex-col">
+        <div className={`${dashCardClass(theme)} p-4 sm:p-5 flex flex-col h-full rounded-[4px]`}>
+            <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
+                <h3 className={`text-[16px] sm:text-[18px] leading-[22px] font-medium ${isLight ? 'text-[#0F172A]' : 'text-white'}`}>
+                    Price Action · {periodLabel}
+                </h3>
 
-            {/* Top bar */}
-            <div className="flex items-center justify-between gap-3 flex-wrap mb-4 sm:mb-6">
-                <div ref={dropdownRef} className="relative">
-                    <button
-                        onClick={() => setDropdownOpen(p => !p)}
-                        className="flex items-center gap-3 cursor-pointer"
-                    >
-                        <PairFlags pair={selectedPair} />
-                        <div>
-                            <div className="flex items-center gap-1.5">
-                                <p className="text-white text-[16px] leading-[19px] font-semibold">{selectedPair.symbol}</p>
-                                <svg width="11" height="7" viewBox="0 0 11 7" fill="none"
-                                    className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}>
-                                    <path d="M4.47619 6.21084C4.87182 6.6369 5.54615 6.6369 5.94178 6.21084L10.1486 1.68045C10.7427 1.0406 10.2889 0 9.41577 0H1.0022C0.129033 0 -0.324743 1.0406 0.269403 1.68045L4.47619 6.21084Z" fill="#FAFAF9" />
-                                </svg>
-                            </div>
-                            <p className="text-white/60 text-[14px] leading-[17px] font-normal mt-[5px]">
-                                {selectedPair.baseName} / {selectedPair.quoteName}
-                            </p>
-                        </div>
-                    </button>
-
-                    {dropdownOpen && (
-                        <div className="absolute top-[calc(100%+8px)] left-0 z-50 w-[280px] bg-[#1E1E2A] dashboard-nav border border-[#FFFFFF14] rounded overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.5)] max-h-98 overflow-y-auto">
-                            {CURRENCY_PAIRS.map(pair => (
-                                <button
-                                    key={pair.symbol}
-                                    onClick={() => { setSelectedPair(pair); setDropdownOpen(false) }}
-                                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 hover:bg-[#FFFFFF08] transition-colors cursor-pointer ${selectedPair.symbol === pair.symbol ? 'bg-[#FFFFFF0A]' : ''}`}
-                                >
-                                    <PairFlags pair={pair} />
-                                    <div className="text-left">
-                                        <p className="text-white text-[13px] font-semibold leading-tight">{pair.symbol}</p>
-                                        <p className="text-white/40 text-[11px] leading-tight mt-0.5">{pair.baseName} / {pair.quoteName}</p>
-                                    </div>
-                                    <span className={`ml-auto text-[12px] font-medium ${pair.changePositive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
-                                        {pair.change.split(' ')[0]}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                <div className="flex items-center gap-px border border-[#FFFFFF12] rounded-[10px] p-1">
-                    {periods.map(p => (
-                        <button key={p} onClick={() => setActivePeriod(p)}
-                            className={`w-9 h-8 sm:w-[38px] sm:h-[37px] text-[14px] leading-[17px] font-medium rounded-[8px] transition-colors cursor-pointer ${activePeriod === p ? 'bg-[#FFFFFF0D] text-white' : 'text-white/60 hover:text-white/70'}`}>
+                <div
+                  className={`flex items-center gap-px rounded-[10px] p-1 border ${
+                    isLight ? 'border-[#D5D8E0] bg-white/40' : 'border-[#FFFFFF12]'
+                  }`}
+                >
+                    {periods.map((p) => (
+                        <button
+                          key={p}
+                          type="button"
+                          onClick={() => setActivePeriod(p)}
+                          className={`w-9 h-8 sm:w-[38px] sm:h-[37px] text-[13px] sm:text-[14px] leading-[17px] font-medium rounded-[8px] transition-colors cursor-pointer ${
+                            activePeriod === p
+                              ? isLight
+                                ? 'bg-[#227ED9] text-white'
+                                : 'bg-[#FFFFFF0D] text-white'
+                              : isLight
+                                ? 'text-[#5B6472] hover:text-[#0F172A]'
+                                : 'text-white/60 hover:text-white/70'
+                          }`}
+                        >
                             {p}
                         </button>
                     ))}
                 </div>
             </div>
 
-            {/* Price row */}
-            <div className="flex items-center justify-between flex-wrap gap-3 mb-4 sm:mb-6">
-                <div className="flex items-center gap-2.5 sm:gap-4">
-                    <span className="text-white text-[32px] sm:text-[45px] font-semibold leading-11 sm:leading-[54px]">{selectedPair.price}</span>
-                    <span className={`text-[16px] sm:text-[18px] leading-[22px] font-normal ${selectedPair.changePositive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
-                        {selectedPair.change}
-                    </span>
-                </div>
-                <div className="flex items-center flex-wrap gap-3 sm:gap-5">
-                    {[
-                        { label: 'Prev Close', value: selectedPair.prevClose },
-                        { label: 'Open Price', value: selectedPair.openPrice },
-                        { label: 'Day High',   value: selectedPair.dayHigh   },
-                        { label: 'Day Low',    value: selectedPair.dayLow    },
-                    ].map(stat => (
-                        <div key={stat.label} className="flex flex-col items-start">
-                            <span className="text-white/60 text-[12px] leading-[16px] font-medium mb-1">{stat.label}</span>
-                            <span className="text-white text-[16px] sm:text-[18px] font-semibold leading-5 sm:leading-[22px]">{stat.value}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Chart */}
             <UPlotChart
                 timestamps={timestamps}
                 prices={prices}
                 decimals={decimals}
                 period={activePeriod}
+                light={isLight}
             />
         </div>
     )

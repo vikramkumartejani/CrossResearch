@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import { initialsFromName } from '@/lib/authUi'
 import { PLAN_LABEL } from '@/lib/plans'
 import { usePlan } from './PlanProvider'
+import { ThemeToggleButton, useDashboardTheme } from './DashboardTheme'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -266,6 +267,8 @@ export default function DashboardSidebar({
     const pathname = usePathname()
     const router = useRouter()
     const { user, plan, refresh } = usePlan()
+    const { theme } = useDashboardTheme()
+    const isLight = theme === 'light'
     const [mobileOpen, setMobileOpen] = useState(false)
 
     const [open, setOpen] = useState(false)
@@ -323,7 +326,11 @@ export default function DashboardSidebar({
                         onClick={onToggleCollapse}
                         aria-label={compact ? 'Expand sidebar' : 'Collapse sidebar'}
                         title={compact ? 'Expand sidebar' : 'Collapse sidebar'}
-                        className="absolute top-5 -right-3 z-10 inline-flex items-center justify-center w-6 h-6 rounded-full border border-[#FFFFFF1A] bg-[#16161F] text-white/50 hover:text-white hover:bg-[#22222E] transition-colors cursor-pointer"
+                        className={`absolute top-5 -right-3 z-10 inline-flex items-center justify-center w-6 h-6 rounded-full border transition-colors cursor-pointer ${
+                            isLight
+                                ? 'border-[#D5D8E0] bg-white text-[#5B6472] hover:text-[#0F172A] hover:bg-[#F3F5F8]'
+                                : 'border-[#FFFFFF1A] bg-[#16161F] text-white/50 hover:text-white hover:bg-[#22222E]'
+                        }`}
                     >
                         <IconCollapseChevron collapsed={compact} />
                     </button>
@@ -343,17 +350,21 @@ export default function DashboardSidebar({
                     >
                         <div className={`flex items-center gap-2 ${compact ? 'justify-center' : ''}`}>
                             <div className="relative flex-shrink-0">
-                                <div className="w-10 h-10 rounded-full bg-[#FFFFFF08] border border-[#FFFFFF1A] flex items-center justify-center text-white/60 text-[15px] font-medium leading-[12px]">
+                                <div className={`w-10 h-10 rounded-full border flex items-center justify-center text-[15px] font-medium leading-[12px] ${
+                                    isLight
+                                        ? 'bg-[#F3F5F8] border-[#D5D8E0] text-[#5B6472]'
+                                        : 'bg-[#FFFFFF08] border-[#FFFFFF1A] text-white/60'
+                                }`}>
                                     {initials}
                                 </div>
-                                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 border-[#0D1115]" />
+                                <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 ${isLight ? 'border-white' : 'border-[#0D1115]'}`} />
                             </div>
                             {!compact && (
                                 <div className="block text-left min-w-0">
-                                    <p className="text-white text-[14px] leading-[17px] font-semibold truncate max-w-[140px]">
+                                    <p className={`text-[14px] leading-[17px] font-semibold truncate max-w-[140px] ${isLight ? 'text-[#0F172A]' : 'text-white'}`}>
                                         {displayName}
                                     </p>
-                                    <p className="text-white/60 text-[11px] leading-[13px] font-normal mt-1 truncate max-w-[140px]">
+                                    <p className={`text-[11px] leading-[13px] font-normal mt-1 truncate max-w-[140px] ${isLight ? 'text-[#838388]' : 'text-white/60'}`}>
                                         {displaySub}
                                     </p>
                                 </div>
@@ -361,7 +372,7 @@ export default function DashboardSidebar({
                         </div>
                         {!compact && (
                             <svg
-                                className={`flex items-end justify-end text-white group-hover:text-white/70 transition-all duration-200 ml-2 ${open ? 'rotate-180' : 'rotate-0'}`}
+                                className={`flex items-end justify-end transition-all duration-200 ml-2 ${open ? 'rotate-180' : 'rotate-0'} ${isLight ? 'text-[#5B6472]' : 'text-white group-hover:text-white/70'}`}
                                 width="20"
                                 height="20"
                                 viewBox="0 0 20 20"
@@ -381,11 +392,15 @@ export default function DashboardSidebar({
                     </button>
 
                     {!compact && open && (
-                        <div className="absolute right-4 top-[calc(100%-16px)] w-[200px] bg-[#1E1E2A] border border-[#FFFFFF0F] rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)] z-50">
+                        <div className={`absolute right-4 top-[calc(100%-16px)] w-[200px] border rounded-md overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.15)] z-50 ${
+                            isLight ? 'bg-white border-[#D5D8E0]' : 'bg-[#1E1E2A] border-[#FFFFFF0F]'
+                        }`}>
                             <button
                                 type="button"
                                 onClick={() => void handleLogout()}
-                                className="flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] hover:bg-[#FFFFFF08] transition-colors"
+                                className={`flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] transition-colors ${
+                                    isLight ? 'hover:bg-[#F3F5F8]' : 'hover:bg-[#FFFFFF08]'
+                                }`}
                             >
                                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                                     <path
@@ -407,7 +422,7 @@ export default function DashboardSidebar({
                     {NAV_SECTIONS.map((section) => (
                         <div key={section.label} className="mb-5">
                             {!compact && (
-                                <p className="text-white/60 text-[12px] leading-[14px] font-semibold uppercase mb-2.5">
+                                <p className={`text-[12px] leading-[14px] font-semibold uppercase mb-2.5 ${isLight ? 'text-[#838388]' : 'text-white/60'}`}>
                                     {section.label}
                                 </p>
                             )}
@@ -425,21 +440,27 @@ export default function DashboardSidebar({
                                                     compact
                                                         ? `justify-center rounded-md border-transparent ${
                                                               isActive
-                                                                  ? 'bg-[#88C4FF26] text-[#88C4FF]'
-                                                                  : 'text-[#FFFFFF60] hover:text-white hover:bg-[#FFFFFF08]'
+                                                                  ? 'bg-[#88C4FF26] text-[#227ED9]'
+                                                                  : isLight
+                                                                    ? 'text-[#5B6472] hover:text-[#0F172A] hover:bg-[#F3F5F8]'
+                                                                    : 'text-[#FFFFFF60] hover:text-white hover:bg-[#FFFFFF08]'
                                                           }`
                                                         : `border-l gap-2 p-3 ${
                                                               isActive
-                                                                  ? 'bg-[#88C4FF26] text-[#88C4FF] font-semibold border-[#88C4FF]'
-                                                                  : 'text-[#FFFFFF60] hover:text-white hover:bg-[#FFFFFF08] font-medium border-transparent'
+                                                                  ? 'bg-[#88C4FF26] text-[#227ED9] font-semibold border-[#88C4FF]'
+                                                                  : isLight
+                                                                    ? 'text-[#5B6472] hover:text-[#0F172A] hover:bg-[#F3F5F8] font-medium border-transparent'
+                                                                    : 'text-[#FFFFFF60] hover:text-white hover:bg-[#FFFFFF08] font-medium border-transparent'
                                                           }`
                                                 }`}
                                             >
                                                 <span
                                                     className={`flex-shrink-0 ${
                                                         isActive
-                                                            ? 'text-[#88C4FF]'
-                                                            : 'text-[#9498A8] group-hover:text-white'
+                                                            ? 'text-[#227ED9]'
+                                                            : isLight
+                                                              ? 'text-[#838388] group-hover:text-[#0F172A]'
+                                                              : 'text-[#9498A8] group-hover:text-white'
                                                     } transition-colors`}
                                                 >
                                                     {item.icon}
@@ -487,15 +508,23 @@ export default function DashboardSidebar({
         <>
             {/* Desktop sidebar — fixed */}
             <aside
-                className={`hidden lg:flex fixed top-0 left-0 h-full bg-[#16161F] border-r border-[#FFFFFF0F] flex-col z-40 transition-[width] duration-200 ${
-                    ready ? '' : 'opacity-0'
-                } ${collapsed ? 'w-[72px]' : 'w-[268px]'}`}
+                className={`hidden lg:flex fixed top-0 left-0 h-full flex-col z-40 transition-[width] duration-200 border-r ${
+                    isLight
+                        ? 'bg-white border-[#D5D8E0]'
+                        : 'bg-[#16161F] border-[#FFFFFF0F]'
+                } ${ready ? '' : 'opacity-0'} ${collapsed ? 'w-[72px]' : 'w-[268px]'}`}
             >
                 {desktopContent}
             </aside>
 
             {/* Mobile header bar */}
-            <header className='lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#16161F] border-b border-[#FFFFFF0F] flex items-center justify-between px-4'>
+            <header
+                className={`lg:hidden fixed top-0 left-0 right-0 z-50 h-14 border-b flex items-center justify-between px-4 ${
+                    isLight
+                        ? 'bg-white border-[#D5D8E0]'
+                        : 'bg-[#16161F] border-[#FFFFFF0F]'
+                }`}
+            >
                 {/* Left: logo */}
                 <Image
                     src='/assets/full-logo.svg'
@@ -505,29 +534,32 @@ export default function DashboardSidebar({
                     className='object-contain'
                 />
 
-                {/* Right: hamburger / X toggle */}
-                <button
-                    className='flex flex-col justify-center items-center w-9 h-10 cursor-pointer relative'
-                    onClick={() => setMobileOpen(prev => !prev)}
-                    aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-                >
-                    <span
-                        className='block w-6 h-[2px] bg-white rounded-full absolute transition-all duration-300'
-                        style={{
-                            transform: mobileOpen ? 'rotate(45deg)' : 'translateY(-6px)',
-                        }}
-                    />
-                    <span
-                        className='block w-6 h-[2px] bg-white rounded-full absolute transition-all duration-300'
-                        style={{ opacity: mobileOpen ? 0 : 1, transform: mobileOpen ? 'scaleX(0)' : 'scaleX(1)' }}
-                    />
-                    <span
-                        className='block w-6 h-[2px] bg-white rounded-full absolute transition-all duration-300'
-                        style={{
-                            transform: mobileOpen ? 'rotate(-45deg)' : 'translateY(6px)',
-                        }}
-                    />
-                </button>
+                <div className="flex items-center gap-2">
+                    <ThemeToggleButton compact />
+                    {/* Right: hamburger / X toggle */}
+                    <button
+                        className='flex flex-col justify-center items-center w-9 h-10 cursor-pointer relative'
+                        onClick={() => setMobileOpen(prev => !prev)}
+                        aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                    >
+                        <span
+                            className={`block w-6 h-[2px] rounded-full absolute transition-all duration-300 ${isLight ? 'bg-[#0F172A]' : 'bg-white'}`}
+                            style={{
+                                transform: mobileOpen ? 'rotate(45deg)' : 'translateY(-6px)',
+                            }}
+                        />
+                        <span
+                            className={`block w-6 h-[2px] rounded-full absolute transition-all duration-300 ${isLight ? 'bg-[#0F172A]' : 'bg-white'}`}
+                            style={{ opacity: mobileOpen ? 0 : 1, transform: mobileOpen ? 'scaleX(0)' : 'scaleX(1)' }}
+                        />
+                        <span
+                            className={`block w-6 h-[2px] rounded-full absolute transition-all duration-300 ${isLight ? 'bg-[#0F172A]' : 'bg-white'}`}
+                            style={{
+                                transform: mobileOpen ? 'rotate(-45deg)' : 'translateY(6px)',
+                            }}
+                        />
+                    </button>
+                </div>
             </header>
 
             {/* Mobile drawer with animation */}
@@ -548,7 +580,11 @@ export default function DashboardSidebar({
                         {/* Drawer */}
                         <motion.aside
                             key='drawer'
-                            className='fixed top-0 left-0 h-full w-[260px] bg-[#16161F] border-r border-[#FFFFFF0D] z-50 flex flex-col'
+                            className={`fixed top-0 left-0 h-full w-[260px] border-r z-50 flex flex-col ${
+                                isLight
+                                    ? 'bg-white border-[#D5D8E0]'
+                                    : 'bg-[#16161F] border-[#FFFFFF0D]'
+                            }`}
                             initial={{ x: '-100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '-100%' }}

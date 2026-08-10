@@ -3,10 +3,12 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import DashboardSidebar from './DashboardSidebar'
 import { PlanProvider } from './PlanProvider'
+import { DashboardThemeProvider, ThemeToggleButton, useDashboardTheme } from './DashboardTheme'
 
 const STORAGE_KEY = 'cr_dashboard_sidebar_collapsed'
 
-export default function DashboardShell({ children }: { children: ReactNode }) {
+function DashboardShellInner({ children }: { children: ReactNode }) {
+  const { theme } = useDashboardTheme()
   const [collapsed, setCollapsed] = useState(false)
   const [ready, setReady] = useState(false)
 
@@ -33,29 +35,56 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
     })
   }
 
-  return (
-    <PlanProvider>
-      <div className="flex h-screen bg-[#070711] overflow-hidden">
-        <DashboardSidebar
-          collapsed={collapsed}
-          onToggleCollapse={toggleCollapsed}
-          ready={ready}
-        />
+  const isLight = theme === 'light'
 
-        <div
-          className={`flex flex-col flex-1 min-w-0 min-h-0 transition-[padding] duration-200 ${
-            collapsed ? 'lg:pl-[72px]' : 'lg:pl-[268px]'
+  return (
+    <div
+      data-dashboard-theme={theme}
+      className={`dashboard-root flex h-screen overflow-hidden ${
+        isLight ? 'bg-[#F3F5F8]' : 'bg-[#070711]'
+      }`}
+    >
+      <DashboardSidebar
+        collapsed={collapsed}
+        onToggleCollapse={toggleCollapsed}
+        ready={ready}
+      />
+
+      <div
+        className={`relative flex flex-col flex-1 min-w-0 min-h-0 transition-[padding] duration-200 ${
+          collapsed ? 'lg:pl-[72px]' : 'lg:pl-[268px]'
+        }`}
+      >
+        <main className="relative flex-1 overflow-y-auto pt-18 lg:pt-5 min-h-0 dashboard-scroll">
+          {/* Sticky float — zero layout height so header/price alignment is untouched */}
+          <div className="pointer-events-none sticky top-3 z-50 hidden lg:flex justify-end px-4 lg:px-6 h-0">
+            <div className="pointer-events-auto -translate-y-0 translate-x-0">
+              <ThemeToggleButton />
+            </div>
+          </div>
+          {children}
+        </main>
+        <p
+          className={`shrink-0 border-t py-3 px-4 text-center text-[12px] sm:text-[14px] leading-[20px] font-normal ${
+            isLight
+              ? 'border-[#D5D8E0] bg-[#F3F5F8] text-[#838388]'
+              : 'border-[#FFFFFF0D] bg-[#070711] text-[#838388]'
           }`}
         >
-          <main className="flex-1 overflow-y-auto pt-18 lg:pt-6 min-h-0 dashboard-scroll">
-            {children}
-          </main>
-          <p className="shrink-0 border-t border-[#FFFFFF0D] bg-[#070711] py-3 px-4 text-center text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">
-            Market intelligence • Not investment advice • Users remain solely responsible for all
-            investment decisions and associated risks
-          </p>
-        </div>
+          Market intelligence • Not investment advice • Users remain solely responsible for all
+          investment decisions and associated risks
+        </p>
       </div>
+    </div>
+  )
+}
+
+export default function DashboardShell({ children }: { children: ReactNode }) {
+  return (
+    <PlanProvider>
+      <DashboardThemeProvider>
+        <DashboardShellInner>{children}</DashboardShellInner>
+      </DashboardThemeProvider>
     </PlanProvider>
   )
 }
