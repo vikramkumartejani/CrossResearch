@@ -42,13 +42,12 @@ export default function GlobalMarketInsights() {
 
                 {/* Heading */}
                 <h2 className="text-center font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-tight lg:leading-[59px] mb-6 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                    Building Next<br />Gen Financial Tools
+                    Forecasts, with<br />honest confidence
                 </h2>
 
                 {/* Subheading */}
                 <p className="mb-10 sm:mb-16 xl:mb-20 text-center text-white/60 text-[16px] sm:text-[22px] leading-[22px] sm:leading-[33px] font-normal max-w-[465px] mx-auto">
-                    Helping Retail Traders to Understand Markets
-                    From an Institutional Perspective
+                    We ensemble models combining macro, positioning and market sentiment turning them into clear market expectations.
                 </p>
 
                 {/* Card */}

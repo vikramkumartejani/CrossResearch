@@ -21,24 +21,6 @@ interface FeatureSection {
 
 const SECTIONS: FeatureSection[] = [
     {
-        id: 'nfp',
-        badge: 'Proprietary',
-        title: 'NFP & Economic Release Predictor',
-        subtitle: 'Pre-event intelligence with 90% directional accuracy',
-        description: 'Quant models forecast macro events early, revealing likely surprise direction before release',
-        points: [
-            { text: 'Pre-NFP estimate model updated 48h before release' },
-            { text: 'CPI surprise probability score (beat / in-line / miss)' },
-            { text: 'Historical market reaction mapped per release type' },
-        ],
-        ctaText: 'Access Macro Models',
-        image: '/assets/proprietary.png',
-        imageWidth: 740,
-        imageHeight: 460,
-        imageAlt: 'NFP Economic Release Predictor Chart',
-        imageLeft: false,
-    },
-    {
         id: 'divergence',
         badge: 'Indicator',
         title: 'Divergence & Exhaustion Scanner',
@@ -57,23 +39,24 @@ const SECTIONS: FeatureSection[] = [
         imageLeft: true,
     },
     {
-        id: 'volatility',
-        badge: 'Volatility Engine',
-        title: 'Smart Positioning Powered with a Vol Forecast',
-        subtitle: 'Forecasting weekly move expectations using IV, realised volatility and VRP.',
-        description: '',
+        id: 'nfp',
+        badge: 'Proprietary',
+        title: 'NFP & Economic Release Predictor',
+        subtitle: 'Pre-event intelligence with 90% directional accuracy',
+        description: 'Quant models forecast macro events early, revealing likely surprise direction before release',
         points: [
-            { text: 'Forecast IV: model estimates next 30D X asset implied volatility at 23.4%.' },
-            { text: 'Expected weekly move: implied 1σ range is approximately ±3.24%.' },
-            { text: 'Std & pivot areas: highlights projected volatility bands and key reaction zones for the week ahead.' },
+            { text: 'Pre-NFP estimate model updated 48h before release' },
+            { text: 'CPI surprise probability score (beat / in-line / miss)' },
+            { text: 'Historical market reaction mapped per release type' },
         ],
-        ctaText: 'Explore Indicator',
-        image: '/assets/volatility-engine.png',
+        ctaText: 'Access Macro Models',
+        image: '/assets/proprietary.png',
         imageWidth: 740,
         imageHeight: 460,
-        imageAlt: 'Volatility Engine FX Valuation Power Score',
+        imageAlt: 'NFP Economic Release Predictor Chart',
         imageLeft: false,
     },
+    
     {
         id: 'market-structure',
         badge: 'Trading View',
@@ -137,7 +120,6 @@ export default function FeatureSections() {
     const s0 = SECTIONS[0]
     const s1 = SECTIONS[1]
     const s2 = SECTIONS[2]
-    const s3 = SECTIONS[3]
 
     return (
         <div className="px-4 sm:px-6 pt-16 sm:pt-24 lg:pt-32">
@@ -214,51 +196,7 @@ export default function FeatureSections() {
                     </div>
                 </div>
 
-                {/* Card 3 — Volatility — right-top glow */}
-                {/* Ellipse 15 (left) + Ellipse 16 (right) — between card 2 and card 3 */}
-                <div className="relative">
-                    <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
-                        width: '865px', height: '553px',
-                        left: '-249px', top: '-250px',
-                        background: 'rgba(34, 126, 217, 0.4)',
-                        zIndex: 0,
-                    }} />
-                    <div aria-hidden="true" className="absolute pointer-events-none w-[400px] h-[280px] lg:w-[744px] lg:h-[510px] top-[-200px] lg:top-[-250px] blur-[100px] lg:blur-[250px]" style={{
-                        right: '-339px',
-                        background: 'rgba(34, 126, 217, 0.4)',
-                        transform: 'rotate(-26.89deg)',
-                        zIndex: 0,
-                    }} />
-                    <div className="relative" style={{ zIndex: 1 }}>
-                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[90px] lg:pr-[74px] lg:py-[70px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
-                    <GlowRight />
-                    <div className="relative z-10 flex flex-col max-w-full lg:max-w-[649px] w-full">
-                        <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
-                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" /><circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" /><circle cx="7.5" cy="7.5" r="3.5" fill="#88C4FF" /></svg>
-                            {s2.badge}
-                        </div>
-                        <h2 className="tracking-[-1.62px] text-left font-normal text-2xl sm:text-3xl md:text-4xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">{s2.title}</h2>
-                        <p className="max-w-[500px] text-white/80 text-[16px] sm:text-[18px] xl:text-[20px] leading-5 sm:leading-6 xl:leading-[30px] font-semibold my-4 sm:my-5">{s2.subtitle}</p>
-                        {s2.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5">{s2.description}</p>}
-                        <div className="flex flex-col gap-3.5 sm:gap-5 mb-6 sm:mb-8">
-                            <div className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]"><span className="text-white font-semibold">Forecast IV:</span> model estimates next 30D X asset implied volatility at 23.4%.</span></div>
-                            <div className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]"><span className="text-white font-semibold">Expected weekly move:</span> implied 1σ range is approximately ±3.24%.</span></div>
-                            <div className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]"><span className="text-white font-semibold">Std & pivot areas:</span> highlights projected volatility bands and key reaction zones for the week ahead.</span></div>
-                        </div>
-                        <button className="w-full sm:w-fit bg-white text-black text-[18px] sm:text-[20px] leading-6 font-semibold px-5 h-[48px] sm:h-[52px] rounded-[16px] hover:bg-white/90 transition-colors cursor-pointer inline-flex items-center justify-between gap-2.5">
-                            {s2.ctaText}
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                        </button>
-                    </div>
-                    <div className="relative z-10 w-full lg:max-w-[712px] rounded-[20px] sm:rounded-[30px] max-h-[636px] overflow-hidden flex-shrink-0">
-                        <Image src={s2.image} alt={s2.imageAlt} width={s2.imageWidth} height={s2.imageHeight} className="w-full h-auto object-cover" />
-                    </div>
-                </div>
-                    </div>
-                </div>
-
-                {/* Card 4 — Market Structure — left-top glow */}
-                {/* Ellipse 19 (left-top) + Ellipse 20 (right-middle) — between card 3 and card 4 */}
+                {/* Card 3 — Market Structure — left-top glow */}
                 <div className="relative">
                     <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                         width: '977px', height: '446px',
@@ -277,23 +215,23 @@ export default function FeatureSections() {
                         <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[32px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
                     <div className="relative z-10 w-full lg:max-w-[699px] max-h-[712px] rounded-[20px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
-                        <Image src={s3.image} alt={s3.imageAlt} width={659} height={673}  style={{ mixBlendMode: "screen" }} className='object-contain w-full h-auto' />
+                        <Image src={s2.image} alt={s2.imageAlt} width={659} height={673}  style={{ mixBlendMode: "screen" }} className='object-contain w-full h-auto' />
                     </div>
                     <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
                         <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" /><circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" /><circle cx="7.5" cy="7.5" r="3.5" fill="#88C4FF" /></svg>
-                            {s3.badge}
+                            {s2.badge}
                         </div>
-                        <h2 className="max-w-[615px] text-left font-normal text-2xl sm:text-3xl md:text-4xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">{s3.title}</h2>
-                        <p className="text-white/80 text-[16px] sm:text-[18px] xl:text-[20px] leading-5 sm:leading-6 xl:leading-[30px] font-semibold my-4 sm:my-5">{s3.subtitle}</p>
-                        {s3.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5">{s3.description}</p>}
+                        <h2 className="max-w-[615px] text-left font-normal text-2xl sm:text-3xl md:text-4xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">{s2.title}</h2>
+                        <p className="text-white/80 text-[16px] sm:text-[18px] xl:text-[20px] leading-5 sm:leading-6 xl:leading-[30px] font-semibold my-4 sm:my-5">{s2.subtitle}</p>
+                        {s2.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5">{s2.description}</p>}
                         <div className="flex flex-col gap-3.5 sm:gap-5 mb-6 sm:mb-8">
-                            {s3.points.map((point, i) => (
+                            {s2.points.map((point, i) => (
                                 <div key={i} className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]">{point.text}</span></div>
                             ))}
                         </div>
                         <button className="w-full sm:w-fit bg-white text-black text-[18px] sm:text-[20px] leading-6 font-semibold px-5 h-[48px] sm:h-[52px] rounded-[16px] hover:bg-white/90 transition-colors cursor-pointer inline-flex items-center justify-between gap-2.5">
-                            {s3.ctaText}
+                            {s2.ctaText}
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </button>
                     </div>
