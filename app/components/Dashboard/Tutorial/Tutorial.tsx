@@ -1,93 +1,405 @@
 'use client'
 
-const SECTIONS = [
-    {
-        id: 'getting-started',
-        title: 'Getting Started With BTB',
-        content: [
-            'Welcome to the BTB terminal. Use the sections below to learn how to set up, navigate the and integrate signals into your trading workflow.',
-            'The terminal is organized into seven workspaces — Analysis, Macro, Flow & Positioning, Crypto, Intelligence, Learning and Support — each surfaces a different lens on the same regime engine.',
-        ],
-    },
-    {
-        id: 'faq',
-        title: 'Frequently Asked Questions',
-        content: [
-            'Most onboarding questions land in three buckets: how regimes are calibrated, why your Nowcast values differ from public feeds, and how positioning levels are derived. Each is covered in detail under Data Engine Calibration.',
-        ],
-    },
-    {
-        id: 'community',
-        title: 'Join Our Community',
-        content: [
-            'We run a small, signal-dense Discord for traders, quants and macro analysts. Drop in to compare regime calls, get changelog previews, and request features directly from the desk.',
-        ],
-    },
-]
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useDashboardTheme } from '../DashboardTheme'
+import data from './tutorialData.json'
+
+type Block =
+  | { type: 'heading'; text: string; id: string }
+  | { type: 'paragraph'; text: string }
+
+type TocItem = { id: string; label: string }
+
+type TutorialPage = {
+  id: string
+  title: string
+  subtitle: string
+  blocks: Block[]
+  toc: TocItem[]
+}
+
+type Category = {
+  id: string
+  label: string
+  items: { id: string; label: string }[]
+}
+
+const categories = data.categories as Category[]
+const navToPage = data.navToPage as Record<string, string>
+const navOrder = data.navOrder as string[]
+const pages = data.pages as Record<string, TutorialPage>
+
+function categoryForNav(navId: string): string {
+  for (const cat of categories) {
+    if (cat.items.some((i) => i.id === navId)) return cat.label
+  }
+  return 'DOCUMENTATION'
+}
+
+function labelForNav(navId: string): string {
+  for (const cat of categories) {
+    const hit = cat.items.find((i) => i.id === navId)
+    if (hit) return hit.label
+  }
+  return navId
+}
 
 export default function Tutorial() {
+  const { theme } = useDashboardTheme()
+  const isLight = theme === 'light'
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-    return (
-        <div>
-            {/* ── Header ── */}
-            <div className="border-b border-[#FFFFFF0D] pb-5 sm:pb-6 mb-4 sm:mb-5 px-4 lg:px-6">
-                <div className="mb-3 flex items-center gap-1">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 13.5C9.82843 13.5 10.5 12.8284 10.5 12C10.5 11.1716 9.82843 10.5 9 10.5C8.17157 10.5 7.5 11.1716 7.5 12C7.5 12.8284 8.17157 13.5 9 13.5Z" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M2.625 4.5H15.375" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M2.25 7.5H15.75" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M9 7.5V10.5" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M2.25 10.5V7.5C2.25 4.67157 2.25 3.25736 3.12868 2.37868C4.00736 1.5 5.42157 1.5 8.25 1.5H9.75C12.5784 1.5 13.9927 1.5 14.8713 2.37868C15.75 3.25736 15.75 4.67157 15.75 7.5V10.5C15.75 13.3284 15.75 14.7427 14.8713 15.6213C13.9927 16.5 12.5784 16.5 9.75 16.5H8.25C5.42157 16.5 4.00736 16.5 3.12868 15.6213C2.25 14.7427 2.25 13.3284 2.25 10.5Z" stroke="#838388" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Get Started</span>
-                </div>
-                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Quickstart</h1>
-                <p className="text-[#838388] text-[12px] leading-[17px]">
-                    Start Learning About How the BTB Terminal Works Within Minutes.
-                </p>
-            </div>
+  const activeNav = searchParams.get('doc') || 'quickstart'
+  const pageId = navToPage[activeNav] || 'quickstart'
+  const page = pages[pageId] || pages.quickstart
 
-            {/* ── Body ── */}
-            <div className="px-4 lg:px-6">
-                <div className="w-full flex flex-col items-start">
+  const [query, setQuery] = useState('')
+  const [activeHeading, setActiveHeading] = useState<string | null>(
+    page?.toc[0]?.id ?? null
+  )
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
-                    {/* Video placeholder */}
-                    <div className='w-full h-[220px] sm:h-[320px] lg:h-[400px] bg-[#16161F] mb-6 sm:mb-8' />
+  const filteredCategories = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return categories
+    return categories
+      .map((cat) => ({
+        ...cat,
+        items: cat.items.filter((item) => item.label.toLowerCase().includes(q)),
+      }))
+      .filter((cat) => cat.items.length > 0)
+  }, [query])
 
-                    {/* Content sections */}
-                    <div className="flex flex-col gap-3 sm:gap-6 w-full max-w-[780px]">
-                        {SECTIONS.map((section) => (
-                            <div key={section.id} id={section.id} className='flex items-start gap-3 sm:gap-[14px]'>
-                                <span className="text-[#88C4FF] text-[20px] sm:text-[26px] leading-[28px] sm:leading-[31px] font-semibold flex-shrink-0">#</span>
-                                <div>
-                                    <h2 className="text-white text-[18px] sm:text-[26px] leading-[24px] sm:leading-[31px] font-semibold mb-2 sm:mb-3">{section.title}</h2>
-                                    <div className="flex flex-col gap-2 sm:gap-3">
-                                        {section.content.map((para, i) => (
-                                            <p key={i} className="text-[#838388] text-[13px] sm:text-[14px] leading-[20px] sm:leading-[21px]">{para}</p>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+  const navIndex = navOrder.indexOf(activeNav)
+  const prevNav = navIndex > 0 ? navOrder[navIndex - 1] : null
+  const nextNav =
+    navIndex >= 0 && navIndex < navOrder.length - 1 ? navOrder[navIndex + 1] : null
 
-                    {/* Prev / Next navigation */}
-                    <div className="w-full flex items-center justify-between mt-4 sm:mt-8 pt-4 sm:pt-8 border-t border-[#FFFFFF1A]">
-                        <button className="flex items-center gap-1 text-white text-[14px] sm:text-[16px] leading-[24px] cursor-pointer">
-                            <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.75 5.5L8.25 11L13.75 16.5" stroke="white" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            <span className="">What Is BTB</span>
-                        </button>
-                        <button className="flex items-center gap-1 text-white text-[14px] sm:text-[16px] leading-[24px] cursor-pointer">
-                            <span className="">Navigation The Terminal</span>
-                            <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.25 5.5L13.75 11L8.25 16.5" stroke="white" strokeOpacity="0.6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  const setDoc = useCallback(
+    (navId: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('doc', navId)
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+      setMobileNavOpen(false)
+      requestAnimationFrame(() => {
+        document.getElementById('tutorial-content')?.scrollTo({ top: 0 })
+      })
+    },
+    [pathname, router, searchParams]
+  )
+
+  useEffect(() => {
+    setActiveHeading(page?.toc[0]?.id ?? null)
+  }, [page?.id, page?.toc])
+
+  useEffect(() => {
+    const root = document.getElementById('tutorial-content')
+    if (!root || !page?.toc.length) return
+
+    const nodes = page.toc
+      .map((t) => document.getElementById(t.id))
+      .filter(Boolean) as HTMLElement[]
+    if (!nodes.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        if (visible[0]?.target?.id) setActiveHeading(visible[0].target.id)
+      },
+      { root, rootMargin: '-8% 0px -72% 0px', threshold: [0, 1] }
     )
+    nodes.forEach((n) => observer.observe(n))
+    return () => observer.disconnect()
+  }, [page?.id, page?.toc])
+
+  const muted = isLight ? 'text-[#6B7280]' : 'text-[#8B8B93]'
+  const strong = isLight ? 'text-[#0F172A]' : 'text-white'
+  const border = isLight ? 'border-[#E2E5EC]' : 'border-[#FFFFFF0F]'
+  const shell = isLight ? 'bg-[#F3F5F8]' : 'bg-[#070711]'
+  const docsBg = isLight ? 'bg-[#F7F8FA]' : 'bg-[#0A0A10]'
+  const activeNavCls = isLight
+    ? 'bg-[#E8ECF2] text-[#0F172A]'
+    : 'bg-[#FFFFFF12] text-white'
+  const idleNavCls = isLight
+    ? 'text-[#5B6472] hover:bg-[#EEF1F5] hover:text-[#0F172A]'
+    : 'text-[#8B8B93] hover:bg-[#FFFFFF0A] hover:text-white/90'
+
+  return (
+    // Cancel shell padding; fill viewport above disclaimer footer (~52px)
+    <div
+      className={`tutorial-docs flex w-full -mt-18 lg:-mt-5 h-[calc(100dvh-52px)] ${shell}`}
+    >
+      {/* ── Docs sidebar ── */}
+      <aside
+        className={`hidden xl:flex w-[248px] 2xl:w-[268px] shrink-0 flex-col border-r ${border} ${docsBg}`}
+      >
+        <div className={`shrink-0 px-4 pt-5 pb-4 border-b ${border}`}>
+          <div className="flex items-center justify-between gap-2 mb-4">
+            <div className="flex items-center gap-2 min-w-0">
+              <svg width="15" height="15" viewBox="0 0 18 18" fill="none" aria-hidden className={muted}>
+                <path
+                  d="M3.5 5h11M3.5 9h11M3.5 13h7"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className={`text-[13px] font-medium truncate ${strong}`}>Documentation</span>
+            </div>
+            <a
+              href="https://discord.gg/"
+              target="_blank"
+              rel="noreferrer"
+              className={`shrink-0 text-[11px] font-medium ${muted} hover:opacity-80`}
+            >
+              Community
+            </a>
+          </div>
+
+          <label className="relative block">
+            <span className="sr-only">Search docs</span>
+            <svg
+              className={`pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 ${muted}`}
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden
+            >
+              <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.6" />
+              <path d="M20 20l-3.2-3.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search docs"
+              className={`w-full h-9 rounded-lg border ${border} ${
+                isLight ? 'bg-white' : 'bg-[#12121A]'
+              } pl-8 pr-3 text-[12px] ${strong} placeholder:text-[#6B7280] outline-none focus:border-[#227ED9]/50`}
+            />
+          </label>
+        </div>
+
+        <nav className="flex-1 min-h-0 overflow-y-auto px-2.5 py-4 dashboard-scroll">
+          {filteredCategories.map((cat) => (
+            <div key={cat.id} className="mb-5 last:mb-1">
+              <p
+                className={`px-2.5 mb-1.5 text-[10px] tracking-[0.1em] font-semibold uppercase ${muted}`}
+              >
+                {cat.label}
+              </p>
+              <ul className="flex flex-col gap-[2px]">
+                {cat.items.map((item) => {
+                  const active = item.id === activeNav
+                  return (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        onClick={() => setDoc(item.id)}
+                        className={`w-full text-left rounded-lg px-2.5 py-[7px] text-[12.5px] leading-[17px] transition-colors cursor-pointer ${
+                          active ? `${activeNavCls} font-medium` : idleNavCls
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </aside>
+
+      {/* ── Content ── */}
+      <div id="tutorial-content" className="min-w-0 flex-1 overflow-y-auto dashboard-scroll">
+        <div className="px-5 sm:px-8 lg:px-10 pt-6 sm:pt-8 pb-12 max-w-[760px]">
+          <div className="xl:hidden mb-5">
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen((v) => !v)}
+              className={`w-full flex items-center justify-between rounded-lg border ${border} px-3 py-2.5 text-[13px] ${strong} ${
+                isLight ? 'bg-white' : 'bg-[#12121A]'
+              }`}
+            >
+              <span>{labelForNav(activeNav)}</span>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                <path
+                  d="M2.5 4.5L6 8l3.5-3.5"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+            {mobileNavOpen && (
+              <div
+                className={`mt-2 max-h-72 overflow-y-auto rounded-lg border ${border} ${
+                  isLight ? 'bg-white' : 'bg-[#12121A]'
+                } p-2`}
+              >
+                {categories.map((cat) => (
+                  <div key={cat.id} className="mb-3">
+                    <p className={`px-2 mb-1 text-[10px] tracking-[0.1em] ${muted}`}>{cat.label}</p>
+                    {cat.items.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setDoc(item.id)}
+                        className={`block w-full text-left rounded-md px-2 py-1.5 text-[12px] ${
+                          item.id === activeNav ? `${activeNavCls}` : idleNavCls
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <p className={`text-[11px] tracking-[0.08em] uppercase font-medium mb-2 ${muted}`}>
+            {categoryForNav(activeNav)}
+          </p>
+          <h1 className={`text-[28px] sm:text-[32px] font-semibold leading-tight tracking-[-0.02em] mb-2 ${strong}`}>
+            {page.title}
+          </h1>
+          {page.subtitle ? (
+            <p className={`text-[14px] leading-[21px] max-w-[580px] ${muted}`}>{page.subtitle}</p>
+          ) : null}
+
+          {activeNav === 'quickstart' && (
+            <div
+              className={`mt-6 mb-8 w-full aspect-[16/9] max-h-[340px] rounded-xl border ${border} ${
+                isLight ? 'bg-[#E8ECF2]' : 'bg-[#12121A]'
+              } flex items-start p-4`}
+            >
+              <div className={`inline-flex items-center gap-2 text-[12px] ${muted}`}>
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none" aria-hidden>
+                  <rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.3" />
+                  <path d="M7.5 6.5v5l4.5-2.5-4.5-2.5Z" fill="currentColor" />
+                </svg>
+                Quickstart
+              </div>
+            </div>
+          )}
+
+          <div className={`flex flex-col gap-7 ${activeNav === 'quickstart' ? '' : 'mt-8'}`}>
+            {page.blocks.map((block, i) => {
+              if (block.type === 'heading') {
+                return (
+                  <div key={`${block.id}-${i}`} id={block.id} className="scroll-mt-8">
+                    <h2
+                      className={`flex items-start gap-2 text-[18px] sm:text-[20px] font-semibold leading-snug ${strong}`}
+                    >
+                      <span className="text-[#88C4FF] shrink-0 font-semibold">#</span>
+                      <span>{block.text}</span>
+                    </h2>
+                  </div>
+                )
+              }
+              return (
+                <p
+                  key={`p-${i}`}
+                  className={`text-[13px] sm:text-[14px] leading-[21px] ${muted} ${
+                    i > 0 && page.blocks[i - 1]?.type === 'heading' ? '-mt-4' : ''
+                  }`}
+                >
+                  {block.text}
+                </p>
+              )
+            })}
+          </div>
+
+          <div className={`mt-10 pt-6 border-t ${border} flex items-center justify-between gap-4`}>
+            {prevNav ? (
+              <button
+                type="button"
+                onClick={() => setDoc(prevNav)}
+                className={`flex items-center gap-1.5 text-[13px] ${strong} cursor-pointer`}
+              >
+                <svg width="16" height="16" viewBox="0 0 22 22" fill="none" aria-hidden>
+                  <path
+                    d="M13.75 5.5L8.25 11L13.75 16.5"
+                    stroke="currentColor"
+                    strokeOpacity="0.5"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                {labelForNav(prevNav)}
+              </button>
+            ) : (
+              <span />
+            )}
+            {nextNav ? (
+              <button
+                type="button"
+                onClick={() => setDoc(nextNav)}
+                className={`flex items-center gap-1.5 text-[13px] ${strong} cursor-pointer`}
+              >
+                {labelForNav(nextNav)}
+                <svg width="16" height="16" viewBox="0 0 22 22" fill="none" aria-hidden>
+                  <path
+                    d="M8.25 5.5L13.75 11L8.25 16.5"
+                    stroke="currentColor"
+                    strokeOpacity="0.5"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            ) : (
+              <span />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── On this page ── */}
+      <aside
+        className={`hidden lg:flex w-[200px] xl:w-[220px] shrink-0 flex-col border-l ${border} ${docsBg}`}
+      >
+        <div className="px-4 pt-6 pb-4">
+          <p className={`text-[10px] tracking-[0.1em] font-semibold uppercase mb-3 ${muted}`}>
+            On this page
+          </p>
+          {page.toc.length ? (
+            <ul className="flex flex-col gap-2">
+              {page.toc.map((item) => {
+                const active = activeHeading === item.id
+                return (
+                  <li key={item.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        document.getElementById(item.id)?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start',
+                        })
+                        setActiveHeading(item.id)
+                      }}
+                      className={`w-full text-left text-[12px] leading-[16px] transition-colors cursor-pointer ${
+                        active ? strong : `${muted} hover:opacity-90`
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : (
+            <p className={`text-[12px] ${muted}`}>Overview</p>
+          )}
+        </div>
+      </aside>
+    </div>
+  )
 }
