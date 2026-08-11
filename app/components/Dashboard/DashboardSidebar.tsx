@@ -475,19 +475,26 @@ export default function DashboardSidebar({
                     ))}
                 </nav>
 
-                {/* Bottom logo */}
+                {/* Bottom logo — links back to the marketing home page */}
                 <div className={`py-5 mt-auto ${compact ? 'px-2 flex justify-center' : 'px-4'}`}>
-                    {compact ? (
-                        <Image
-                            src="/assets/logo.svg"
-                            alt="CrossResearch"
-                            width={28}
-                            height={28}
-                            className="object-contain"
-                        />
-                    ) : (
-                        <Image src="/assets/full-logo.svg" alt="CrossResearch" width={218} height={28} />
-                    )}
+                    <Link
+                        href="/"
+                        title="Back to home"
+                        onClick={() => setMobileOpen(false)}
+                        className="inline-flex opacity-90 hover:opacity-100 transition-opacity"
+                    >
+                        {compact ? (
+                            <Image
+                                src="/assets/logo.svg"
+                                alt="CrossResearch"
+                                width={28}
+                                height={28}
+                                className="object-contain"
+                            />
+                        ) : (
+                            <Image src="/assets/full-logo.svg" alt="CrossResearch" width={218} height={28} />
+                        )}
+                    </Link>
                 </div>
             </div>
         )
