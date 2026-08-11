@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   })
 
   if (!ok) {
-    return NextResponse.json(
+    const res = NextResponse.json(
       {
         error: 'Login failed',
         details: body.detail ?? body,
@@ -28,9 +28,12 @@ export async function POST(request: NextRequest) {
       },
       { status }
     )
+    res.headers.set('X-Debug-Next', 'auth-login')
+    return res
   }
 
   const tokens = body as unknown as AuthTokenPayload
   const res = NextResponse.json(publicAuthBody(body))
+  res.headers.set('X-Debug-Next', 'auth-login')
   return applyAuthCookies(res, tokens)
 }
