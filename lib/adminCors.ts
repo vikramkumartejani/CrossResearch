@@ -35,6 +35,11 @@ export function corsPreflight(request: NextRequest): NextResponse {
   return withCors(request, new NextResponse(null, { status: 204 }))
 }
 
+/**
+ * FastAPI origin for server-side proxying.
+ * Production example (strip /api in nginx → uvicorn): BACKEND_URL=https://crossresearch.io/api
+ * Local: BACKEND_URL=http://127.0.0.1:8000
+ */
 export function backendBase(): string {
   return (process.env.BACKEND_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '')
 }
@@ -45,13 +50,13 @@ export async function proxyBackend(
   method: 'GET' | 'PUT' | 'POST' | 'PATCH'
 ): Promise<NextResponse> {
   try {
-    const apiUrl = `${backendBase()}${path}`
+    const apiUrl = `${backendBase()}${path.startsWith('/') ? path : `/${path}`}`
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     }
     const adminKey = request.headers.get('x-admin-key')
-    if (adminKey) headers['X-Admin-Key'] = adminKey
     const supportKey = request.headers.get('x-support-key')
+    if (adminKey) headers['X-Admin-Key'] = adminKey
     if (supportKey) headers['X-Support-Key'] = supportKey
 
     const init: RequestInit = {
@@ -59,7 +64,7 @@ export async function proxyBackend(
       headers,
       cache: 'no-store',
     }
-    if (method === 'PUT' || method === 'POST' || method === 'PATCH') {
+    if (method !== 'GET') {
       init.body = await request.text()
     }
 

@@ -3,6 +3,7 @@ import { Inter, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ConditionalLayout from "./components/ConditionalLayout";
 import AppToaster from "./components/AppToaster";
+import { siteUrl } from "@/lib/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -16,17 +17,19 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const SITE = siteUrl()
+
 export const metadata: Metadata = {
   title: {
     default: 'CrossResearch - Institutional-Grade Market Intelligence',
     template: '%s | CrossResearch',
   },
   description: 'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.',
-  authors: [{ name: 'CrossResearch', url: 'https://cross-research.vercel.app' }],
+  authors: [{ name: 'CrossResearch', url: SITE }],
   creator: 'CrossResearch',
   publisher: 'CrossResearch',
   robots: { index: true, follow: true },
-  metadataBase: new URL('https://cross-research.vercel.app'),
+  metadataBase: new URL(SITE),
 };
 
 export default function RootLayout({

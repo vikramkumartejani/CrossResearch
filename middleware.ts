@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
-import { ACCESS_COOKIE, REFRESH_COOKIE, applyAuthCookies } from '@/lib/authCookies'
+import { ACCESS_COOKIE, REFRESH_COOKIE, applyAuthCookies, backendBase } from '@/lib/authCookies'
 
 const DASHBOARD_PREFIXES = [
   '/analysis',
@@ -77,7 +77,7 @@ function redirectTo(request: NextRequest, pathname: string, tokens?: {
 async function refreshViaBackend(request: NextRequest) {
   const refresh = request.cookies.get(REFRESH_COOKIE)?.value
   if (!refresh) return null
-  const backend = (process.env.BACKEND_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '')
+  const backend = backendBase()
   try {
     const response = await fetch(`${backend}/auth/refresh`, {
       method: 'POST',

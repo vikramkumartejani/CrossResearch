@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
+import { siteUrl } from '@/lib/site'
 
-const BASE_URL = 'https://cross-research.vercel.app'
+const BASE_URL = siteUrl()
 
 export const dynamic = 'force-static'
 

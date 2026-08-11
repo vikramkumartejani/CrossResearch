@@ -13,6 +13,8 @@ export type AuthTokenPayload = {
 }
 
 export function backendBase(): string {
+  // Same-origin browser calls hit Next `/api/*`; this is the FastAPI origin Next proxies to.
+  // Prod: https://crossresearch.io/api  |  Local: http://127.0.0.1:8000
   return (process.env.BACKEND_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '')
 }
 
