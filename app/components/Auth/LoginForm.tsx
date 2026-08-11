@@ -3,14 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
 import { authErrorMessage } from "@/lib/authUi";
 import { postAuthPath } from "@/lib/authRedirect";
 
 export default function LoginForm() {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -25,6 +24,7 @@ export default function LoginForm() {
             const res = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                credentials: "same-origin",
                 body: JSON.stringify({ email, password, remember }),
             });
             const body = await res.json().catch(() => ({}));
@@ -34,8 +34,9 @@ export default function LoginForm() {
             const name =
                 typeof body?.user?.full_name === "string" ? body.user.full_name : "Welcome back";
             toast.success(`Welcome back, ${name}`);
-            router.replace(postAuthPath(body.user, searchParams.get("next")));
-            router.refresh();
+            // Hard navigate so middleware always receives the new httpOnly cookies
+            window.location.assign(postAuthPath(body.user, searchParams.get("next")));
+            return;
         } catch (err) {
             toast.error(err instanceof Error ? err.message : "Login failed");
         } finally {

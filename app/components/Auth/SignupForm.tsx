@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
 import OtpBoxes from "./OtpBoxes";
@@ -11,7 +11,6 @@ import { authErrorMessage } from "@/lib/authUi";
 import { postAuthPath } from "@/lib/authRedirect";
 
 export default function SignupForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [step, setStep] = useState<"form" | "otp">("form");
   const [fullName, setFullName] = useState("");
@@ -44,6 +43,7 @@ export default function SignupForm() {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({
           full_name: fullName.trim(),
           email,
@@ -61,8 +61,8 @@ export default function SignupForm() {
         return;
       }
       toast.success(body.message || "Account created.");
-      router.replace(postAuthPath(body.user));
-      router.refresh();
+      window.location.assign(postAuthPath(body.user));
+      return;
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Signup failed");
     } finally {
@@ -81,6 +81,7 @@ export default function SignupForm() {
       const res = await fetch("/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({ email, code: otp.trim(), purpose: "signup" }),
       });
       const body = await res.json().catch(() => ({}));
@@ -88,8 +89,8 @@ export default function SignupForm() {
         throw new Error(authErrorMessage(body, "Verification failed"));
       }
       toast.success(body.message || "Email verified.");
-      router.replace(postAuthPath(body.user));
-      router.refresh();
+      window.location.assign(postAuthPath(body.user));
+      return;
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Verification failed");
     } finally {

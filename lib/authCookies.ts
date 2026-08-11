@@ -3,8 +3,6 @@ import { NextResponse } from 'next/server'
 export const ACCESS_COOKIE = 'cr_at'
 export const REFRESH_COOKIE = 'cr_rt'
 
-const isProd = process.env.NODE_ENV === 'production'
-
 export type AuthTokenPayload = {
   access_token: string
   refresh_token: string
@@ -12,19 +10,37 @@ export type AuthTokenPayload = {
   refresh_expires_in: number
 }
 
+/**
+ * FastAPI origin for server-side proxying (no trailing slash).
+ * Prod example: https://crossresearch.io/api
+ * Local: http://127.0.0.1:8000
+ */
 export function backendBase(): string {
-  // Same-origin browser calls hit Next `/api/*`; this is the FastAPI origin Next proxies to.
-  // Prod: https://crossresearch.io/api  |  Local: http://127.0.0.1:8000
   return (process.env.BACKEND_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '')
 }
 
-export function applyAuthCookies(res: NextResponse, tokens: AuthTokenPayload): NextResponse {
-  const common = {
+/** Secure cookies on HTTPS production. Override with COOKIE_SECURE=true|false. */
+function cookieSecure(): boolean {
+  const raw = (process.env.COOKIE_SECURE || '').trim().toLowerCase()
+  if (raw === '1' || raw === 'true' || raw === 'yes') return true
+  if (raw === '0' || raw === 'false' || raw === 'no') return false
+  return process.env.NODE_ENV === 'production'
+}
+
+function cookieCommon() {
+  const domain = (process.env.COOKIE_DOMAIN || '').trim() // e.g. .crossresearch.io
+  return {
     httpOnly: true,
-    secure: isProd,
+    secure: cookieSecure(),
     sameSite: 'lax' as const,
     path: '/',
+    ...(domain ? { domain } : {}),
   }
+}
+
+export function applyAuthCookies(res: NextResponse, tokens: AuthTokenPayload): NextResponse {
+  if (!tokens?.access_token || !tokens?.refresh_token) return res
+  const common = cookieCommon()
   res.cookies.set(ACCESS_COOKIE, tokens.access_token, {
     ...common,
     maxAge: Math.max(60, Number(tokens.access_expires_in) || 900),
@@ -37,8 +53,9 @@ export function applyAuthCookies(res: NextResponse, tokens: AuthTokenPayload): N
 }
 
 export function clearAuthCookies(res: NextResponse): NextResponse {
-  res.cookies.set(ACCESS_COOKIE, '', { httpOnly: true, secure: isProd, sameSite: 'lax', path: '/', maxAge: 0 })
-  res.cookies.set(REFRESH_COOKIE, '', { httpOnly: true, secure: isProd, sameSite: 'lax', path: '/', maxAge: 0 })
+  const common = cookieCommon()
+  res.cookies.set(ACCESS_COOKIE, '', { ...common, maxAge: 0 })
+  res.cookies.set(REFRESH_COOKIE, '', { ...common, maxAge: 0 })
   return res
 }
 
@@ -51,7 +68,7 @@ export async function backendAuth(
   path: string,
   init: RequestInit
 ): Promise<{ ok: boolean; status: number; body: Record<string, unknown> }> {
-  const response = await fetch(`${backendBase()}${path}`, {
+  const response = await fetch(`${backendBase()}${path.startsWith('/') ? path : `/${path}`}`, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
