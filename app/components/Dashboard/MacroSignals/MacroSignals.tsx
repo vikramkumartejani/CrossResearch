@@ -14,8 +14,14 @@ interface MacroSignalsResponse {
     cached?: boolean
 }
 
+interface SignalCardsResponse {
+    title?: string
+    cards?: SignalChart[]
+}
+
 export default function MacroSignals() {
-    const [charts, setCharts] = useState<SignalChart[]>([])
+    const [cards, setCards] = useState<SignalChart[]>([])
+    const [sectionTitle, setSectionTitle] = useState('Liquidity & Cross Signals')
     const [brief, setBrief] = useState<MacroBrief | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -23,31 +29,47 @@ export default function MacroSignals() {
     useEffect(() => {
         let cancelled = false
 
-        async function load() {
+        // The left brief still comes from the live desk engine.
+        async function loadBrief() {
+            try {
+                const response = await fetch('/api/macro-signals')
+                if (!response.ok) return
+                const data: MacroSignalsResponse = await response.json()
+                if (!cancelled) setBrief(data.brief ?? null)
+            } catch {
+                // brief is optional — the sidebar renders its fallback
+            }
+        }
+
+        // The right-side cards are admin-managed (title/image/footer via CMS).
+        async function loadCards() {
             try {
                 setLoading(true)
                 setError(null)
-                const response = await fetch('/api/macro-signals')
+                const response = await fetch('/api/macro-signal-cards', { cache: 'no-store' })
                 if (!response.ok) {
                     const body = await response.json().catch(() => ({}))
-                    throw new Error(body.details || body.detail || body.error || 'Failed to fetch macro signals')
+                    throw new Error(body.details || body.detail || body.error || 'Failed to fetch signal cards')
                 }
-                const data: MacroSignalsResponse = await response.json()
+                const data: SignalCardsResponse = await response.json()
                 if (cancelled) return
-                setCharts(Array.isArray(data.charts) ? data.charts : [])
-                setBrief(data.brief ?? null)
+                if (typeof data.title === 'string' && data.title.trim()) setSectionTitle(data.title.trim())
+                const list = (Array.isArray(data.cards) ? data.cards : [])
+                    .filter((c) => c.active !== false)
+                    .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
+                setCards(list)
             } catch (err) {
                 if (!cancelled) {
                     setError(err instanceof Error ? err.message : 'Unknown error')
-                    setCharts([])
-                    setBrief(null)
+                    setCards([])
                 }
             } finally {
                 if (!cancelled) setLoading(false)
             }
         }
 
-        load()
+        void loadBrief()
+        void loadCards()
         return () => {
             cancelled = true
         }
@@ -82,17 +104,17 @@ export default function MacroSignals() {
                     <WeeklyHighlights brief={brief} />
                 </div>
 
-                <LockedSection title="Liquidity & Cross Signals" keepTitle className="flex-1">
+                <LockedSection title={sectionTitle} keepTitle className="flex-1">
                     {error && (
                         <div className="mb-3 text-[#E25C3F] text-[13px] leading-[18px]">{error}</div>
                     )}
-                    {loading && !charts.length && (
-                        <div className="mb-3 text-white/40 text-[13px]">Computing live macro signals…</div>
+                    {loading && !cards.length && (
+                        <div className="mb-3 text-white/40 text-[13px]">Loading signal cards…</div>
                     )}
 
-                    <div className="flex flex-col gap-3 sm:gap-4">
-                        {charts.map((chart) => (
-                            <SignalChartCard key={chart.id} chart={chart} />
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 items-start">
+                        {cards.map((card) => (
+                            <SignalChartCard key={card.id} chart={card} />
                         ))}
                     </div>
                 </LockedSection>

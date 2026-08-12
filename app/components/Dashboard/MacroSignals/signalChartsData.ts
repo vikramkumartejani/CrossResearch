@@ -5,7 +5,9 @@ export interface SignalChart {
     category: string
     title: string
     badge: 'ALPHA' | 'WATCH' | 'NEUTRAL'
-    chartType: ChartType
+    chartType?: ChartType
+    /** Admin-uploaded chart image (URL or data URL) — takes precedence over drawn charts */
+    image?: string | null
     lineValues?: number[]
     yLabels?: string[]
     xLabels?: string[]
@@ -14,6 +16,8 @@ export interface SignalChart {
     description: string
     action: string
     actionPositive: boolean
+    sort_order?: number
+    active?: boolean
 }
 
 export const ALL_CHARTS: SignalChart[] = [

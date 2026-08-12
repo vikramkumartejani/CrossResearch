@@ -271,7 +271,14 @@ export default function SignalChartCard({ chart }: { chart: SignalChart }) {
                 <p className="mt-1 sm:mt-2 mb-4 text-white text-[14px] sm:text-[15px] sm:text-[16px] leading-[19px] font-medium">{chart.title}</p>
 
                 <div className="w-full">
-                    {chart.chartType === 'bar' && chart.barLabels && chart.barValues ? (
+                    {chart.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                            src={chart.image}
+                            alt={chart.title}
+                            className="w-full h-auto max-h-[260px] object-contain rounded-[4px]"
+                        />
+                    ) : chart.chartType === 'bar' && chart.barLabels && chart.barValues ? (
                         <BarChart labels={chart.barLabels} values={chart.barValues} />
                     ) : chart.chartType === 'dots' && chart.lineValues ? (
                         <DotsChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
