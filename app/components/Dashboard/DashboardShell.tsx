@@ -57,8 +57,8 @@ function DashboardShellInner({ children }: { children: ReactNode }) {
       >
         <main className="relative flex-1 overflow-y-auto pt-18 lg:pt-5 min-h-0 dashboard-scroll">
           {/* Sticky float — zero layout height so header/price alignment is untouched */}
-          <div className="pointer-events-none sticky top-3 z-50 hidden lg:flex justify-end px-4 lg:px-6 h-0">
-            <div className="pointer-events-auto -translate-y-0 translate-x-0">
+          <div className="pointer-events-none sticky top-2 z-50 hidden lg:flex justify-end px-4 lg:px-6 h-0">
+            <div className="pointer-events-auto -translate-y-2 translate-x-0">
               <ThemeToggleButton />
             </div>
           </div>

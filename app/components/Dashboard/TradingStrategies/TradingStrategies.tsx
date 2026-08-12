@@ -307,14 +307,14 @@ export default function TradingStrategies() {
                 <div className="hidden xl:block" />
               )}
 
-              <LockedSection required="platinum" title="Strategy Cards" className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <LockedSection required="platinum" title="Strategy Cards" showHeading={false} contentClassName="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {gridCards.map((card) => (
                   <SmallCard key={card.id} card={card} onOpen={setSelected} />
                 ))}
               </LockedSection>
             </div>
 
-            <LockedSection required="platinum" title="More Strategies" className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
+            <LockedSection required="platinum" title="More Strategies" showHeading={false} contentClassName="grid grid-cols-1 lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4">
               {bottomCards.map((card) => (
                 <div
                   key={card.id}
@@ -348,7 +348,7 @@ export default function TradingStrategies() {
           (pageItems.length === 0 && !loading ? (
             <p className="text-[#838388] text-[13px] py-8">No strategies match.</p>
           ) : (
-            <LockedSection required="platinum" title="Strategy Library">
+            <LockedSection required="platinum" title="Strategy Library" showHeading={false}>
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
                 {pageItems.map((card) => (
                   <SmallCard key={card.id} card={card} onOpen={setSelected} />

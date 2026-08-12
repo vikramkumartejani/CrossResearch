@@ -38,8 +38,6 @@ export default function AnalysisHeader({
   return (
     <div className="mb-5 sm:mb-6">
 
-            <div className="grid grid-cols-[1fr_auto] items-end gap-6 w-full">
-
       {/* Title only — nothing on the right (toggle is floating elsewhere) */}
       <div ref={ref} className="relative mb-6 max-w-xl">
         <p className={`text-[11px] tracking-[0.08em] uppercase mb-2 ${muted}`}>
@@ -115,7 +113,22 @@ export default function AnalysisHeader({
         )}
       </div>
 
-       <div className="flex flex-col items-end justify-end shrink-0">
+      {/* Bottom row: prev stats LEFT · live price RIGHT, shared baseline */}
+      <div className="flex flex-row flex-wrap items-end justify-between gap-x-6 sm:gap-x-8 gap-y-3 min-w-0 w-full">
+        <div className="flex flex-row flex-wrap items-end gap-x-6 sm:gap-x-8 gap-y-3 min-w-0">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col">
+              <span className={`text-[16px] sm:text-[18px] font-semibold leading-none tabular-nums ${strong}`}>
+                {stat.value}
+              </span>
+              <span className={`mt-1.5 text-[11px] tracking-[0.06em] uppercase leading-none ${muted}`}>
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col items-end shrink-0">
           <div className="flex items-center gap-2">
             <span
               className={`w-2 h-2 rounded-full ${
@@ -136,21 +149,7 @@ export default function AnalysisHeader({
             {selectedPair.change.replace(/^[+-]/, '')}
           </span>
         </div>
-        </div>
-
-      {/* Bottom row only: prev stats LEFT · live price RIGHT, shared baseline */}
-        <div className="flex flex-row flex-wrap items-end gap-x-6 sm:gap-x-8 gap-y-3 min-w-0">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col">
-              <span className={`text-[16px] sm:text-[18px] font-semibold leading-none tabular-nums ${strong}`}>
-                {stat.value}
-              </span>
-              <span className={`mt-1.5 text-[11px] tracking-[0.06em] uppercase leading-none ${muted}`}>
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </div>
+      </div>
 
        
       

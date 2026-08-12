@@ -60,7 +60,7 @@ export function useDashboardTheme() {
 export function dashCardClass(theme: DashboardTheme) {
   return theme === 'light'
     ? 'bg-[#FFFFFF] border border-[#D5D8E0] text-[#0F172A]'
-    : 'bg-[#2A2A35] border border-[#FFFFFF0D] text-white'
+    : 'bg-[#16161F] border border-[#FFFFFF0D] text-white'
 }
 
 export function ThemeToggleButton({ compact = false }: { compact?: boolean }) {

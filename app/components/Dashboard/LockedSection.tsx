@@ -29,19 +29,26 @@ export default function LockedSection({
   children,
   required = 'gold',
   className = '',
+  contentClassName = '',
   label,
   title,
   keepTitle = false,
+  showHeading = true,
 }: {
   children: ReactNode
   required?: PlanId
+  /** Applied to the outer wrapper (sizing/margins) */
   className?: string
+  /** Layout of the children themselves (e.g. grid classes) — stays with the content even when locked */
+  contentClassName?: string
   /** @deprecated prefer `title` */
   label?: string
   /** Clear section heading shown above the veil */
   title?: string
   /** Keep rendering the title when unlocked (use when children have no heading) */
   keepTitle?: boolean
+  /** Hide the heading row above the veil (title still names the unlock card) */
+  showHeading?: boolean
 }) {
   const router = useRouter()
   const { plan, loading, refresh, setPlanOptimistic } = usePlan()
@@ -72,7 +79,7 @@ export default function LockedSection({
 
   if (loading || allowed) {
     return (
-      <div className={className}>
+      <div className={`${className} ${contentClassName}`.trim()}>
         {keepTitle && heading ? (
           <h2 className="text-white text-[16px] sm:text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
             {heading}
@@ -87,7 +94,7 @@ export default function LockedSection({
 
   return (
     <div className={`relative ${className}`}>
-      {heading ? (
+      {heading && showHeading ? (
         <div className="relative z-20 mb-3 flex items-center gap-2.5">
           <h2 className="text-white text-[16px] sm:text-[18px] leading-[22px] font-medium">{heading}</h2>
           <span className="inline-flex items-center gap-1 h-[22px] px-2 rounded-md border border-[#FFFFFF14] bg-[#FFFFFF08] text-white/55 text-[10px] font-medium uppercase tracking-[0.06em]">
@@ -100,7 +107,7 @@ export default function LockedSection({
       <div className="relative overflow-hidden rounded-[10px] min-h-[180px] border border-[#FFFFFF0A] bg-[#0C0C14]/40">
         <div
           aria-hidden
-          className="pointer-events-none select-none blur-[4px] opacity-[0.55] saturate-[0.75] [&_h2:first-of-type]:invisible"
+          className={`pointer-events-none select-none blur-[4px] opacity-[0.55] saturate-[0.75] [&_h2:first-of-type]:invisible ${contentClassName}`}
         >
           {children}
         </div>
