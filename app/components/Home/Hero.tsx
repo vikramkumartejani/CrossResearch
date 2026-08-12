@@ -17,12 +17,12 @@ export default function Hero() {
             <div className="mt-24 sm:mt-32 xl:mt-[136px] max-w-[1920px] bg-[#0F0F18] rounded-t-[40px] 2xl:rounded-[60px] relative z-10 mx-auto px-5 sm:px-6 pt-8 sm:pt-16 lg:pt-[76px] flex flex-col items-center justify-center">
 
                 {/* Heading */}
-                <h1 id="hero-heading" className="mb-4 sm:mb-6 text-center font-normal text-3xl sm:text-5xl md:text-6xl lg:text-[73px] leading-tight md:leading-tight lg:leading-[88px] tracking-tight lg:tracking-[-2.93px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                    Institutional-Grade Market <br className="xl:block hidden" /> Intelligence for Serious Traders
+                <h1 id="hero-heading" className="font-urbanist mb-4 sm:mb-6 text-center font-normal text-3xl sm:text-5xl md:text-6xl lg:text-[73px] leading-tight md:leading-tight lg:leading-[88px] tracking-tight lg:tracking-[-2.93px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
+                    Institutional-<span className="text-[#88C4FF]">Grade</span> Market <br className="xl:block hidden" /> Intelligence for Serious Traders
                 </h1>
 
                 {/* Subheading */}
-                <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-inter font-normal max-w-[849px] mx-auto text-center">
+                <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist font-normal max-w-[849px] mx-auto text-center">
                     Access proprietary algorithms, macro intelligence, and market regime
                     tools trusted by advanced traders for precise, data-driven market
                     decisions worldwide.

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main>
+    <main className="font-urbanist">
       <Hero />
 
       <div className="relative">
