@@ -78,8 +78,8 @@ export function ThemeToggleButton({ compact = false }: { compact?: boolean }) {
       type="button"
       onClick={handleToggle}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className={`dashboard-theme-toggle inline-flex items-center gap-2 rounded-full text-[12px] font-semibold tracking-wide cursor-pointer transition-colors duration-200 ${
-        compact ? 'h-8 px-2.5' : 'h-9 px-3.5'
+      className={`dashboard-theme-toggle inline-flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ${
+        compact ? 'h-8 w-8' : 'h-9 w-9'
       }`}
     >
       <span
@@ -109,7 +109,6 @@ export function ThemeToggleButton({ compact = false }: { compact?: boolean }) {
           </svg>
         )}
       </span>
-      {!compact && (isDark ? 'DARK' : 'LIGHT')}
     </button>
   )
 }

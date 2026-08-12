@@ -328,8 +328,8 @@ export default function DashboardSidebar({
                         title={compact ? 'Expand sidebar' : 'Collapse sidebar'}
                         className={`absolute top-5 -right-3 z-10 inline-flex items-center justify-center w-6 h-6 rounded-full border transition-colors cursor-pointer ${
                             isLight
-                                ? 'border-[#D5D8E0] bg-white text-[#5B6472] hover:text-[#0F172A] hover:bg-[#F3F5F8]'
-                                : 'border-[#FFFFFF1A] bg-[#16161F] text-white/50 hover:text-white hover:bg-[#22222E]'
+                                ? 'border-[#D5D8E0] bg-[#F3F5F8] text-[#5B6472] hover:text-[#0F172A] hover:bg-white'
+                                : 'border-[#FFFFFF1A] bg-[#070711] text-white/50 hover:text-white hover:bg-[#22222E]'
                         }`}
                     >
                         <IconCollapseChevron collapsed={compact} />
@@ -337,7 +337,7 @@ export default function DashboardSidebar({
                 )}
 
                 {/* User */}
-                <div ref={attachUserRef ? ref : undefined} className={`relative pb-6 ${compact ? 'px-2' : 'px-4'}`}>
+                <div ref={attachUserRef ? ref : undefined} className={`relative pb-5 border-b ${isLight ? 'border-[#D5D8E0]' : 'border-[#FFFFFF0F]'} ${compact ? 'px-2' : 'px-4'}`}>
                     <button
                         onClick={() => {
                             if (compact) return
@@ -357,7 +357,7 @@ export default function DashboardSidebar({
                                 }`}>
                                     {initials}
                                 </div>
-                                <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 ${isLight ? 'border-white' : 'border-[#0D1115]'}`} />
+                                <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#62A381] border-1 ${isLight ? 'border-[#F3F5F8]' : 'border-[#070711]'}`} />
                             </div>
                             {!compact && (
                                 <div className="block text-left min-w-0">
@@ -418,7 +418,7 @@ export default function DashboardSidebar({
                 </div>
 
                 {/* Nav sections */}
-                <nav className={`dashboard-nav flex-1 overflow-y-auto ${compact ? 'px-2' : 'px-4'}`}>
+                <nav className={`dashboard-nav flex-1 overflow-y-auto pt-5 ${compact ? 'px-2' : 'px-4'}`}>
                     {NAV_SECTIONS.map((section) => (
                         <div key={section.label} className="mb-5">
                             {!compact && (
@@ -476,7 +476,7 @@ export default function DashboardSidebar({
                 </nav>
 
                 {/* Bottom logo — links back to the marketing home page */}
-                <div className={`py-5 mt-auto ${compact ? 'px-2 flex justify-center' : 'px-4'}`}>
+                <div className={`py-5 mt-auto border-t ${isLight ? 'border-[#D5D8E0]' : 'border-[#FFFFFF0F]'} ${compact ? 'px-2 flex justify-center' : 'px-4'}`}>
                     <Link
                         href="/"
                         title="Back to home"
@@ -517,8 +517,8 @@ export default function DashboardSidebar({
             <aside
                 className={`hidden lg:flex fixed top-0 left-0 h-full flex-col z-40 transition-[width] duration-200 border-r ${
                     isLight
-                        ? 'bg-white border-[#D5D8E0]'
-                        : 'bg-[#16161F] border-[#FFFFFF0F]'
+                        ? 'bg-[#F3F5F8] border-[#D5D8E0]'
+                        : 'bg-[#070711] border-[#FFFFFF0F]'
                 } ${ready ? '' : 'opacity-0'} ${collapsed ? 'w-[72px]' : 'w-[268px]'}`}
             >
                 {desktopContent}
@@ -528,8 +528,8 @@ export default function DashboardSidebar({
             <header
                 className={`lg:hidden fixed top-0 left-0 right-0 z-50 h-14 border-b flex items-center justify-between px-4 ${
                     isLight
-                        ? 'bg-white border-[#D5D8E0]'
-                        : 'bg-[#16161F] border-[#FFFFFF0F]'
+                        ? 'bg-[#F3F5F8] border-[#D5D8E0]'
+                        : 'bg-[#070711] border-[#FFFFFF0F]'
                 }`}
             >
                 {/* Left: logo */}
@@ -589,8 +589,8 @@ export default function DashboardSidebar({
                             key='drawer'
                             className={`fixed top-0 left-0 h-full w-[260px] border-r z-50 flex flex-col ${
                                 isLight
-                                    ? 'bg-white border-[#D5D8E0]'
-                                    : 'bg-[#16161F] border-[#FFFFFF0D]'
+                                    ? 'bg-[#F3F5F8] border-[#D5D8E0]'
+                                    : 'bg-[#070711] border-[#FFFFFF0D]'
                             }`}
                             initial={{ x: '-100%' }}
                             animate={{ x: 0 }}
