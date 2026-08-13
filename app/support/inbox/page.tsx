@@ -28,7 +28,11 @@ export default function SupportInboxPage() {
   const load = useCallback(async () => {
     try {
       setError(null)
-      const res = await fetch('/api/tickets', { cache: 'no-store' })
+      const key = sessionStorage.getItem(SUPPORT_KEY_STORAGE) || ''
+      const res = await fetch('/api/tickets', {
+        cache: 'no-store',
+        headers: { 'X-Support-Key': key },
+      })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
         throw new Error(

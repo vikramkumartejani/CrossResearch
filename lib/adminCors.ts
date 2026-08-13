@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ACCESS_COOKIE } from './authCookies'
 
 const DEFAULT_ORIGINS = [
   'https://crossresearch-admin-panel.vercel.app',
@@ -24,7 +25,7 @@ export function withCors(request: NextRequest, response: NextResponse): NextResp
   const origin = corsOrigin(request)
   if (origin) {
     response.headers.set('Access-Control-Allow-Origin', origin)
-    response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, PATCH, OPTIONS')
+    response.headers.set('Access-Control-Allow-Methods', 'GET, PUT, POST, PATCH, DELETE, OPTIONS')
     response.headers.set('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Key, X-Support-Key')
     response.headers.set('Vary', 'Origin')
   }
@@ -47,7 +48,7 @@ export function backendBase(): string {
 export async function proxyBackend(
   request: NextRequest,
   path: string,
-  method: 'GET' | 'PUT' | 'POST' | 'PATCH'
+  method: 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE'
 ): Promise<NextResponse> {
   try {
     const apiUrl = `${backendBase()}${path.startsWith('/') ? path : `/${path}`}`
@@ -59,12 +60,16 @@ export async function proxyBackend(
     if (adminKey) headers['X-Admin-Key'] = adminKey
     if (supportKey) headers['X-Support-Key'] = supportKey
 
+    // Forward the member session so FastAPI can scope data to the logged-in user
+    const access = request.cookies.get(ACCESS_COOKIE)?.value
+    if (access) headers['Authorization'] = `Bearer ${access}`
+
     const init: RequestInit = {
       method,
       headers,
       cache: 'no-store',
     }
-    if (method !== 'GET') {
+    if (method !== 'GET' && method !== 'DELETE') {
       init.body = await request.text()
     }
 

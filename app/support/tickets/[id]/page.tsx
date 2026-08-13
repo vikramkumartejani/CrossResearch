@@ -45,7 +45,11 @@ export default function SupportTicketAnswerPage() {
     if (!id) return
     try {
       setError(null)
-      const res = await fetch(`/api/tickets/${encodeURIComponent(id)}`, { cache: 'no-store' })
+      const supportKey = sessionStorage.getItem(SUPPORT_KEY_STORAGE) || ''
+      const res = await fetch(`/api/tickets/${encodeURIComponent(id)}`, {
+        cache: 'no-store',
+        headers: { 'X-Support-Key': supportKey },
+      })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
         throw new Error(

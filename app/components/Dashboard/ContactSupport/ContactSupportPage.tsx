@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -98,8 +97,6 @@ export default function ContactSupportPage() {
     subject: '',
     category: CATEGORIES[0],
     body: '',
-    requester_name: '',
-    requester_email: '',
   })
 
   const load = useCallback(async () => {
@@ -155,8 +152,6 @@ export default function ContactSupportPage() {
         subject: '',
         category: CATEGORIES[0],
         body: '',
-        requester_name: '',
-        requester_email: '',
       })
       if (id) router.push(`/contact-support/${id}`)
       else await load()
@@ -193,12 +188,6 @@ export default function ContactSupportPage() {
           <p className="text-[#838388] text-[12px] leading-[17px]">
             Open a new ticket, track conversations with the support desk, and search your historical
             requests.
-          </p>
-          <p className="text-[#838388] text-[11px] mt-2">
-            Staff answers tickets at{' '}
-            <Link href="/support/login" className="text-[#88C4FF] underline underline-offset-2">
-              /support/login
-            </Link>
           </p>
         </div>
         <button
@@ -342,25 +331,9 @@ export default function ContactSupportPage() {
                 ))}
               </select>
             </label>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block text-[12px] text-[#838388]">
-                Your name
-                <input
-                  className="mt-1 w-full bg-[#0E0E16] border border-[#FFFFFF14] px-3 py-2 text-white text-[14px] outline-none"
-                  value={form.requester_name}
-                  onChange={(e) => setForm((f) => ({ ...f, requester_name: e.target.value }))}
-                />
-              </label>
-              <label className="block text-[12px] text-[#838388]">
-                Email
-                <input
-                  type="email"
-                  className="mt-1 w-full bg-[#0E0E16] border border-[#FFFFFF14] px-3 py-2 text-white text-[14px] outline-none"
-                  value={form.requester_email}
-                  onChange={(e) => setForm((f) => ({ ...f, requester_email: e.target.value }))}
-                />
-              </label>
-            </div>
+            <p className="text-[#838388] text-[11px]">
+              The ticket is created under your account — we&apos;ll reply to your registered email.
+            </p>
             <label className="block text-[12px] text-[#838388]">
               Message
               <textarea
