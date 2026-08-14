@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import type { MarketReportsPage, Report } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
 import LockedSection from '../LockedSection'
+import { media } from '@/lib/media'
 
 function Tag({ label }: { label: string }) {
     return (
@@ -18,7 +19,7 @@ function Thumb({ src }: { src?: string | null }) {
         return (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-                src={src}
+                src={media(src)}
                 alt=""
                 className="w-full lg:w-[172px] h-[140px] lg:h-[113px] flex-shrink-0 object-cover bg-[#FFFFFF0D]"
             />

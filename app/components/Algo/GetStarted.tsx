@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 import React from 'react'
 
 const GetStarted = () => {
@@ -83,7 +83,7 @@ const GetStarted = () => {
                         <div aria-hidden="true" className="absolute pointer-events-none right-[-30px] bottom-[-60px] lg:top-[-53px]" style={{ width: '81.09px', height: '180.55px',  background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(105.97px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />
                         <div className='w-[200px] h-[160px] absolute bottom-0 lg:top-0 right-0 z-10'>
                             <div
-                                className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                className="absolute inset-0 opacity-20 cr-dots"
                             />
                         </div>
                         <Image

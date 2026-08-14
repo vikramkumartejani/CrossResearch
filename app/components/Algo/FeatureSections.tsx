@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 
 interface FeaturePoint {
     text: string
@@ -94,7 +94,7 @@ function GlowRight() {
             <div aria-hidden="true" className="absolute pointer-events-none right-[-28px] bottom-[-105px] lg:top-[-105px]" style={{ width: '131.05px', height: '291.8px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
              <div className='w-[280px] sm:w-[350px] h-[220px] lg:h-[350px] absolute bottom-0 lg:top-0 right-0 z-10'>
                 <div
-                    className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                    className="absolute inset-0 opacity-20 cr-dots"
                 />
             </div>
         </>
@@ -109,7 +109,7 @@ function GlowLeft() {
             <div aria-hidden="true" className="absolute pointer-events-none left-[-133px] bottom-[-105px] lg:top-[-105px]" style={{ width: '131.05px', height: '291.8px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(171.26px)', transform: 'rotate(-56.09deg)', zIndex: 1 }} />
             <div className='w-[280px] sm:w-[380px] h-[220px] lg:h-[350px] absolute bottom-0 lg:top-0 left-0 z-10'>
                 <div
-                    className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                    className="absolute inset-0 opacity-20 cr-dots"
                 />
             </div>
         </>

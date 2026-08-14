@@ -1,3 +1,5 @@
+import { media } from '@/lib/media'
+
 const ROWS = [
     {
         feature: 'Proprietary TradingView algorithms',
@@ -48,9 +50,9 @@ function CellValue({ text, type }: { text: string; type: string }) {
         return (
             <span className="flex items-center gap-1.5 text-white text-[14px] lg:text-[16px] leading-5 sm:leading-[26px] font-semibold">
                 {text !== '✓' ? (
-                    <img src="/assets/arrow.svg" alt="" className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" aria-hidden="true" />
+                    <img src={media("/assets/arrow.svg")} alt="" className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" aria-hidden="true" />
                 ) : (
-                    <img src="/assets/arrow.svg" alt="" className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" aria-hidden="true" />
+                    <img src={media("/assets/arrow.svg")} alt="" className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" aria-hidden="true" />
                 )}
                 {text !== '✓' ? text : ''}
             </span>
@@ -59,7 +61,7 @@ function CellValue({ text, type }: { text: string; type: string }) {
     if (type === 'partial') {
         return (
             <span className="text-white text-[16px] leading-[26px] font-semibold flex items-center gap-1">
-                <img src='/assets/tilde.svg' alt="tilde" width={12} height={12} /> {text}
+                <img src={media('/assets/tilde.svg')} alt="tilde" width={12} height={12} /> {text}
             </span>
         )
     }

@@ -4,6 +4,7 @@ import "./globals.css";
 import ConditionalLayout from "./components/ConditionalLayout";
 import AppToaster from "./components/AppToaster";
 import ReferralCapture from "./components/ReferralCapture";
+import MediaBackgroundVars from "./components/MediaBackgroundVars";
 import { siteUrl } from "@/lib/site";
 
 const inter = Inter({
@@ -50,6 +51,7 @@ export default function RootLayout({
       className={`${inter.variable} ${dmSans.variable} ${urbanist.variable} antialiased`}
     >
       <body>
+        <MediaBackgroundVars />
         <ReferralCapture />
         <ConditionalLayout>
           {children}

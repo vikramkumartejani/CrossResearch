@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from '@/lib/CldImage';
 import TopLine from "./Svgs/TopLine";
 import HeroEmailBar from "./HeroEmailBar";
 import HeroPreview from "./HeroPreview";

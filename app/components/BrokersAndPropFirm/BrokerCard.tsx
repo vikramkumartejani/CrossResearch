@@ -1,6 +1,7 @@
-import Image from 'next/image';
+import Image from '@/lib/CldImage';
 import Link from 'next/link';
 import { useState } from 'react';
+import { media } from '@/lib/media';
 
 export interface BrokerCardData {
     id: string;
@@ -98,7 +99,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
             {/* Dot pattern */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-                src="/assets/card-dot-img.svg"
+                src={media("/assets/card-dot-img.svg")}
                 alt=""
                 aria-hidden="true"
                 className="absolute top-0 bottom-0 right-0 pointer-events-none select-none object-cover transition-opacity"

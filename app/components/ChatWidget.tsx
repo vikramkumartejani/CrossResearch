@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 import { usePathname } from 'next/navigation'
 
 type Role = 'bot' | 'user'

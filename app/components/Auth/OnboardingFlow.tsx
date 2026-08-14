@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { authErrorMessage } from '@/lib/authUi'

@@ -88,7 +88,7 @@ const OurStrategies = () => {
                                     {/* card-dot-img overlay */}
                                     <div className='w-[160px] sm:w-[300px] h-full absolute top-0 right-0 z-30'>
                                         <div
-                                            className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                            className="absolute inset-0 opacity-20 cr-dots"
                                         />
                                     </div>
 

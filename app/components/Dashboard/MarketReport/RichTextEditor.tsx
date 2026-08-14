@@ -66,17 +66,28 @@ export default function RichTextEditor({ content, onChange, editable = true }: R
         }
     }, [content, editor])
 
-    function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    async function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0]
         if (!file || !editor) return
-
-        const reader = new FileReader()
-        reader.onload = () => {
-            const src = typeof reader.result === 'string' ? reader.result : ''
-            if (src) editor.chain().focus().setImage({ src }).run()
-        }
-        reader.readAsDataURL(file)
         event.target.value = ''
+        try {
+            const form = new FormData()
+            form.append('file', file)
+            form.append('folder', 'market-reports')
+            const res = await fetch('/api/media/upload', { method: 'POST', body: form, credentials: 'include' })
+            const body = await res.json().catch(() => ({}))
+            if (!res.ok) {
+                throw new Error(
+                    typeof body.detail === 'string'
+                        ? body.detail
+                        : body.error || 'Could not upload image'
+                )
+            }
+            const src = typeof body.url === 'string' ? body.url : ''
+            if (src) editor.chain().focus().setImage({ src }).run()
+        } catch {
+            // Keep the editor usable if Cloudinary is not configured yet.
+        }
     }
 
     if (!editor) return null

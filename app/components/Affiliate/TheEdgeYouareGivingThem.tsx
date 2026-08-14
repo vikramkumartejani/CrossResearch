@@ -63,7 +63,7 @@ const TheEdgeYouareGivingThem = () => {
                     }} />
                     <div className='w-[180px] h-[220px] lg:h-[350px] absolute bottom-0 lg:top-0 right-0 z-10'>
                         <div
-                            className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                            className="absolute inset-0 opacity-20 cr-dots"
                         />
                     </div>
 

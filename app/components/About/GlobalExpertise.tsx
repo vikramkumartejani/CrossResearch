@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 import React from 'react'
 
 const GlobalExpertise = () => {

@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useState, type ReactNode } from 'react'
 
 type GreekCard = {
@@ -10,25 +9,44 @@ type GreekCard = {
     symbol: ReactNode
 }
 
+function SymbolIcon({ children }: { children: ReactNode }) {
+    return (
+        <span className="inline-flex size-5 shrink-0 items-center justify-center text-white" aria-hidden>
+            {children}
+        </span>
+    )
+}
+
+const ICON_CLASS = 'size-5'
+
 const SYMBOLS: Record<string, ReactNode> = {
     'NET GEX REGIME': (
-        <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="6" height="24" fill="white" />
-            <rect y="6" width="6" height="14" transform="rotate(-90 0 6)" fill="white" />
-        </svg>
+        <SymbolIcon>
+            <svg className={ICON_CLASS} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 2.5h10v3.2H8.2V17.5H5V2.5z" />
+            </svg>
+        </SymbolIcon>
     ),
     'Vanna Exposure': (
-        <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.16716 20L0 0H4.04734L9.5 16.0571L14.9808 0H19L11.8328 20H7.16716Z" fill="white" />
-        </svg>
+        <SymbolIcon>
+            <svg className={ICON_CLASS} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.2 2.5h3.6L10 13.8 13.2 2.5h3.6L11.6 17.5H8.4L3.2 2.5z" />
+            </svg>
+        </SymbolIcon>
     ),
     'Charm Flow': (
-        <svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.093596 22L6.9885 10.8429L0 0H4.86699L9.67159 7.51143L14.0706 0H18.8128L11.9803 11.0314L19 22H14.133L9.29721 14.3629L4.86699 22H0.093596Z" fill="white" />
-        </svg>
+        <SymbolIcon>
+            <svg className={ICON_CLASS} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.6 2.5h3.7L10 8.4 13.7 2.5h3.7L11.9 10l5.5 7.5h-3.7L10 11.6 6.3 17.5H2.6L8.1 10 2.6 2.5z" />
+            </svg>
+        </SymbolIcon>
     ),
     'IV Term Structure': (
-        <Image src="/assets/term-structure.png" alt="IV Term Structure" width={24} height={24} className="object-contain" style={{ filter: 'invert(1)' }} />
+        <SymbolIcon>
+            <svg className={ICON_CLASS} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.6 2.4H6.4C3.4 2.4 1.8 5.2 1.8 9.4c0 5.4 3.8 8.4 9 8.4 5.4 0 8.4-3.6 8.4-8.4 0-3.6-2.2-6-5.6-6.2v3.2c1.4.2 2.4 1.4 2.4 3 0 2.6-1.8 4.4-5.2 4.4-3.4 0-5.4-2-5.4-5.4 0-2.4 1.2-4 3.4-4.4V2.4h8.8z" />
+            </svg>
+        </SymbolIcon>
     ),
 }
 
@@ -117,9 +135,9 @@ export default function GreeksSynthesis() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
                 {cards.map((card) => (
                     <div key={card.label} className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
-                        <div className="flex items-center gap-[5px]">
-                            <span className="text-white text-[22px] leading-none font-light">{card.symbol}</span>
-                            <span className="text-white text-[14px] leading-[17px] font-medium pt-2.5">
+                        <div className="flex items-center gap-1.5 min-h-5">
+                            {card.symbol}
+                            <span className="text-white text-[14px] leading-5 font-medium">
                                 {card.label}
                             </span>
                         </div>

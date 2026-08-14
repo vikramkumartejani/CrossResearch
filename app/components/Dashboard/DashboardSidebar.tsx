@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -10,13 +10,14 @@ import { initialsFromName } from '@/lib/authUi'
 import { PLAN_LABEL } from '@/lib/plans'
 import { usePlan } from './PlanProvider'
 import { ThemeToggleButton, useDashboardTheme } from './DashboardTheme'
+import { mediaCssUrl } from '@/lib/media'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 // PNG artwork from /assets/sidebar-icons used as CSS masks so the icons inherit
 // the nav item color (inactive grey, active blue, hover, light/dark themes).
 
 function NavIcon({ name }: { name: string }) {
-    const url = `url(/assets/sidebar-icons/${name}.png)`
+    const url = mediaCssUrl(`/assets/sidebar-icons/${name}.png`)
     return (
         <span
             aria-hidden

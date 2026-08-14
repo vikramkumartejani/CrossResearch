@@ -1,6 +1,7 @@
-import Image from 'next/image';
+import Image from '@/lib/CldImage';
 import Link from 'next/link';
 import NewsletterSubscribe from './NewsletterSubscribe';
+import { media } from '@/lib/media';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -207,7 +208,7 @@ export default function Footer() {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <div className=' overflow-hidden'>
                             <img
-                                src="/assets/footer.png"
+                                src={media("/assets/footer.png")}
                                 alt=""
                                 className=''
                                 style={{

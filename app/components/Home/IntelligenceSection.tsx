@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from '@/lib/CldImage';
 import { useEffect, useRef, useState } from "react";
 import CircularProgress from "./CirsularProgress";
 

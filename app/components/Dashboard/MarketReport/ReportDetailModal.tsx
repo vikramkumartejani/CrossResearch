@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import type { Report } from './reportData'
+import { media } from '@/lib/media'
 
 interface ReportDetailModalProps {
     report: Report
@@ -77,7 +78,7 @@ export default function ReportDetailModal({ report, onClose }: ReportDetailModal
                     {report.chartImage ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                            src={report.chartImage}
+                            src={media(report.chartImage)}
                             alt={report.title}
                             className="w-full h-full object-cover"
                         />

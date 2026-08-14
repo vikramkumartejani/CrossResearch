@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+.cr-dots {
+  background-image: var(--cr-dots);
+  background-size: cover;
+}
+
+.cr-card-dots {
+  background-image: var(--cr-card-dots);
+  background-size: cover;
+}
+
 .footer-chart {
   mix-blend-mode: color-dodge;
   isolation: auto;

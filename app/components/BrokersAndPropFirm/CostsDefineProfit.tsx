@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 import Link from 'next/link'
 import React from 'react'
 
@@ -80,7 +80,7 @@ const CostsDefineProfit = () => {
                 {/* card-dot-img overlay */}
                 <div className='w-[300px] h-[220px] lg:h-[300px] absolute -bottom-10 lg:top-0 -right-10 lg:left-0'>
                     <div
-                        className="absolute inset-0 opacity-40 bg-[url('/assets/card-dot-img.svg')] bg-cover"
+                        className="absolute inset-0 opacity-40 cr-card-dots"
                         style={{ backgroundSize: "250%", }}
                     />
                 </div>

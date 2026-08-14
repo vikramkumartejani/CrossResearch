@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from '@/lib/CldImage';
 import React from 'react'
 
 function TagDot() {
@@ -70,7 +70,7 @@ const StrategyMattersMost = () => {
                         {/* card-dot-img overlay */}
                         <div className='w-[280px] sm:w-[350px] h-[220px] lg:h-[350px] absolute top-0 right-0 z-10'>
                             <div
-                                className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                className="absolute inset-0 opacity-20 cr-dots"
                                 // style={{ backgroundSize: "10%", }}
                             />
                         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import Image from '@/lib/CldImage';
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";

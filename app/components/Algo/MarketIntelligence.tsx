@@ -74,7 +74,7 @@ export default function MarketIntelligence() {
                                         <div aria-hidden="true" className="absolute pointer-events-none" style={{ width: '76.54px', height: '150.43px', right: '-37px', top: '-34px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(100.03px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />
                                         <div className='w-[140px] h-[220px] absolute top-0 right-0 z-10'>
                                             <div
-                                                className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                                className="absolute inset-0 opacity-20 cr-dots"
                                             />
                                         </div>
                                     </>

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { authErrorMessage } from "@/lib/authUi";
 import { PLAN_LABEL, type PlanId } from "@/lib/plans";
+import { mediaCssUrl } from "@/lib/media";
 
 type PlanCard = {
     id: "starter" | "gold" | "platinum";
@@ -205,7 +206,7 @@ function SideCard({
                 <div
                     className="bg-[#FFFFFF08] border border-[#0000000D] rounded-[32px] p-6 mb-8"
                     style={{
-                        backgroundImage: "url('/assets/price-card-bg.svg')",
+                        backgroundImage: mediaCssUrl("/assets/price-card-bg.svg"),
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",

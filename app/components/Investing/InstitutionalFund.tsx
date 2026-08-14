@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 
 function TagDot() {
     return (
@@ -65,7 +65,7 @@ const InstitutionalFund = () => {
                 {/* card-dot-img overlay */}
                 <div className='w-[220px] sm:w-[360px] h-[250px] lg:h-[400px] absolute top-0 left-0 z-20'>
                     <div
-                        className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                        className="absolute inset-0 opacity-20 cr-dots"
                     />
                 </div>
 

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from '@/lib/CldImage';
 
 const NAV_LINKS = [
     { label: "Home", href: "/" },

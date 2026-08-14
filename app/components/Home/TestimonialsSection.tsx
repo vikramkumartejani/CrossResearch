@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import Image from 'next/image';
+import Image from '@/lib/CldImage';
 import { motion } from 'framer-motion';
+import { media } from '@/lib/media';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -81,7 +82,7 @@ function TestimonialCard({ t, isActive, onClick }: CardProps) {
                     <div aria-hidden="true" className='sm:block hidden' style={{ position: 'absolute', width: '174.41px', height: '373.02px', right: '-67px', top: '-173px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(212.56px)', transform: 'matrix(-0.98,-0.19,-0.19,0.98,0,0)', borderRadius: '50%', pointerEvents: 'none', zIndex: 0 }} />
                     <div aria-hidden="true" className='sm:block hidden' style={{ position: 'absolute', width: '162.65px', height: '362.17px', right: '-17px', top: '-163px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(212.56px)', transform: 'matrix(-0.98,-0.19,-0.19,0.98,0,0)', borderRadius: '50%', pointerEvents: 'none', zIndex: 0 }} />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/assets/card-dot-img.svg" alt="" aria-hidden="true" style={{ position: 'absolute', top: 0, right: 0, width: '55%', height: 'auto', opacity: 0.6, pointerEvents: 'none', zIndex: 1 }} />
+                    <img src={media("/assets/card-dot-img.svg")} alt="" aria-hidden="true" style={{ position: 'absolute', top: 0, right: 0, width: '55%', height: 'auto', opacity: 0.6, pointerEvents: 'none', zIndex: 1 }} />
                 </>
             )}
 

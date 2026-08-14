@@ -1,8 +1,9 @@
 'use client';
 
-import Image from 'next/image';
+import Image from '@/lib/CldImage';
 import Link from 'next/link';
 import { useState } from 'react';
+import { media } from '@/lib/media';
 
 export interface PropFirmCardData {
     id: string;
@@ -105,7 +106,7 @@ export default function PropFirmCard({ firm }: { firm: PropFirmCardData }) {
             {/* ── Dot pattern - top-right ── */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-                src="/assets/card-dot-img.svg"
+                src={media("/assets/card-dot-img.svg")}
                 alt=""
                 aria-hidden="true"
                 className="absolute top-0 bottom-0 right-0 pointer-events-none select-none object-cover transition-opacity"

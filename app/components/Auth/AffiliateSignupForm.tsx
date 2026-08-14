@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from '@/lib/CldImage';
 import Link from "next/link";
 import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";

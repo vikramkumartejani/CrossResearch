@@ -158,7 +158,7 @@ export default function TheProcess() {
                                         <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '57.16px', height: '122.26px', right: '-14px', top: '-42px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
                                         <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '53.31px', height: '118.7px', right: '-7px', top: '-29px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
                                         <div className='w-[180px] h-[130px] absolute top-0 right-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                                            <div className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover" />
+                                            <div className="absolute inset-0 opacity-20 cr-dots" />
                                         </div>
                                     </>
 

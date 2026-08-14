@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from '@/lib/CldImage';
 
 const LOGOS = [
     { name: "Yahoo Finance", src: "/assets/yahoo.png", width: 206, height: 29 },

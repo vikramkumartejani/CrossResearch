@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from '@/lib/CldImage'
 
 const AccessOurFunds = () => {
     return (
@@ -79,7 +79,7 @@ const AccessOurFunds = () => {
                             {/* card-dot-img overlay */}
                             <div className='w-[150px] sm:w-[250px] h-[170px] sm:h-[220px] absolute top-0 right-0 z-10'>
                                 <div
-                                    className="absolute inset-0 opacity-20 bg-[url('/assets/dots.svg')] bg-cover"
+                                    className="absolute inset-0 opacity-20 cr-dots"
                                 />
                             </div>
 

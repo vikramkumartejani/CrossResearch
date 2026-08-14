@@ -1,6 +1,7 @@
 'use client'
 import type { ReactNode } from 'react'
 import type { SignalChart } from './signalChartsData'
+import { media } from '@/lib/media'
 
 // ── Arrow right icon ─────────────────────────────────────────────────────────
 function ArrowRight() {
@@ -274,7 +275,7 @@ export default function SignalChartCard({ chart }: { chart: SignalChart }) {
                     {chart.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                            src={chart.image}
+                            src={media(chart.image)}
                             alt={chart.title}
                             className="w-full h-auto max-h-[260px] object-contain rounded-[4px]"
                         />

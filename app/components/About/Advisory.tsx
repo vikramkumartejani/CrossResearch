@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from '@/lib/CldImage'
 import Link from 'next/link'
 
 interface Advisor {

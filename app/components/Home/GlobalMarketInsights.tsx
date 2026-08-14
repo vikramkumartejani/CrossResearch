@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from '@/lib/CldImage';
 import GlobalMarketInsightsNew from "./GlobalMarketInsightsNew";
 
 const FEATURES = [

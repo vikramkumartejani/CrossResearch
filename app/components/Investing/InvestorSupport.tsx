@@ -78,7 +78,7 @@ const InvestorSupport = () => {
                                     {/* card-dot-img overlay */}
                                     <div className='w-[140px] h-full absolute top-0 right-0 z-30'>
                                         <div
-                                            className="absolute inset-0 opacity-40 bg-[url('/assets/dots.svg')] bg-cover"
+                                            className="absolute inset-0 opacity-40 cr-dots"
                                         />
                                     </div>
 
