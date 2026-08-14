@@ -1,30 +1,43 @@
 const STATS = [
-    { value: '100', label: 'Markets' },
-    { value: '45', label: 'Research Team' },
-    { value: '32', label: 'Year Of Experience' },
-    { value: '77+', label: 'Trend Reversals' },
+    { value: '100', sup: '+', label: 'Markets' },
+    { value: '45', sup: '', label: 'Research Team' },
+    { value: '32', sup: '', label: 'Years Of Experience' },
 ]
 
 export default function StatsSection() {
     return (
         <section className="w-full py-16 xl:py-[100px] 2xl:py-[120px] px-4 sm:px-6">
             <div className="max-w-[1200px] mx-auto">
-                <h2 className="text-white text-[22px] sm:text-[28px] lg:text-[32px] leading-tight font-semibold tracking-[-0.02em]">
-                    Trusted by Data. Driven by Results
+                <p className="text-white/50 text-[13px] sm:text-[14px] leading-none mb-4 sm:mb-5">
+                    By the numbers
+                </p>
+                <h2 className="text-white text-[34px] sm:text-[48px] lg:text-[60px] leading-[1.05] font-semibold tracking-[-0.03em]">
+                    Trusted by Data. Driven by Results.
                 </h2>
+                <p className="mt-4 sm:mt-5 text-white/60 text-[14px] sm:text-[16px] leading-relaxed max-w-[620px]">
+                    Discipline over drama. Consistent research is a systems problem, not a
+                    hero-trade problem.
+                </p>
 
-                <div className="mt-10 sm:mt-14 grid grid-cols-2 lg:grid-cols-4 gap-y-8">
+                <div className="mt-14 sm:mt-20 grid grid-cols-1 sm:grid-cols-3">
                     {STATS.map((s, i) => (
                         <div
                             key={s.label}
-                            className={`flex flex-col items-start ${
-                                i > 0 ? 'lg:border-l lg:border-[#FFFFFF14] lg:pl-10' : ''
-                            } ${i % 2 === 1 ? 'pl-6 sm:pl-8 border-l border-[#FFFFFF14] lg:pl-10' : 'pr-4'}`}
+                            className={`flex flex-col items-start py-6 sm:py-2 ${
+                                i > 0
+                                    ? 'border-t border-[#FFFFFF14] sm:border-t-0 sm:border-l sm:pl-10 lg:pl-14'
+                                    : ''
+                            } ${i < STATS.length - 1 ? 'sm:pr-10 lg:pr-14' : ''}`}
                         >
-                            <span className="text-[40px] sm:text-[52px] lg:text-[64px] font-semibold text-white leading-none tracking-[-0.03em]">
+                            <span className="text-[64px] sm:text-[76px] lg:text-[96px] font-semibold text-white leading-none tracking-[-0.04em]">
                                 {s.value}
+                                {s.sup && (
+                                    <sup className="text-[0.38em] font-medium align-super tracking-normal">
+                                        {s.sup}
+                                    </sup>
+                                )}
                             </span>
-                            <span className="mt-3 sm:mt-4 text-white/55 text-[13px] sm:text-[15px] lg:text-[16px] leading-snug font-normal">
+                            <span className="mt-5 sm:mt-7 text-white/55 text-[13px] sm:text-[15px] leading-snug font-normal">
                                 {s.label}
                             </span>
                         </div>

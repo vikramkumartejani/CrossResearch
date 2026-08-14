@@ -17,6 +17,7 @@ type AuthUser = {
   full_name: string
   tradingview_username: string | null
   plan: PlanId
+  account_type: 'member' | 'affiliate'
 }
 
 type PlanContextValue = {
@@ -55,6 +56,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
             ? u.tradingview_username.trim()
             : null,
         plan: normalizePlan(u.plan),
+        account_type: u.account_type === 'affiliate' ? 'affiliate' : 'member',
       })
     } catch {
       setUser(null)

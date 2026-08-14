@@ -1,37 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
 import OtpBoxes from "./OtpBoxes";
 import { authErrorMessage } from "@/lib/authUi";
-import { postAuthPath } from "@/lib/authRedirect";
 
-export default function SignupForm() {
-  const searchParams = useSearchParams();
+export default function AffiliateSignupForm() {
   const [step, setStep] = useState<"form" | "otp">("form");
   const [fullName, setFullName] = useState("");
-  const [tradingViewUsername, setTradingViewUsername] = useState("");
-  const [noTradingView, setNoTradingView] = useState(false);
-  const [email, setEmail] = useState(() => searchParams.get("email")?.trim() || "");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
-  const [referralCode, setReferralCode] = useState(() => searchParams.get("ref")?.trim() || "");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
-
-  // Prefill from the ?ref= landing cookie if the user arrived via an affiliate link
-  useEffect(() => {
-    if (referralCode) return;
-    const match = document.cookie.match(/(?:^|;\s*)cr_ref=([^;]+)/);
-    if (match) setReferralCode(decodeURIComponent(match[1]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,10 +27,6 @@ export default function SignupForm() {
     }
     if (!fullName.trim()) {
       toast.error("Please enter your name.");
-      return;
-    }
-    if (!noTradingView && !tradingViewUsername.trim()) {
-      toast.error("Enter your TradingView username, or check that you don't have one.");
       return;
     }
     try {
@@ -57,8 +39,7 @@ export default function SignupForm() {
           full_name: fullName.trim(),
           email,
           password,
-          tradingview_username: noTradingView ? null : tradingViewUsername.trim(),
-          ...(referralCode.trim() ? { ref: referralCode.trim().toLowerCase() } : {}),
+          account_type: "affiliate",
         }),
       });
       const body = await res.json().catch(() => ({}));
@@ -71,8 +52,7 @@ export default function SignupForm() {
         return;
       }
       toast.success(body.message || "Account created.");
-      window.location.assign(postAuthPath(body.user));
-      return;
+      window.location.assign("/affiliate-center");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Signup failed");
     } finally {
@@ -99,8 +79,7 @@ export default function SignupForm() {
         throw new Error(authErrorMessage(body, "Verification failed"));
       }
       toast.success(body.message || "Email verified.");
-      window.location.assign(postAuthPath(body.user));
-      return;
+      window.location.assign("/affiliate-center");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Verification failed");
     } finally {
@@ -127,6 +106,9 @@ export default function SignupForm() {
       setResending(false);
     }
   };
+
+  const inputClass =
+    "bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] px-6 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors";
 
   return (
     <div className="flex flex-col justify-center h-full w-full py-8 sm:py-10" style={{ fontFamily: 'var(--font-dm-sans), Arial, sans-serif' }}>
@@ -175,34 +157,12 @@ export default function SignupForm() {
       ) : (
         <>
           <h1 className="text-white text-[28px] sm:text-[40px] font-medium leading-10 sm:leading-[56px] mb-3">
-            Get Started Now
+            Become a Partner
           </h1>
           <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal mb-6 sm:mb-10">
-            Enter your credentials to access your account
+            Create your affiliate account. Applications are reviewed by our team — once approved
+            you get your referral link and dashboard.
           </p>
-
-          <div className="flex sm:flex-row flex-col gap-4 mb-8 sm:mb-10">
-            <button
-              type="button"
-              className="sm:flex-1 h-[52px] sm:h-[69px] flex items-center justify-center gap-3 rounded-[48px] border border-[#FFFFFF1A] bg-[#FFFFFF08] text-white/70 text-[18px] leading-[29px] cursor-pointer hover:bg-white/10 transition-colors"
-            >
-              Sign Up with google
-            </button>
-            <button
-              type="button"
-              className="sm:flex-1 h-[52px] sm:h-[69px] flex items-center justify-center gap-3 rounded-[48px] border border-[#FFFFFF1A] bg-[#FFFFFF08] text-white/70 text-[18px] leading-[29px] cursor-pointer hover:bg-white/10 transition-colors"
-            >
-              Sign Up with apple
-            </button>
-          </div>
-
-          <div className="flex items-center gap-[9.5px] mb-8 sm:mb-10">
-            <div className="flex-1 h-px bg-white/10" />
-            <span className="text-white/50 text-[16px] leading-6 font-normal whitespace-nowrap">
-              or continue with email
-            </span>
-            <div className="flex-1 h-px bg-white/10" />
-          </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col">
             <div className="relative mb-5">
@@ -213,32 +173,8 @@ export default function SignupForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 autoComplete="name"
                 required
-                className="bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] px-6 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors"
+                className={inputClass}
               />
-            </div>
-
-            <div className="mb-5">
-              <input
-                type="text"
-                placeholder="TradingView username"
-                value={tradingViewUsername}
-                onChange={(e) => setTradingViewUsername(e.target.value)}
-                disabled={noTradingView}
-                autoComplete="off"
-                className="bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] px-6 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              />
-              <label className="mt-3 flex items-center gap-1.5 cursor-pointer select-none px-1">
-                <CustomCheckbox
-                  checked={noTradingView}
-                  onChange={(checked) => {
-                    setNoTradingView(checked);
-                    if (checked) setTradingViewUsername("");
-                  }}
-                />
-                <span className="text-white/60 text-[14px] sm:text-[16px] leading-[22px] sm:leading-[29px] font-normal">
-                  I don't have a TradingView username
-                </span>
-              </label>
             </div>
 
             <div className="relative mb-5">
@@ -248,7 +184,7 @@ export default function SignupForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] px-6 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors"
+                className={inputClass}
               />
             </div>
 
@@ -260,7 +196,7 @@ export default function SignupForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
-                className="bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] px-6 pr-14 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors"
+                className={`${inputClass} pr-14`}
               />
               <button
                 type="button"
@@ -269,17 +205,6 @@ export default function SignupForm() {
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
-            </div>
-
-            <div className="relative mb-5">
-              <input
-                type="text"
-                placeholder="Referral code (optional)"
-                value={referralCode}
-                onChange={(e) => setReferralCode(e.target.value)}
-                autoComplete="off"
-                className="bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] px-6 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors"
-              />
             </div>
 
             <label className="mb-4 flex items-center gap-1.5 cursor-pointer select-none">
@@ -295,12 +220,12 @@ export default function SignupForm() {
               disabled={loading}
               className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
             >
-              {loading ? "Sending code…" : "Sign Up"}
+              {loading ? "Sending code…" : "Apply as Affiliate"}
             </button>
           </form>
 
           <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal text-center mt-8 sm:mt-10">
-            Already have an account?{" "}
+            Already a partner?{" "}
             <Link href="/login" className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors">
               Log In
             </Link>

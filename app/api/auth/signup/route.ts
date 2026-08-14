@@ -10,6 +10,9 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   const payload = await request.json().catch(() => ({}))
+  // Referral attribution: the ?ref= landing cookie links this signup to an affiliate
+  const ref = request.cookies.get('cr_ref')?.value
+  if (ref && !payload.ref) payload.ref = ref
   const { ok, status, body } = await backendAuth('/auth/signup', {
     method: 'POST',
     body: JSON.stringify(payload),

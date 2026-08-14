@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 const TopLine = () => {
     return (
@@ -46,12 +47,12 @@ export default function Hero() {
                 </p>
 
                 <div className="w-full flex items-center sm:flex-row flex-col justify-center gap-3">
-                    <button className="sm:w-fit w-full bg-white text-black px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-white/90 transition-colors cursor-pointer">
-                        Get Your Custom Package
-                    </button>
-                    <button className="w-full sm:w-fit bg-[#FFFFFF08] border border-[#FFFFFF0D] text-white px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
+                    <Link href="/affiliate/signup" className="sm:w-fit w-full bg-white text-black px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-white/90 transition-colors cursor-pointer">
+                        Become a Partner
+                    </Link>
+                    <Link href="/affiliate-center" className="w-full sm:w-fit bg-[#FFFFFF08] border border-[#FFFFFF0D] text-white px-6 sm:px-8 h-[48px] sm:h-[60px] rounded-[100px] text-[16px] sm:text-[18px] font-medium inline-flex items-center justify-center gap-2 hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
                         Affiliate Center
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>

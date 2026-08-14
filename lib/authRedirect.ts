@@ -1,9 +1,14 @@
 /** Where to send the user after login/signup based on onboarding status. */
 export function postAuthPath(user: unknown, preferredNext?: string | null): string {
-  const completed =
-    user &&
-    typeof user === 'object' &&
-    (user as { onboarding_completed?: unknown }).onboarding_completed !== false
+  const u = (user && typeof user === 'object' ? user : {}) as {
+    onboarding_completed?: unknown
+    account_type?: unknown
+  }
+
+  // Affiliate partners have their own dashboard
+  if (u.account_type === 'affiliate') return '/affiliate-center'
+
+  const completed = u.onboarding_completed !== false
 
   if (!completed) return '/onboarding'
 

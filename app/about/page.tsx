@@ -38,7 +38,7 @@ const page = () => {
     return (
         <div>
             <Hero />
-            <div className='py-7 sm:py-14 2xl:py-[120px]'>
+            <div className='py-7 sm:py-12 2xl:py-16'>
                 <LogoSlider />
             </div>
             {/* Ellipse 14 — left glow + Ellipse 13 — right glow */}
