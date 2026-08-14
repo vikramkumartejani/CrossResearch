@@ -38,7 +38,7 @@ export default function AnalysisHeader({
   return (
     <div className="mb-5 sm:mb-6">
 
-      {/* Title only — nothing on the right (toggle is floating elsewhere) */}
+      {/* Title only - nothing on the right (toggle is floating elsewhere) */}
       <div ref={ref} className="relative mb-6 max-w-xl">
         <p className={`text-[11px] tracking-[0.08em] uppercase mb-2 ${muted}`}>
           Market <span className="opacity-50">•</span> Assets

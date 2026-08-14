@@ -7,7 +7,7 @@ export const maxDuration = 300
 function resolveBackendUrl() {
   const raw = (process.env.BACKEND_URL || '').trim().replace(/\/+$/, '')
   if (raw) return raw
-  // Local Next.js only — on Vercel this must be set to your Render/API host.
+  // Local Next.js only - on Vercel this must be set to your Render/API host.
   if (process.env.VERCEL) {
     return ''
   }

@@ -1,7 +1,7 @@
 'use client'
 import { useRef, useEffect } from 'react'
 
-// Simulated scatter / constellation data — dots at various x/y positions with varying sizes
+// Simulated scatter / constellation data - dots at various x/y positions with varying sizes
 const CONSTELLATION_POINTS = [
     { x: 0.08, y: 0.35, r: 3.5, color: '#88C4FF' },
     { x: 0.14, y: 0.55, r: 5, color: '#88C4FF' },

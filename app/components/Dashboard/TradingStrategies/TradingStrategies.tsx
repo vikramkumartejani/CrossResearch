@@ -139,7 +139,7 @@ export default function TradingStrategies() {
   const [page, setPage] = useState(1)
   const [pageTitle, setPageTitle] = useState('Playbooks')
   const [subtitle, setSubtitle] = useState(
-    'Trading strategy playbooks by Momentum, Reversion, and Breakouts — browse recent setups or filter by style.'
+    'Trading strategy playbooks by Momentum, Reversion, and Breakouts - browse recent setups or filter by style.'
   )
   const [items, setItems] = useState<Strategy[]>([])
   const [loading, setLoading] = useState(true)

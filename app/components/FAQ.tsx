@@ -115,7 +115,7 @@ export default function FAQ() {
                                         </h3>
 
                                         <div className="relative flex shrink-0 w-6 h-6">
-                                            {/* Plus — shown when closed */}
+                                            {/* Plus - shown when closed */}
                                             <svg
                                                 aria-hidden="true"
                                                 className={`absolute inset-0 transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
@@ -124,7 +124,7 @@ export default function FAQ() {
                                                 <path d="M12 5V19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                                 <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
-                                            {/* Minus — shown when open */}
+                                            {/* Minus - shown when open */}
                                             <svg
                                                 aria-hidden="true"
                                                 className={`absolute inset-0 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -135,7 +135,7 @@ export default function FAQ() {
                                         </div>
                                     </button>
 
-                                    {/* Animated answer panel — framer-motion */}
+                                    {/* Animated answer panel - framer-motion */}
                                     <AnimatePresence initial={false}>
                                         {isOpen && (
                                             <motion.div

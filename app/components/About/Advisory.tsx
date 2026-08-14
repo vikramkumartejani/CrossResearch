@@ -35,7 +35,7 @@ const Advisory = () => {
                     Advisory
                 </h2>
 
-                {/* Top row — advisor cards */}
+                {/* Top row - advisor cards */}
                 <div className="mt-8 sm:mt-10 lg:mt-[60px] grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                     {ADVISORS.map((advisor) => (
                         <div
@@ -69,9 +69,9 @@ const Advisory = () => {
                     ))}
                 </div>
 
-                {/* Bottom row — CTA cards */}
+                {/* Bottom row - CTA cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                    {/* Card 1 — Explore platform */}
+                    {/* Card 1 - Explore platform */}
                     <div className="bg-[#FFFFFF08] border border-[#FFFFFF1A] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 flex flex-col">
                         <span className="text-[#88C4FF] text-[14px] font-medium leading-[21px] mb-2">
                             Trading Intelligence
@@ -95,7 +95,7 @@ const Advisory = () => {
                         </div>
                     </div>
 
-                    {/* Card 2 — Join community */}
+                    {/* Card 2 - Join community */}
                     <div className="bg-[#FFFFFF08] border border-[#FFFFFF1A] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 flex flex-col">
                         <span className="text-[#88C4FF] text-[14px] font-medium leading-[21px] mb-2">
                             Trader Community
@@ -104,7 +104,7 @@ const Advisory = () => {
                             Join the community
                         </h3>
                         <p className="text-white/60 text-[14px] leading-[21px] font-normal max-w-[450px]">
-                            Thousands of traders sharpening their edge together — daily research, live calls and direct access to the team.
+                            Thousands of traders sharpening their edge together - daily research, live calls and direct access to the team.
                         </p>
                         <div className="mt-[21px]">
                             <Link

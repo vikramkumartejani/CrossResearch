@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
 import OtpBoxes from "./OtpBoxes";
 import { authErrorMessage } from "@/lib/authUi";
+import LoadingLabel from "../LoadingLabel";
 
 export default function AffiliateSignupForm() {
   const [step, setStep] = useState<"form" | "otp">("form");
@@ -132,7 +133,7 @@ export default function AffiliateSignupForm() {
               disabled={loading || otp.length !== 6}
               className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
             >
-              {loading ? "Verifying…" : "Verify & continue"}
+              <LoadingLabel loading={loading}>Verify & continue</LoadingLabel>
             </button>
           </form>
 
@@ -160,7 +161,7 @@ export default function AffiliateSignupForm() {
             Become a Partner
           </h1>
           <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal mb-6 sm:mb-10">
-            Create your affiliate account. Applications are reviewed by our team — once approved
+            Create your affiliate account. Applications are reviewed by our team - once approved
             you get your referral link and dashboard.
           </p>
 
@@ -220,7 +221,7 @@ export default function AffiliateSignupForm() {
               disabled={loading}
               className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
             >
-              {loading ? "Sending code…" : "Apply as Affiliate"}
+              <LoadingLabel loading={loading}>Apply as Affiliate</LoadingLabel>
             </button>
           </form>
 

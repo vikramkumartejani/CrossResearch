@@ -56,7 +56,7 @@ export default function NewsFeed() {
                     id: n.id,
                     category: String(n.category || 'Macro'),
                     source: String(n.source || 'Wire'),
-                    time: String(n.time || '—'),
+                    time: String(n.time || '-'),
                     impact: String(n.impact || 'Low Impact'),
                     impactColor: String(n.impactColor || 'text-[#2796FF]'),
                     title: String(n.title || ''),

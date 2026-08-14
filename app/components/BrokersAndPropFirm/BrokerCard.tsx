@@ -58,7 +58,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
-            {/* Hover glow — top-right */}
+            {/* Hover glow - top-right */}
             <div
                 aria-hidden="true"
                 className="absolute pointer-events-none transition-opacity duration"
@@ -105,7 +105,7 @@ export default function BrokerCard({ broker }: BrokerCardProps) {
                 style={{ width: '50%', height: '100%', opacity: hovered ? 0.3 : 0, zIndex: 1 }}
             />
 
-            {/* Header — logo + name + rating */}
+            {/* Header - logo + name + rating */}
             <div className="relative z-10 flex items-start justify-between gap-1.5 sm:gap-3 pt-4 sm:pt-10 px-4 sm:px-10 pb-4 sm:pb-[50px] border-b border-[#FFFFFF1A]">
                 <div className="flex items-center gap-2.5 sm:gap-5 2xl:gap-[38px]">
                     {/* Logo */}

@@ -8,7 +8,7 @@ import { BeliefMarketsProvider, useBeliefMarkets } from './beliefMarkets'
 
 function ReliefSignalsContent() {
     const { data, loading, refresh } = useBeliefMarkets()
-    const marketState = data?.market_state || (loading ? '…' : '—')
+    const marketState = data?.market_state || (loading ? '…' : '-')
 
     return (
         <div>
@@ -50,7 +50,7 @@ function ReliefSignalsContent() {
                         Probability Signals & Sentiment
                     </h1>
                     <p className="text-[#838388] text-[12px] leading-[17px] max-w-[540px]">
-                        Live Polymarket (+ Kalshi) probability intelligence — movers, watchlists and threshold alerts.
+                        Live Polymarket (+ Kalshi) probability intelligence - movers, watchlists and threshold alerts.
                     </p>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">

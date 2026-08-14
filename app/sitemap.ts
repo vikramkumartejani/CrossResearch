@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${BASE_URL}/login`,      lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.4 },
         { url: `${BASE_URL}/signup`,     lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.4 },
 
-        // Dashboard pages (authenticated — lower priority for SEO)
+        // Dashboard pages (authenticated - lower priority for SEO)
         { url: `${BASE_URL}/analysis`,            lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
         { url: `${BASE_URL}/crypto-btc`,          lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
         { url: `${BASE_URL}/education-center`,    lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },

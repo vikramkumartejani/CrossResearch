@@ -44,7 +44,7 @@ export default function Hero() {
                 </h1>
 
                 <p className="mb-6 sm:mb-10 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-inter font-normal max-w-[808px] mx-auto text-center">
-                    Purpose-built TradingView indicators and a live macro research dashboard — giving retail traders the same data edge that moves institutional desks.
+                    Purpose-built TradingView indicators and a live macro research dashboard - giving retail traders the same data edge that moves institutional desks.
                 </p>
 
                 <div className="w-full flex items-center sm:flex-row flex-col justify-center gap-3">
@@ -57,9 +57,9 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* Analysis image — right side, starts at button level */}
+            {/* Analysis image - right side, starts at button level */}
             <div className="absolute right-0 bottom-0 w-[100%] sm:w-[72.5%] pointer-events-none" style={{ zIndex: 1 }}>
-                {/* Dark overlay — covers top of image so heading text stays visible */}
+                {/* Dark overlay - covers top of image so heading text stays visible */}
                 <div
                     className="absolute pointer-events-none top-[-640px] sm:top-[-700px] md:top-[-650px] 2xl:top-[-550px]"
                     aria-hidden="true"

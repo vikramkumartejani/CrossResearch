@@ -109,7 +109,7 @@ function OscillatorChart({
 }
 
 function formatSigned(value: number | null | undefined, digits = 2) {
-    if (value == null || !Number.isFinite(value)) return '—'
+    if (value == null || !Number.isFinite(value)) return '-'
     const sign = value > 0 ? '+' : ''
     return `${sign}${value.toFixed(digits)}`
 }
@@ -218,7 +218,7 @@ export default function RiskTensionMonitoring() {
                         </div>
                         <div className="text-right flex sm:flex-col flex-row items-center sm:items-end gap-3 sm:gap-0">
                             <p className="text-white text-[18px] sm:text-[22px] leading-6 sm:leading-[31px] font-semibold mb-1">
-                                {latest?.v != null ? latest.v.toFixed(2) : loading ? '…' : '—'}
+                                {latest?.v != null ? latest.v.toFixed(2) : loading ? '…' : '-'}
                             </p>
                             <p className={`${changeColor} text-[14px] leading-[17px] font-normal`}>
                                 {formatSigned(change)} Today
@@ -298,7 +298,7 @@ export default function RiskTensionMonitoring() {
                                             : 'invisible'
                                     }`}
                                 >
-                                    {latest?.state || '—'}
+                                    {latest?.state || '-'}
                                 </p>
                             </div>
                         )}

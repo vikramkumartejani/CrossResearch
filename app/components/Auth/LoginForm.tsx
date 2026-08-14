@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import CustomCheckbox from "./CustomCheckbox";
 import { authErrorMessage } from "@/lib/authUi";
 import { postAuthPath } from "@/lib/authRedirect";
+import LoadingLabel from "../LoadingLabel";
 
 export default function LoginForm() {
     const searchParams = useSearchParams();
@@ -146,7 +147,7 @@ export default function LoginForm() {
                         aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                         {showPassword ? (
-                            /* Eye-off — password visible */
+                            /* Eye-off - password visible */
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14.5299 9.47004L9.46992 14.53C8.81992 13.88 8.41992 12.99 8.41992 12C8.41992 10.02 10.0199 8.42004 11.9999 8.42004C12.9899 8.42004 13.8799 8.82004 14.5299 9.47004Z" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M17.8198 5.76998C16.0698 4.44998 14.0698 3.72998 11.9998 3.72998C8.46984 3.72998 5.17984 5.80998 2.88984 9.40998C1.98984 10.82 1.98984 13.19 2.88984 14.6C3.67984 15.84 4.59984 16.91 5.59984 17.77" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -156,7 +157,7 @@ export default function LoginForm() {
                                 <path d="M21.9993 2L14.5293 9.47" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         ) : (
-                            /* Eye-on — password hidden */
+                            /* Eye-on - password hidden */
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 5C7.45 5 3.73 7.94 2 12C3.73 16.06 7.45 19 12 19C16.55 19 20.27 16.06 22 12C20.27 7.94 16.55 5 12 5Z" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -185,7 +186,7 @@ export default function LoginForm() {
                     disabled={loading}
                     className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
                 >
-                    {loading ? "Logging in…" : "Log In"}
+                    <LoadingLabel loading={loading}>Log In</LoadingLabel>
                 </button>
             </form>
 

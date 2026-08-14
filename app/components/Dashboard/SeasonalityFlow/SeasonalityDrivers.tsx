@@ -108,7 +108,7 @@ function formatPct(value: number, digits = 1) {
 }
 
 function formatSigned(value: number | null | undefined, digits = 2) {
-    if (value == null || !Number.isFinite(value)) return '—'
+    if (value == null || !Number.isFinite(value)) return '-'
     const sign = value > 0 ? '+' : ''
     return `${sign}${value.toFixed(digits)}`
 }
@@ -128,7 +128,7 @@ export default function SeasonalityDrivers() {
     const [returnsMap, setReturnsMap] = useState<
         Record<string, Partial<Record<(typeof REGIME_ORDER)[number], RegimeStats>>>
     >({})
-    const [currentLabel, setCurrentLabel] = useState('—')
+    const [currentLabel, setCurrentLabel] = useState('-')
     const [currentConf, setCurrentConf] = useState<number | null>(null)
     const [returnsLoading, setReturnsLoading] = useState(true)
     const [returnsError, setReturnsError] = useState<string | null>(null)
@@ -156,7 +156,7 @@ export default function SeasonalityDrivers() {
                 const data: ReturnsByRegimeResponse = await res.json()
                 if (cancelled) return
                 setReturnsMap(data.instruments || {})
-                setCurrentLabel(data.current?.regime_label || '—')
+                setCurrentLabel(data.current?.regime_label || '-')
                 setCurrentConf(data.current?.regime_confidence_percent ?? null)
             } catch (err) {
                 if (!cancelled) {
@@ -207,8 +207,8 @@ export default function SeasonalityDrivers() {
                 label,
                 shortLabel: label.slice(0, 4),
                 mean: row?.mean ?? 0,
-                sharpe: row?.sharpe != null ? row.sharpe.toFixed(2) : '—',
-                hit: row?.hit != null ? `${row.hit.toFixed(1)}%` : '—',
+                sharpe: row?.sharpe != null ? row.sharpe.toFixed(2) : '-',
+                hit: row?.hit != null ? `${row.hit.toFixed(1)}%` : '-',
                 n: row?.n ?? 0,
             }
         })
@@ -345,12 +345,12 @@ export default function SeasonalityDrivers() {
                                             {row.country}
                                         </span>
                                         <span className="text-white/90 text-[14px] sm:text-[15px] leading-5">
-                                            {row.current_regime || '—'}
+                                            {row.current_regime || '-'}
                                         </span>
                                         <span className="text-white text-[14px] sm:text-[15px] leading-5 tabular-nums">
                                             {row.regime_conviction_percent != null
                                                 ? row.regime_conviction_percent.toFixed(1)
-                                                : '—'}
+                                                : '-'}
                                         </span>
                                         <span
                                             className={`text-[14px] sm:text-[15px] leading-5 tabular-nums ${
@@ -371,7 +371,7 @@ export default function SeasonalityDrivers() {
                                             {formatSigned(row.inflation_score)}
                                         </span>
                                         <span className="text-[#88C4FF] text-[14px] sm:text-[15px] leading-5">
-                                            {row.conviction_strength || '—'}
+                                            {row.conviction_strength || '-'}
                                         </span>
                                     </div>
                                 ))}

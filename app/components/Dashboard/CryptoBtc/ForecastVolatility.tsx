@@ -22,7 +22,7 @@ function formatPct(value: number) {
 }
 
 function formatFlow(value: number | null) {
-    if (value == null || !Number.isFinite(value)) return '—'
+    if (value == null || !Number.isFinite(value)) return '-'
     const sign = value >= 0 ? '+' : '-'
     const abs = Math.abs(value)
     if (abs >= 1_000_000_000) return `${sign}$${(abs / 1_000_000_000).toFixed(2)}B`
@@ -300,10 +300,10 @@ export default function ForecastVolatility() {
                 <p className="mt-auto text-[#838388] text-[13px] sm:text-[14px] leading-4 sm:leading-[20px] font-normal mt-3">
                     RV at{' '}
                     <span className="text-white font-semibold">
-                        {latest?.rv_pct != null ? `${latest.rv_pct.toFixed(2)}%` : '—'}
+                        {latest?.rv_pct != null ? `${latest.rv_pct.toFixed(2)}%` : '-'}
                     </span>
-                    , z-score {latest?.z_score != null ? latest.z_score.toFixed(3) : '—'} · Regime{' '}
-                    <span className="text-white font-semibold">{latest?.regime || '—'}</span>.
+                    , z-score {latest?.z_score != null ? latest.z_score.toFixed(3) : '-'} · Regime{' '}
+                    <span className="text-white font-semibold">{latest?.regime || '-'}</span>.
                 </p>
             </div>
 

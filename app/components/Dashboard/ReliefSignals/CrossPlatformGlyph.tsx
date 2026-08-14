@@ -63,7 +63,7 @@ export default function CrossPlatformGlyph() {
 
             {/* Description */}
             <p className="text-[#838388] text-[12px] leading-[17px] mb-4">
-                Five venues, five dots. Filled when aligned with market consensus, hollow when diverging—capturing sentiment at a glance.
+                Five venues, five dots. Filled when aligned with market consensus, hollow when diverging-capturing sentiment at a glance.
             </p>
 
             {/* Items */}

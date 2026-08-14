@@ -23,7 +23,7 @@ export const MACRO_BRIEF: MacroBrief = {
         },
         {
             id: 2,
-            text: 'breadth > 200EMA has rolled over 4% in 10d while index makes marginal new highs — classic late-cycle warning.',
+            text: 'breadth > 200EMA has rolled over 4% in 10d while index makes marginal new highs - classic late-cycle warning.',
         },
         {
             id: 3,

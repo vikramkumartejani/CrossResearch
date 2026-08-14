@@ -88,7 +88,7 @@ export default function Hero({ description, descriptionMaxWidth = '860px' }: Her
             {/* Content wrapper */}
             <div className="mt-28 lg:mt-32 xl:mt-[192px] max-w-[1100px] mx-auto">
 
-                {/* Toggle — Brokers / Prop Firm */}
+                {/* Toggle - Brokers / Prop Firm */}
                 <div className="flex justify-center mb-8 relative z-10">
                     <div className="flex items-center bg-[#0C0C16] border border-[#FFFFFF0D] rounded-full">
                         <Link

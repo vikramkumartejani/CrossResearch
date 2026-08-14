@@ -4,7 +4,7 @@ export default function AuthRightPanel() {
     return (
         <div className="relative w-full bg-[#0D1321] border border-[#FFFFFF0D] flex items-center justify-center flex-col overflow-hidden rounded-[30px] py-20">
 
-            {/* Ellipse 13 — bottom right glow */}
+            {/* Ellipse 13 - bottom right glow */}
             <div
                 aria-hidden="true"
                 className="absolute pointer-events-none"
@@ -68,7 +68,7 @@ export default function AuthRightPanel() {
                 />
             </div>
 
-            {/* Main image — centered */}
+            {/* Main image - centered */}
             <div className="relative z-20">
                 <Image
                     src="/assets/login.svg"

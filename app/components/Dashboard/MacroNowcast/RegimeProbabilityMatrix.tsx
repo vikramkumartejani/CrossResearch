@@ -1,4 +1,4 @@
-// Regime Probability Matrix — cross-country decomposition
+// Regime Probability Matrix - cross-country decomposition
 
 interface Country {
     code: string

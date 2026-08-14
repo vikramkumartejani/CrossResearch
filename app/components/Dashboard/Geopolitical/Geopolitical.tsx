@@ -19,7 +19,7 @@ export default function Geopolitical() {
                     </div>
                     <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">Rick Map & Live Surveillance</h1>
                     <p className="text-[#838388] text-[12px] leading-[17px]">
-                        Active flashpoints — conflicts, regime disruption, election windows — plotted globally, Coproprietor Geopolitical Risk Index runs underneath for cross-asset tail•hedge timing.
+                        Active flashpoints - conflicts, regime disruption, election windows - plotted globally, Coproprietor Geopolitical Risk Index runs underneath for cross-asset tail•hedge timing.
                     </p>
                 </div>
                 <div className='flex items-center gap-1 flex-shrink-0'>

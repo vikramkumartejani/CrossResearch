@@ -9,6 +9,7 @@ import CustomCheckbox from "./CustomCheckbox";
 import OtpBoxes from "./OtpBoxes";
 import { authErrorMessage } from "@/lib/authUi";
 import { postAuthPath } from "@/lib/authRedirect";
+import LoadingLabel from "../LoadingLabel";
 
 export default function SignupForm() {
   const searchParams = useSearchParams();
@@ -150,7 +151,7 @@ export default function SignupForm() {
               disabled={loading || otp.length !== 6}
               className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
             >
-              {loading ? "Verifying…" : "Verify & continue"}
+              <LoadingLabel loading={loading}>Verify & continue</LoadingLabel>
             </button>
           </form>
 
@@ -295,7 +296,7 @@ export default function SignupForm() {
               disabled={loading}
               className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] leading-[26px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
             >
-              {loading ? "Sending code…" : "Sign Up"}
+              <LoadingLabel loading={loading}>Sign Up</LoadingLabel>
             </button>
           </form>
 

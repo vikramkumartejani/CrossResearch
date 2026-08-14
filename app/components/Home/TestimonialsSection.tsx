@@ -187,7 +187,7 @@ export default function TestimonialsSection() {
                 </div>
             </div>
 
-            {/* Carousel — framer-motion for smooth centering */}
+            {/* Carousel - framer-motion for smooth centering */}
             <div className="w-full overflow-hidden" style={{ position: 'relative', height: '492px' }}>
                 {/* Left fade */}
                 <div aria-hidden="true" className='md:block hidden' style={{

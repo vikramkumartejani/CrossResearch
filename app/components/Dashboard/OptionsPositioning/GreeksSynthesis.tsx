@@ -36,25 +36,25 @@ const FALLBACK: GreekCard[] = [
     {
         symbol: SYMBOLS['NET GEX REGIME'],
         label: 'NET GEX REGIME',
-        title: '—',
+        title: '-',
         desc: 'Loading net GEX regime…',
     },
     {
         symbol: SYMBOLS['Vanna Exposure'],
         label: 'Vanna Exposure',
-        title: '—',
+        title: '-',
         desc: 'Loading vanna exposure…',
     },
     {
         symbol: SYMBOLS['Charm Flow'],
         label: 'Charm Flow',
-        title: '—',
+        title: '-',
         desc: 'Loading charm flow…',
     },
     {
         symbol: SYMBOLS['IV Term Structure'],
         label: 'IV Term Structure',
-        title: '—',
+        title: '-',
         desc: 'Loading IV term structure…',
     },
 ]
@@ -81,10 +81,10 @@ export default function GreeksSynthesis() {
                 }
                 const next: GreekCard[] = Array.isArray(body.greeks)
                     ? body.greeks.map((g: { label?: string; title?: string; desc?: string }) => {
-                          const label = g.label || '—'
+                          const label = g.label || '-'
                           return {
                               label,
-                              title: g.title || '—',
+                              title: g.title || '-',
                               desc: g.desc || '',
                               symbol: SYMBOLS[label] ?? SYMBOLS['NET GEX REGIME'],
                           }

@@ -27,7 +27,7 @@ const PRINCIPLES: Principle[] = [
             </svg>
         ),
         title: 'Data-First Rigor',
-        description: 'Every thesis starts with data — not narrative. We process millions of data points daily across macro indicators, earnings, positioning.',
+        description: 'Every thesis starts with data - not narrative. We process millions of data points daily across macro indicators, earnings, positioning.',
     },
     {
         number: '3',

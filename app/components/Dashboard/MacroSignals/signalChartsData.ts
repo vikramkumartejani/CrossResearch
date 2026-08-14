@@ -6,7 +6,7 @@ export interface SignalChart {
     title: string
     badge: 'ALPHA' | 'WATCH' | 'NEUTRAL'
     chartType?: ChartType
-    /** Admin-uploaded chart image (URL or data URL) — takes precedence over drawn charts */
+    /** Admin-uploaded chart image (URL or data URL) - takes precedence over drawn charts */
     image?: string | null
     lineValues?: number[]
     yLabels?: string[]
@@ -29,7 +29,7 @@ export const ALL_CHARTS: SignalChart[] = [
         chartType: 'bar',
         barLabels: ['Vs EUR', 'Vs GBP', 'Vs JPY', 'Vs CAD', 'Vs AUD', 'Vs CHF', 'Vs NZD'],
         barValues: [2.1, 1.4, 3.8, 1.2, 2.7, 0.9, 2.4],
-        description: 'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD — carry trade tailwind persists through the next FOMC window.',
+        description: 'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD - carry trade tailwind persists through the next FOMC window.',
         action: 'Long USD vs low-yielders (CHF, JPY).',
         actionPositive: true,
     },
@@ -41,7 +41,7 @@ export const ALL_CHARTS: SignalChart[] = [
         chartType: 'area',
         lineValues: [12000, 14000, 16000, 18000, 17000, 19000, 18500, 16000, 15000, 17000, 16500, 14000, 13500, 12000, 13000, 14500, 13000, 12500, 11000, 10000],
         yLabels: ['20000', '15000', '10000', '5000', '0'],
-        description: 'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD — carry trade tailwind persists through the next FOMC window.',
+        description: 'USD short rate premium intact vs EUR/GBP/JPY/CAD/AUD/CHF/NZD - carry trade tailwind persists through the next FOMC window.',
         action: 'Long USD vs low-yielders (CHF, JPY).',
         actionPositive: true,
     },
@@ -77,7 +77,7 @@ export const ALL_CHARTS: SignalChart[] = [
         chartType: 'area',
         lineValues: [98, 99, 100, 99.5, 100, 99, 98.5, 99, 100, 99.5, 100, 99, 98, 99, 100, 99.5, 98.5, 99, 100, 100],
         yLabels: ['100', '75', '50', '25', '0'],
-        description: 'Ratio at 88.4x — 2.10 above 5-year mean. Reverts within 60 days in 78% of historical episodes. Tactical mean-reversion.',
+        description: 'Ratio at 88.4x - 2.10 above 5-year mean. Reverts within 60 days in 78% of historical episodes. Tactical mean-reversion.',
         action: 'Long silver vs gold 12-week trade.',
         actionPositive: true,
     },
@@ -90,7 +90,7 @@ export const ALL_CHARTS: SignalChart[] = [
         lineValues: [20, 20.2, 20.5, 21, 21.5, 22],
         xLabels: ['1D', '9D', '1M', '3M', '6M', '1Y'],
         yLabels: ['20%', '15%', '10%', '5%', '0%'],
-        description: 'VIX9D > VIX9D > VIX3M — front-end stressed but curve still steep on 6M+. Vol selling on the wing remains positive-EV.',
+        description: 'VIX9D > VIX9D > VIX3M - front-end stressed but curve still steep on 6M+. Vol selling on the wing remains positive-EV.',
         action: 'Short long-dated vol; long short-dated as event hedge.',
         actionPositive: false,
     },
@@ -115,7 +115,7 @@ export const ALL_CHARTS: SignalChart[] = [
         lineValues: [2.2, 2.15, 2.1, 1.95, 1.7, 1.4],
         xLabels: ['1D', '9D', '1M', '3M', '6M', '1Y'],
         yLabels: ['2.2', '1.65', '1.1', '0.55', '0'],
-        description: 'Real yields holding above 2.0% despite Fed dovish lean — a structural headwind for duration and wld that the market is mispricing.',
+        description: 'Real yields holding above 2.0% despite Fed dovish lean - a structural headwind for duration and wld that the market is mispricing.',
         action: 'Short long-duration bonds; underweight gold tactically.',
         actionPositive: false,
     },

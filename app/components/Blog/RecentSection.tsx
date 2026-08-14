@@ -41,12 +41,12 @@ export default function RecentSection({ posts }: RecentSectionProps) {
 
             {/* LogoSlider between featured and categories */}
             <div className='relative my-10 md:mt-20 xl:mt-[120px] md:mb-[66px]'>
-                {/* Ellipse 14 — left glow */}
+                {/* Ellipse 14 - left glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none top-0 sm:top-[-200px] w-[500px] sm:w-[833px] h-[300px] sm:h-[533px] left-[-300px] sm:left-[-339px] blur-[100px] sm:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 13 — right glow */}
+                {/* Ellipse 13 - right glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                     width: '787px', height: '504px',
                     right: '-339px', top: '-200px',
@@ -62,14 +62,14 @@ export default function RecentSection({ posts }: RecentSectionProps) {
             <div className='px-4 sm:px-6'>
                 <div className='relative max-w-[1560px] mx-auto'>
 
-                    {/* Ellipse 18 — right top (near Strategies) */}
+                    {/* Ellipse 18 - right top (near Strategies) */}
                     <div aria-hidden="true" className="absolute pointer-events-none w-[500px] sm:w-[765px] h-[300px] sm:h-[403px] right-[-373px] blur-[100px] sm:blur-[250px]" style={{
                         top: '600px',
                         background: 'rgba(34, 126, 217, 0.4)',
                         transform: 'rotate(-23.64deg)',
                         zIndex: 0,
                     }} />
-                    {/* Ellipse 1 — left top (near Strategies) */}
+                    {/* Ellipse 1 - left top (near Strategies) */}
                     <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                         width: '765px', height: '429px',
                         left: '-373px', top: '600px',
@@ -77,7 +77,7 @@ export default function RecentSection({ posts }: RecentSectionProps) {
                         filter: 'blur(250px)',
                         zIndex: 0,
                     }} />
-                    {/* Ellipse 16 — right bottom (near Education) */}
+                    {/* Ellipse 16 - right bottom (near Education) */}
                     <div aria-hidden="true" className="absolute pointer-events-none md:block hidden" style={{
                         width: '744.52px', height: '468.77px',
                         right: '-373px', bottom: '200px',
@@ -86,7 +86,7 @@ export default function RecentSection({ posts }: RecentSectionProps) {
                         transform: 'rotate(-26.89deg)',
                         zIndex: 0,
                     }} />
-                    {/* Ellipse 15 — left bottom (near Education) */}
+                    {/* Ellipse 15 - left bottom (near Education) */}
                     <div aria-hidden="true" className="absolute pointer-events-none w-[500px] sm:w-[865px] h-[300px] sm:h-[473px] left-[-373px] blur-[100px] sm:blur-[250px]" style={{
                         bottom: '0px',
                         background: 'rgba(34, 126, 217, 0.4)',

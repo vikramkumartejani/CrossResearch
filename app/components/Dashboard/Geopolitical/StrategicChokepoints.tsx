@@ -8,7 +8,7 @@ type Chokepoint = {
 }
 
 function formatRisk(value: number | null): string {
-    if (value == null || !Number.isFinite(value)) return '—'
+    if (value == null || !Number.isFinite(value)) return '-'
     return value.toFixed(1)
 }
 
@@ -44,7 +44,7 @@ export default function StrategicChokepoints() {
                         }
                     )
                     .map((r: { name?: string; risk?: number | null }) => ({
-                        name: r.name || '—',
+                        name: r.name || '-',
                         risk: r.risk == null || !Number.isFinite(Number(r.risk)) ? null : Number(r.risk),
                     }))
                 if (!cancelled) {

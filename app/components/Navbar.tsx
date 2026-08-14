@@ -92,7 +92,7 @@ export default function Navbar() {
                         <Image src="/assets/logo.svg" alt="Logo" width={34.94} height={30} />
                     </Link>
 
-                    {/* Desktop nav links — absolutely centred */}
+                    {/* Desktop nav links - absolutely centred */}
                     <ul className="absolute left-1/2 -translate-x-1/2 h-full hidden xl:flex items-center gap-8" role="navigation" aria-label="Main navigation">
                         {NAV_LINKS.map((link) => (
                             <li

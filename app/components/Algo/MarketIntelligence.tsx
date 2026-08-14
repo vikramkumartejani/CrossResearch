@@ -39,7 +39,7 @@ export default function MarketIntelligence() {
         <div className="px-4 sm:px-6 py-16 sm:py-24 lg:py-[170px]">
             <div className="max-w-[1560px] mx-auto">
                 <div className="flex lg:flex-row flex-col items-center justify-between gap-6 items-center">
-                    {/* Left — Text content */}
+                    {/* Left - Text content */}
                     <div className="w-full lg:max-w-[654px]">
                         <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
@@ -59,14 +59,14 @@ export default function MarketIntelligence() {
                         </p>
                     </div>
 
-                    {/* Right — Stats grid */}
+                    {/* Right - Stats grid */}
                     <div className="w-full lg:max-w-[550px] xl:max-w-[686px] grid grid-cols-2 gap-4">
                         {STATS.map((stat) => (
                             <div
                                 key={stat.id}
                                 className={`bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[16px] p-5 sm:p-6 lg:p-8 flex flex-col relative overflow-hidden ${stat.id === 'lagging' ? 'col-span-2' : ''}`}
                             >
-                                {/* Right-top glow — only on lagging card */}
+                                {/* Right-top glow - only on lagging card */}
                                 {stat.id === 'lagging' && (
                                     <>
                                         <div aria-hidden="true" className="absolute pointer-events-none right-[-60px] lg:right-[-40px] top-[-80px] lg:top-[-50px]" style={{ width: '113.73px', height: '150.3px', background: '#6DB7FF', filter: 'blur(35.55px)', transform: 'rotate(-63.99deg)', zIndex: 0 }} />

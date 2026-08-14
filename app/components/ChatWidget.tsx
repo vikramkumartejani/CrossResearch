@@ -16,7 +16,7 @@ const WELCOME: Message[] = [
   {
     id: 1,
     role: 'bot',
-    text: 'Hey — I’m the CrossResearch desk assistant. Ask about plans, the trading desk, or the affiliate program.',
+    text: 'Hey - I’m the CrossResearch desk assistant. Ask about plans, the trading desk, or the affiliate program.',
   },
 ]
 
@@ -27,7 +27,7 @@ const SUGGESTIONS = [
 ]
 
 const MOCK_REPLY =
-  'Got it. Live answers aren’t wired up yet — this is a preview of the assistant. In the meantime, Help Center and Contact Support have the full desk.'
+  'Got it. Live answers aren’t wired up yet - this is a preview of the assistant. In the meantime, Help Center and Contact Support have the full desk.'
 
 const HIDE_ON = ['/login', '/signup', '/forgot-password', '/onboarding', '/support', '/affiliate/signup']
 

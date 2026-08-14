@@ -37,7 +37,7 @@ export default function MacroSignals() {
                 const data: MacroSignalsResponse = await response.json()
                 if (!cancelled) setBrief(data.brief ?? null)
             } catch {
-                // brief is optional — the sidebar renders its fallback
+                // brief is optional - the sidebar renders its fallback
             }
         }
 
@@ -95,7 +95,7 @@ export default function MacroSignals() {
                 </div>
                 <h1 className="text-white text-[26px] sm:text-[35px] font-medium leading-tight sm:leading-[42px] mb-2">Cross - Asset Alpha Engine</h1>
                 <p className="text-[#838388] text-[12px] leading-[17px]">
-                    Live signals from the CrossResearch desk — equity concentration (SPY vs RSP) and crude crack fair-value — with proprietary insight behind each chart.
+                    Live signals from the CrossResearch desk - equity concentration (SPY vs RSP) and crude crack fair-value - with proprietary insight behind each chart.
                 </p>
             </div>
 

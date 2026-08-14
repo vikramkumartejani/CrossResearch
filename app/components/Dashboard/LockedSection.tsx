@@ -39,7 +39,7 @@ export default function LockedSection({
   required?: PlanId
   /** Applied to the outer wrapper (sizing/margins) */
   className?: string
-  /** Layout of the children themselves (e.g. grid classes) — stays with the content even when locked */
+  /** Layout of the children themselves (e.g. grid classes) - stays with the content even when locked */
   contentClassName?: string
   /** @deprecated prefer `title` */
   label?: string

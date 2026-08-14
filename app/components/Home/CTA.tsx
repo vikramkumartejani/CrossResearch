@@ -7,7 +7,7 @@ export default function CTA() {
                 {/* Main CTA Card */}
                 <div className="relative bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-[40px] lg:rounded-[60px] xl:rounded-[80px] py-14 sm:py-16 xl:py-[80px] px-6 md:px-10 xl:px-[60px] overflow-hidden flex flex-col items-center text-center">
 
-                    {/* Ellipse 17032 — top center glow */}
+                    {/* Ellipse 17032 - top center glow */}
                     <div
                         aria-hidden="true"
                         className="pointer-events-none"
@@ -23,7 +23,7 @@ export default function CTA() {
                         }}
                     />
 
-                    {/* Dot pattern — top-left */}
+                    {/* Dot pattern - top-left */}
                     <div className="absolute left-0 top-0 opacity-10 pointer-events-none" aria-hidden="true">
                         <Image
                             src="/assets/card-dot-img.svg"
@@ -35,7 +35,7 @@ export default function CTA() {
                         />
                     </div>
 
-                    {/* Content — centered */}
+                    {/* Content - centered */}
                     <div className="relative z-10 flex flex-col items-center max-w-[800px]">
                         {/* Badge */}
                         <div className="mb-5 sm:mb-6 inline-flex">

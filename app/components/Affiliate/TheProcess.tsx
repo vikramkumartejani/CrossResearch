@@ -13,14 +13,14 @@ const STEPS = [
     {
         number: '2',
         title: 'Discovery Call',
-        description: 'We jump on a call to understand your community — their strategies, instruments, and pain points.',
+        description: 'We jump on a call to understand your community - their strategies, instruments, and pain points.',
         side: 'right' as const,
         glow: true,
     },
     {
         number: '3',
         title: 'Tailored Package',
-        description: 'We build a custom package — pricing, tools, branding, revenue share — designed around your audience.',
+        description: 'We build a custom package - pricing, tools, branding, revenue share - designed around your audience.',
         side: 'left' as const,
         glow: false,
     },
@@ -141,7 +141,7 @@ export default function TheProcess() {
                         </svg>
                     )}
 
-                    {/* 4 Cards — staggered left/right */}
+                    {/* 4 Cards - staggered left/right */}
                     <div className='flex flex-col gap-6 xl:gap-0'>
                         {STEPS.map((step, i) => (
                             <div
@@ -152,7 +152,7 @@ export default function TheProcess() {
                                     ref={el => { cardRefs.current[i] = el }}
                                     className='group relative w-full lg:max-w-[552px] rounded-[30px] lg:rounded-[40px] border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-8 lg:p-10 overflow-hidden'
                                 >
-                                    {/* Hover glow — all cards */}
+                                    {/* Hover glow - all cards */}
                                     <>
                                         <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '79.21px', height: '124.18px', right: '0px', top: '-40px', background: '#6DB7FF', filter: 'blur(24.76px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
                                         <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '57.16px', height: '122.26px', right: '-14px', top: '-42px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />

@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // OTP pending — no cookies yet
+  // OTP pending - no cookies yet
   if (body.needs_verification) {
     return NextResponse.json(publicAuthBody(body))
   }

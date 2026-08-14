@@ -36,7 +36,7 @@ export default function LogoSlider() {
                         </div>
                     ))}
                 </div>
-                {/* Track 2 — exact clone for seamless loop */}
+                {/* Track 2 - exact clone for seamless loop */}
                 <div className="flex flex-shrink-0 items-center" aria-hidden="true">
                     {LOGOS.map((logo) => (
                         <div

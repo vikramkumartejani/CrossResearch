@@ -61,7 +61,7 @@ const InvestorSupport = () => {
                         We are with you <br className='sm:block hidden' />  every step
                     </h2>
                     <p className="text-white/70 text-[14px] sm:text-[20px] leading-5 sm:leading-[32px] font-inter font-normal max-w-[640px]">
-                        Our commitment extends beyond strategy — we provide the clarity and guidance needed to deploy capital with confidence.
+                        Our commitment extends beyond strategy - we provide the clarity and guidance needed to deploy capital with confidence.
                     </p>
                 </div>
 
@@ -82,7 +82,7 @@ const InvestorSupport = () => {
                                         />
                                     </div>
 
-                                    {/* Ellipse 1 — blue glow */}
+                                    {/* Ellipse 1 - blue glow */}
                                     <div aria-hidden="true" className="absolute pointer-events-none right-[-60px] sm:right-[-40px] top-[-180px] sm:top-[-140px]" style={{
                                         width: '167.78px', height: '263.04px',
                                         background: '#6DB7FF',
@@ -90,7 +90,7 @@ const InvestorSupport = () => {
                                         transform: 'rotate(-56.09deg)',
                                         zIndex: 1,
                                     }} />
-                                    {/* Ellipse 2 — plus-lighter glow */}
+                                    {/* Ellipse 2 - plus-lighter glow */}
                                     <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                                         width: '121.08px', height: '258.97px',
                                         right: '-2px', top: '-95px',
@@ -100,7 +100,7 @@ const InvestorSupport = () => {
                                         transform: 'rotate(-56.09deg)',
                                         zIndex: 1,
                                     }} />
-                                    {/* Ellipse 3 — dark overlay glow */}
+                                    {/* Ellipse 3 - dark overlay glow */}
                                     <div aria-hidden="true" className="absolute pointer-events-none" style={{
                                         width: '112.92px', height: '251.43px',
                                         right: '-16px', top: '-67px',

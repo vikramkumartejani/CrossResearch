@@ -38,8 +38,8 @@ function formatVsConsensus(vs: number | null | undefined): { label: string; posi
 function toCardProps(card: ApiCard): NowcastCardProps {
     const vs = formatVsConsensus(card.vsConsensus)
     return {
-        region: card.region || '—',
-        quarter: card.quarter || '—',
+        region: card.region || '-',
+        quarter: card.quarter || '-',
         vsConsensus: vs.label,
         vsConsensusPositive: vs.positive,
         indicator: card.indicator || 'Indicator',
@@ -48,7 +48,7 @@ function toCardProps(card: ApiCard): NowcastCardProps {
         nowcast: Number(card.nowcast ?? 0),
         consensus: Number(card.consensus ?? 0),
         prior: Number(card.prior ?? 0),
-        inRange: card.inRange || '—',
+        inRange: card.inRange || '-',
         drivers: (card.drivers || []).map((d) => ({
             label: d.label,
             value: d.value,

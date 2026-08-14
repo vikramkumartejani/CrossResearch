@@ -6,7 +6,7 @@ interface Stat {
 }
 
 const STATS: Stat[] = [
-    { value: 'Real-time', label: 'Macro data feeds — no 15-min delay' },
+    { value: 'Real-time', label: 'Macro data feeds - no 15-min delay' },
     { value: '50+', label: 'Proprietary TradingView scripts' },
     { value: 'Multi-asset', label: 'Equities, crypto, forex, commodities' },
     { value: 'Weekly', label: 'Research briefs & market outlooks' },
@@ -30,7 +30,7 @@ const TheEdgeYouareGivingThem = () => {
                         have relied on for years consistently.
                     </h2>
                     <p className="text-white/60 text-[14px] sm:text-[20px] leading-[22px] sm:leading-[32px] font-normal font-inter max-w-[840px]">
-                        CrossResearch closes the gap between retail traders and institutional-grade intelligence. Your community gets tools that were out of reach — until now.
+                        CrossResearch closes the gap between retail traders and institutional-grade intelligence. Your community gets tools that were out of reach - until now.
                     </p>
                 </div>
 

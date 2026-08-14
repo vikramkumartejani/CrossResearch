@@ -29,7 +29,7 @@ export default function CategorySection({ title, description, posts }: CategoryS
         <div className='px-4 sm:px-6 mb-6 lg:mb-[60px]'>
             <div className='relative max-w-[1560px] mx-auto'>
 
-                {/* Ellipse 14 — left glow */}
+                {/* Ellipse 14 - left glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                     width: '833px', height: '533px',
                     left: '-339px', top: '400px',
@@ -37,7 +37,7 @@ export default function CategorySection({ title, description, posts }: CategoryS
                     filter: 'blur(250px)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 13 — right glow */}
+                {/* Ellipse 13 - right glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none w-[500px] sm:w-[787px] h-[300px] sm:h-[504px] right-[-400px] sm:right-[-339px] blur-[100px] sm:blur-[250px]" style={{
                     top: '400px',
                     background: 'rgba(34, 126, 217, 0.4)',

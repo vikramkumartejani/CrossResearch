@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
-/** Hobby plan max is 300s — values above this fail the Vercel build. */
+/** Hobby plan max is 300s - values above this fail the Vercel build. */
 export const maxDuration = 300
 
 export async function GET() {

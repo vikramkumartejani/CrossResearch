@@ -6,7 +6,7 @@ const GlobalExpertise = () => {
         <div className='px-4 sm:px-6 mt-16 md:mt-20 lg:mt-[114px]'>
             <div className='max-w-[1560px] mx-auto'>
                 <div className="flex lg:flex-row flex-col items-center justify-between lg:gap-6 items-center">
-                    {/* Left — Content */}
+                    {/* Left - Content */}
                     <div className='w-full lg:max-w-[615px]'>
                         <div className="mb-5 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
@@ -26,9 +26,9 @@ const GlobalExpertise = () => {
                         </p>
                     </div>
 
-                    {/* Right — Image card with glow */}
+                    {/* Right - Image card with glow */}
                     <div className="relative w-full lg:max-w-[849px]">
-                        {/* Ellipse 16952 — blue glow behind world map */}
+                        {/* Ellipse 16952 - blue glow behind world map */}
                         <div
                             aria-hidden="true"
                             className="absolute pointer-events-none hidden sm:block"

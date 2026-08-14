@@ -332,7 +332,7 @@ export default function ContactSupportPage() {
               </select>
             </label>
             <p className="text-[#838388] text-[11px]">
-              The ticket is created under your account — we&apos;ll reply to your registered email.
+              The ticket is created under your account - we&apos;ll reply to your registered email.
             </p>
             <label className="block text-[12px] text-[#838388]">
               Message

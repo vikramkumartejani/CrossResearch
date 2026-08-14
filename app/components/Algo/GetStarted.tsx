@@ -27,7 +27,7 @@ const GetStarted = () => {
 
                 {/* Select Plan section */}
                 <div className="flex lg:flex-row flex-col items-center justify-between gap-6 items-center">
-                    {/* Left — Content */}
+                    {/* Left - Content */}
                     <div className='w-full lg:max-w-[573px]'>
                         <div className="mb-3 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
@@ -43,7 +43,7 @@ const GetStarted = () => {
                         </h3>
 
                         <p className="text-white/50 text-[14px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-normal mb-5 max-w-[550px]">
-                            Select the package that fits your style — indicators only, macro dashboard, or the full suite.
+                            Select the package that fits your style - indicators only, macro dashboard, or the full suite.
                         </p>
 
                         {/* Steps */}
@@ -75,7 +75,7 @@ const GetStarted = () => {
                         </div>
                     </div>
 
-                    {/* Right — Image card with glow */}
+                    {/* Right - Image card with glow */}
                     <div className="relative w-full lg:max-w-[751px] z-10 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[24px] sm:rounded-[40px] py-[41px] overflow-hidden">
                         {/* Right-top glow */}
                         <div aria-hidden="true" className="absolute pointer-events-none right-[-100px] lg:right-[-37px] bottom-[-140px] lg:top-[-71px]" style={{ width: '120.48px', height: '188.9px', background: '#6DB7FF', filter: 'blur(37.66px)', transform: 'rotate(-67.08deg)', zIndex: 1 }} />

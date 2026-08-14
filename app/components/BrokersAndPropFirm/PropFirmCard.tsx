@@ -65,7 +65,7 @@ export default function PropFirmCard({ firm }: { firm: PropFirmCardData }) {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
-            {/* ── Hover glow — top-right ── */}
+            {/* ── Hover glow - top-right ── */}
             <div
                 aria-hidden="true"
                 className="absolute pointer-events-none transition-opacity duration"
@@ -102,7 +102,7 @@ export default function PropFirmCard({ firm }: { firm: PropFirmCardData }) {
                 }} />
             </div>
 
-            {/* ── Dot pattern — top-right ── */}
+            {/* ── Dot pattern - top-right ── */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 src="/assets/card-dot-img.svg"

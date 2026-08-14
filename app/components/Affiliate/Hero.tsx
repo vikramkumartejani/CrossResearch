@@ -43,7 +43,7 @@ export default function Hero() {
                 </h1>
 
                 <p className="mb-6 sm:mb-10 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-inter font-normal max-w-[808px] mx-auto text-center">
-                    You built the audience, we built the edge—together let’s create something powerful your followers will trust, use, and genuinely value daily
+                    You built the audience, we built the edge-together let’s create something powerful your followers will trust, use, and genuinely value daily
                 </p>
 
                 <div className="w-full flex items-center sm:flex-row flex-col justify-center gap-3">

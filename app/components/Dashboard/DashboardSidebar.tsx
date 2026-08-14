@@ -347,7 +347,7 @@ export default function DashboardSidebar({
                     ))}
                 </nav>
 
-                {/* Bottom logo — links back to the marketing home page */}
+                {/* Bottom logo - links back to the marketing home page */}
                 <div className={`py-5 mt-auto border-t ${isLight ? 'border-[#D5D8E0]' : 'border-[#FFFFFF0F]'} ${compact ? 'px-2 flex justify-center' : 'px-4'}`}>
                     <Link
                         href="/"
@@ -385,7 +385,7 @@ export default function DashboardSidebar({
 
     return (
         <>
-            {/* Desktop sidebar — fixed */}
+            {/* Desktop sidebar - fixed */}
             <aside
                 className={`hidden lg:flex fixed top-0 left-0 h-full flex-col z-40 transition-[width] duration-200 border-r ${
                     isLight

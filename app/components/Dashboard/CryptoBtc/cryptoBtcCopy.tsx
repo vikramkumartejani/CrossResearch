@@ -33,7 +33,7 @@ const DEFAULT_COPY: CryptoBtcCopy = {
         eyebrow: 'Crypto / BTC Desk',
         title: 'Bitcoin Intelligence',
         subtitle:
-            'ETF flow regime, model-driven return forecast, vol regime classification, and an in-house Fear & Greed composite — every chart engineered for one decision.',
+            'ETF flow regime, model-driven return forecast, vol regime classification, and an in-house Fear & Greed composite - every chart engineered for one decision.',
     },
     sections: {
         desk_brief: 'BTC Desk Brief',

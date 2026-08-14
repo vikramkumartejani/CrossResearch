@@ -62,7 +62,7 @@ export default function GlobalMarketInsightsNew() {
 
         setProgress(0);
 
-        // Progress bar — tick every 30ms
+        // Progress bar - tick every 30ms
         const step = (30 / DURATION) * 100;
         progressRef.current = setInterval(() => {
             setProgress(prev => {
@@ -118,7 +118,7 @@ export default function GlobalMarketInsightsNew() {
                                     </span>
                                 </div>
 
-                                {/* Description + progress — only when active */}
+                                {/* Description + progress - only when active */}
                                 <div
                                     style={{
                                         display: 'grid',
@@ -149,7 +149,7 @@ export default function GlobalMarketInsightsNew() {
             {/* ── Right: image panel ── */}
             <div className="flex-1 relative rounded-[20px] sm:rounded-[40px] overflow-hidden bg-[#FFFFFF0D] min-h-[280px] sm:min-h-[300px] lg:min-h-0">
 
-                {/* Ellipse 17030 — center glow */}
+                {/* Ellipse 17030 - center glow */}
                 <div
                     aria-hidden="true"
                     className="absolute pointer-events-none blur-[60px] sm:blur-[100px]"
@@ -161,7 +161,7 @@ export default function GlobalMarketInsightsNew() {
                     }}
                 />
 
-                {/* Inner image box — right-bottom aligned */}
+                {/* Inner image box - right-bottom aligned */}
                 <div className="absolute bottom-0 right-0 z-10 w-[789px] max-w-[95%] rounded-tl-[30px] sm:rounded-tl-[40px] overflow-hidden border-t border-l border-[#88C4FFB2] bg-[#1B1C26]"
                     style={{height: '386px', maxHeight: '92%' }}>
                     {TABS.map((tab, i) => (

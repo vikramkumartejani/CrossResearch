@@ -40,7 +40,7 @@ const page = () => {
         <div>
             <Hero />
             <LogoSlider />
-            {/* Ellipse 14 — left glow + Ellipse 13 — right glow (below LogoSlider) */}
+            {/* Ellipse 14 - left glow + Ellipse 13 - right glow (below LogoSlider) */}
             <div className="relative">
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '833px', height: '533px',
@@ -58,7 +58,7 @@ const page = () => {
                 </div>
             </div>
             <WhoThisIsFor/>
-            {/* Ellipse 1 — left glow + Ellipse 18 — right glow (below WhoThisIsFor) */}
+            {/* Ellipse 1 - left glow + Ellipse 18 - right glow (below WhoThisIsFor) */}
             <div className="relative">
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '765px', height: '489px',
@@ -75,7 +75,7 @@ const page = () => {
                 <div className="relative" style={{ zIndex: 1 }}>
                     <ThePackage/>
                 </div>
-                {/* Ellipse 15 — left glow + Ellipse 16 — right glow (bottom of ThePackage) */}
+                {/* Ellipse 15 - left glow + Ellipse 16 - right glow (bottom of ThePackage) */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '865px', height: '553px',
                     left: '-249px', bottom: '100px',
@@ -90,7 +90,7 @@ const page = () => {
                 }} />
             </div>
             <TheEdgeYouareGivingThem />
-            {/* Ellipse 19 — left glow + Ellipse 20 — right glow (bottom of TheEdgeYouareGivingThem) */}
+            {/* Ellipse 19 - left glow + Ellipse 20 - right glow (bottom of TheEdgeYouareGivingThem) */}
             <div className="relative">
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '977px', height: '446px',
@@ -109,9 +109,9 @@ const page = () => {
                     <TestimonialsSection />
                 </div>
             </div>
-            {/* TheProcess with glows — top & bottom both sides */}
+            {/* TheProcess with glows - top & bottom both sides */}
             <div className="relative">
-                {/* Ellipse 22 — top left */}
+                {/* Ellipse 22 - top left */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '699px', height: '319px',
                     left: '-444px', top: '100px',
@@ -119,14 +119,14 @@ const page = () => {
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 21 — top right */}
+                {/* Ellipse 21 - top right */}
                 <div aria-hidden="true" className="absolute pointer-events-none w-[400px] h-[200px] lg:w-[756px] lg:h-[345px] top-[-30px] lg:top-0 blur-[100px] lg:blur-[250px]" style={{
                     right: '-339px',
                     background: 'rgba(34, 126, 217, 0.4)',
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 4 — bottom left */}
+                {/* Ellipse 4 - bottom left */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '567px', height: '259px',
                     left: '-313px', bottom: '350px',
@@ -134,7 +134,7 @@ const page = () => {
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 17 — bottom right */}
+                {/* Ellipse 17 - bottom right */}
                 <div aria-hidden="true" className="absolute pointer-events-none w-[400px] h-[200px] lg:w-[713px] lg:h-[325px] bottom-[450px] blur-[100px] lg:blur-[250px]" style={{
                     right: '-339px',
                     background: 'rgba(34, 126, 217, 0.4)',
@@ -147,7 +147,7 @@ const page = () => {
             </div>
             {/* GetInTouch with glows */}
             <div className="relative">
-                {/* Ellipse 6 — left */}
+                {/* Ellipse 6 - left */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '977px', height: '446px',
                     left: '-318px', top: '250px',
@@ -155,7 +155,7 @@ const page = () => {
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 5 — right */}
+                {/* Ellipse 5 - right */}
                 <div aria-hidden="true" className="absolute pointer-events-none w-[450px] h-[250px] lg:w-[977px] lg:h-[446px] top-0 lg:top-[100px] blur-[100px] lg:blur-[250px]" style={{
                     right: '-339px',
                     background: 'rgba(34, 126, 217, 0.4)',

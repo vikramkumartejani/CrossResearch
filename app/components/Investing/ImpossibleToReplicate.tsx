@@ -63,7 +63,7 @@ export default function ImpossibleToReplicate() {
                 {/* 3-column layout: left card | center heading | right cards */}
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 2xl:gap-10 items-center">
 
-                    {/* Center — badge + heading + subtitle — on mobile: first, on lg: middle */}
+                    {/* Center - badge + heading + subtitle - on mobile: first, on lg: middle */}
                     <div className="flex flex-col items-center text-center max-w-[520px] mx-auto lg:hidden">
                         <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-4 py-[9px] rounded-[100px] text-[14px] sm:text-[16px] leading-5 font-normal font-inter">
                             <TagDot color="#88C4FF" />
@@ -104,9 +104,9 @@ export default function ImpossibleToReplicate() {
                         />
                     </div>
 
-                    {/* Desktop layout — hidden on mobile */}
+                    {/* Desktop layout - hidden on mobile */}
 
-                    {/* Left card — 02/03, offset down */}
+                    {/* Left card - 02/03, offset down */}
                     <div className="hidden lg:block h-full lg:mt-[480px]">
                         <FeatureCard
                             tag="Proven Results"
@@ -117,7 +117,7 @@ export default function ImpossibleToReplicate() {
                         />
                     </div>
 
-                    {/* Center — badge + heading + subtitle */}
+                    {/* Center - badge + heading + subtitle */}
                     <div className="hidden lg:flex flex-col items-center text-center max-w-[520px] mx-auto">
                         <div className="mb-6 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-4 py-[9px] rounded-[100px] text-[14px] sm:text-[16px] leading-5 font-normal font-inter">
                             <TagDot color="#88C4FF" />
@@ -133,7 +133,7 @@ export default function ImpossibleToReplicate() {
                         </p>
                     </div>
 
-                    {/* Right — 2 stacked cards with gap */}
+                    {/* Right - 2 stacked cards with gap */}
                     <div className="hidden lg:flex flex-col gap-5 lg:gap-[250px] 2xl:gap-[350px]">
                         <FeatureCard
                             tag="Data Advantage"

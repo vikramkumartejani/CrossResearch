@@ -150,7 +150,7 @@ function UPlotChart({
     const xLabelsRef = useRef<HTMLDivElement | null>(null)
     const [containerW, setContainerW] = useState(0)
 
-    // derived — use smaller Y-axis on mobile
+    // derived - use smaller Y-axis on mobile
     const isMobile  = containerW > 0 && containerW < 480
     const yAxisW    = isMobile ? Y_AXIS_W_MOBILE : Y_AXIS_W
     const yFontSize = isMobile ? 10 : 13
@@ -226,7 +226,7 @@ function UPlotChart({
             },
             axes: [
                 {
-                    // X axis — completely hidden (we render our own HTML labels)
+                    // X axis - completely hidden (we render our own HTML labels)
                     show:  false,
                     size:  0,
                     gap:   0,
@@ -234,7 +234,7 @@ function UPlotChart({
                     grid:  { show: false },
                 },
                 {
-                    // Y axis — right side
+                    // Y axis - right side
                     side:  1,
                     ticks: { show: false },
                     grid: {
@@ -307,7 +307,7 @@ function UPlotChart({
         }
     }, [timestamps, prices, containerW, yAxisW, yFontSize, buildOpts, light])
 
-    // ResizeObserver — only track width
+    // ResizeObserver - only track width
     useEffect(() => {
         const wrap = wrapRef.current
         if (!wrap) return

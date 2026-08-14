@@ -56,7 +56,7 @@ const GetInTouch = () => {
                             <p className='text-white/60 text-[14px] sm:text-[18px] leading-[20px] sm:leading-[23px] font-normal mb-6 sm:mb-8'>All fields help us prepare a relevant proposal before our call.</p>
 
                             <form className='flex flex-col gap-3.5 sm:gap-4'>
-                                {/* Row 1 — Name + Email */}
+                                {/* Row 1 - Name + Email */}
                                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4'>
                                     <div className='flex flex-col gap-2 sm:gap-3'>
                                         <label className='text-white text-[14px] sm:text-[16px] font-normal leading-5 sm:leading-[21px]'>Your Name</label>
@@ -76,7 +76,7 @@ const GetInTouch = () => {
                                     </div>
                                 </div>
 
-                                {/* Row 2 — Platform + Audience Size */}
+                                {/* Row 2 - Platform + Audience Size */}
                                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4'>
                                     <div className='flex flex-col gap-2 sm:gap-3'>
                                         <label className='text-white text-[14px] sm:text-[16px] font-normal leading-5 sm:leading-[21px]'>Platform / Community</label>
@@ -95,7 +95,7 @@ const GetInTouch = () => {
                                     </div>
                                 </div>
 
-                                {/* Row 3 — Partnership Type + Primary Market Focus */}
+                                {/* Row 3 - Partnership Type + Primary Market Focus */}
                                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4'>
                                     <div className='flex flex-col gap-2 sm:gap-3'>
                                         <label className='text-white text-[14px] sm:text-[16px] font-normal leading-5 sm:leading-[21px]'>Partnership Type</label>
@@ -113,7 +113,7 @@ const GetInTouch = () => {
                                     </div>
                                 </div>
 
-                                {/* Row 4 — Potential Comments */}
+                                {/* Row 4 - Potential Comments */}
                                 <div className='flex flex-col gap-2 sm:gap-3'>
                                     <label className='text-white text-[14px] sm:text-[16px] font-normal leading-5 sm:leading-[21px]'>Potential Comments</label>
                                     <textarea

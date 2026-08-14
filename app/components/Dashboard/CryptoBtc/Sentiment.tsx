@@ -93,7 +93,7 @@ export default function Sentiment() {
                 setSeries(points.map((p) => p.index ?? 50))
                 setLatest({
                     index: data.latest?.index ?? null,
-                    regime: data.latest?.regime ?? '—',
+                    regime: data.latest?.regime ?? '-',
                     change_7d: data.latest?.change_7d ?? null,
                 })
             } catch (err) {
@@ -115,7 +115,7 @@ export default function Sentiment() {
     const change7 = latest?.change_7d
     const changeLabel =
         change7 == null || !Number.isFinite(change7)
-            ? '—'
+            ? '-'
             : `${change7 >= 0 ? '+' : ''}${change7.toFixed(0)} 7D`
 
     return (
@@ -150,9 +150,9 @@ export default function Sentiment() {
                     <div className="flex gap-4">
                         <div className="flex-shrink-0 flex flex-col justify-center items-center w-16">
                             <p className={`${color} text-[40px] leading-none font-bold`}>
-                                {idx != null ? idx.toFixed(0) : '—'}
+                                {idx != null ? idx.toFixed(0) : '-'}
                             </p>
-                            <p className={`${color} text-[11px] leading-[14px] mt-1`}>{latest?.regime || '—'}</p>
+                            <p className={`${color} text-[11px] leading-[14px] mt-1`}>{latest?.regime || '-'}</p>
                         </div>
                         <div className="flex-1" style={{ height: 120 }}>
                             {series.length > 1 ? <FearGreedChart series={series} /> : null}

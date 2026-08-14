@@ -24,7 +24,7 @@ function formatEventTime(displayDate?: string | null, eventTime?: string | null)
     const d = (displayDate || '').trim()
     const t = (eventTime || '').trim()
     if (d && t) return `${d} ${t}`
-    return d || t || '—'
+    return d || t || '-'
 }
 
 export default function MacroEventStress() {
@@ -69,8 +69,8 @@ export default function MacroEventStress() {
                         }) => ({
                             id: e.event_id || `${e.event_name}-${e.display_date}`,
                             time: formatEventTime(e.display_date, e.event_time),
-                            title: e.event_name || '—',
-                            badge: e.tag || '—',
+                            title: e.event_name || '-',
+                            badge: e.tag || '-',
                             badgeColor: e.tag_color || FALLBACK_BADGE,
                             desc: joinDetail(e.detail_line_1, e.detail_line_2),
                         })

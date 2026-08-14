@@ -69,7 +69,7 @@ const money = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
 
 function formatDate(iso?: string | null) {
-  if (!iso) return '—'
+  if (!iso) return '-'
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return String(iso)
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -367,7 +367,7 @@ export default function AffiliateCenter() {
         Affiliate Center
       </h1>
       <p className="text-[#838388] text-[12px] leading-[17px]">
-        Track every client you bring in — subscription status, contribution, and payouts. Updates in real time.
+        Track every client you bring in - subscription status, contribution, and payouts. Updates in real time.
       </p>
     </div>
   )
@@ -445,7 +445,7 @@ export default function AffiliateCenter() {
             <p className="text-[#838388] text-[13px] leading-[19px]">
               {suspended
                 ? 'Contact support if you believe this is a mistake.'
-                : 'Our team is reviewing your affiliate application. You will get access to your referral link and dashboard once approved — usually within 1–2 business days.'}
+                : 'Our team is reviewing your affiliate application. You will get access to your referral link and dashboard once approved - usually within 1–2 business days.'}
             </p>
           </div>
         </div>
@@ -630,7 +630,7 @@ export default function AffiliateCenter() {
                 <tbody>
                   {filteredClients.map((c) => (
                     <tr key={c.id} className="border-b border-[#FFFFFF08]">
-                      <td className="px-4 py-3 text-white whitespace-nowrap">{c.name || '—'}</td>
+                      <td className="px-4 py-3 text-white whitespace-nowrap">{c.name || '-'}</td>
                       <td className="px-4 py-3 text-[#838388]">{c.email}</td>
                       <td className="px-4 py-3">
                         <span className={`inline-block px-2 py-0.5 text-[11px] ${STATUS_BADGE[c.status]}`}>
@@ -640,7 +640,7 @@ export default function AffiliateCenter() {
                       <td className="px-4 py-3 text-[#838388] whitespace-nowrap">{c.plan_label}</td>
                       <td className="px-4 py-3 text-[#838388] whitespace-nowrap">{formatDate(c.joined)}</td>
                       <td className={`px-4 py-3 text-right ${c.mrr > 0 ? 'text-[#2CB37B]' : 'text-[#838388]'}`}>
-                        {c.mrr > 0 ? money(c.mrr) : '—'}
+                        {c.mrr > 0 ? money(c.mrr) : '-'}
                       </td>
                     </tr>
                   ))}
@@ -649,7 +649,7 @@ export default function AffiliateCenter() {
                       <td colSpan={6} className="px-4 py-10 text-center text-[#838388]">
                         {data.clients.length
                           ? 'No clients match this filter.'
-                          : 'No referrals yet — share your link to get started.'}
+                          : 'No referrals yet - share your link to get started.'}
                       </td>
                     </tr>
                   )}
@@ -684,7 +684,7 @@ export default function AffiliateCenter() {
               ))}
               {!data.payouts.length && (
                 <p className="py-8 text-center text-[#838388] text-[12px]">
-                  No payouts yet — minimum payout is {money(data.earnings.min_payout)}.
+                  No payouts yet - minimum payout is {money(data.earnings.min_payout)}.
                 </p>
               )}
             </div>

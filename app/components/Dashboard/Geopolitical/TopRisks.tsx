@@ -57,10 +57,10 @@ export default function TopRisks() {
                     )
                     .map((r: RiskRow & { num?: string | number }, i: number) => ({
                         num: String(r.num ?? i + 1),
-                        title: r.title || '—',
+                        title: r.title || '-',
                         desc: r.desc || '',
-                        likelihood: r.likelihood || '—',
-                        impact: r.impact || '—',
+                        likelihood: r.likelihood || '-',
+                        impact: r.impact || '-',
                     }))
                 if (!cancelled) {
                     if (typeof body.title === 'string' && body.title.trim()) setTitle(body.title.trim())

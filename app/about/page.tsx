@@ -41,7 +41,7 @@ const page = () => {
             <div className='py-7 sm:py-12 2xl:py-16'>
                 <LogoSlider />
             </div>
-            {/* Ellipse 14 — left glow + Ellipse 13 — right glow */}
+            {/* Ellipse 14 - left glow + Ellipse 13 - right glow */}
             <div className="relative">
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[60px] lg:blur-[250px]" style={{
                     width: '833px', height: '533px',
@@ -58,7 +58,7 @@ const page = () => {
                     <OurCompany />
                 </div>
             </div>
-            {/* Ellipse 18 (right) + Ellipse 1 (left) — TradingView */}
+            {/* Ellipse 18 (right) + Ellipse 1 (left) - TradingView */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '765px', height: '389px',
@@ -77,7 +77,7 @@ const page = () => {
                     <TradingView />
                 </div>
             </div>
-            {/* Ellipse 15 (left) + Ellipse 16 (right) — GlobalExpertise */}
+            {/* Ellipse 15 (left) + Ellipse 16 (right) - GlobalExpertise */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '765px', height: '453px',
@@ -95,7 +95,7 @@ const page = () => {
                     <GlobalExpertise />
                 </div>
             </div>
-            {/* Ellipse 19 (left) + Ellipse 20 (right) — CorePrinciples */}
+            {/* Ellipse 19 (left) + Ellipse 20 (right) - CorePrinciples */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '977px', height: '446px',
@@ -114,7 +114,7 @@ const page = () => {
                     <CorePrinciples />
                 </div>
             </div>
-            {/* Ellipse 16951 (right-bottom) — InstitutionalAccess */}
+            {/* Ellipse 16951 (right-bottom) - InstitutionalAccess */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none w-[450px] lg:w-[756px] h-[300px] lg:h-[345px] top-0 lg:bottom-[200px] blur-[100px] lg:blur-[250px]" style={{
                     right: '-339px', bottom: '200px',
@@ -126,7 +126,7 @@ const page = () => {
                     <InstitutionalAccess />
                 </div>
             </div>
-            {/* Ellipse 22 (left) + Ellipse 21 (right) — Advisory */}
+            {/* Ellipse 22 (left) + Ellipse 21 (right) - Advisory */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '699px', height: '319px',
@@ -146,7 +146,7 @@ const page = () => {
                 </div>
             </div>
             <div className='relative pb-14 sm:pb-20 xl:pb-[170px] pt-16 sm:pt-[111px]'>
-                {/* Ellipse 17 — right top glow */}
+                {/* Ellipse 17 - right top glow */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[250px]" style={{
                     width: '713px', height: '325px',
                     right: '-339px', top: '-300px',
@@ -154,7 +154,7 @@ const page = () => {
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 19 — left glow */}
+                {/* Ellipse 19 - left glow */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none" style={{
                     width: '977px', height: '446px',
                     left: '-465px', bottom: '-600px',
@@ -163,7 +163,7 @@ const page = () => {
                     transform: 'rotate(-20.7deg)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 20 — right glow */}
+                {/* Ellipse 20 - right glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none bottom-[-200px] lg:bottom-[-320px] h-[280px] md:h-[446px] w-[400px] md:w-[977px] right-[-200px] md:right-[-465px] blur-[80px] md:blur-[250px]" style={{
                     background: 'rgba(34, 126, 217, 0.4)',
                     transform: 'rotate(-20.7deg)',

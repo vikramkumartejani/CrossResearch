@@ -18,7 +18,7 @@ interface DeskData {
 }
 
 function formatUsd(value: number | null) {
-    if (value == null || !Number.isFinite(value)) return '—'
+    if (value == null || !Number.isFinite(value)) return '-'
     return (
         '$' +
         value.toLocaleString('en-US', {
@@ -29,13 +29,13 @@ function formatUsd(value: number | null) {
 }
 
 function formatSignedPct(value: number | null, digits = 2) {
-    if (value == null || !Number.isFinite(value)) return '—'
+    if (value == null || !Number.isFinite(value)) return '-'
     const sign = value > 0 ? '+' : ''
     return `${sign}${value.toFixed(digits)}%`
 }
 
 function formatFlowUsd(value: number | null) {
-    if (value == null || !Number.isFinite(value)) return '—'
+    if (value == null || !Number.isFinite(value)) return '-'
     const sign = value >= 0 ? '+' : '-'
     const abs = Math.abs(value)
     if (abs >= 1_000_000_000) return `${sign}$${(abs / 1_000_000_000).toFixed(2)}B`
@@ -77,13 +77,13 @@ export default function BtcDeskBrief() {
                     change24h: forecast?.spot?.change_24h_pct ?? null,
                     forecastPrice: forecast?.forecast?.terminal?.median ?? null,
                     forecastChange: forecast?.forecast?.terminal?.change_pct ?? null,
-                    forecastBias: forecast?.forecast?.terminal?.bias ?? '—',
+                    forecastBias: forecast?.forecast?.terminal?.bias ?? '-',
                     upperPct: forecast?.forecast?.terminal?.upper_pct ?? null,
                     lowerPct: forecast?.forecast?.terminal?.lower_pct ?? null,
-                    volRegime: forecast?.volatility?.latest?.regime ?? '—',
+                    volRegime: forecast?.volatility?.latest?.regime ?? '-',
                     volPct: forecast?.volatility?.latest?.rv_pct ?? null,
                     fearGreed: fg?.latest?.index ?? null,
-                    fearRegime: fg?.latest?.regime ?? '—',
+                    fearRegime: fg?.latest?.regime ?? '-',
                     etf5d: etf?.latest?.flow_5d ?? null,
                 })
             } catch (err) {
@@ -201,13 +201,13 @@ export default function BtcDeskBrief() {
                         <div className="flex items-center justify-between">
                             <span className="text-[#838388] text-[14px] leading-[17px] font-medium">RV (Current)</span>
                             <span className="text-white text-[14px] leading-[17px] font-medium">
-                                {data.volPct != null ? `${data.volPct.toFixed(1)}%` : '—'}
+                                {data.volPct != null ? `${data.volPct.toFixed(1)}%` : '-'}
                             </span>
                         </div>
                         <div className="flex items-center justify-between">
                             <span className="text-[#838388] text-[14px] leading-[17px] font-medium">Fear & Greed</span>
                             <span className={`text-[14px] leading-[17px] font-medium ${fgClass}`}>
-                                {fgValue != null ? `${fgValue.toFixed(0)}·${data.fearRegime}` : '—'}
+                                {fgValue != null ? `${fgValue.toFixed(0)}·${data.fearRegime}` : '-'}
                             </span>
                         </div>
                         <div className="flex items-center justify-between border-b border-[#FFFFFF1A] pb-3 sm:pb-4">

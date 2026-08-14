@@ -1,4 +1,4 @@
-// Stats bar — 5 metric tiles across the top
+// Stats bar - 5 metric tiles across the top
 
 interface Stat {
     label: string

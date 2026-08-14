@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { authErrorMessage } from "@/lib/authUi";
 import OtpBoxes from "./OtpBoxes";
+import LoadingLabel from "../LoadingLabel";
 
 export default function ForgotPasswordForm() {
   const router = useRouter();
@@ -132,7 +133,7 @@ export default function ForgotPasswordForm() {
             disabled={loading}
             className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
           >
-            {loading ? "Sending…" : "Send reset code"}
+            <LoadingLabel loading={loading}>Send reset code</LoadingLabel>
           </button>
         </form>
       ) : (
@@ -170,7 +171,7 @@ export default function ForgotPasswordForm() {
             disabled={loading || otp.length !== 6}
             className="w-full h-[52px] sm:h-[62px] rounded-[40px] bg-[#88C4FF] text-black font-bold text-[16px] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-60"
           >
-            {loading ? "Updating…" : "Update password"}
+            <LoadingLabel loading={loading}>Update password</LoadingLabel>
           </button>
           <div className="flex items-center justify-between">
             <button

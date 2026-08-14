@@ -1,4 +1,4 @@
-// 30 signal outcomes — green = hit, red = miss, orange = partial
+// 30 signal outcomes - green = hit, red = miss, orange = partial
 const OUTCOMES: ('hit' | 'miss' | 'partial')[] = [
     'hit', 'hit', 'hit', 'hit', 'hit',
     'hit', 'miss', 'hit', 'hit', 'hit',

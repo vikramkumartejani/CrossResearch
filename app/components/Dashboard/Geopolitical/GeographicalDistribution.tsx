@@ -202,7 +202,7 @@ export default function GeographicalDistribution() {
                     const news = await newsRes.json()
                     const mappedFlashpoints: FlashpointItem[] = (news.flashpoint_brief || []).map((fp: any) => ({
                         region: String(fp.region || 'Global'),
-                        date: String(fp.date || '—'),
+                        date: String(fp.date || '-'),
                         title: String(fp.title || ''),
                         severity: String(fp.severity || 'Medium'),
                         url: fp.url ? String(fp.url) : undefined,
@@ -499,7 +499,7 @@ export default function GeographicalDistribution() {
                                                         {cp.name}
                                                     </text>
                                                 )}
-                                                <title>{`${cp.name} · ${cp.risk_tier} (${cp.risk_score?.toFixed(0) ?? '—'})`}</title>
+                                                <title>{`${cp.name} · ${cp.risk_tier} (${cp.risk_score?.toFixed(0) ?? '-'})`}</title>
                                             </Marker>
                                         )
                                     })}
@@ -557,15 +557,15 @@ function CountryHoverCard({
     const conf =
         country.confidence != null && Number.isFinite(country.confidence)
             ? `${Math.round(country.confidence)}%`
-            : '—'
+            : '-'
     const score =
         country.risk_score != null && Number.isFinite(country.risk_score)
             ? country.risk_score.toFixed(1)
-            : '—'
+            : '-'
 
-    const structural = d?.structural ?? (country.structural != null ? country.structural.toFixed(1) : '—')
-    const tactical = d?.tactical ?? (country.tactical != null ? country.tactical.toFixed(1) : '—')
-    const market = d?.transmission ?? (country.transmission != null ? country.transmission.toFixed(1) : '—')
+    const structural = d?.structural ?? (country.structural != null ? country.structural.toFixed(1) : '-')
+    const tactical = d?.tactical ?? (country.tactical != null ? country.tactical.toFixed(1) : '-')
+    const market = d?.transmission ?? (country.transmission != null ? country.transmission.toFixed(1) : '-')
 
     const cardW = 300
     const cardH = 210
@@ -590,31 +590,31 @@ function CountryHoverCard({
                 Risk {score} · {country.risk_tier} · confidence {conf}
             </p>
             <p className="text-[#9AA3B5] text-[11px] leading-[15px] mt-0.5">
-                Change 1h {d?.d1h ?? '—'} · 24h {d?.d24h ?? '—'} · 7d {d?.d7d ?? '—'}
+                Change 1h {d?.d1h ?? '-'} · 24h {d?.d24h ?? '-'} · 7d {d?.d7d ?? '-'}
             </p>
             <p className="text-[#9AA3B5] text-[11px] leading-[15px] mt-0.5">
                 Structural {structural} · Tactical {tactical} · Market {market}
             </p>
             <p className="text-[#9AA3B5] text-[11px] leading-[15px] mt-0.5">
-                Catalyst: {d?.catalyst ?? country.top_category ?? '—'}
+                Catalyst: {d?.catalyst ?? country.top_category ?? '-'}
             </p>
             <div className="mt-1.5 pt-1.5 border-t border-[#1E2430] space-y-0.5">
                 <p className="text-[#8B93A5] text-[10px] leading-[14px]">
-                    GDP {d?.gdp ?? '—'} · Growth {d?.growth ?? '—'} · CPI {d?.cpi ?? '—'}
+                    GDP {d?.gdp ?? '-'} · Growth {d?.growth ?? '-'} · CPI {d?.cpi ?? '-'}
                 </p>
                 <p className="text-[#8B93A5] text-[10px] leading-[14px]">
-                    Debt {d?.debt ?? '—'} · Current account {d?.current_account ?? '—'} · Reserves{' '}
-                    {d?.reserves ?? '—'}
+                    Debt {d?.debt ?? '-'} · Current account {d?.current_account ?? '-'} · Reserves{' '}
+                    {d?.reserves ?? '-'}
                 </p>
                 <p className="text-[#8B93A5] text-[10px] leading-[14px]">
-                    Unemployment {d?.unemployment ?? '—'} · Trade/GDP {d?.trade ?? '—'} · Military/GDP{' '}
-                    {d?.military ?? '—'}
+                    Unemployment {d?.unemployment ?? '-'} · Trade/GDP {d?.trade ?? '-'} · Military/GDP{' '}
+                    {d?.military ?? '-'}
                 </p>
             </div>
             <p className="text-[#8B93A5] text-[10px] leading-[14px] mt-1.5 pt-1.5 border-t border-[#1E2430]">
-                Top transmission: {d?.mkt_asset ?? '—'} {d?.mkt_dir && d.mkt_dir !== '—' ? d.mkt_dir : ''}
-                {d?.mkt_sens && d.mkt_sens !== '—'
-                    ? ` · sensitivity ${d.mkt_sens} · ${d.mkt_conf ?? '—'} confidence`
+                Top transmission: {d?.mkt_asset ?? '-'} {d?.mkt_dir && d.mkt_dir !== '-' ? d.mkt_dir : ''}
+                {d?.mkt_sens && d.mkt_sens !== '-'
+                    ? ` · sensitivity ${d.mkt_sens} · ${d.mkt_conf ?? '-'} confidence`
                     : ''}
             </p>
         </div>

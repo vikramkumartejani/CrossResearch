@@ -61,7 +61,7 @@ const SmarterTradingAccess = () => {
         <div className='px-4 sm:px-6'>
             <div className='max-w-[1490px] mx-auto'>
                 <div className="flex lg:flex-row flex-col-reverse justify-between gap-6 items-center">
-                    {/* Left — Feature cards */}
+                    {/* Left - Feature cards */}
                     <div className='lg:max-w-[686px] w-full border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[24px] sm:rounded-[40px] p-5 sm:p-8'>
                         <div className="mb-5 text-white text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-semibold">
                             Powerful Features
@@ -92,7 +92,7 @@ const SmarterTradingAccess = () => {
                         </div>
                     </div>
 
-                    {/* Right — Main content */}
+                    {/* Right - Main content */}
                     <div className='lg:max-w-[624px] w-full'>
                         <div className="mb-3 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">

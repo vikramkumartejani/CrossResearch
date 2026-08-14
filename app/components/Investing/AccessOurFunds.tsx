@@ -29,7 +29,7 @@ const AccessOurFunds = () => {
 
                     {/* ── Left column ── */}
                     <div className="flex flex-col-reverse lg:flex-col gap-6">
-                        {/* Card 1 — Copy Trading */}
+                        {/* Card 1 - Copy Trading */}
                         <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] px-6 sm:px-8 xl:px-10 pt-6 sm:pt-8 xl:pt-10 pb-5 sm:pb-[27px] flex flex-col overflow-hidden">
                             {/* Icon */}
                             <div className="mb-4 w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
@@ -54,7 +54,7 @@ const AccessOurFunds = () => {
                             </div>
                         </div>
 
-                        {/* Card 2 — PAMM / MAMM */}
+                        {/* Card 2 - PAMM / MAMM */}
                         <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] p-6 sm:p-8 xl:p-10 flex flex-col gap-4 sm:gap-6">
                             {/* Icon */}
                             <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] flex items-center justify-center flex-shrink-0">
@@ -74,7 +74,7 @@ const AccessOurFunds = () => {
 
                     {/* ── Right column ── */}
                     <div className="flex flex-col gap-6">
-                        {/* Card 3 — Managed Allocation */}
+                        {/* Card 3 - Managed Allocation */}
                         <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] p-6 sm:p-8 xl:p-10 flex flex-col gap-4 sm:gap-6 relative overflow-hidden">
                             {/* card-dot-img overlay */}
                             <div className='w-[150px] sm:w-[250px] h-[170px] sm:h-[220px] absolute top-0 right-0 z-10'>
@@ -83,7 +83,7 @@ const AccessOurFunds = () => {
                                 />
                             </div>
 
-                            {/* Ellipse 1 — blue glow */}
+                            {/* Ellipse 1 - blue glow */}
                             <div aria-hidden="true" className="absolute pointer-events-none right-[-60px] sm:right-[-30px] top-[-140px] sm:top-[-80px]" style={{
                                 width: '143.67px', height: '225.25px',
                                 background: '#6DB7FF',
@@ -91,7 +91,7 @@ const AccessOurFunds = () => {
                                 transform: 'rotate(-56.09deg)',
                                 zIndex: 2,
                             }} />
-                            {/* Ellipse 2 — plus-lighter glow */}
+                            {/* Ellipse 2 - plus-lighter glow */}
                             <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                                 width: '103.68px', height: '221.75px',
                                 right: '-5px', top: '-64px',
@@ -101,7 +101,7 @@ const AccessOurFunds = () => {
                                 transform: 'rotate(-56.09deg)',
                                 zIndex: 2,
                             }} />
-                            {/* Ellipse 3 — dark overlay glow */}
+                            {/* Ellipse 3 - dark overlay glow */}
                             <div aria-hidden="true" className="absolute pointer-events-none" style={{
                                 width: '96.69px', height: '215.3px',
                                 right: '-18px', top: '-30px',
@@ -124,7 +124,7 @@ const AccessOurFunds = () => {
                             </div>
                         </div>
 
-                        {/* Card 4 — Your Capital Always Yours */}
+                        {/* Card 4 - Your Capital Always Yours */}
                         <div className="bg-[#FFFFFF08] rounded-[30px] sm:rounded-[50px] pb-0 px-6 sm:px-8 xl:px-10 pt-6 sm:pt-8 xl:pt-10 flex flex-col max-h-[532px] overflow-hidden">
                             {/* Icon */}
                             <div className="mb-6 w-[60px] h-[60px] rounded-full bg-[#FFFFFF08] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">

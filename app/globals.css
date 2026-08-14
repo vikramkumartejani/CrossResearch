@@ -243,7 +243,7 @@ body {
   background-color: #F3F5F8 !important;
 }
 
-/* Theme toggle — readable in both themes (not a black pill on light) */
+/* Theme toggle - readable in both themes (not a black pill on light) */
 [data-dashboard-theme="light"] .dashboard-theme-toggle {
   background: #ffffff !important;
   border: 1px solid #C8CDD8 !important;
@@ -271,4 +271,16 @@ body {
 .dashboard-theme-toggle__icon {
   display: inline-flex;
   animation: dashboard-theme-icon-in 0.28s ease-out;
+}
+
+/* Kill Chrome/Safari autofill’s yellow/blue wash on dark inputs */
+input.cr-autofill-dark:-webkit-autofill,
+input.cr-autofill-dark:-webkit-autofill:hover,
+input.cr-autofill-dark:-webkit-autofill:focus,
+input.cr-autofill-dark:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  transition: background-color 99999s ease-out;
+  box-shadow: 0 0 0 1000px #15151d inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #15151d inset !important;
 }

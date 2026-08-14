@@ -3,7 +3,7 @@ const ROWS = [
         feature: 'Proprietary TradingView algorithms',
         crossResearch: { text: '50+ indicators', type: 'check' },
         generic: { text: 'Limited', type: 'partial' },
-        raw: { text: '—', type: 'dash' },
+        raw: { text: '-', type: 'dash' },
     },
     {
         feature: 'Live macro research dashboard',

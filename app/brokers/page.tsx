@@ -38,7 +38,7 @@ const page = () => {
                 <LogoSlider />
             </div>
 
-            {/* Ellipse 14 — left glow + Ellipse 13 — right glow (between LogoSlider & CostsDefineProfit) */}
+            {/* Ellipse 14 - left glow + Ellipse 13 - right glow (between LogoSlider & CostsDefineProfit) */}
             <div className="relative">
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[60px] lg:blur-[250px]" style={{
                     width: '833px', height: '533px',
@@ -56,7 +56,7 @@ const page = () => {
                 </div>
             </div>
 
-            {/* Ellipse 1 (left) + Ellipse 2 (right) — top of TopRatedBrokers */}
+            {/* Ellipse 1 (left) + Ellipse 2 (right) - top of TopRatedBrokers */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none sm:block hidden" style={{
                     width: '977px', height: '625px',

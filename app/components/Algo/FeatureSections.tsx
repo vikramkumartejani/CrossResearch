@@ -29,7 +29,7 @@ const SECTIONS: FeatureSection[] = [
         points: [
             { text: 'Momentum exhaustion heatmap' },
             { text: 'Regular & hidden divergence across 4 oscillators simultaneously' },
-            { text: 'Multi-ticker scanner — scan watchlists in real time' },
+            { text: 'Multi-ticker scanner - scan watchlists in real time' },
         ],
         ctaText: 'Explore Indicator',
         image: '/assets/indicator.png',
@@ -125,7 +125,7 @@ export default function FeatureSections() {
         <div className="px-4 sm:px-6 pt-16 sm:pt-24 lg:pt-32">
             <div className="max-w-[1560px] mx-auto flex flex-col gap-10 sm:gap-14 lg:gap-20">
 
-                {/* Card 1 — NFP — right-top glow */}
+                {/* Card 1 - NFP - right-top glow */}
                 <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:p-12 2xl:pl-[90px] 2xl:pr-[74px] 2xl:py-[70px] rounded-[30px] sm:rounded-[40px] lg:rounded-[60px] 2xl:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowRight />
                     <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
@@ -153,8 +153,8 @@ export default function FeatureSections() {
                     </div>
                 </div>
 
-                {/* Card 2 — Divergence — left-top glow */}
-                {/* Ellipse 1 (left) + Ellipse 18 (right) — between card 1 and card 2 */}
+                {/* Card 2 - Divergence - left-top glow */}
+                {/* Ellipse 1 (left) + Ellipse 18 (right) - between card 1 and card 2 */}
                 <div className="relative">
                     <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                         width: '765px', height: '489px',
@@ -196,7 +196,7 @@ export default function FeatureSections() {
                     </div>
                 </div>
 
-                {/* Card 3 — Market Structure — left-top glow */}
+                {/* Card 3 - Market Structure - left-top glow */}
                 <div className="relative">
                     <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                         width: '977px', height: '446px',

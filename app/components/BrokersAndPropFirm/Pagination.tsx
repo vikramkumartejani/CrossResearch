@@ -79,7 +79,7 @@ export default function Pagination({
                 <p className="text-white/50 text-[14px] leading-4.5 font-medium bg-[#FFFFFF08] rounded-[62px] py-2 px-5">
                     Result :<span className="text-white font-semibold ml-2.5">{totalItems} Items</span>
                 </p>
-                {/* Pages dropdown — mobile */}
+                {/* Pages dropdown - mobile */}
                 <div className="relative" ref={dropdownRef}>
                     <button
                         onClick={() => setDropdownOpen(prev => !prev)}

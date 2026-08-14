@@ -33,7 +33,7 @@ const StrategyMattersMost = () => {
 
                 {/* Two main cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 mb-6 bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px]">
-                    {/* Card 1 — The Generic Problem */}
+                    {/* Card 1 - The Generic Problem */}
                     <div className="relative p-6 sm:p-8 lg:p-[60px] flex flex-col gap-10 lg:gap-20 overflow-hidden">
                         {/* Icon */}
                         <div className="w-[60px] h-[60px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center flex-shrink-0">
@@ -65,7 +65,7 @@ const StrategyMattersMost = () => {
                         </div>
                     </div>
 
-                    {/* Card 2 — Alpha Advantage */}
+                    {/* Card 2 - Alpha Advantage */}
                     <div className="relative bg-[#FFFFFF08] p-6 sm:p-8 lg:p-[60px] flex flex-col gap-10 lg:gap-20 rounded-r-[30px] sm:rounded-r-[40px] rounded-b-[30px] md:rounded-b-none lg:rounded-r-[50px] overflow-hidden">
                         {/* card-dot-img overlay */}
                         <div className='w-[280px] sm:w-[350px] h-[220px] lg:h-[350px] absolute top-0 right-0 z-10'>
@@ -75,14 +75,14 @@ const StrategyMattersMost = () => {
                             />
                         </div>
 
-                        {/* Ellipse 1 — blue glow */}
+                        {/* Ellipse 1 - blue glow */}
                         <div aria-hidden="true" className="absolute pointer-events-none blur-[70.408px] right-[-140px] sm:right-[-100px] top-[-180px] sm:top-[-140px]" style={{
                             width: '225.24px', height: '353.14px',
                             background: '#6DB7FF',
                             transform: 'rotate(-56.09deg)',
                             zIndex: 0,
                         }} />
-                        {/* Ellipse 2 — plus-lighter glow */}
+                        {/* Ellipse 2 - plus-lighter glow */}
                         <div aria-hidden="true" className="absolute pointer-events-none md:block hidden" style={{
                             width: '162.55px', height: '347.66px',
                             right: '-30px', top: '-121px',
@@ -92,7 +92,7 @@ const StrategyMattersMost = () => {
                             transform: 'rotate(-56.09deg)',
                             zIndex: 0,
                         }} />
-                        {/* Ellipse 3 — dark overlay glow */}
+                        {/* Ellipse 3 - dark overlay glow */}
                         <div aria-hidden="true" className="absolute pointer-events-none" style={{
                             width: '151.6px', height: '337.54px',
                             right: '-50px', top: '-83px',
@@ -126,7 +126,7 @@ const StrategyMattersMost = () => {
                                 Mathematically Proven  <br className='sm:block hidden' />Strategies
                             </h3>
                             <p className="max-w-[490px] text-white/50 text-[14px] sm:text-[16px] leading-[24px] font-normal mb-6">
-                                Our strategies adapt to market environments through proprietary regime classification, advanced statistical reasoning, and multi-factor validation — ensuring every position is grounded in quantitative evidence, not conviction.
+                                Our strategies adapt to market environments through proprietary regime classification, advanced statistical reasoning, and multi-factor validation - ensuring every position is grounded in quantitative evidence, not conviction.
                             </p>
                             <button className="w-full sm:w-fit flex items-center justify-center bg-[#FFFFFF0F] border border-[#FFFFFF0D] bg-blur-[54px] text-white/70 text-[16px] leading-[19px] font-medium px-11 h-[48px] rounded-full hover:bg-[#FFFFFF18] transition-colors cursor-pointer">
                                 Read More
@@ -138,7 +138,7 @@ const StrategyMattersMost = () => {
                 {/* Quote card */}
                 <div className="relative bg-[#FFFFFF08] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] p-6 sm:p-10 lg:p-[50px] flex items-center justify-between gap-6 overflow-hidden">
                     <p className="relative z-10 text-white text-[18px] sm:text-[28px] lg:text-[38px] font-normal leading-7 sm:leading-[40px] lg:leading-[49px] max-w-[800px]">
-                        &ldquo;The edge is not in the trade — it is <br className="sm:block hidden" /> in the framework behind it.&rdquo;
+                        &ldquo;The edge is not in the trade - it is <br className="sm:block hidden" /> in the framework behind it.&rdquo;
                     </p>
                     <div className="relative z-10 flex-shrink-0 h-16 sm:w-[75px] w-16 sm:h-[75px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center cursor-pointer hover:bg-[#FFFFFF18] transition-colors">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">

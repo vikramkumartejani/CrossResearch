@@ -35,7 +35,7 @@ const TIER_COLOR: Record<string, string> = {
 }
 
 function formatDate(iso?: string): string {
-    if (!iso) return '—'
+    if (!iso) return '-'
     // Prefer MM-DD from ISO YYYY-MM-DD
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim())
     if (m) return `${m[2]}-${m[3]}`
@@ -52,12 +52,12 @@ function mapRelease(r: ApiRelease): Release | null {
     return {
         date: formatDate(r.release_date),
         time,
-        country: (r.country || '—').trim(),
+        country: (r.country || '-').trim(),
         indicator,
-        period: (r.reference_period || '—').trim(),
-        prior: r.prior == null || r.prior === '' ? '—' : String(r.prior),
-        cons: r.consensus == null || r.consensus === '' ? '—' : String(r.consensus),
-        fcst: r.model_forecast == null || r.model_forecast === '' ? '—' : String(r.model_forecast),
+        period: (r.reference_period || '-').trim(),
+        prior: r.prior == null || r.prior === '' ? '-' : String(r.prior),
+        cons: r.consensus == null || r.consensus === '' ? '-' : String(r.consensus),
+        fcst: r.model_forecast == null || r.model_forecast === '' ? '-' : String(r.model_forecast),
         tier,
     }
 }

@@ -60,12 +60,12 @@ function cellColor(val: number | null): string {
 }
 
 function formatReturn(val: number | null) {
-    if (val == null || !Number.isFinite(val)) return '—'
+    if (val == null || !Number.isFinite(val)) return '-'
     return val > 0 ? `+${val.toFixed(2)}` : val.toFixed(2)
 }
 
 function formatAvgCompact(val: number | null) {
-    if (val == null || !Number.isFinite(val)) return '—'
+    if (val == null || !Number.isFinite(val)) return '-'
     return val > 0 ? `+${val.toFixed(1)}` : val.toFixed(1)
 }
 

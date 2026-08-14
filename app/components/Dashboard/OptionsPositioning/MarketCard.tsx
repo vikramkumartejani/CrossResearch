@@ -1,4 +1,4 @@
-// ── MarketCard — individual instrument card ───────────────────────────────────
+// ── MarketCard - individual instrument card ───────────────────────────────────
 
 interface DealerLevel {
     label: string

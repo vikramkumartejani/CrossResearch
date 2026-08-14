@@ -11,14 +11,14 @@ import SmarterTradingAccess from '../components/Algo/SmarterTradingAccess'
 
 export const metadata: Metadata = {
     title: 'Algo | TradingView Indicators & Macro Research Dashboard',
-    description: 'Purpose-built TradingView indicators and a live macro research dashboard — giving retail traders the same data edge that moves institutional desks.',
+    description: 'Purpose-built TradingView indicators and a live macro research dashboard - giving retail traders the same data edge that moves institutional desks.',
     keywords: ['TradingView indicators', 'algo trading', 'macro research dashboard', 'institutional algorithms', 'market intelligence', 'quantitative trading', 'CrossResearch'],
     authors: [{ name: 'CrossResearch', url: 'https://crossresearch.io' }],
     robots: { index: true, follow: true },
     alternates: { canonical: 'https://crossresearch.io/algo' },
     openGraph: {
         title: 'Algo | CrossResearch TradingView Indicators & Macro Tools',
-        description: 'Purpose-built TradingView indicators and a live macro research dashboard — giving retail traders the same data edge that moves institutional desks.',
+        description: 'Purpose-built TradingView indicators and a live macro research dashboard - giving retail traders the same data edge that moves institutional desks.',
         url: 'https://crossresearch.io/algo',
         siteName: 'CrossResearch',
         type: 'website',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Algo | CrossResearch TradingView Indicators & Macro Tools',
-        description: 'Purpose-built TradingView indicators and a live macro research dashboard — giving retail traders the same data edge that moves institutional desks.',
+        description: 'Purpose-built TradingView indicators and a live macro research dashboard - giving retail traders the same data edge that moves institutional desks.',
         site: '@crossresearch',
         images: ['https://crossresearch.io/og-image.png'],
     },
@@ -39,14 +39,14 @@ const page = () => {
         <div>
             <Hero />
             <div className='relative mt-16 lg:mt-20 2xl:mt-[143px]'>
-                {/* Ellipse 14 — left glow */}
+                {/* Ellipse 14 - left glow */}
                 <div aria-hidden="true" className="lg:block hidden absolute pointer-events-none blur-[60px] lg:blur-[250px]" style={{
                     width: '833px', height: '533px',
                     left: '-339px', top: '100px',
                     background: 'rgba(34, 126, 217, 0.4)',
                     zIndex: 0,
                 }} />
-                {/* Ellipse 13 — right glow */}
+                {/* Ellipse 13 - right glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none w-[400px] h-[300px] lg:w-[787px] lg:h-[504px] top-[0px] lg:top-[200px] blur-[100px] lg:blur-[250px]" style={{
                     right: '-330px',
                     background: 'rgba(34, 126, 217, 0.4)',
@@ -58,7 +58,7 @@ const page = () => {
             </div>
             <FeatureSections />
             <div className="relative" style={{ zIndex: 1 }}>
-                {/* Ellipse 16951 — right side glow */}
+                {/* Ellipse 16951 - right side glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none w-[450px] h-[280px] lg:w-[756px] lg:h-[345px] top-[10%] lg:top-[50%] blur-[100px] lg:blur-[250px]" style={{
                     right: '-339px',
                     transform: 'translateY(-50%) rotate(-20.7deg)',
@@ -67,7 +67,7 @@ const page = () => {
                 }} />
                 <MarketIntelligence />
             </div>
-            {/* Ellipse 22 (left-top) + Ellipse 21 (right) — MacroIntelligence */}
+            {/* Ellipse 22 (left-top) + Ellipse 21 (right) - MacroIntelligence */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '699px', height: '319px',
@@ -85,7 +85,7 @@ const page = () => {
                 <div className="relative" style={{ zIndex: 1 }}>
                     <MacroIntelligence />
                 </div>
-                {/* Ellipse 17 — right bottom glow */}
+                {/* Ellipse 17 - right bottom glow */}
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '713px', height: '325px',
                     right: '-339px', bottom: '-150px',
@@ -94,7 +94,7 @@ const page = () => {
                     zIndex: 0,
                 }} />
             </div>
-            {/* Ellipse 6 (left) + Ellipse 5 (right) — HowWeCompare */}
+            {/* Ellipse 6 (left) + Ellipse 5 (right) - HowWeCompare */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '977px', height: '446px',
@@ -114,7 +114,7 @@ const page = () => {
                 </div>
             </div>
             <GetStarted />
-            {/* Ellipse 16950 (left) + Ellipse 16949 (right) — SmarterTradingAccess */}
+            {/* Ellipse 16950 (left) + Ellipse 16949 (right) - SmarterTradingAccess */}
             <div className="relative">
                 <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                     width: '713px', height: '325px',

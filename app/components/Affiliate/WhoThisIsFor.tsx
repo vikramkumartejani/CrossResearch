@@ -75,7 +75,7 @@ const WhoThisIsFor = () => {
                             key={card.id}
                             className="group bg-[#FFFFFF08] border border-[#FFFFFF0D] rounded-[20px] sm:rounded-[30px] py-6 md:py-10 lg:py-[60px] px-6 sm:px-8 flex flex-col items-center text-center justify-center gap-5 relative overflow-hidden"
                         >
-                            {/* Right-top glow — shows on hover */}
+                            {/* Right-top glow - shows on hover */}
                             <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '79.21px', height: '124.18px', right: '0px', top: '-40px', background: '#6DB7FF', filter: 'blur(24.76px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
                             <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '57.16px', height: '122.26px', right: '-14px', top: '-42px', background: '#6294FF', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />
                             <div aria-hidden="true" className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ width: '53.31px', height: '118.7px', right: '-7px', top: '-29px', background: '#0F4274', mixBlendMode: 'plus-lighter', filter: 'blur(69.67px)', transform: 'rotate(-56.09deg)', zIndex: 0 }} />

@@ -118,7 +118,7 @@ const SOCIAL_LINKS = [
 export default function Footer() {
     return (
         <footer className="relative w-full bg-[#FFFFFF03] border-t border-[#FFFFFF0D] px-4 sm:px-6 overflow-hidden">
-            {/* Ellipse 15 — bottom-left glow */}
+            {/* Ellipse 15 - bottom-left glow */}
             <div aria-hidden="true" className="absolute overflow-hidden pointer-events-none blur-[160px] sm:blur-[250px]" style={{
                 width: '865px', height: '473px',
                 left: '-20%', bottom: '-20%',
@@ -137,7 +137,7 @@ export default function Footer() {
 
             <div className="relative z-10 mx-auto max-w-[1640px]">
                 <div className="flex flex-col xl:flex-row items-start justify-between pt-10 sm:pt-[60px] gap-8 sm:gap-10">
-                    {/* Left — logo, tagline, socials, legal */}
+                    {/* Left - logo, tagline, socials, legal */}
                     <div className="w-full xl:max-w-[714px] flex flex-col">
                         {/* Full logo */}
                         <Image src="/assets/full-logo.svg" alt="CrossResearch" width={332} height={42} className='w-[250px] sm:w-[332px]' />
@@ -178,7 +178,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Right — nav columns + newsletter + footer image */}
+                    {/* Right - nav columns + newsletter + footer image */}
                     <div className="w-full xl:max-w-[835px] flex flex-col lg:flex-1">
 
                         {/* Nav columns */}

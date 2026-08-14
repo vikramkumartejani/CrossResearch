@@ -152,7 +152,7 @@ export default function EducationCenter() {
   const [page, setPage] = useState(1)
   const [pageTitle, setPageTitle] = useState('Library')
   const [subtitle, setSubtitle] = useState(
-    'Education articles and guides across Macro, Technical, and Psychology — filter by topic or search the library.'
+    'Education articles and guides across Macro, Technical, and Psychology - filter by topic or search the library.'
   )
   const [articles, setArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
@@ -202,7 +202,7 @@ export default function EducationCenter() {
     [articles]
   )
 
-  /** Recent: exactly 4 slots — left, big right, 2 bottom */
+  /** Recent: exactly 4 slots - left, big right, 2 bottom */
   const recentLayout = useMemo(() => {
     const featured = byPlacement(activeArticles, 'featured')[0] || null
     const grid = byPlacement(activeArticles, 'grid')

@@ -11,12 +11,12 @@ type Sector = {
 }
 
 const FALLBACK_SECTORS: Sector[] = [
-    { ticker: 'XLK', name: 'Tech', value: '—', label: 'Loading', positive: true },
-    { ticker: 'SMH', name: 'Semis', value: '—', label: 'Loading', positive: true },
-    { ticker: 'XLF', name: 'Financials', value: '—', label: 'Loading', positive: true },
-    { ticker: 'XLE', name: 'Energy', value: '—', label: 'Loading', positive: true },
-    { ticker: 'IWM', name: 'Small Cap', value: '—', label: 'Loading', positive: true },
-    { ticker: 'QQQ', name: 'Nasdaq ETF', value: '—', label: 'Loading', positive: true },
+    { ticker: 'XLK', name: 'Tech', value: '-', label: 'Loading', positive: true },
+    { ticker: 'SMH', name: 'Semis', value: '-', label: 'Loading', positive: true },
+    { ticker: 'XLF', name: 'Financials', value: '-', label: 'Loading', positive: true },
+    { ticker: 'XLE', name: 'Energy', value: '-', label: 'Loading', positive: true },
+    { ticker: 'IWM', name: 'Small Cap', value: '-', label: 'Loading', positive: true },
+    { ticker: 'QQQ', name: 'Nasdaq ETF', value: '-', label: 'Loading', positive: true },
 ]
 
 export default function SectorGammaDashboard() {

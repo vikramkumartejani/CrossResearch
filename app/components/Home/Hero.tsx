@@ -28,11 +28,10 @@ export default function Hero() {
                     decisions worldwide.
                 </p>
 
-                <HeroEmailBar />
+                <div className="w-full max-w-[900px] mx-auto mb-14 sm:mb-20 2xl:mb-[118px] flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                    <HeroEmailBar />
 
-                {/* Social proof */}
-                <div className="flex items-center sm:flex-row flex-col gap-6 mb-14 sm:mb-20 2xl:mb-[118px]">
-                    <div className="flex items-center gap-2.5 sm:gap-5">
+                    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                         <div className="flex items-center">
                             {[
                                 'https://randomuser.me/api/portraits/men/32.jpg',
@@ -43,24 +42,23 @@ export default function Hero() {
                             ].map((src, i) => (
                                 <div
                                     key={i}
-                                    className="w-8 sm:w-[35px] h-8 sm:h-[35px] rounded-full border border-white overflow-hidden -ml-4.5 sm:-ml-3.5 first:ml-0"
+                                    className="w-6 sm:w-7 h-6 sm:h-7 rounded-full border border-white overflow-hidden -ml-2 first:ml-0"
                                     style={{ zIndex: i + 1 }}
                                 >
                                     <Image
                                         src={src}
                                         alt={`Trader ${i + 1}`}
-                                        width={35}
-                                        height={35}
+                                        width={28}
+                                        height={28}
                                         className="w-full h-full object-cover"
                                         unoptimized
                                     />
                                 </div>
                             ))}
                         </div>
-
-                        <p className="text-white/60 text-[16px] sm:text-[24px] leading-[20px] sm:leading-[29px] font-normal whitespace-nowrap">
+                        <p className="text-white/55 text-[12px] sm:text-[14px] leading-[16px] sm:leading-[18px] font-normal whitespace-nowrap">
                             Trusted by{' '}
-                            <span className="text-[#88C4FF] font-bold">10,000+</span>
+                            <span className="text-[#88C4FF] font-semibold">10,000+</span>
                             {' '}traders
                         </p>
                     </div>

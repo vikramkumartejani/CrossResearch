@@ -1,20 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import LoadingLabel from './LoadingLabel'
 
 export default function NewsletterSubscribe() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'ok' | 'err'>('idle')
-  const [message, setMessage] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (status !== 'ok' && status !== 'err') return
-    const t = window.setTimeout(() => {
-      setStatus('idle')
-      setMessage(null)
-    }, 4500)
-    return () => window.clearTimeout(t)
-  }, [status, message])
 
   async function subscribe(e?: React.MouseEvent | React.KeyboardEvent) {
     e?.preventDefault()
@@ -22,14 +14,12 @@ export default function NewsletterSubscribe() {
 
     const value = email.trim()
     if (!value) {
-      setStatus('err')
-      setMessage('Enter a valid email address.')
+      toast.error('Enter a valid email address.')
       return
     }
 
     try {
       setStatus('loading')
-      setMessage(null)
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,12 +32,12 @@ export default function NewsletterSubscribe() {
           typeof detail === 'string' ? detail : 'Could not subscribe. Is the API running?'
         )
       }
-      setStatus('ok')
-      setMessage(body.already ? "You're already subscribed." : "Thanks — you're on the list.")
+      toast.success(body.already ? "You're already on the list." : "You're subscribed - we'll keep you posted.")
       setEmail('')
     } catch (err) {
-      setStatus('err')
-      setMessage(err instanceof Error ? err.message : 'Could not subscribe')
+      toast.error(err instanceof Error ? err.message : 'Could not subscribe')
+    } finally {
+      setStatus('idle')
     }
   }
 
@@ -99,42 +89,20 @@ export default function NewsletterSubscribe() {
                 }}
                 placeholder="Enter Your Email"
                 autoComplete="email"
-                className="bg-transparent h-12 sm:h-[53px] w-full text-white text-[14px] font-normal outline-none placeholder:text-white/60"
+                className="cr-autofill-dark bg-transparent h-12 sm:h-[53px] w-full text-white text-[14px] font-normal outline-none placeholder:text-white/60"
               />
             </div>
             <button
               type="button"
               onClick={(e) => void subscribe(e)}
               disabled={status === 'loading'}
-              className="sm:w-[140px] w-full bg-white text-[#070711] text-[16px] leading-[19px] font-inter font-medium px-6 h-12 sm:h-[53px] rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60"
+              className="sm:w-[140px] w-full bg-white text-[#070711] text-[16px] leading-[19px] font-inter font-medium px-6 h-12 sm:h-[53px] rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-70"
             >
-              {status === 'loading' ? '…' : 'Subscribe'}
+              <LoadingLabel loading={status === 'loading'}>Subscribe</LoadingLabel>
             </button>
           </div>
-          {message && (
-            <p
-              role="status"
-              className={`text-[13px] font-medium ${status === 'err' ? 'text-[#E25C3F]' : 'text-[#2CB37B]'}`}
-            >
-              {message}
-            </p>
-          )}
         </div>
       </div>
-
-      {/* Toast */}
-      {message && (status === 'ok' || status === 'err') && (
-        <div
-          role="alert"
-          className={`fixed bottom-6 left-1/2 z-[100] -translate-x-1/2 px-5 py-3 rounded-full text-[14px] font-medium shadow-lg border ${
-            status === 'ok'
-              ? 'bg-[#12241c] text-[#2CB37B] border-[#2CB37B55]'
-              : 'bg-[#2a1212] text-[#E25C3F] border-[#E25C3F55]'
-          }`}
-        >
-          {message}
-        </div>
-      )}
     </div>
   )
 }
