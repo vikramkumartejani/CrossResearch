@@ -1,6 +1,7 @@
 import Image from "next/image";
 import TopLine from "./Svgs/TopLine";
 import HeroEmailBar from "./HeroEmailBar";
+import HeroPreview from "./HeroPreview";
 
 export default function Hero() {
     return (
@@ -14,59 +15,58 @@ export default function Hero() {
             </div>
 
             {/* Content wrapper */}
-            <div className="mt-24 sm:mt-32 xl:mt-[136px] max-w-[1920px] bg-[#0F0F18] rounded-t-[40px] 2xl:rounded-[60px] relative z-10 mx-auto px-5 sm:px-6 pt-8 sm:pt-16 lg:pt-[76px] flex flex-col items-center justify-center">
+            <div className="mt-24 sm:mt-32 xl:mt-[136px] max-w-[1920px] bg-[#0F0F18] rounded-t-[40px] 2xl:rounded-[60px] relative z-10 mx-auto overflow-hidden">
+                <div className="px-5 sm:px-6 pt-8 sm:pt-16 lg:pt-[76px] flex flex-col items-center justify-center">
+                    {/* Heading */}
+                    <h1 id="hero-heading" className="font-urbanist mb-4 sm:mb-6 text-center font-normal text-3xl sm:text-5xl md:text-6xl lg:text-[73px] leading-tight md:leading-tight lg:leading-[88px] tracking-tight lg:tracking-[-2.93px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
+                        Institutional-<span className="text-[#88C4FF]">Grade</span> Market <br className="xl:block hidden" /> Intelligence for Serious Traders
+                    </h1>
 
-                {/* Heading */}
-                <h1 id="hero-heading" className="font-urbanist mb-4 sm:mb-6 text-center font-normal text-3xl sm:text-5xl md:text-6xl lg:text-[73px] leading-tight md:leading-tight lg:leading-[88px] tracking-tight lg:tracking-[-2.93px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
-                    Institutional-<span className="text-[#88C4FF]">Grade</span> Market <br className="xl:block hidden" /> Intelligence for Serious Traders
-                </h1>
+                    {/* Subheading */}
+                    <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist font-normal max-w-[849px] mx-auto text-center">
+                        Access proprietary algorithms, macro intelligence, and market regime
+                        tools trusted by advanced traders for precise, data-driven market
+                        decisions worldwide.
+                    </p>
 
-                {/* Subheading */}
-                <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist font-normal max-w-[849px] mx-auto text-center">
-                    Access proprietary algorithms, macro intelligence, and market regime
-                    tools trusted by advanced traders for precise, data-driven market
-                    decisions worldwide.
-                </p>
+                    <div className="w-full max-w-[900px] mx-auto mb-8 sm:mb-10 lg:mb-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                        <HeroEmailBar />
 
-                <div className="w-full max-w-[900px] mx-auto mb-14 sm:mb-20 2xl:mb-[118px] flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                    <HeroEmailBar />
-
-                    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                        <div className="flex items-center">
-                            {[
-                                'https://randomuser.me/api/portraits/men/32.jpg',
-                                'https://randomuser.me/api/portraits/women/44.jpg',
-                                'https://randomuser.me/api/portraits/men/76.jpg',
-                                'https://randomuser.me/api/portraits/women/68.jpg',
-                                'https://randomuser.me/api/portraits/women/60.jpg',
-                            ].map((src, i) => (
-                                <div
-                                    key={i}
-                                    className="w-6 sm:w-7 h-6 sm:h-7 rounded-full border border-white overflow-hidden -ml-2 first:ml-0"
-                                    style={{ zIndex: i + 1 }}
-                                >
-                                    <Image
-                                        src={src}
-                                        alt={`Trader ${i + 1}`}
-                                        width={28}
-                                        height={28}
-                                        className="w-full h-full object-cover"
-                                        unoptimized
-                                    />
-                                </div>
-                            ))}
+                        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                            <div className="flex items-center">
+                                {[
+                                    'https://randomuser.me/api/portraits/men/32.jpg',
+                                    'https://randomuser.me/api/portraits/women/44.jpg',
+                                    'https://randomuser.me/api/portraits/men/76.jpg',
+                                    'https://randomuser.me/api/portraits/women/68.jpg',
+                                    'https://randomuser.me/api/portraits/women/60.jpg',
+                                ].map((src, i) => (
+                                    <div
+                                        key={i}
+                                        className="w-6 sm:w-7 h-6 sm:h-7 rounded-full border border-white overflow-hidden -ml-2 first:ml-0"
+                                        style={{ zIndex: i + 1 }}
+                                    >
+                                        <Image
+                                            src={src}
+                                            alt={`Trader ${i + 1}`}
+                                            width={28}
+                                            height={28}
+                                            className="w-full h-full object-cover"
+                                            unoptimized
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            <p className="text-white/55 text-[12px] sm:text-[14px] leading-[16px] sm:leading-[18px] font-normal whitespace-nowrap">
+                                Trusted by{' '}
+                                <span className="text-[#88C4FF] font-semibold">10,000+</span>
+                                {' '}traders
+                            </p>
                         </div>
-                        <p className="text-white/55 text-[12px] sm:text-[14px] leading-[16px] sm:leading-[18px] font-normal whitespace-nowrap">
-                            Trusted by{' '}
-                            <span className="text-[#88C4FF] font-semibold">10,000+</span>
-                            {' '}traders
-                        </p>
                     </div>
                 </div>
 
-                <div className="bg-[#FFFFFF05] border border-[#FFFFFF0D] rounded-t-[40px] sm:rounded-t-[60px] 2xl:rounded-t-[80px] h-[600px] xl:h-[956px] py-[60px] w-full max-w-[1521px] mx-auto">
-                    <h2 className="text-[60px] sm:text-[80px] sm:leading-[140%] font-medium text-center">H 1323</h2>
-                </div>
+                <HeroPreview />
             </div>
         </section>
     );
