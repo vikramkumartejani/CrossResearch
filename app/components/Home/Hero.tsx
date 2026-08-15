@@ -15,7 +15,7 @@ export default function Hero() {
             </div>
 
             {/* Content wrapper */}
-            <div className="mt-24 sm:mt-32 xl:mt-[136px] max-w-[1920px] bg-[#0F0F18] rounded-t-[40px] 2xl:rounded-[60px] relative z-10 mx-auto overflow-hidden">
+            <div className="mt-[84px] sm:mt-[92px] xl:mt-[100px] max-w-[1920px] bg-[#0F0F18] rounded-t-[40px] 2xl:rounded-[60px] relative z-10 mx-auto overflow-hidden">
                 <div className="px-5 sm:px-6 pt-6 sm:pt-8 lg:pt-10 flex flex-col items-center justify-center">
                     {/* Heading */}
                     <h1 id="hero-heading" className="font-urbanist mb-4 sm:mb-6 text-center font-normal text-3xl sm:text-5xl md:text-6xl lg:text-[73px] leading-tight md:leading-tight lg:leading-[88px] tracking-tight lg:tracking-[-2.93px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
