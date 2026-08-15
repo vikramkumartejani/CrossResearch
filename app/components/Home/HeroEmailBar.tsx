@@ -37,7 +37,7 @@ export default function HeroEmailBar() {
 
   return (
     <div className="w-fit max-w-full">
-      <div className="inline-flex items-center gap-2 h-[52px] sm:h-[56px] rounded-full bg-[#FFFFFF0A] border border-[#FFFFFF14] pl-4 sm:pl-5 pr-1.5 shadow-[0_0_0_1px_rgba(136,196,255,0.06)_inset]">
+      <div className="inline-flex items-center gap-2 h-[40px] sm:h-[44px] rounded-full bg-[#FFFFFF0A] border border-[#FFFFFF14] pl-3.5 sm:pl-4 pr-1 shadow-[0_0_0_1px_rgba(136,196,255,0.06)_inset]">
         <svg
           width="18"
           height="18"
@@ -80,7 +80,7 @@ export default function HeroEmailBar() {
           type="button"
           onClick={() => void subscribe()}
           disabled={loading}
-          className="shrink-0 min-w-[108px] h-[38px] sm:h-[42px] px-4 rounded-full bg-white text-[#070711] text-[13px] sm:text-[14px] font-medium hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-70"
+          className="shrink-0 min-w-[96px] h-[28px] sm:h-[32px] px-4 rounded-full bg-white text-[#070711] text-[13px] sm:text-[14px] font-medium hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-70"
         >
           <LoadingLabel loading={loading}>Subscribe</LoadingLabel>
         </button>
