@@ -30,7 +30,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             </div>
 
             {/* Right - decorative panel, hidden on mobile */}
-            <div className="hidden lg:flex relative z-10">
+            <div className="hidden lg:flex relative z-10 w-full h-full min-h-[calc(100vh-2rem)]">
                 <AuthRightPanel />
             </div>
         </div>
