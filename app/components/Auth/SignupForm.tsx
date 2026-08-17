@@ -72,7 +72,7 @@ export default function SignupForm() {
         return;
       }
       toast.success(body.message || "Account created.");
-      window.location.assign(postAuthPath(body.user));
+      window.location.assign(postAuthPath(body.user, searchParams.get("next")));
       return;
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Signup failed");
@@ -100,7 +100,7 @@ export default function SignupForm() {
         throw new Error(authErrorMessage(body, "Verification failed"));
       }
       toast.success(body.message || "Email verified.");
-      window.location.assign(postAuthPath(body.user));
+      window.location.assign(postAuthPath(body.user, searchParams.get("next")));
       return;
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Verification failed");

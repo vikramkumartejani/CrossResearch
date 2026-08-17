@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 import { ACCESS_COOKIE, REFRESH_COOKIE, applyAuthCookies, backendBase } from '@/lib/authCookies'
+import { postLoginRedirect, safeNextPath } from '@/lib/authRedirect'
 
 const DASHBOARD_PREFIXES = [
   '/analysis',
@@ -68,11 +69,28 @@ function redirectTo(request: NextRequest, pathname: string, tokens?: {
   refresh_expires_in: number
 }) {
   const url = request.nextUrl.clone()
-  url.pathname = pathname
-  url.search = ''
+  const q = pathname.indexOf('?')
+  if (q >= 0) {
+    url.pathname = pathname.slice(0, q)
+    url.search = pathname.slice(q)
+  } else {
+    url.pathname = pathname
+    url.search = ''
+  }
   const res = NextResponse.redirect(url)
   if (tokens) applyAuthCookies(res, tokens)
   return res
+}
+
+function onboardingRedirect(request: NextRequest, tokens?: {
+  access_token: string
+  refresh_token: string
+  access_expires_in: number
+  refresh_expires_in: number
+}) {
+  const next = safeNextPath(request.nextUrl.pathname)
+  const path = next ? `/onboarding?next=${encodeURIComponent(next)}` : '/onboarding'
+  return redirectTo(request, path, tokens)
 }
 
 async function refreshViaBackend(request: NextRequest) {
@@ -109,12 +127,12 @@ export async function middleware(request: NextRequest) {
       if (!tokens?.access_token) return loginRedirect(request)
       info = await readAccess(tokens.access_token)
       if (!info.valid) return loginRedirect(request)
-      if (!info.onboardingDone) return redirectTo(request, '/onboarding', tokens)
+      if (!info.onboardingDone) return onboardingRedirect(request, tokens)
       const res = NextResponse.next()
       applyAuthCookies(res, tokens)
       return res
     }
-    if (!info.onboardingDone) return redirectTo(request, '/onboarding')
+    if (!info.onboardingDone) return onboardingRedirect(request)
     return NextResponse.next()
   }
 
@@ -124,16 +142,34 @@ export async function middleware(request: NextRequest) {
       if (!tokens?.access_token) return loginRedirect(request)
       info = await readAccess(tokens.access_token)
       if (!info.valid) return loginRedirect(request)
-      if (info.onboardingDone) return redirectTo(request, '/analysis', tokens)
+      if (info.onboardingDone) {
+        return redirectTo(
+          request,
+          postLoginRedirect({
+            onboardingDone: true,
+            preferredNext: request.nextUrl.searchParams.get('next'),
+          }),
+          tokens
+        )
+      }
       const res = NextResponse.next()
       applyAuthCookies(res, tokens)
       return res
     }
-    if (info.onboardingDone) return redirectTo(request, '/analysis')
+    if (info.onboardingDone) {
+      return redirectTo(
+        request,
+        postLoginRedirect({
+          onboardingDone: true,
+          preferredNext: request.nextUrl.searchParams.get('next'),
+        })
+      )
+    }
     return NextResponse.next()
   }
 
   if (isAuthPage(pathname)) {
+    const preferredNext = request.nextUrl.searchParams.get('next')
     if (!info.valid) {
       const tokens = await refreshViaBackend(request)
       if (tokens?.access_token) {
@@ -141,14 +177,17 @@ export async function middleware(request: NextRequest) {
         if (info.valid) {
           return redirectTo(
             request,
-            info.onboardingDone ? '/analysis' : '/onboarding',
+            postLoginRedirect({ onboardingDone: info.onboardingDone, preferredNext }),
             tokens
           )
         }
       }
       return NextResponse.next()
     }
-    return redirectTo(request, info.onboardingDone ? '/analysis' : '/onboarding')
+    return redirectTo(
+      request,
+      postLoginRedirect({ onboardingDone: info.onboardingDone, preferredNext })
+    )
   }
 
   return NextResponse.next()

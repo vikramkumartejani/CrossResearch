@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { siteUrl } from '@/lib/site'
@@ -255,8 +254,6 @@ function PartnerDeskIcon() {
 }
 
 export default function AffiliateCenter() {
-  const router = useRouter()
-
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -274,7 +271,7 @@ export default function AffiliateCenter() {
       const res = await fetch('/api/affiliate/dashboard', { cache: 'no-store' })
       const body = await res.json().catch(() => ({}))
       if (res.status === 401) {
-        router.replace('/login?next=/affiliate-center')
+        window.location.assign('/login?next=/affiliate-center')
         return
       }
       if (res.status === 403) {
@@ -292,7 +289,7 @@ export default function AffiliateCenter() {
     } finally {
       setLoading(false)
     }
-  }, [router])
+  }, [])
 
   useEffect(() => {
     void load()

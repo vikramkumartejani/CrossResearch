@@ -12,6 +12,10 @@ import LoadingLabel from "../LoadingLabel";
 
 export default function LoginForm() {
     const searchParams = useSearchParams();
+    const nextParam = searchParams.get("next");
+    const signupHref = nextParam
+        ? `/signup?next=${encodeURIComponent(nextParam)}`
+        : "/signup";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -194,7 +198,7 @@ export default function LoginForm() {
             <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal text-center mt-8 sm:mt-10">
                 Don&apos;t have an account?{" "}
                 <Link
-                    href="/signup"
+                    href={signupHref}
                     className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors"
                 >
                     Sign Up

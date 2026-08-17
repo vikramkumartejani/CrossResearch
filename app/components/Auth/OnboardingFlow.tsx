@@ -2,9 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Image from '@/lib/CldImage'
-import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { authErrorMessage } from '@/lib/authUi'
+import { safeNextPath } from '@/lib/authRedirect'
 
 type Option = { id: string; label: string }
 type Question = { id: string; prompt: string; options: Option[] }
@@ -22,7 +23,7 @@ type Persona = {
 }
 
 export default function OnboardingFlow() {
-  const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [data, setData] = useState<Questionnaire | null>(null)
@@ -108,8 +109,7 @@ export default function OnboardingFlow() {
   }
 
   const enterDashboard = () => {
-    router.replace('/analysis')
-    router.refresh()
+    window.location.assign(safeNextPath(searchParams.get('next')) ?? '/analysis')
   }
 
   return (
