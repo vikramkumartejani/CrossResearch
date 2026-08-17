@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 interface CotInstrumentRow {
     name: string
@@ -201,7 +202,9 @@ export default function CotPositioning() {
             </div>
 
             {loading && (
-                <div className="mt-4 bg-[#16161F] p-3 sm:p-4 text-white/50 text-[12px]">Loading CFTC positioning...</div>
+                <div className="mt-4 bg-[#16161F] p-3 sm:p-4">
+                    <ChartLoader className="min-h-[120px]" />
+                </div>
             )}
 
             {error && !loading && (

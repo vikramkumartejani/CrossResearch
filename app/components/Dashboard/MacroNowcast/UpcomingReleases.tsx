@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 interface Release {
     date: string
@@ -147,7 +148,7 @@ export default function UpcomingReleases() {
                 </div>
             </div>
 
-            {loading && <p className="text-white/40 text-[13px] mb-3">Loading releases…</p>}
+            {loading && <ChartLoader className="min-h-[140px] mb-3" />}
             {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
             <div className="border border-[#FFFFFF0D] bg-[#16161F] overflow-x-auto">

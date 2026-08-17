@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useCryptoBtcCopy } from './cryptoBtcCopy'
+import ChartLoader from '../shared/ChartLoader'
 
 interface VolPoint {
     t: string
@@ -281,11 +282,7 @@ export default function ForecastVolatility() {
                     </span>
                 </div>
 
-                {loading && (
-                    <div className="flex items-center justify-center h-full text-center py-16 text-white/50 text-[12px]">
-                        Loading volatility...
-                    </div>
-                )}
+                {loading && <ChartLoader />}
                 {error && !loading && (
                     <div className="flex items-center justify-center h-full text-center py-16 text-[#E25C3F] text-[12px]">
                         {error}
@@ -324,7 +321,7 @@ export default function ForecastVolatility() {
                     )}
                 </div>
 
-                {loading && <div className="my-16 text-center text-white/50 text-[12px]">Loading ETF flows...</div>}
+                {loading && <ChartLoader />}
                 {error && !loading && <div className="my-16 text-center text-[#E25C3F] text-[12px]">{error}</div>}
 
                 {!loading && !error && etfSeries.length > 0 && (

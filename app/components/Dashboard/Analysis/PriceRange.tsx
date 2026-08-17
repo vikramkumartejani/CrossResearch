@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import ChartLoader from '../shared/ChartLoader';
 
 interface RangeItem {
     title: string
@@ -155,11 +156,7 @@ export default function PriceRanges({ asset }: PriceRangesProps) {
             
             <div className="flex gap-2.5 sm:gap-4 mt-3 sm:mt-4">
                 {isLoading ? (
-                    <>
-                        <PriceRangeCard title="Intraday Range" subtitle="Todays Range" high="..." low="..." isLoading />
-                        <PriceRangeCard title="Trend Range" subtitle="7-Day Range" high="..." low="..." isLoading />
-                        <PriceRangeCard title="Volatility Range" subtitle="30-Day Range" high="..." low="..." isLoading />
-                    </>
+                    <ChartLoader className="min-h-[220px]" />
                 ) : ranges.length > 0 ? (
                     ranges.map((r) => (
                         <PriceRangeCard key={r.title} {...r} />

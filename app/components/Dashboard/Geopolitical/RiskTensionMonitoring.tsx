@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type TabId = 'geopolitical_risk_score' | 'reversal_risk_momentum'
 
@@ -246,11 +247,7 @@ export default function RiskTensionMonitoring() {
                     )}
 
                     <div className="flex-1 mt-4 min-h-0 flex flex-col">
-                        {loading && (
-                            <div className="flex items-center justify-center flex-1 text-[#838388] text-sm">
-                                Loading GRI…
-                            </div>
-                        )}
+                        {loading && <ChartLoader />}
                         {!loading && error && (
                             <div className="flex items-center justify-center flex-1 text-[#E25C3F] text-sm px-4 text-center">
                                 {error}

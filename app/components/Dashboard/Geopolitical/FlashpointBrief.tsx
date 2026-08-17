@@ -1,5 +1,7 @@
 'use client'
 
+import ChartLoader from '../shared/ChartLoader'
+
 type Severity = 'High' | 'Medium' | 'Low' | string
 
 export interface FlashpointItem {
@@ -50,7 +52,9 @@ export default function FlashpointBrief({
             </div>
             <div className="flex-1 min-h-0 overflow-y-auto space-y-2 sm:space-y-3">
                 {loading && (
-                    <div className="bg-[#16161F] p-4 text-[#838388] text-[13px]">Loading flashpoints...</div>
+                    <div className="bg-[#16161F]">
+                        <ChartLoader className="min-h-[140px]" />
+                    </div>
                 )}
                 {error && !loading && (
                     <div className="bg-[#16161F] p-4 text-[#E25C3F] text-[13px]">{error}</div>

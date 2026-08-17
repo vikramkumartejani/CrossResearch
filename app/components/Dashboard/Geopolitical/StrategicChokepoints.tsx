@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type Chokepoint = {
     name: string
@@ -77,7 +78,7 @@ export default function StrategicChokepoints() {
                 <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em] uppercase text-right">Risk</span>
             </div>
 
-            {loading && <p className="text-white/40 text-[12px] mt-3">Loading…</p>}
+            {loading && <ChartLoader className="min-h-[120px] mt-3" />}
             {error && <p className="text-[#E25C3F] text-[12px] mt-3">{error}</p>}
 
             <div className="flex-1 overflow-y-auto min-h-0">

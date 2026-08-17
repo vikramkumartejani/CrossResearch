@@ -1,5 +1,6 @@
 'use client'
 
+import ChartLoader from '../shared/ChartLoader'
 import { useBeliefMarkets } from './beliefMarkets'
 
 const CAT_COLOR: Record<string, string> = {
@@ -26,7 +27,7 @@ export default function Watchlist() {
             </div>
 
             <div className="flex-1 min-h-0 overflow-y-auto">
-                {loading && <p className="px-4 py-6 text-[#838388] text-[12px]">Loading watchlists…</p>}
+                {loading && <ChartLoader className="min-h-[180px]" />}
                 {error && !loading && <p className="px-4 py-6 text-[#E25C3F] text-[12px]">{error}</p>}
 
                 {!loading && !error && (

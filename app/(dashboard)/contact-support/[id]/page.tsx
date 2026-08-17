@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import ChartLoader from '@/app/components/Dashboard/shared/ChartLoader'
 
 type Status = 'Open' | 'In Progress' | 'Resolved' | 'Closed'
 
@@ -96,7 +97,7 @@ export default function TicketDetailPage() {
         ← Back to tickets
       </Link>
 
-      {loading && <p className="text-white/40 text-[13px] mt-4">Loading…</p>}
+      {loading && <ChartLoader className="min-h-[180px] mt-4" />}
       {error && <p className="text-[#E25C3F] text-[13px] mt-4">{error}</p>}
 
       {ticket && (

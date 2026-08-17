@@ -6,6 +6,7 @@ import GreeksSynthesis from './GreeksSynthesis'
 import SectorGammaDashboard from './SectorGammaDashboard'
 import MacroEventStress from './MacroEventStress'
 import LockedSection from '../LockedSection'
+import ChartLoader from '../shared/ChartLoader'
 
 type DealerLevel = {
     label: string
@@ -117,7 +118,7 @@ export default function OptionsPositioning() {
 
             <div className="px-4 lg:px-6">
                 <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">{sectionTitle}</h2>
-                {loading && <p className="text-white/40 text-[13px] mb-3">Loading market structure…</p>}
+                {loading && <ChartLoader className="min-h-[80px] mb-3" />}
                 {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4 sm:mb-5">
                     {cards.map((card) => (

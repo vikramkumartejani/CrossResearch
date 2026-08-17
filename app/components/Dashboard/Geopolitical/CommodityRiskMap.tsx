@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type CommodityGroup = 'softs' | 'energy' | 'grains' | 'metals'
 
@@ -197,11 +198,7 @@ export default function CommodityRiskMap() {
                     Commodity Risk / Return Map
                 </p>
 
-                {loading && (
-                    <div className="flex-1 flex items-center justify-center text-[#838388] text-[12px]">
-                        Loading commodities...
-                    </div>
-                )}
+                {loading && <ChartLoader />}
                 {error && !loading && (
                     <div className="flex-1 flex items-center justify-center text-[#E25C3F] text-[12px]">{error}</div>
                 )}

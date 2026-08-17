@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type StressEvent = {
     id: string
@@ -145,7 +146,7 @@ export default function MacroEventStress() {
                 </button>
             </div>
 
-            {loading && <p className="text-white/40 text-[13px] mb-3">Loading events…</p>}
+            {loading && <ChartLoader className="min-h-[80px] mb-3" />}
             {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
             <div className="flex-1 overflow-y-auto">

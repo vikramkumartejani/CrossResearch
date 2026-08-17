@@ -3,8 +3,9 @@ import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import uPlot from 'uplot'
 import 'uplot/dist/uPlot.min.css'
 import { dashCardClass, useDashboardTheme } from '../DashboardTheme'
+import ChartLoader from '../shared/ChartLoader'
 
-type Period = '1M' | '1D' | '1W' | '1Y' | 'YTD'
+type Period = '1D'
 
 export interface CurrencyPair {
     symbol: string
@@ -40,47 +41,7 @@ export const CURRENCY_PAIRS: CurrencyPair[] = [
 const Y_AXIS_W        = 60   // desktop
 const Y_AXIS_W_MOBILE = 46   // mobile (< 480px)
 
-// ── Generate chart data ───────────────────────────────────────────────────────
-function generateData(pair: CurrencyPair, period: Period): [number[], number[]] {
-    const basePrice = parseFloat(pair.price)
-    const low  = parseFloat(pair.dayLow)
-    const high = parseFloat(pair.dayHigh)
-    const range = high - low
-
-    const seed = pair.symbol.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
-    let state = seed + period.charCodeAt(0)
-    const rand = () => {
-        state = (state * 1664525 + 1013904223) & 0xffffffff
-        return (state >>> 0) / 0xffffffff
-    }
-
-    const now = Math.floor(Date.now() / 1000)
-    let pointCount: number, stepSec: number
-    switch (period) {
-        case '1D':  pointCount = 96;  stepSec = 15 * 60;   break
-        case '1W':  pointCount = 120; stepSec = 30 * 60;   break
-        case '1M':  pointCount = 90;  stepSec = 8  * 3600; break
-        case '1Y':  pointCount = 260; stepSec = 24 * 3600; break
-        case 'YTD': pointCount = 180; stepSec = 24 * 3600; break
-        default:    pointCount = 96;  stepSec = 15 * 60
-    }
-
-    const startTs = now - (pointCount - 1) * stepSec
-    const timestamps: number[] = []
-    const prices: number[] = []
-
-    let price = basePrice + (rand() - 0.5) * range * 0.3
-    for (let i = 0; i < pointCount; i++) {
-        timestamps.push(startTs + i * stepSec)
-        const step = (rand() - 0.48) * range * 0.05
-        price = Math.max(low, Math.min(high, price + step))
-        prices.push(parseFloat(price.toFixed(5)))
-    }
-    prices[prices.length - 1] = basePrice
-    return [timestamps, prices]
-}
-
-// ── Pick evenly spaced X label indices so they never overlap ──────────────────
+// ── Y-axis width (pixels reserved for right-side labels) ─────────────────────
 function pickXLabels(
     timestamps: number[],
     period: Period,
@@ -161,9 +122,9 @@ function UPlotChart({
     const labelColor = light ? 'rgba(15,23,42,0.55)' : 'rgba(255,255,255,0.6)'
 
     const buildOpts = useCallback((w: number, axisW: number, fontSize: number): uPlot.Options => {
-        const minP = Math.min(...prices)
-        const maxP = Math.max(...prices)
-        const range = maxP - minP
+        const minP = prices.length ? Math.min(...prices) : 0
+        const maxP = prices.length ? Math.max(...prices) : 1
+        const range = Math.max(maxP - minP, 1e-9)
         const pad  = range * 0.15
 
         return {
@@ -375,57 +336,69 @@ interface ChartProps {
 export default function Chart({ selectedPair }: ChartProps) {
     const { theme } = useDashboardTheme()
     const isLight = theme === 'light'
-    const [activePeriod, setActivePeriod] = useState<Period>('1D')
-    const periods: Period[] = ['1M', '1D', '1W', '1Y', 'YTD']
+    const [timestamps, setTimestamps] = useState<number[]>([])
+    const [prices, setPrices] = useState<number[]>([])
+    const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
 
-    const [timestamps, prices] = useMemo(
-        () => generateData(selectedPair, activePeriod),
-        [selectedPair, activePeriod]
-    )
+    useEffect(() => {
+        const controller = new AbortController()
+        setStatus('loading')
+        fetch(`/api/price-action?asset=${encodeURIComponent(selectedPair.symbol)}`, {
+            cache: 'no-store',
+            signal: controller.signal,
+        })
+            .then(async (res) => {
+                const body = await res.json().catch(() => ({}))
+                if (!res.ok) {
+                    throw new Error(typeof body?.details === 'string' ? body.details : 'Failed to load chart')
+                }
+                const ts = Array.isArray(body.timestamps) ? body.timestamps.map(Number) : []
+                const px = Array.isArray(body.prices) ? body.prices.map(Number) : []
+                if (ts.length < 2 || px.length < 2) {
+                    throw new Error('Not enough Yahoo bars')
+                }
+                setTimestamps(ts)
+                setPrices(px)
+                setStatus('ready')
+            })
+            .catch((err) => {
+                if (err?.name === 'AbortError') return
+                setTimestamps([])
+                setPrices([])
+                setStatus('error')
+            })
+        return () => controller.abort()
+    }, [selectedPair.symbol])
 
     const decimals = parseFloat(selectedPair.price) < 100 ? 5 : 1
-    const periodLabel = activePeriod === '1D' ? '15m' : activePeriod
+    const muted = isLight ? 'text-[#5B6472]' : 'text-white/50'
 
     return (
         <div className={`${dashCardClass(theme)} p-4 sm:p-5 flex flex-col h-full rounded-[4px]`}>
             <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
                 <h3 className={`text-[16px] sm:text-[18px] leading-[22px] font-medium ${isLight ? 'text-[#0F172A]' : 'text-white'}`}>
-                    Price Action · {periodLabel}
+                    Daily Price Action
                 </h3>
-
-                <div
-                  className={`flex items-center gap-px rounded-[10px] p-1 border ${
-                    isLight ? 'border-[#D5D8E0] bg-white/40' : 'border-[#FFFFFF12]'
-                  }`}
-                >
-                    {periods.map((p) => (
-                        <button
-                          key={p}
-                          type="button"
-                          onClick={() => setActivePeriod(p)}
-                          className={`w-9 h-8 sm:w-[38px] sm:h-[37px] text-[13px] sm:text-[14px] leading-[17px] font-medium rounded-[8px] transition-colors cursor-pointer ${
-                            activePeriod === p
-                              ? isLight
-                                ? 'bg-[#227ED9] text-white'
-                                : 'bg-[#FFFFFF0D] text-white'
-                              : isLight
-                                ? 'text-[#5B6472] hover:text-[#0F172A]'
-                                : 'text-white/60 hover:text-white/70'
-                          }`}
-                        >
-                            {p}
-                        </button>
-                    ))}
-                </div>
+                <span className={`text-[12px] sm:text-[13px] leading-[16px] font-medium ${muted}`}>
+                    15-minute · last 24h
+                </span>
             </div>
 
-            <UPlotChart
-                timestamps={timestamps}
-                prices={prices}
-                decimals={decimals}
-                period={activePeriod}
-                light={isLight}
-            />
+            {status === 'ready' ? (
+                <UPlotChart
+                    timestamps={timestamps}
+                    prices={prices}
+                    decimals={decimals}
+                    period="1D"
+                    light={isLight}
+                />
+            ) : status === 'loading' ? (
+                <ChartLoader light={isLight} className="min-h-[298px]" />
+            ) : (
+                <div className={`flex-1 min-h-[274px] flex items-center justify-center text-[13px] ${muted}`}>
+                    Unavailable
+                </div>
+            )}
         </div>
     )
 }

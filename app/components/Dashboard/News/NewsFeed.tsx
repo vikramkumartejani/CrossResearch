@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 interface NewsItem {
     id?: string
@@ -114,7 +115,7 @@ export default function NewsFeed() {
                     {featured?.tag || 'Top Of The Wire'}
                 </span>
                 {loading && !featured ? (
-                    <p className="text-white/40 text-[14px] mt-3">Loading top of the wire…</p>
+                    <ChartLoader className="min-h-[120px] mt-3" />
                 ) : featured ? (
                     <>
                         <h2 className="text-white text-[18px] sm:text-[34px] leading-[24px] sm:leading-[44px] font-semibold my-2 sm:my-3">
@@ -157,7 +158,7 @@ export default function NewsFeed() {
             </div>
 
             {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
-            {loading && <p className="text-white/40 text-[13px] mb-3">Loading wire…</p>}
+            {loading && <ChartLoader className="min-h-[140px] mb-3" />}
             {!loading && !error && filtered.length === 0 && (
                 <p className="text-white/40 text-[13px] mb-3">No stories in this category.</p>
             )}

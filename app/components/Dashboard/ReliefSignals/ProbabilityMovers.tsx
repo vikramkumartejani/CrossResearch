@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 import { useBeliefMarkets } from './beliefMarkets'
 
 const FILTER_TABS = ['Macro', 'Geopolitics', 'Politics', 'Markets']
@@ -55,7 +56,7 @@ export default function ProbabilityMovers() {
             </div>
 
             <div className="flex-1 min-h-0 overflow-auto">
-                {loading && <p className="px-4 py-6 text-[#838388] text-[12px]">Loading movers…</p>}
+                {loading && <ChartLoader className="min-h-[180px]" />}
                 {error && !loading && <p className="px-4 py-6 text-[#E25C3F] text-[12px]">{error}</p>}
                 {!loading && !error && filtered.length === 0 && (
                     <p className="px-4 py-6 text-[#838388] text-[12px]">No movers for this filter.</p>

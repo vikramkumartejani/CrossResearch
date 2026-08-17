@@ -1,6 +1,7 @@
 'use client'
 import { useRef, useEffect, useState, useMemo } from 'react'
 import InstrumentDropdown, { type SeasonalityInstrument } from './InstrumentDropdown'
+import ChartLoader from '../shared/ChartLoader'
 
 const REGIME_ORDER = ['Expansion', 'Stagflation', 'Recession', 'Recovery'] as const
 
@@ -246,7 +247,7 @@ export default function SeasonalityDrivers() {
                         {currentConf != null ? ` · ${currentConf.toFixed(0)}% conf` : ''}
                     </p>
 
-                    {returnsLoading && <div className="text-white/50 text-[12px] mb-3">Loading returns...</div>}
+                    {returnsLoading && <ChartLoader className="min-h-[140px] mb-3" />}
                     {returnsError && !returnsLoading && (
                         <div className="text-[#E25C3F] text-[12px] mb-3">{returnsError}</div>
                     )}
@@ -306,7 +307,7 @@ export default function SeasonalityDrivers() {
                         {asOf ? ` As of ${asOf}.` : ''}
                     </p>
 
-                    {regimeLoading && <div className="text-white/50 text-[12px]">Loading regime table...</div>}
+                    {regimeLoading && <ChartLoader className="min-h-[140px]" />}
                     {regimeError && !regimeLoading && (
                         <div className="text-[#E25C3F] text-[12px]">{regimeError}</div>
                     )}

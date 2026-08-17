@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import ContentDetailModal from '../shared/ContentDetailModal'
+import ChartLoader from '../shared/ChartLoader'
 
 const TABS = ['Recent', 'Macro', 'Technical', 'Psychology', 'All'] as const
 type Tab = (typeof TABS)[number]
@@ -275,7 +276,7 @@ export default function EducationCenter() {
       </div>
 
       <div className="px-4 lg:px-6">
-        {loading && <p className="text-white/40 text-[13px] mb-3">Loading library…</p>}
+        {loading && <ChartLoader className="min-h-[180px] mb-3" />}
         {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-4 sm:mb-5">

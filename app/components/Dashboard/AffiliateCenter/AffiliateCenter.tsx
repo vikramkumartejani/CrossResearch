@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { siteUrl } from '@/lib/site'
+import ChartLoader from '../shared/ChartLoader'
 
 interface FunnelDay {
   date: string
@@ -378,7 +379,9 @@ export default function AffiliateCenter() {
     return (
       <div>
         {header}
-        <p className="px-4 lg:px-6 text-white/40 text-[13px]">Loading your referral desk…</p>
+        <div className="px-4 lg:px-6">
+          <ChartLoader className="min-h-[220px]" />
+        </div>
       </div>
     )
   }

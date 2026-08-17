@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import InstrumentDropdown, { type SeasonalityInstrument } from './InstrumentDropdown'
+import ChartLoader from '../shared/ChartLoader'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const DAYS = Array.from({ length: 31 }, (_, i) => i + 1)
@@ -209,7 +210,7 @@ export default function SeasonalityMap() {
                     </span>
                 </div>
 
-                {loading && <div className="text-white/50 text-[12px]">Loading seasonality data...</div>}
+                {loading && <ChartLoader className="min-h-[140px]" />}
                 {error && !loading && <div className="text-red-400 text-[12px]">Error: {error}</div>}
 
                 {!loading && !error && (

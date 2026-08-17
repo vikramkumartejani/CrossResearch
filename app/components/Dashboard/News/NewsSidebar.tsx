@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type ChangeTone = 'up' | 'down' | 'flat'
 
@@ -171,7 +172,7 @@ export default function NewsSidebar() {
                     <span className="text-white/50 text-[11px] sm:text-[12px] leading-[14px]">Live · FRED / Yahoo</span>
                 </div>
 
-                {loading && <p className="text-[#838388] text-[12px] py-6">Loading market signals...</p>}
+                {loading && <ChartLoader className="min-h-[80px] py-6" />}
                 {error && !loading && <p className="text-[#E25C3F] text-[12px] py-6">{error}</p>}
                 {!loading && !error && signals.length === 0 && (
                     <p className="text-[#838388] text-[12px] py-6">No market signals available.</p>

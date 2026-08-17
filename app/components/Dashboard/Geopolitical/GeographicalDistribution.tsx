@@ -5,6 +5,7 @@ import { ComposableMap, Geographies, Geography, Line, Marker } from 'react-simpl
 import FlashpointBrief, { type FlashpointItem } from './FlashpointBrief'
 import CommodityRiskMap from './CommodityRiskMap'
 import StrategicChokepoints from './StrategicChokepoints'
+import ChartLoader from '../shared/ChartLoader'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -268,11 +269,7 @@ export default function GeographicalDistribution() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 items-stretch">
                     <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 flex flex-col h-[360px] sm:h-[380px]">
-                    {loading && (
-                        <div className="flex-1 grid place-items-center text-center text-[#838388] text-[13px]">
-                            Computing geopolitical risk map…
-                        </div>
-                    )}
+                    {loading && <ChartLoader />}
                     {error && !loading && (
                         <div className="flex-1 grid place-items-center text-center text-[#E25C3F] text-[13px]">{error}</div>
                     )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useCryptoBtcCopy } from './cryptoBtcCopy'
+import ChartLoader from '../shared/ChartLoader'
 
 interface FgPoint {
     t: string
@@ -143,7 +144,7 @@ export default function Sentiment() {
                     </span>
                 </div>
 
-                {loading && <div className="my-16 text-center text-white/50 text-[12px]">Loading sentiment...</div>}
+                {loading && <ChartLoader />}
                 {error && !loading && <div className="my-16 text-center text-[#E25C3F] text-[12px]">{error}</div>}
 
                 {!loading && !error && (

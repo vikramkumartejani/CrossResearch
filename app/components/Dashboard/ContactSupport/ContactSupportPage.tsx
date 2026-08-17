@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type Status = 'Open' | 'In Progress' | 'Resolved' | 'Closed'
 type TabKey = 'All' | Status
@@ -204,7 +205,7 @@ export default function ContactSupportPage() {
       </div>
 
       {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
-      {loading && <p className="text-white/40 text-[13px] mb-3">Loading tickets…</p>}
+      {loading && <ChartLoader className="min-h-[140px] mb-3" />}
 
       <div className="mb-5 overflow-x-auto">
         <div className="flex items-center sm:gap-2 bg-[#16161F] border border-[#FFFFFF0D] w-fit p-1 min-w-max">

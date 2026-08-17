@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 interface DeskData {
     spotPrice: number | null
@@ -139,7 +140,7 @@ export default function BtcDeskBrief() {
                 <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium">BTC Desk Summary</span>
             </div>
 
-            {loading && <p className="text-white/50 text-[12px]">Loading desk brief...</p>}
+            {loading && <ChartLoader className="flex-1 min-h-[180px]" />}
             {error && !loading && <p className="text-[#E25C3F] text-[12px]">{error}</p>}
 
             {!loading && !error && data && (

@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import { IconBack, IconHelp, IconSearch, TOPIC_ICONS } from './helpIcons'
 import QuestionList from './QuestionList'
 import { useHelpCenter } from './useHelpCenter'
+import ChartLoader from '../shared/ChartLoader'
 
 export default function HelpTopic({ topicId }: { topicId: string }) {
   const { topics, articles, loading, error } = useHelpCenter()
@@ -48,7 +49,7 @@ export default function HelpTopic({ topicId }: { topicId: string }) {
         <span className="text-[#838388] truncate">{topic?.title || 'Topic'}</span>
       </div>
 
-      {loading && <p className="text-white/40 text-[13px] mb-4">Loading…</p>}
+      {loading && <ChartLoader className="min-h-[180px] mb-4" />}
       {error && <p className="text-[#E25C3F] text-[13px] mb-4">{error}</p>}
 
       {!loading && !topic && !error && (

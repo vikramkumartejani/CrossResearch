@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type Sector = {
     ticker: string
@@ -11,17 +12,17 @@ type Sector = {
 }
 
 const FALLBACK_SECTORS: Sector[] = [
-    { ticker: 'XLK', name: 'Tech', value: '-', label: 'Loading', positive: true },
-    { ticker: 'SMH', name: 'Semis', value: '-', label: 'Loading', positive: true },
-    { ticker: 'XLF', name: 'Financials', value: '-', label: 'Loading', positive: true },
-    { ticker: 'XLE', name: 'Energy', value: '-', label: 'Loading', positive: true },
-    { ticker: 'IWM', name: 'Small Cap', value: '-', label: 'Loading', positive: true },
-    { ticker: 'QQQ', name: 'Nasdaq ETF', value: '-', label: 'Loading', positive: true },
+    { ticker: 'XLK', name: 'Tech', value: '-', label: '-', positive: true },
+    { ticker: 'SMH', name: 'Semis', value: '-', label: '-', positive: true },
+    { ticker: 'XLF', name: 'Financials', value: '-', label: '-', positive: true },
+    { ticker: 'XLE', name: 'Energy', value: '-', label: '-', positive: true },
+    { ticker: 'IWM', name: 'Small Cap', value: '-', label: '-', positive: true },
+    { ticker: 'QQQ', name: 'Nasdaq ETF', value: '-', label: '-', positive: true },
 ]
 
 export default function SectorGammaDashboard() {
     const [sectors, setSectors] = useState<Sector[]>(FALLBACK_SECTORS)
-    const [narrative, setNarrative] = useState('Loading sector gamma composite…')
+    const [narrative, setNarrative] = useState('')
     const [tags, setTags] = useState<string[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -78,43 +79,47 @@ export default function SectorGammaDashboard() {
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-2">Sector Gamma Dashboard</h2>
             <p className="text-[#838388] text-[14px] leading-[17px] mb-3 sm:mb-4">Dealer concentration map net GEX in $B</p>
 
-            {loading && <p className="text-white/40 text-[13px] mb-3">Loading sector gamma…</p>}
+            {loading && <ChartLoader className="min-h-[180px] mb-3" />}
             {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
-            <div className="mb-5">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                    {sectors.map((sector) => (
-                        <div key={sector.ticker} className="text-center bg-[#FFFFFF08] p-3 sm:p-4 flex flex-col gap-3 sm:gap-5">
-                            <div>
-                                <p className="text-white text-[16px] leading-[19px] font-semibold mb-1">{sector.ticker}</p>
-                                <p className="text-white/60 text-[12px] leading-[14px] font-normal">{sector.name}</p>
-                            </div>
+            {!loading && (
+                <>
+                    <div className="mb-5">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                            {sectors.map((sector) => (
+                                <div key={sector.ticker} className="text-center bg-[#FFFFFF08] p-3 sm:p-4 flex flex-col gap-3 sm:gap-5">
+                                    <div>
+                                        <p className="text-white text-[16px] leading-[19px] font-semibold mb-1">{sector.ticker}</p>
+                                        <p className="text-white/60 text-[12px] leading-[14px] font-normal">{sector.name}</p>
+                                    </div>
 
-                            <div>
-                                <p className={`text-[16px] sm:text-[18px] leading-[22px] font-bold mb-1 ${sector.positive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
-                                    {sector.value}
-                                </p>
-                                <p className={`text-[12px] leading-[14px] font-medium ${sector.positive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
-                                    {sector.label}
-                                </p>
-                            </div>
+                                    <div>
+                                        <p className={`text-[16px] sm:text-[18px] leading-[22px] font-bold mb-1 ${sector.positive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
+                                            {sector.value}
+                                        </p>
+                                        <p className={`text-[12px] leading-[14px] font-medium ${sector.positive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
+                                            {sector.label}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            </div>
+                    </div>
 
-            <h3 className="text-white text-[18px] leading-[22px] font-medium mb-3">Composite Narrative</h3>
-            <p className="text-white/50 text-[12px] sm:text-[14px] leading-4 sm:leading-[20px] mb-3 sm:mb-5">{narrative}</p>
-            <div className="flex flex-wrap gap-2.5">
-                {tags.map((tag) => (
-                    <span
-                        key={tag}
-                        className="px-3 h-[27px] rounded-full flex items-center justify-between border border-[#FFFFFF1A] text-white/60 text-[12px] leading-[17px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
-                    >
-                        {tag}
-                    </span>
-                ))}
-            </div>
+                    <h3 className="text-white text-[18px] leading-[22px] font-medium mb-3">Composite Narrative</h3>
+                    <p className="text-white/50 text-[12px] sm:text-[14px] leading-4 sm:leading-[20px] mb-3 sm:mb-5">{narrative}</p>
+                    <div className="flex flex-wrap gap-2.5">
+                        {tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="px-3 h-[27px] rounded-full flex items-center justify-between border border-[#FFFFFF1A] text-white/60 text-[12px] leading-[17px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     )
 }

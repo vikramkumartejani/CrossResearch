@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import type { MarketReportsPage, Report } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
 import LockedSection from '../LockedSection'
+import ChartLoader from '../shared/ChartLoader'
 import { media } from '@/lib/media'
 
 function Tag({ label }: { label: string }) {
@@ -197,7 +198,9 @@ export default function MarketReport() {
             </div>
 
             {loading && (
-                <div className="px-4 lg:px-6 text-white/50 text-[13px] py-10">Loading market reports...</div>
+                <div className="px-4 lg:px-6">
+                    <ChartLoader className="min-h-[280px]" />
+                </div>
             )}
             {error && !loading && (
                 <div className="px-4 lg:px-6 text-[#E25C3F] text-[13px] py-10">{error}</div>

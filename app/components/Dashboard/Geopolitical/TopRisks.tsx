@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type RiskRow = {
     num: string
@@ -96,7 +97,7 @@ export default function TopRisks() {
                 </p>
             )}
 
-            {loading && <p className="text-white/40 text-[13px] mb-3">Loading risks…</p>}
+            {loading && <ChartLoader className="min-h-[140px] mb-3" />}
             {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
             <div className="bg-[#16161F] pb-1">

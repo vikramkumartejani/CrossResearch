@@ -6,6 +6,7 @@ import SignalChartCard from './SignalChartCard'
 import LockedSection from '../LockedSection'
 import type { SignalChart } from './signalChartsData'
 import type { MacroBrief } from './weeklyHighlightsData'
+import ChartLoader from '../shared/ChartLoader'
 
 interface MacroSignalsResponse {
     brief?: MacroBrief
@@ -99,8 +100,8 @@ export default function MacroSignals() {
                 </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 px-4 lg:px-6">
-                <div className="lg:w-[300px] xl:w-[386px] flex-shrink-0 lg:sticky lg:top-10 h-fit">
+            <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 px-4 lg:px-6 items-stretch">
+                <div className="lg:w-[300px] xl:w-[386px] flex-shrink-0 lg:sticky lg:top-10">
                     <WeeklyHighlights brief={brief} />
                 </div>
 
@@ -108,9 +109,7 @@ export default function MacroSignals() {
                     {error && (
                         <div className="mb-3 text-[#E25C3F] text-[13px] leading-[18px]">{error}</div>
                     )}
-                    {loading && !cards.length && (
-                        <div className="mb-3 text-white/40 text-[13px]">Loading signal cards…</div>
-                    )}
+                    {loading && !cards.length && <ChartLoader className="min-h-[160px] mb-3" />}
 
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 items-start">
                         {cards.map((card) => (

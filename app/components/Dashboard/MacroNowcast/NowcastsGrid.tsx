@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import NowcastCard, { type NowcastCardProps } from './NowcastCard'
+import ChartLoader from '../shared/ChartLoader'
 
 interface ApiDriver {
     label: string
@@ -109,9 +110,7 @@ export default function NowcastsGrid() {
                 Model-driven current-quarter / current-period estimates vs consensus
             </p>
 
-            {loading && (
-                <p className="text-white/40 text-[13px] mb-3">Loading nowcasts…</p>
-            )}
+            {loading && <ChartLoader className="min-h-[80px] mb-3" />}
             {error && (
                 <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>
             )}

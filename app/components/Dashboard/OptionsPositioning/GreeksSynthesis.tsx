@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, type ReactNode } from 'react'
+import ChartLoader from '../shared/ChartLoader'
 
 type GreekCard = {
     label: string
@@ -55,25 +56,25 @@ const FALLBACK: GreekCard[] = [
         symbol: SYMBOLS['NET GEX REGIME'],
         label: 'NET GEX REGIME',
         title: '-',
-        desc: 'Loading net GEX regime…',
+        desc: '-',
     },
     {
         symbol: SYMBOLS['Vanna Exposure'],
         label: 'Vanna Exposure',
         title: '-',
-        desc: 'Loading vanna exposure…',
+        desc: '-',
     },
     {
         symbol: SYMBOLS['Charm Flow'],
         label: 'Charm Flow',
         title: '-',
-        desc: 'Loading charm flow…',
+        desc: '-',
     },
     {
         symbol: SYMBOLS['IV Term Structure'],
         label: 'IV Term Structure',
         title: '-',
-        desc: 'Loading IV term structure…',
+        desc: '-',
     },
 ]
 
@@ -129,26 +130,28 @@ export default function GreeksSynthesis() {
                 Greeks Synthesis • Multi-Asset
             </h2>
 
-            {loading && <p className="text-white/40 text-[13px] mb-3">Loading greeks…</p>}
+            {loading && <ChartLoader className="min-h-[180px] mb-3" />}
             {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
-                {cards.map((card) => (
-                    <div key={card.label} className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
-                        <div className="flex items-center gap-1.5 min-h-5">
-                            {card.symbol}
-                            <span className="text-white text-[14px] leading-5 font-medium">
-                                {card.label}
-                            </span>
-                        </div>
+            {!loading && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+                    {cards.map((card) => (
+                        <div key={card.label} className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+                            <div className="flex items-center gap-1.5 min-h-5">
+                                {card.symbol}
+                                <span className="text-white text-[14px] leading-5 font-medium">
+                                    {card.label}
+                                </span>
+                            </div>
 
-                        <div className="mt-4 sm:mt-6 xl:pr-6">
-                            <p className="text-white text-[18px] leading-[22px] font-medium mb-2">{card.title}</p>
-                            <p className="text-[#838388] text-[12px] leading-[17px] font-normal">{card.desc}</p>
+                            <div className="mt-4 sm:mt-6 xl:pr-6">
+                                <p className="text-white text-[18px] leading-[22px] font-medium mb-2">{card.title}</p>
+                                <p className="text-[#838388] text-[12px] leading-[17px] font-normal">{card.desc}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

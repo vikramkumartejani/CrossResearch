@@ -19,10 +19,10 @@ export default function AuthRightPanel() {
 
             <div className="absolute top-12 right-10 z-20 max-w-[520px] flex flex-col items-end text-right">
                 <h2 className="text-white text-[40px] font-medium leading-[56px] mb-3">
-                    Turn your ideas into reality
+                    See Markets Differently
                 </h2>
                 <p className="text-white/80 text-[18px] leading-[29px] font-normal">
-                    Consistent quality and experience across all platforms and devices.
+                    Research deeper. Understand markets better. Make every decision count.
                 </p>
             </div>
         </div>

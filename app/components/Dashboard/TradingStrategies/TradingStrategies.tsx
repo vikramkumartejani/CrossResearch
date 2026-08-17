@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import ContentDetailModal from '../shared/ContentDetailModal'
 import LockedSection from '../LockedSection'
+import ChartLoader from '../shared/ChartLoader'
 
 const TABS = ['Recent', 'Momentum', 'Reversals', 'Breakouts', 'All'] as const
 type Tab = (typeof TABS)[number]
@@ -231,7 +232,7 @@ export default function TradingStrategies() {
       </div>
 
       <div className="px-4 lg:px-6">
-        {loading && <p className="text-white/40 text-[13px] mb-3">Loading playbooks…</p>}
+        {loading && <ChartLoader className="min-h-[180px] mb-3" />}
         {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[1fr_724px] gap-3 sm:gap-4 mb-4 sm:mb-5">

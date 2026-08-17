@@ -1,5 +1,6 @@
 'use client'
 
+import ChartLoader from '../shared/ChartLoader'
 import { useBeliefMarkets } from './beliefMarkets'
 
 export default function LatestAlerts() {
@@ -15,7 +16,7 @@ export default function LatestAlerts() {
                 </span>
             </div>
 
-            {loading && <p className="px-4 py-6 text-[#838388] text-[12px]">Loading alerts…</p>}
+            {loading && <ChartLoader className="min-h-[180px]" />}
             {error && !loading && <p className="px-4 py-6 text-[#E25C3F] text-[12px]">{error}</p>}
             {!loading && !error && alerts.length === 0 && (
                 <p className="px-4 py-6 text-[#838388] text-[12px]">

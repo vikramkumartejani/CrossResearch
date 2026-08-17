@@ -6,6 +6,7 @@ import { MOST_ASKED_LIMIT } from './helpTypes'
 import { IconChevronRight, IconHelp, IconSearch, TOPIC_ICONS } from './helpIcons'
 import QuestionList from './QuestionList'
 import { useHelpCenter } from './useHelpCenter'
+import ChartLoader from '../shared/ChartLoader'
 
 export default function HelpCenter() {
   const { title, subtitle, topics, articles, loading, error } = useHelpCenter()
@@ -61,7 +62,7 @@ export default function HelpCenter() {
       </h1>
       <p className="text-[#838388] text-[12px] leading-[17px] mb-5 max-w-2xl">{subtitle}</p>
 
-      {loading && <p className="text-white/40 text-[13px] mb-4">Loading help center…</p>}
+      {loading && <ChartLoader className="min-h-[180px] mb-4" />}
       {error && <p className="text-[#E25C3F] text-[13px] mb-4">{error}</p>}
 
       <div className="relative mb-6 w-full max-w-[550px]">

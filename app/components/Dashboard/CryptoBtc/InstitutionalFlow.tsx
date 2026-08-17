@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useCryptoBtcCopy } from './cryptoBtcCopy'
+import ChartLoader from '../shared/ChartLoader'
 
 interface PricePoint {
     t: string
@@ -302,7 +303,7 @@ export default function InstitutionalFlow() {
                 </span>
             </div>
 
-            {loading && <div className="my-16 text-center text-white/50 text-[12px]">Loading forecast...</div>}
+            {loading && <ChartLoader />}
             {error && !loading && <div className="my-16 text-center text-[#E25C3F] text-[12px]">{error}</div>}
             {!loading && !error && forecastChart && forecastChart.history.length > 1 && forecastChart.median.length > 1 && (
                 <div className="w-full" style={{ height: 300 }}>
