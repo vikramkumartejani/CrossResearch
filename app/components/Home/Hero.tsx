@@ -23,13 +23,13 @@ export default function Hero() {
                     </h1>
 
                     {/* Subheading */}
-                    <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist font-normal max-w-[849px] mx-auto text-center">
+                    <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-normal max-w-[849px] mx-auto text-center">
                         Access proprietary algorithms, macro intelligence, and market regime
                         tools trusted by advanced traders for precise, data-driven market
                         decisions worldwide.
                     </p>
 
-                    <div className="w-full max-w-[900px] mx-auto mb-8 sm:mb-10 lg:mb-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                    <div className="w-full max-w-[900px] mx-auto mb-8 sm:mb-10 lg:mb-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 font-urbanist">
                         <HeroEmailBar />
 
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">

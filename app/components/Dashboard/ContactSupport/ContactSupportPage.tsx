@@ -106,10 +106,11 @@ export default function ContactSupportPage() {
       const res = await fetch('/api/tickets', { cache: 'no-store' })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
+        const detail = body.details ?? body.detail ?? body.error
         throw new Error(
-          typeof body.details === 'string'
-            ? body.details
-            : body.error || body.detail || `Failed to load tickets (${res.status})`
+          typeof detail === 'string'
+            ? detail
+            : `Failed to load tickets (${res.status})`
         )
       }
       setTickets(Array.isArray(body.tickets) ? body.tickets : [])
@@ -140,10 +141,9 @@ export default function ContactSupportPage() {
       })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
+        const detail = body.details ?? body.detail ?? body.error
         throw new Error(
-          typeof body.details === 'string'
-            ? body.details
-            : body.detail || body.error || 'Could not create ticket'
+          typeof detail === 'string' ? detail : 'Could not create ticket'
         )
       }
       const id = body.ticket?.id

@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ACCESS_COOKIE } from './authCookies'
+import {
+  ACCESS_COOKIE,
+  REFRESH_COOKIE,
+  applyAuthCookies,
+  backendAuth,
+  backendBase,
+  type AuthTokenPayload,
+} from './authCookies'
 
 const DEFAULT_ORIGINS = [
   'https://crossresearch-admin-panel.vercel.app',
@@ -36,13 +43,23 @@ export function corsPreflight(request: NextRequest): NextResponse {
   return withCors(request, new NextResponse(null, { status: 204 }))
 }
 
-/**
- * FastAPI origin for server-side proxying.
- * Production example (strip /api in nginx → uvicorn): BACKEND_URL=https://crossresearch.io/api
- * Local: BACKEND_URL=http://127.0.0.1:8000
- */
-export function backendBase(): string {
-  return (process.env.BACKEND_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '')
+export { backendBase }
+
+async function refreshAccess(request: NextRequest): Promise<AuthTokenPayload | null> {
+  const refresh = request.cookies.get(REFRESH_COOKIE)?.value
+  if (!refresh) return null
+  const { ok, body } = await backendAuth('/auth/refresh', {
+    method: 'POST',
+    body: JSON.stringify({ refresh_token: refresh }),
+    headers: {
+      'User-Agent': request.headers.get('user-agent') || '',
+      'X-Forwarded-For': request.headers.get('x-forwarded-for') || '',
+    },
+  })
+  if (!ok || typeof body.access_token !== 'string' || typeof body.refresh_token !== 'string') {
+    return null
+  }
+  return body as unknown as AuthTokenPayload
 }
 
 export async function proxyBackend(
@@ -60,23 +77,43 @@ export async function proxyBackend(
     if (adminKey) headers['X-Admin-Key'] = adminKey
     if (supportKey) headers['X-Support-Key'] = supportKey
 
-    // Forward the member session so FastAPI can scope data to the logged-in user
-    const access = request.cookies.get(ACCESS_COOKIE)?.value
-    if (access) headers['Authorization'] = `Bearer ${access}`
+    let tokens: AuthTokenPayload | null = null
+    let access = request.cookies.get(ACCESS_COOKIE)?.value
+    if (!access && !adminKey && !supportKey) {
+      tokens = await refreshAccess(request)
+      access = tokens?.access_token
+    }
+    if (access) headers.Authorization = `Bearer ${access}`
 
     const init: RequestInit = {
       method,
       headers,
       cache: 'no-store',
     }
+    let bodyText: string | undefined
     if (method !== 'GET' && method !== 'DELETE') {
-      init.body = await request.text()
+      bodyText = await request.text()
+      init.body = bodyText
     }
 
-    const response = await fetch(apiUrl, init)
+    let response = await fetch(apiUrl, init)
+    // Access cookie expired while refresh still works - same path /api/auth/me uses.
+    if (response.status === 401 && !adminKey && !supportKey) {
+      tokens = await refreshAccess(request)
+      if (tokens?.access_token) {
+        headers.Authorization = `Bearer ${tokens.access_token}`
+        response = await fetch(apiUrl, {
+          method,
+          headers,
+          body: bodyText,
+          cache: 'no-store',
+        })
+      }
+    }
+
     const body = await response.json().catch(() => ({}))
     if (!response.ok) {
-      return withCors(
+      const res = withCors(
         request,
         NextResponse.json(
           {
@@ -87,8 +124,10 @@ export async function proxyBackend(
           { status: response.status }
         )
       )
+      return tokens ? applyAuthCookies(res, tokens) : res
     }
-    return withCors(request, NextResponse.json(body))
+    const res = withCors(request, NextResponse.json(body))
+    return tokens ? applyAuthCookies(res, tokens) : res
   } catch (error) {
     return withCors(
       request,
