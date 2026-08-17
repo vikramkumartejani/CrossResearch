@@ -1,17 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface FaqItem {
     id: string;
     question: string;
     answer: string;
 }
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const FAQS: FaqItem[] = [
     {
@@ -41,23 +36,20 @@ const FAQS: FaqItem[] = [
     },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
 export default function FAQ() {
-    const [openId, setOpenId] = useState<string | null>("faq-profitability");
+    const [openId, setOpenId] = useState<string | null>('faq-profitability');
 
     const toggle = (id: string): void => {
-        setOpenId(prev => (prev === id ? null : id));
+        setOpenId((prev) => (prev === id ? null : id));
     };
 
     return (
-        <section className="relative w-full pb-20 lg:pb-[120px] xl:pb-[170px] px-4 sm:px-6">
+        <section id="faq" className="relative w-full scroll-mt-28 pb-20 lg:pb-[120px] xl:pb-[170px] px-4 sm:px-6">
 
-            {/* Ellipse 10 – right glow */}
             <div
                 aria-hidden="true"
                 className="absolute pointer-events-none z-0 w-[450px] h-[250px] md:w-[600px] md:h-[340px] lg:w-[800px] lg:h-[446.65px]
-                            -right-60 lg:-right-[318px]top-[20%] -rotate-[20.4deg] bg-[#227ED966]
+                            -right-60 lg:-right-[318px] top-[20%] -rotate-[20.4deg] bg-[#227ED966]
                             blur-[100px] md:blur-[200px] lg:blur-[250px]"
             />
 
@@ -68,11 +60,9 @@ export default function FAQ() {
                             blur-[160px] lg:blur-[200px]"
             />
 
-            {/* Content */}
             <div className="relative z-10 mx-auto max-w-[1640px]">
                 <div className="flex items-start justify-between lg:flex-row flex-col gap-10">
 
-                    {/* Left column */}
                     <div className="flex flex-col gap-6 lg:gap-10 max-w-[600px]">
                         <div className="bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter w-fit">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,8 +82,7 @@ export default function FAQ() {
                         </p>
                     </div>
 
-                    {/* Right column – FAQ accordion */}
-                    <div className="flex flex-col gap-6 lg:max-w-[700px] xl:max-w-[944px]">
+                    <div className="flex flex-col gap-6 lg:max-w-[700px] xl:max-w-[944px] w-full">
                         {FAQS.map((faq: FaqItem) => {
                             const isOpen = openId === faq.id;
                             const answerId = `${faq.id}-answer`;
@@ -101,59 +90,49 @@ export default function FAQ() {
                             return (
                                 <div
                                     key={faq.id}
-                                    className="bg-[#FFFFFF08] border border-[#FFFFFF0D] p-5 sm:p-6 rounded-[24px] overflow-hidden"
+                                    className="bg-[#FFFFFF08] border border-[#FFFFFF0D] p-5 sm:p-6 rounded-[24px]"
                                 >
                                     <button
                                         type="button"
                                         onClick={() => toggle(faq.id)}
                                         aria-expanded={isOpen}
                                         aria-controls={answerId}
-                                        className="w-full flex items-center justify-between gap-2.5 sm:gap-4 cursor-pointer"
+                                        className="w-full flex items-center justify-between gap-2.5 sm:gap-4 cursor-pointer text-left"
                                     >
-                                        <h3 className="text-[18px] sm:text-[27px] leading-6 sm:leading-[41px] font-normal text-white text-left">
+                                        <span className="text-[18px] sm:text-[27px] leading-6 sm:leading-[41px] font-normal text-white">
                                             {faq.question}
-                                        </h3>
+                                        </span>
 
-                                        <div className="relative flex shrink-0 w-6 h-6">
-                                            {/* Plus - shown when closed */}
+                                        <span className="relative flex shrink-0 w-6 h-6" aria-hidden="true">
                                             <svg
-                                                aria-hidden="true"
                                                 className={`absolute inset-0 transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             >
                                                 <path d="M12 5V19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                                 <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
-                                            {/* Minus - shown when open */}
                                             <svg
-                                                aria-hidden="true"
                                                 className={`absolute inset-0 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             >
                                                 <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
-                                        </div>
+                                        </span>
                                     </button>
 
-                                    {/* Animated answer panel - framer-motion */}
-                                    <AnimatePresence initial={false}>
-                                        {isOpen && (
-                                            <motion.div
-                                                id={answerId}
-                                                role="region"
-                                                key="answer"
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: 'auto', opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-                                                style={{ overflow: 'hidden' }}
-                                            >
-                                                <p className="pt-4 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-medium text-white/60">
-                                                    {faq.answer}
-                                                </p>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
+                                    <div
+                                        id={answerId}
+                                        role="region"
+                                        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                                            isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                                        }`}
+                                    >
+                                        <div className="overflow-hidden">
+                                            <p className="pt-4 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[27px] font-medium text-white/60">
+                                                {faq.answer}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             );
                         })}

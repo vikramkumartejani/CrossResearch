@@ -8,6 +8,7 @@ const NAV_LINKS = [
     { label: "Home", href: "/" },
     { label: "Algo", href: "/algo" },
     { label: "Investing", href: "/investing" },
+    { label: "Affiliate", href: "/affiliate" },
     {
         label: "Trading Desk",
         href: "/trading-desk",
@@ -25,7 +26,6 @@ const NAV_LINKS = [
         href: "/features",
         hasDropdown: true,
         items: [
-            { label: "Affiliate", href: "/affiliate" },
             { label: "Brokers", href: "/brokers" },
             { label: "Prop Firm", href: "/prop-firm" },
             { label: "Strategies & Education", href: "/strategies" },
@@ -49,6 +49,7 @@ export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [isAffiliate, setIsAffiliate] = useState(false);
     const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
@@ -56,6 +57,12 @@ export default function Navbar() {
         fetch("/api/auth/me", { cache: "no-store" })
             .then((res) => {
                 if (!cancelled) setLoggedIn(res.ok);
+                return res.ok ? res.json() : null;
+            })
+            .then((body) => {
+                if (cancelled || !body) return;
+                const type = body?.user?.account_type ?? body?.account_type;
+                setIsAffiliate(type === "affiliate");
             })
             .catch(() => {});
         return () => {
@@ -149,10 +156,10 @@ export default function Navbar() {
                     <div className="hidden xl:flex items-center gap-[7px]">
                         {loggedIn ? (
                             <Link
-                                href="/analysis"
+                                href={isAffiliate ? "/affiliate-center" : "/analysis"}
                                 className="px-[28px] py-[5px] text-[#070711] bg-white text-[18px] leading-[22px] font-medium font-inter rounded-[100px] shadow-[0px_4px_4px_0px_#00000040]"
                             >
-                                Dashboard
+                                {isAffiliate ? "Affiliate Center" : "Dashboard"}
                             </Link>
                         ) : (
                             <>
@@ -250,11 +257,11 @@ export default function Navbar() {
                         <div className="px-5 py-5 flex flex-col gap-3">
                             {loggedIn ? (
                                 <Link
-                                    href="/analysis"
+                                    href={isAffiliate ? "/affiliate-center" : "/analysis"}
                                     className="text-center py-3 text-[15px] font-semibold rounded-full transition-colors duration-150 font-inter bg-white text-[#070711]"
                                     onClick={closeMobileMenu}
                                 >
-                                    Dashboard
+                                    {isAffiliate ? "Affiliate Center" : "Dashboard"}
                                 </Link>
                             ) : (
                                 <>

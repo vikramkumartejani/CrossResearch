@@ -8,19 +8,44 @@ import { media } from '@/lib/media';
 const NAV_COLS = [
     {
         heading: 'Product',
-        links: ['Features', 'How It Works', 'Indicators', 'Back testing', 'Market Signals', 'Dashboard'],
+        links: [
+            { label: 'Features', href: '/algo' },
+            { label: 'How It Works', href: '/about' },
+            { label: 'Indicators', href: '/algo' },
+            { label: 'Back testing', href: '/algo' },
+            { label: 'Market Signals', href: '/algo' },
+            { label: 'Dashboard', href: '/analysis' },
+        ],
     },
     {
         heading: 'Pricing',
-        links: ['Plans', 'Free Trial', 'Compare Plans', 'Billing & Payments', 'FAQs'],
+        links: [
+            { label: 'Plans', href: '/#pricing' },
+            { label: 'Free Trial', href: '/signup' },
+            { label: 'Compare Plans', href: '/#pricing' },
+            { label: 'Billing & Payments', href: '/#pricing' },
+            { label: 'FAQs', href: '/#faq' },
+        ],
     },
     {
         heading: 'Articles',
-        links: ['Market Insights', 'Trading Strategies', 'Macro Analysis', 'Tutorials', 'News & Updates'],
+        links: [
+            { label: 'Market Insights', href: '/blog' },
+            { label: 'Trading Strategies', href: '/blog' },
+            { label: 'Macro Analysis', href: '/blog' },
+            { label: 'Tutorials', href: '/blog' },
+            { label: 'News & Updates', href: '/blog' },
+        ],
     },
     {
         heading: 'Contact',
-        links: ['Support', 'Help Center', 'Contact Us', 'Community', 'Feedback'],
+        links: [
+            { label: 'Support', href: '/contact-support' },
+            { label: 'Help Center', href: '/help-center' },
+            { label: 'Contact Us', href: '/#contact' },
+            { label: 'Community', href: '/affiliate' },
+            { label: 'Feedback', href: '/contact-support' },
+        ],
     },
 ];
 
@@ -189,12 +214,12 @@ export default function Footer() {
                                     <h4 className="text-white text-[16px] font-medium leading-[24px]">{col.heading}</h4>
                                     <ul className="flex flex-col gap-3.5">
                                         {col.links.map((link) => (
-                                            <li key={link}>
+                                            <li key={link.label}>
                                                 <Link
-                                                    href="#"
+                                                    href={link.href}
                                                     className="text-white/60 text-[16px] leading-[24px] font-normal hover:text-white/80 transition-colors"
                                                 >
-                                                    {link}
+                                                    {link.label}
                                                 </Link>
                                             </li>
                                         ))}

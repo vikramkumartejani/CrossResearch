@@ -5,5 +5,11 @@ export const metadata = {
 }
 
 export default function AffiliateCenterPage() {
-  return <AffiliateCenter />
+  return (
+    <main className="min-h-screen pt-28 sm:pt-32 pb-16">
+      <div className="mx-auto w-full max-w-[1640px]">
+        <AffiliateCenter />
+      </div>
+    </main>
+  )
 }

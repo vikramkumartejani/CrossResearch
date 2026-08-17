@@ -39,14 +39,6 @@ function NavIcon({ name }: { name: string }) {
 
 // ─── Nav structure ────────────────────────────────────────────────────────────
 
-// Shown only to affiliate partner accounts, at the top of the nav
-const PARTNER_SECTION = {
-    label: 'PARTNER',
-    items: [
-        { label: 'Affiliate Center', href: '/affiliate-center', icon: <NavIcon name="affiliate-users" /> },
-    ],
-}
-
 const NAV_SECTIONS = [
     {
         label: 'WORK SPACE',
@@ -161,7 +153,7 @@ export default function DashboardSidebar({
     }
 
     const isAffiliate = user?.account_type === 'affiliate'
-    const navSections = isAffiliate ? [PARTNER_SECTION, ...NAV_SECTIONS] : NAV_SECTIONS
+    const navSections = NAV_SECTIONS
 
     const displayName = user?.full_name?.trim() || 'Account'
     const displaySub = isAffiliate ? 'Affiliate Partner' : PLAN_LABEL[plan] || 'Starter'
