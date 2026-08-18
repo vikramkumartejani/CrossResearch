@@ -37,6 +37,11 @@ body {
   font-family: var(--font-urbanist), sans-serif !important;
 }
 
+input.cr-hero-email,
+input.cr-hero-email::placeholder {
+  font-family: var(--font-urbanist), sans-serif !important;
+}
+
 /* Inside an Urbanist context (home page), font-inter elements follow suit */
 .font-urbanist .font-inter {
   font-family: var(--font-urbanist), sans-serif !important;

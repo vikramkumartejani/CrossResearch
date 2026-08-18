@@ -23,7 +23,7 @@ export default function Hero() {
                     </h1>
 
                     {/* Subheading */}
-                    <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-normal max-w-[849px] mx-auto text-center">
+                    <p className="mb-6 sm:mb-8 text-white/70 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist font-normal max-w-[849px] mx-auto text-center">
                         Access proprietary algorithms, macro intelligence, and market regime
                         tools trusted by advanced traders for precise, data-driven market
                         decisions worldwide.
@@ -57,7 +57,7 @@ export default function Hero() {
                                     </div>
                                 ))}
                             </div>
-                            <p className="text-white/55 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-normal whitespace-nowrap">
+                            <p className="font-urbanist text-white/55 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-normal whitespace-nowrap">
                                 Trusted by{' '}
                                 <span className="text-[#88C4FF] font-semibold">10,000+</span>
                                 {' '}traders

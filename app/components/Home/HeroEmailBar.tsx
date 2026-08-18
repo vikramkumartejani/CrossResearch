@@ -74,7 +74,7 @@ export default function HeroEmailBar() {
           placeholder="Enter email to receive newsletter"
           autoComplete="email"
           aria-label="Email address"
-          className="cr-autofill-dark w-[230px] sm:w-[340px] bg-transparent h-full text-white text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist outline-none placeholder:text-white/45"
+          className="cr-hero-email cr-autofill-dark w-[230px] sm:w-[340px] bg-transparent h-full text-white text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist outline-none placeholder:font-urbanist placeholder:text-white/45"
         />
         <button
           type="button"
