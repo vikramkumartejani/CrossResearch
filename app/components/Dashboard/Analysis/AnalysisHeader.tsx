@@ -1,13 +1,15 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { CURRENCY_PAIRS, type CurrencyPair } from './Chart'
+import { type CurrencyPair } from './Chart'
 import { useDashboardTheme } from '../DashboardTheme'
 
 export default function AnalysisHeader({
+  pairs,
   selectedPair,
   setSelectedPair,
 }: {
+  pairs: CurrencyPair[]
   selectedPair: CurrencyPair
   setSelectedPair: (pair: CurrencyPair) => void
 }) {
@@ -76,7 +78,7 @@ export default function AnalysisHeader({
               isLight ? 'bg-white border-[#D5D8E0]' : 'bg-[#1E1E2A] border-[#FFFFFF14]'
             }`}
           >
-            {CURRENCY_PAIRS.map((pair) => (
+            {pairs.map((pair) => (
               <button
                 key={pair.symbol}
                 type="button"

@@ -43,7 +43,7 @@ export default function Hero() {
                                 ].map((src, i) => (
                                     <div
                                         key={i}
-                                        className="w-6 sm:w-7 h-6 sm:h-7 rounded-full border border-white overflow-hidden -ml-2 first:ml-0"
+                                        className="w-7 sm:w-8 h-7 sm:h-8 rounded-full border border-white overflow-hidden -ml-2 first:ml-0"
                                         style={{ zIndex: i + 1 }}
                                     >
                                         <Image
@@ -57,7 +57,7 @@ export default function Hero() {
                                     </div>
                                 ))}
                             </div>
-                            <p className="text-white/55 text-[12px] sm:text-[14px] leading-[16px] sm:leading-[18px] font-normal whitespace-nowrap">
+                            <p className="text-white/55 text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-normal whitespace-nowrap">
                                 Trusted by{' '}
                                 <span className="text-[#88C4FF] font-semibold">10,000+</span>
                                 {' '}traders

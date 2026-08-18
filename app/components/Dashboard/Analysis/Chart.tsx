@@ -25,16 +25,16 @@ export interface CurrencyPair {
 }
 
 export const CURRENCY_PAIRS: CurrencyPair[] = [
-    { symbol: 'EURUSD', base: 'EUR', quote: 'USD', baseName: 'Euro', quoteName: 'U.S. Dollar', baseFlag: 'EU', quoteFlag: 'US', price: '1.05195', change: '-0.00247 (-0.23%)', changePositive: false, prevClose: '1.05442', openPrice: '1.05273', dayHigh: '1.06276', dayLow: '1.04890' },
-    { symbol: 'GBPUSD', base: 'GBP', quote: 'USD', baseName: 'British Pound', quoteName: 'U.S. Dollar', baseFlag: 'GB', quoteFlag: 'US', price: '1.27340', change: '+0.00210 (+0.17%)', changePositive: true, prevClose: '1.27130', openPrice: '1.27180', dayHigh: '1.27560', dayLow: '1.27020' },
-    { symbol: 'USDJPY', base: 'USD', quote: 'JPY', baseName: 'U.S. Dollar', quoteName: 'Japanese Yen', baseFlag: 'US', quoteFlag: 'JP', price: '149.820', change: '+0.350 (+0.23%)', changePositive: true, prevClose: '149.470', openPrice: '149.510', dayHigh: '150.100', dayLow: '149.300' },
-    { symbol: 'XAUUSD', base: 'XAU', quote: 'USD', baseName: 'Gold', quoteName: 'U.S. Dollar', baseFlag: 'XAU', quoteFlag: 'US', price: '2341.50', change: '+12.30 (+0.53%)', changePositive: true, prevClose: '2329.20', openPrice: '2330.00', dayHigh: '2348.00', dayLow: '2325.50' },
-    { symbol: 'XAGUSD', base: 'XAG', quote: 'USD', baseName: 'Silver', quoteName: 'U.S. Dollar', baseFlag: 'XAG', quoteFlag: 'US', price: '27.420', change: '+0.180 (+0.66%)', changePositive: true, prevClose: '27.240', openPrice: '27.260', dayHigh: '27.580', dayLow: '27.180' },
-    { symbol: 'USOIL', base: 'USO', quote: 'USD', baseName: 'US Crude Oil', quoteName: 'U.S. Dollar', baseFlag: 'USO', quoteFlag: 'US', price: '78.340', change: '-0.560 (-0.71%)', changePositive: false, prevClose: '78.900', openPrice: '78.800', dayHigh: '79.200', dayLow: '78.100' },
-    { symbol: 'NAS100', base: 'NAS', quote: 'USD', baseName: 'Nasdaq 100', quoteName: 'U.S. Dollar', baseFlag: 'NAS', quoteFlag: 'US', price: '17842.0', change: '+134.5 (+0.76%)', changePositive: true, prevClose: '17707.5', openPrice: '17720.0', dayHigh: '17890.0', dayLow: '17680.0' },
-    { symbol: 'US30', base: 'US3', quote: 'USD', baseName: 'Dow Jones 30', quoteName: 'U.S. Dollar', baseFlag: 'US3', quoteFlag: 'US', price: '38921.0', change: '+210.0 (+0.54%)', changePositive: true, prevClose: '38711.0', openPrice: '38730.0', dayHigh: '38980.0', dayLow: '38650.0' },
-    { symbol: 'SP500', base: 'SP5', quote: 'USD', baseName: 'S&P 500', quoteName: 'U.S. Dollar', baseFlag: 'SP5', quoteFlag: 'US', price: '5021.80', change: '-8.40 (-0.17%)', changePositive: false, prevClose: '5030.20', openPrice: '5028.00', dayHigh: '5045.00', dayLow: '5015.00' },
-    { symbol: 'BTCUSD', base: 'BTC', quote: 'USD', baseName: 'Bitcoin', quoteName: 'U.S. Dollar', baseFlag: 'BTC', quoteFlag: 'US', price: '67420.0', change: '+820.0 (+1.23%)', changePositive: true, prevClose: '66600.0', openPrice: '66700.0', dayHigh: '67800.0', dayLow: '66400.0' },
+    { symbol: 'EURUSD', base: 'EUR', quote: 'USD', baseName: 'Euro', quoteName: 'U.S. Dollar', baseFlag: 'EU', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'GBPUSD', base: 'GBP', quote: 'USD', baseName: 'British Pound', quoteName: 'U.S. Dollar', baseFlag: 'GB', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'USDJPY', base: 'USD', quote: 'JPY', baseName: 'U.S. Dollar', quoteName: 'Japanese Yen', baseFlag: 'US', quoteFlag: 'JP', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'XAUUSD', base: 'XAU', quote: 'USD', baseName: 'Gold', quoteName: 'U.S. Dollar', baseFlag: 'XAU', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'XAGUSD', base: 'XAG', quote: 'USD', baseName: 'Silver', quoteName: 'U.S. Dollar', baseFlag: 'XAG', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'USOIL', base: 'USO', quote: 'USD', baseName: 'US Crude Oil', quoteName: 'U.S. Dollar', baseFlag: 'USO', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'NAS100', base: 'NAS', quote: 'USD', baseName: 'Nasdaq 100', quoteName: 'U.S. Dollar', baseFlag: 'NAS', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'US30', base: 'US3', quote: 'USD', baseName: 'Dow Jones 30', quoteName: 'U.S. Dollar', baseFlag: 'US3', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'SP500', base: 'SP5', quote: 'USD', baseName: 'S&P 500', quoteName: 'U.S. Dollar', baseFlag: 'SP5', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
+    { symbol: 'BTCUSD', base: 'BTC', quote: 'USD', baseName: 'Bitcoin', quoteName: 'U.S. Dollar', baseFlag: 'BTC', quoteFlag: 'US', price: '-', change: '-', changePositive: true, prevClose: '-', openPrice: '-', dayHigh: '-', dayLow: '-' },
 ]
 
 // ── Y-axis width (pixels reserved for right-side labels) ─────────────────────
@@ -370,7 +370,7 @@ export default function Chart({ selectedPair }: ChartProps) {
         return () => controller.abort()
     }, [selectedPair.symbol])
 
-    const decimals = parseFloat(selectedPair.price) < 100 ? 5 : 1
+    const decimals = selectedPair.price !== '-' && parseFloat(selectedPair.price) < 100 ? 5 : 1
     const muted = isLight ? 'text-[#5B6472]' : 'text-white/50'
 
     return (

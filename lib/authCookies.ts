@@ -64,6 +64,11 @@ export function publicAuthBody(body: Record<string, unknown>) {
   return rest
 }
 
+/** Wipe cookies only when the session is actually invalid, not when the backend is down. */
+export function shouldClearAuthCookies(status: number): boolean {
+  return status === 401 || status === 403
+}
+
 export async function backendAuth(
   path: string,
   init: RequestInit

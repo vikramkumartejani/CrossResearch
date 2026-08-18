@@ -5,6 +5,7 @@ import {
   backendAuth,
   clearAuthCookies,
   publicAuthBody,
+  shouldClearAuthCookies,
   type AuthTokenPayload,
 } from '@/lib/authCookies'
 
@@ -31,7 +32,8 @@ export async function POST(request: NextRequest) {
       { error: 'Unauthorized', details: body.detail ?? body, detail: body.detail },
       { status: status || 401 }
     )
-    return clearAuthCookies(res)
+    if (shouldClearAuthCookies(status || 401)) return clearAuthCookies(res)
+    return res
   }
 
   const tokens = body as unknown as AuthTokenPayload
