@@ -13,7 +13,7 @@ import {
   type MarketHeaderQuote,
 } from './marketHeader'
 
-const POLL_MS = 20_000
+const POLL_MS = 2_000
 
 export default function AnalysisPage() {
   const [selectedPair, setSelectedPair] = useState<CurrencyPair>(CURRENCY_PAIRS[0])
