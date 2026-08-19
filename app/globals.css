@@ -53,6 +53,11 @@ input.cr-hero-email::placeholder {
   100% { transform: translateX(-50%); }
 }
 
+@keyframes cr-nav-progress {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(420%); }
+}
+
 .logo-slider-track {
   display: flex;
   width: fit-content;

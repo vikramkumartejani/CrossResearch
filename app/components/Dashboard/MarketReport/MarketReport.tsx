@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import type { MarketReportsPage, Report } from './reportData'
+import { buildReportRows } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
 import LockedSection from '../LockedSection'
 import ChartLoader from '../shared/ChartLoader'
@@ -114,50 +115,69 @@ function SideCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }
     )
 }
 
-const DEFAULT_PAGE: MarketReportsPage = {
-    eyebrow: 'Market Reports',
-    title: 'Research & Strategy Desk',
-    subtitle: 'Long-form macro, FX and digital-asset reports authored by the CrossResearch desks.',
+const EMPTY_PAGE: MarketReportsPage = {
+    eyebrow: '',
+    title: '',
+    subtitle: '',
 }
 
 export default function MarketReport() {
     const [selected, setSelected] = useState<Report | null>(null)
-    const [page, setPage] = useState<MarketReportsPage>(DEFAULT_PAGE)
+    const [page, setPage] = useState<MarketReportsPage>(EMPTY_PAGE)
     const [reports, setReports] = useState<Report[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         let cancelled = false
+        const controller = new AbortController()
 
         async function load() {
             try {
                 setLoading(true)
                 setError(null)
-                const res = await fetch('/api/market-reports')
+                const res = await fetch('/api/market-reports', {
+                    cache: 'no-store',
+                    signal: controller.signal,
+                })
                 if (!res.ok) throw new Error('Failed to load market reports')
                 const data = await res.json()
                 if (cancelled) return
 
-                setPage({ ...DEFAULT_PAGE, ...(data.page || {}) })
+                setPage({
+                    eyebrow: data.page?.eyebrow || 'Market Reports',
+                    title: data.page?.title || 'Research & Strategy Desk',
+                    subtitle:
+                        data.page?.subtitle ||
+                        'Long-form macro, FX and digital-asset reports authored by the CrossResearch desks.',
+                })
                 const list = Array.isArray(data.reports) ? [...data.reports] : []
-                list.sort((a, b) => Number(b.id) - Number(a.id))
                 setReports(list)
             } catch (err) {
-                if (!cancelled) setError(err instanceof Error ? err.message : 'Unknown error')
+                if (cancelled || (err instanceof DOMException && err.name === 'AbortError')) return
+                setError(err instanceof Error ? err.message : 'Unknown error')
             } finally {
                 if (!cancelled) setLoading(false)
             }
         }
 
-        load()
+        void load()
         return () => {
             cancelled = true
+            controller.abort()
         }
     }, [])
 
     return (
         <div className="">
+            {loading && (
+                <div className="px-4 lg:px-6">
+                    <ChartLoader className="min-h-[360px]" />
+                </div>
+            )}
+
+            {!loading && (
+                <>
             <div className="border-b border-[#FFFFFF0D] pb-5 sm:pb-6 mb-4 sm:mb-5 px-4 lg:px-6">
                 <div className="mb-3 flex items-center gap-1">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -197,41 +217,48 @@ export default function MarketReport() {
                 <p className="text-[#838388] text-[12px] leading-[17px]">{page.subtitle}</p>
             </div>
 
-            {loading && (
-                <div className="px-4 lg:px-6">
-                    <ChartLoader className="min-h-[280px]" />
-                </div>
-            )}
-            {error && !loading && (
+            {error && (
                 <div className="px-4 lg:px-6 text-[#E25C3F] text-[13px] py-10">{error}</div>
             )}
 
-            {!loading && !error && (
+            {!error && (
                 <div className="px-4 lg:px-6 flex flex-col gap-4">
-                    {reports[0] && (
-                        <div className="relative grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-x-4 gap-y-3 sm:gap-y-4 items-stretch">
+                    {buildReportRows(reports).map(({ main, side }, index) => {
+                        const row = (
                             <div
-                                aria-hidden
-                                className="hidden xl:block absolute top-0 bottom-0 right-0 w-[389px] bg-[#16161F] pointer-events-none"
-                            />
-                            <MainCard r={reports[0]} onOpen={setSelected} />
-                            <div className="relative z-10 bg-[#16161F] xl:bg-transparent p-3.5 sm:p-5 h-full flex flex-col">
-                                <SideCard r={reports[0]} onOpen={setSelected} />
+                                className={`relative grid grid-cols-1 gap-x-4 gap-y-3 sm:gap-y-4 items-stretch ${
+                                    side ? 'xl:grid-cols-[1fr_389px]' : ''
+                                }`}
+                            >
+                                {side && index === 0 && (
+                                    <div
+                                        aria-hidden
+                                        className="hidden xl:block absolute top-0 bottom-0 right-0 w-[389px] bg-[#16161F] pointer-events-none"
+                                    />
+                                )}
+                                <MainCard r={main} onOpen={setSelected} />
+                                {side && (
+                                    <div
+                                        className={`relative z-10 p-3.5 sm:p-5 h-full flex flex-col ${
+                                            index === 0 ? 'bg-[#16161F] xl:bg-transparent' : 'bg-[#16161F]'
+                                        }`}
+                                    >
+                                        <SideCard r={side} onOpen={setSelected} />
+                                    </div>
+                                )}
                             </div>
-                        </div>
-                    )}
+                        )
 
-                    {reports.slice(1).map((r) => (
-                        <LockedSection key={r.id} title="Market Report">
-                            <div className="relative grid grid-cols-1 xl:grid-cols-[1fr_389px] gap-x-4 gap-y-3 sm:gap-y-4 items-stretch">
-                                <MainCard r={r} onOpen={setSelected} />
-                                <div className="relative z-10 bg-[#16161F] p-3.5 sm:p-5 h-full flex flex-col">
-                                    <SideCard r={r} onOpen={setSelected} />
-                                </div>
-                            </div>
-                        </LockedSection>
-                    ))}
+                        if (index === 0) return <div key={main.id}>{row}</div>
+                        return (
+                            <LockedSection key={main.id} title="Market Report">
+                                {row}
+                            </LockedSection>
+                        )
+                    })}
                 </div>
+            )}
+                </>
             )}
 
             {selected && <ReportDetailModal report={selected} onClose={() => setSelected(null)} />}

@@ -98,6 +98,8 @@ type DashboardSidebarProps = {
     collapsed?: boolean
     onToggleCollapse?: () => void
     ready?: boolean
+    navigating?: boolean
+    onNavigate?: (href: string) => void
 }
 
 function IconCollapseChevron({ collapsed }: { collapsed: boolean }) {
@@ -125,10 +127,12 @@ export default function DashboardSidebar({
     collapsed = false,
     onToggleCollapse,
     ready = true,
+    navigating = false,
+    onNavigate,
 }: DashboardSidebarProps) {
     const pathname = usePathname()
     const router = useRouter()
-    const { user, plan, refresh } = usePlan()
+    const { user, plan } = usePlan()
     const { theme } = useDashboardTheme()
     const isLight = theme === 'light'
     const [mobileOpen, setMobileOpen] = useState(false)
@@ -136,9 +140,14 @@ export default function DashboardSidebar({
     const [open, setOpen] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        void refresh()
-    }, [refresh])
+    function goTo(href: string) {
+        setMobileOpen(false)
+        if (onNavigate) {
+            onNavigate(href)
+            return
+        }
+        router.push(href)
+    }
 
     async function handleLogout() {
         setOpen(false)
@@ -283,7 +292,10 @@ export default function DashboardSidebar({
                 </div>
 
                 {/* Nav sections */}
-                <nav className={`dashboard-nav flex-1 overflow-y-auto pt-5 ${compact ? 'px-2' : 'px-4'}`}>
+                <nav
+                    aria-busy={navigating}
+                    className={`dashboard-nav flex-1 overflow-y-auto pt-5 ${compact ? 'px-2' : 'px-4'}`}
+                >
                     {navSections.map((section) => (
                         <div key={section.label} className="mb-5">
                             {!compact && (
@@ -297,11 +309,11 @@ export default function DashboardSidebar({
                                         pathname === item.href || pathname.startsWith(item.href + '/')
                                     return (
                                         <li key={item.href}>
-                                            <Link
-                                                href={item.href}
+                                            <button
+                                                type="button"
                                                 title={compact ? item.label : undefined}
-                                                onClick={() => setMobileOpen(false)}
-                                                className={`flex items-center h-10 text-[14px] leading-[17px] transition-colors duration-150 group ${
+                                                onClick={() => goTo(item.href)}
+                                                className={`w-full flex items-center h-10 text-[14px] leading-[17px] transition-colors duration-150 group cursor-pointer ${
                                                     compact
                                                         ? `justify-center rounded-md border-transparent ${
                                                               isActive
@@ -331,7 +343,7 @@ export default function DashboardSidebar({
                                                     {item.icon}
                                                 </span>
                                                 {!compact && item.label}
-                                            </Link>
+                                            </button>
                                         </li>
                                     )
                                 })}

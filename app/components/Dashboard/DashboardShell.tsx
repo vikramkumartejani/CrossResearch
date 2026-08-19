@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, useTransition, type ReactNode } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import DashboardSidebar from './DashboardSidebar'
 import { PlanProvider } from './PlanProvider'
 import { DashboardThemeProvider, ThemeToggleButton, useDashboardTheme } from './DashboardTheme'
@@ -8,9 +9,12 @@ import { DashboardThemeProvider, ThemeToggleButton, useDashboardTheme } from './
 const STORAGE_KEY = 'cr_dashboard_sidebar_collapsed'
 
 function DashboardShellInner({ children }: { children: ReactNode }) {
+  const pathname = usePathname()
+  const router = useRouter()
   const { theme } = useDashboardTheme()
   const [collapsed, setCollapsed] = useState(false)
   const [ready, setReady] = useState(false)
+  const [isNavigating, startTransition] = useTransition()
 
   useEffect(() => {
     try {
@@ -35,6 +39,13 @@ function DashboardShellInner({ children }: { children: ReactNode }) {
     })
   }
 
+  function navigateDashboard(href: string) {
+    if (pathname === href || pathname.startsWith(`${href}/`)) return
+    startTransition(() => {
+      router.push(href)
+    })
+  }
+
   const isLight = theme === 'light'
 
   return (
@@ -48,6 +59,8 @@ function DashboardShellInner({ children }: { children: ReactNode }) {
         collapsed={collapsed}
         onToggleCollapse={toggleCollapsed}
         ready={ready}
+        navigating={isNavigating}
+        onNavigate={navigateDashboard}
       />
 
       <div
@@ -56,13 +69,23 @@ function DashboardShellInner({ children }: { children: ReactNode }) {
         }`}
       >
         <main className="relative flex-1 overflow-y-auto pt-18 lg:pt-5 min-h-0 dashboard-scroll">
+          {isNavigating && (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 z-[60] h-[2px] bg-[#88C4FF]/25 overflow-hidden"
+            >
+              <div className="h-full w-1/3 bg-[#88C4FF] animate-[cr-nav-progress_1s_ease-in-out_infinite]" />
+            </div>
+          )}
           {/* Sticky float - zero layout height so header/price alignment is untouched */}
           <div className="pointer-events-none sticky top-2 z-50 hidden lg:flex justify-end px-4 lg:px-6 h-0">
             <div className="pointer-events-auto -translate-y-2 translate-x-0">
               <ThemeToggleButton />
             </div>
           </div>
-          {children}
+          <div key={pathname} className="min-h-full">
+            {children}
+          </div>
         </main>
         <p
           className={`shrink-0 border-t py-3 px-4 text-center text-[12px] sm:text-[14px] leading-[20px] font-normal ${
