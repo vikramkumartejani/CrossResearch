@@ -196,8 +196,7 @@ export default function Navbar() {
                                         <>
                                             {/* Dropdown trigger row */}
                                             <button
-                                                className="w-full flex items-center justify-between px-5 py-2.5 text-[16px] font-medium transition-colors duration-150"
-                                                style={{ color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-inter)" }}
+                                                className="w-full flex items-center justify-between px-5 py-2.5 text-[16px] font-medium transition-colors duration-150 text-white/75"
                                                 onClick={() => toggleMobileDropdown(link.label)}
                                                 aria-expanded={mobileDropdown === link.label}
                                             >
@@ -232,8 +231,7 @@ export default function Navbar() {
                                     ) : (
                                         <Link
                                             href={link.href}
-                                            className="block px-5 py-2.5 text-[16px] font-medium transition-colors duration-150"
-                                            style={{ color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-inter)" }}
+                                            className="block px-5 py-2.5 text-[16px] font-medium transition-colors duration-150 text-white/75"
                                             onClick={closeMobileMenu}
                                         >
                                             {link.label}

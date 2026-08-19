@@ -37,6 +37,23 @@ body {
   font-family: var(--font-urbanist), sans-serif !important;
 }
 
+/* Marketing + auth pages use Urbanist (homepage font). Dashboard keeps DM Sans. */
+.site-root,
+.site-root .font-inter {
+  font-family: var(--font-urbanist), sans-serif !important;
+}
+
+.site-root input,
+.site-root textarea,
+.site-root select,
+.site-root button {
+  font-family: inherit;
+}
+
+.dashboard-root {
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+}
+
 input.cr-hero-email,
 input.cr-hero-email::placeholder {
   font-family: var(--font-urbanist), sans-serif !important;

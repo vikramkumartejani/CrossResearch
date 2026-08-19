@@ -113,10 +113,7 @@ export default function OnboardingFlow() {
   }
 
   return (
-    <div
-      className="flex flex-col justify-center h-full w-full py-8 sm:py-10"
-      style={{ fontFamily: 'var(--font-dm-sans), Arial, sans-serif' }}
-    >
+    <div className="flex flex-col justify-center h-full w-full py-8 sm:py-10">
       <div className="mb-6 sm:mb-8">
         <Image src="/assets/logo.svg" alt="CrossResearch" width={52} height={44} priority />
       </div>

@@ -112,7 +112,7 @@ export default function AffiliateSignupForm() {
     "bg-[#151B29] border border-[#FFFFFF0D] rounded-full h-[52px] sm:h-[69px] px-6 text-white placeholder:text-white/60 text-[16px] sm:text-[18px] leading-[29px] font-normal outline-none w-full focus:border-white/25 transition-colors";
 
   return (
-    <div className="flex flex-col justify-center h-full w-full py-8 sm:py-10" style={{ fontFamily: 'var(--font-dm-sans), Arial, sans-serif' }}>
+    <div className="flex flex-col justify-center h-full w-full py-8 sm:py-10">
       <div className="mb-6 sm:mb-10">
         <Image src="/assets/logo.svg" alt="CrossResearch" width={52} height={44} priority />
       </div>

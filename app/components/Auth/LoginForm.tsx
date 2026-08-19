@@ -50,7 +50,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="flex flex-col justify-center h-full w-full py-8 sm:py-10" style={{ fontFamily: 'var(--font-dm-sans), Arial, sans-serif' }}>
+        <div className="flex flex-col justify-center h-full w-full py-8 sm:py-10">
             {/* Logo */}
             <div className="mb-6 sm:mb-10">
                 <Image
