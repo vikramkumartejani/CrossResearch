@@ -35,11 +35,9 @@ export default function Hero() {
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                             <div className="flex items-center">
                                 {[
-                                    'https://randomuser.me/api/portraits/men/32.jpg',
-                                    'https://randomuser.me/api/portraits/women/44.jpg',
-                                    'https://randomuser.me/api/portraits/men/76.jpg',
-                                    'https://randomuser.me/api/portraits/women/68.jpg',
-                                    'https://randomuser.me/api/portraits/women/60.jpg',
+                                    '/assets/person-1.png',
+                                    '/assets/person-2.png',
+                                    '/assets/person-3.png',
                                 ].map((src, i) => (
                                     <div
                                         key={i}
