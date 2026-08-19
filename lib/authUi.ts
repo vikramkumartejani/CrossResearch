@@ -4,6 +4,10 @@ export function authErrorMessage(body: unknown, fallback: string): string {
   const detail = b.details ?? b.detail ?? b.error
   if (typeof detail === 'string' && detail.trim()) return detail
   if (Array.isArray(detail) && detail[0]?.msg) return String(detail[0].msg)
+  if (detail && typeof detail === 'object') {
+    const nested = (detail as Record<string, unknown>).detail ?? (detail as Record<string, unknown>).message
+    if (typeof nested === 'string' && nested.trim()) return nested
+  }
   return fallback
 }
 

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { siteUrl } from '@/lib/site'
+import { authErrorMessage } from '@/lib/authUi'
 import ChartLoader from '../shared/ChartLoader'
 
 interface FunnelDay {
@@ -256,6 +257,7 @@ function PartnerDeskIcon() {
 export default function AffiliateCenter() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [sessionRedirect, setSessionRedirect] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [notAffiliate, setNotAffiliate] = useState(false)
   const [tab, setTab] = useState<'All' | ClientRow['status']>('All')
@@ -265,12 +267,15 @@ export default function AffiliateCenter() {
   const [requesting, setRequesting] = useState(false)
 
   const load = useCallback(async () => {
+    let redirecting = false
     try {
       setLoading(true)
       setError(null)
       const res = await fetch('/api/affiliate/dashboard', { cache: 'no-store' })
       const body = await res.json().catch(() => ({}))
       if (res.status === 401) {
+        redirecting = true
+        setSessionRedirect(true)
         window.location.assign('/login?next=/affiliate-center')
         return
       }
@@ -279,15 +284,13 @@ export default function AffiliateCenter() {
         return
       }
       if (!res.ok) {
-        throw new Error(
-          typeof body.details === 'string' ? body.details : body.detail || body.error || 'Failed to load'
-        )
+        throw new Error(authErrorMessage(body, 'Failed to load affiliate dashboard'))
       }
       setData(body as DashboardData)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load dashboard')
     } finally {
-      setLoading(false)
+      if (!redirecting) setLoading(false)
     }
   }, [])
 
@@ -306,9 +309,7 @@ export default function AffiliateCenter() {
       })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
-        throw new Error(
-          typeof body.details === 'string' ? body.details : body.detail || body.error || 'Request failed'
-        )
+        throw new Error(authErrorMessage(body, 'Payout request failed'))
       }
       toast.success(body.message || 'Payout requested.')
       setShowPayout(false)
@@ -372,7 +373,7 @@ export default function AffiliateCenter() {
 
   // ── Render states ────────────────────────────────────────────────────────
 
-  if (loading) {
+  if (loading || sessionRedirect) {
     return (
       <div>
         {header}

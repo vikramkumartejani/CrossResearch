@@ -129,12 +129,17 @@ export async function proxyBackend(
     const res = withCors(request, NextResponse.json(body))
     return tokens ? applyAuthCookies(res, tokens) : res
   } catch (error) {
+    const raw = error instanceof Error ? error.message : String(error)
+    const unreachable =
+      /fetch failed|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|network/i.test(raw)
     return withCors(
       request,
       NextResponse.json(
         {
           error: 'Internal server error',
-          details: error instanceof Error ? error.message : String(error),
+          details: unreachable
+            ? 'Could not reach the API server. Set BACKEND_URL on the Next.js deployment to your FastAPI origin.'
+            : raw,
         },
         { status: 500 }
       )
