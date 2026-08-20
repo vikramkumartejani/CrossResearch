@@ -257,7 +257,6 @@ function PartnerDeskIcon() {
 export default function AffiliateCenter() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [sessionRedirect, setSessionRedirect] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [notAffiliate, setNotAffiliate] = useState(false)
   const [tab, setTab] = useState<'All' | ClientRow['status']>('All')
@@ -267,15 +266,18 @@ export default function AffiliateCenter() {
   const [requesting, setRequesting] = useState(false)
 
   const load = useCallback(async () => {
-    let redirecting = false
+    const controller = new AbortController()
+    const timer = window.setTimeout(() => controller.abort(), 25_000)
     try {
       setLoading(true)
       setError(null)
-      const res = await fetch('/api/affiliate/dashboard', { cache: 'no-store' })
+      const res = await fetch('/api/affiliate/dashboard', {
+        cache: 'no-store',
+        signal: controller.signal,
+      })
       const body = await res.json().catch(() => ({}))
       if (res.status === 401) {
-        redirecting = true
-        setSessionRedirect(true)
+        await fetch('/api/auth/logout', { method: 'POST' }).catch(() => null)
         window.location.assign('/login?next=/affiliate-center')
         return
       }
@@ -288,9 +290,16 @@ export default function AffiliateCenter() {
       }
       setData(body as DashboardData)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load dashboard')
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError(
+          'Request timed out. Make sure the backend is running and BACKEND_URL is set correctly.'
+        )
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to load dashboard')
+      }
     } finally {
-      if (!redirecting) setLoading(false)
+      window.clearTimeout(timer)
+      setLoading(false)
     }
   }, [])
 
@@ -373,7 +382,7 @@ export default function AffiliateCenter() {
 
   // ── Render states ────────────────────────────────────────────────────────
 
-  if (loading || sessionRedirect) {
+  if (loading) {
     return (
       <div>
         {header}

@@ -19,6 +19,15 @@ export function backendBase(): string {
   return (process.env.BACKEND_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '')
 }
 
+const BACKEND_TIMEOUT_MS = 20_000
+
+function backendFetchSignal(): AbortSignal | undefined {
+  if (typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal) {
+    return AbortSignal.timeout(BACKEND_TIMEOUT_MS)
+  }
+  return undefined
+}
+
 /** Secure cookies on HTTPS production. Override with COOKIE_SECURE=true|false. */
 function cookieSecure(): boolean {
   const raw = (process.env.COOKIE_SECURE || '').trim().toLowerCase()
@@ -80,6 +89,7 @@ export async function backendAuth(
       ...(init.headers || {}),
     },
     cache: 'no-store',
+    signal: backendFetchSignal(),
   })
   const body = (await response.json().catch(() => ({}))) as Record<string, unknown>
   return { ok: response.ok, status: response.status, body }

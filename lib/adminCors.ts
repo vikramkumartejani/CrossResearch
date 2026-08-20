@@ -89,6 +89,7 @@ export async function proxyBackend(
       method,
       headers,
       cache: 'no-store',
+      signal: AbortSignal.timeout(20_000),
     }
     let bodyText: string | undefined
     if (method !== 'GET' && method !== 'DELETE') {
@@ -107,6 +108,7 @@ export async function proxyBackend(
           headers,
           body: bodyText,
           cache: 'no-store',
+          signal: AbortSignal.timeout(20_000),
         })
       }
     }
@@ -130,15 +132,18 @@ export async function proxyBackend(
     return tokens ? applyAuthCookies(res, tokens) : res
   } catch (error) {
     const raw = error instanceof Error ? error.message : String(error)
+    const timedOut = /aborted|timeout|AbortError/i.test(raw)
     const unreachable =
-      /fetch failed|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|network/i.test(raw)
+      timedOut || /fetch failed|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|network/i.test(raw)
     return withCors(
       request,
       NextResponse.json(
         {
           error: 'Internal server error',
           details: unreachable
-            ? 'Could not reach the API server. Set BACKEND_URL on the Next.js deployment to your FastAPI origin.'
+            ? timedOut
+              ? 'API request timed out. Confirm BACKEND_URL points to a running FastAPI server.'
+              : 'Could not reach the API server. Set BACKEND_URL on the Next.js deployment to your FastAPI origin.'
             : raw,
         },
         { status: 500 }
