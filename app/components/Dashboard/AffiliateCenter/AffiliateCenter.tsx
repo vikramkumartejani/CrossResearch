@@ -273,7 +273,9 @@ export default function AffiliateCenter() {
       setLoading(true)
       setError(null)
       setSessionExpired(false)
-      const res = await fetch('/api/affiliate/dashboard', {
+      // Must be under /api/auth/* - nginx on the droplet sends /api/affiliate/*
+      // straight to FastAPI (no cookies), which returns 401 "Please log in".
+      const res = await fetch('/api/auth/affiliate/dashboard', {
         cache: 'no-store',
         credentials: 'same-origin',
         signal: controller.signal,
@@ -313,9 +315,10 @@ export default function AffiliateCenter() {
     e.preventDefault()
     try {
       setRequesting(true)
-      const res = await fetch('/api/affiliate/payout-request', {
+      const res = await fetch('/api/auth/affiliate/payout-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({ method: payoutMethod }),
       })
       const body = await res.json().catch(() => ({}))

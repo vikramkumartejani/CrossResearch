@@ -126,7 +126,8 @@ export async function proxyBackend(
         },
         { status: response.status }
       )
-      if (authed && shouldClearAuthCookies(response.status)) {
+      // Only wipe session on real auth failure. 403 (e.g. not an affiliate) must keep cookies.
+      if (authed && response.status === 401 && shouldClearAuthCookies(response.status)) {
         return finish(clearAuthCookies(res))
       }
       return finish(res)
