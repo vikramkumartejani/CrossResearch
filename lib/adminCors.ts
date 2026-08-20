@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
-  ACCESS_COOKIE,
-  REFRESH_COOKIE,
   applyAuthCookies,
-  backendAuth,
   backendBase,
+  clearAuthCookies,
+  refreshAccessFromRequest,
+  resolveAccessToken,
+  shouldClearAuthCookies,
   type AuthTokenPayload,
 } from './authCookies'
 
@@ -45,21 +46,13 @@ export function corsPreflight(request: NextRequest): NextResponse {
 
 export { backendBase }
 
-async function refreshAccess(request: NextRequest): Promise<AuthTokenPayload | null> {
-  const refresh = request.cookies.get(REFRESH_COOKIE)?.value
-  if (!refresh) return null
-  const { ok, body } = await backendAuth('/auth/refresh', {
-    method: 'POST',
-    body: JSON.stringify({ refresh_token: refresh }),
-    headers: {
-      'User-Agent': request.headers.get('user-agent') || '',
-      'X-Forwarded-For': request.headers.get('x-forwarded-for') || '',
-    },
-  })
-  if (!ok || typeof body.access_token !== 'string' || typeof body.refresh_token !== 'string') {
-    return null
+const PROXY_TIMEOUT_MS = 20_000
+
+function proxyFetchSignal(): AbortSignal | undefined {
+  if (typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal) {
+    return AbortSignal.timeout(PROXY_TIMEOUT_MS)
   }
-  return body as unknown as AuthTokenPayload
+  return undefined
 }
 
 export async function proxyBackend(
@@ -77,59 +70,69 @@ export async function proxyBackend(
     if (adminKey) headers['X-Admin-Key'] = adminKey
     if (supportKey) headers['X-Support-Key'] = supportKey
 
+    const authed = !adminKey && !supportKey
     let tokens: AuthTokenPayload | null = null
-    let access = request.cookies.get(ACCESS_COOKIE)?.value
-    if (!access && !adminKey && !supportKey) {
-      tokens = await refreshAccess(request)
-      access = tokens?.access_token
+    let access: string | null = null
+
+    if (authed) {
+      const resolved = await resolveAccessToken(request)
+      access = resolved.access
+      tokens = resolved.tokens
     }
+
     if (access) headers.Authorization = `Bearer ${access}`
 
-    const init: RequestInit = {
-      method,
-      headers,
-      cache: 'no-store',
-      signal: AbortSignal.timeout(20_000),
-    }
     let bodyText: string | undefined
     if (method !== 'GET' && method !== 'DELETE') {
       bodyText = await request.text()
-      init.body = bodyText
     }
 
-    let response = await fetch(apiUrl, init)
-    // Access cookie expired while refresh still works - same path /api/auth/me uses.
-    if (response.status === 401 && !adminKey && !supportKey) {
-      tokens = await refreshAccess(request)
-      if (tokens?.access_token) {
-        headers.Authorization = `Bearer ${tokens.access_token}`
-        response = await fetch(apiUrl, {
-          method,
-          headers,
-          body: bodyText,
-          cache: 'no-store',
-          signal: AbortSignal.timeout(20_000),
-        })
+    async function callBackend(bearer: string | null) {
+      const h = { ...headers }
+      if (bearer) h.Authorization = `Bearer ${bearer}`
+      return fetch(apiUrl, {
+        method,
+        headers: h,
+        body: bodyText,
+        cache: 'no-store',
+        signal: proxyFetchSignal(),
+      })
+    }
+
+    let response = await callBackend(access)
+
+    // Same retry path as /api/auth/me when the access JWT was rejected server-side.
+    if (authed && response.status === 401) {
+      const refreshed = await refreshAccessFromRequest(request)
+      if (refreshed?.access_token) {
+        tokens = refreshed
+        response = await callBackend(refreshed.access_token)
       }
     }
 
     const body = await response.json().catch(() => ({}))
-    if (!response.ok) {
-      const res = withCors(
-        request,
-        NextResponse.json(
-          {
-            error: `Failed to ${method.toLowerCase()} ${path}`,
-            details: (body as { detail?: unknown }).detail ?? body,
-            detail: (body as { detail?: unknown }).detail,
-          },
-          { status: response.status }
-        )
-      )
-      return tokens ? applyAuthCookies(res, tokens) : res
+
+    function finish(res: NextResponse): NextResponse {
+      const withCookies = tokens ? applyAuthCookies(res, tokens) : res
+      return withCors(request, withCookies)
     }
-    const res = withCors(request, NextResponse.json(body))
-    return tokens ? applyAuthCookies(res, tokens) : res
+
+    if (!response.ok) {
+      const res = NextResponse.json(
+        {
+          error: `Failed to ${method.toLowerCase()} ${path}`,
+          details: (body as { detail?: unknown }).detail ?? body,
+          detail: (body as { detail?: unknown }).detail,
+        },
+        { status: response.status }
+      )
+      if (authed && shouldClearAuthCookies(response.status)) {
+        return finish(clearAuthCookies(res))
+      }
+      return finish(res)
+    }
+
+    return finish(NextResponse.json(body))
   } catch (error) {
     const raw = error instanceof Error ? error.message : String(error)
     const timedOut = /aborted|timeout|AbortError/i.test(raw)
@@ -143,7 +146,7 @@ export async function proxyBackend(
           details: unreachable
             ? timedOut
               ? 'API request timed out. Confirm BACKEND_URL points to a running FastAPI server.'
-              : 'Could not reach the API server. Set BACKEND_URL on the Next.js deployment to your FastAPI origin.'
+              : 'Could not reach the API server. Set BACKEND_URL on the Next host (e.g. http://127.0.0.1:8000 on the droplet).'
             : raw,
         },
         { status: 500 }

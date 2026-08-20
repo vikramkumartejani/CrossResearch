@@ -7,7 +7,7 @@ export const maxDuration = 300
 function resolveBackendUrl() {
   const raw = (process.env.BACKEND_URL || '').trim().replace(/\/+$/, '')
   if (raw) return raw
-  // Local Next.js only - on Vercel this must be set to your Render/API host.
+  // Local Next.js only - on the production droplet this must point at FastAPI.
   if (process.env.VERCEL) {
     return ''
   }
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         {
           error: 'BACKEND_URL is not configured',
           details:
-            'Set BACKEND_URL in the Vercel project env to your deployed FastAPI URL (e.g. https://your-service.onrender.com). Localhost does not work on Vercel.',
+            'Set BACKEND_URL in the client .env to your FastAPI origin (on the droplet use http://127.0.0.1:8000).',
         },
         { status: 503 }
       )

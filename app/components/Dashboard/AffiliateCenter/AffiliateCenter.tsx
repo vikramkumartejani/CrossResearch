@@ -258,6 +258,7 @@ export default function AffiliateCenter() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [sessionExpired, setSessionExpired] = useState(false)
   const [notAffiliate, setNotAffiliate] = useState(false)
   const [tab, setTab] = useState<'All' | ClientRow['status']>('All')
   const [search, setSearch] = useState('')
@@ -271,14 +272,15 @@ export default function AffiliateCenter() {
     try {
       setLoading(true)
       setError(null)
+      setSessionExpired(false)
       const res = await fetch('/api/affiliate/dashboard', {
         cache: 'no-store',
+        credentials: 'same-origin',
         signal: controller.signal,
       })
       const body = await res.json().catch(() => ({}))
       if (res.status === 401) {
-        await fetch('/api/auth/logout', { method: 'POST' }).catch(() => null)
-        window.location.assign('/login?next=/affiliate-center')
+        setSessionExpired(true)
         return
       }
       if (res.status === 403) {
@@ -292,7 +294,7 @@ export default function AffiliateCenter() {
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
         setError(
-          'Request timed out. Make sure the backend is running and BACKEND_URL is set correctly.'
+          'Request timed out. Confirm BACKEND_URL on the deployment points to your live FastAPI server.'
         )
       } else {
         setError(err instanceof Error ? err.message : 'Failed to load dashboard')
@@ -393,6 +395,28 @@ export default function AffiliateCenter() {
     )
   }
 
+  if (sessionExpired) {
+    return (
+      <div>
+        {header}
+        <div className="px-4 lg:px-6 pb-8">
+          <div className="bg-[#16161F] border border-[#FFFFFF0D] max-w-md p-5">
+            <h2 className="text-white text-[16px] font-semibold mb-2">Session expired</h2>
+            <p className="text-[#838388] text-[13px] leading-[19px] mb-4">
+              Sign in again with your affiliate partner account to open the Affiliate Center.
+            </p>
+            <Link
+              href="/login?next=/affiliate-center"
+              className="inline-flex items-center h-[33px] px-6 bg-[#88C4FF] text-black text-[14px] leading-5 font-medium hover:bg-[#88C4FF]/90 transition-colors"
+            >
+              Sign in
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (notAffiliate) {
     return (
       <div>
@@ -416,12 +440,29 @@ export default function AffiliateCenter() {
     )
   }
 
-  if (error || !data) {
+  if (error) {
     return (
       <div>
         {header}
         <div className="px-4 lg:px-6 pb-8">
-          <p className="text-[#E25C3F] text-[13px] mb-3">{error || 'Something went wrong'}</p>
+          <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>
+          <button
+            onClick={() => void load()}
+            className="inline-flex items-center h-[33px] px-6 bg-[#16161F] border border-[#FFFFFF0D] text-white text-[14px] hover:bg-[#1A1A24] transition-colors cursor-pointer"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (!data) {
+    return (
+      <div>
+        {header}
+        <div className="px-4 lg:px-6 pb-8">
+          <p className="text-[#E25C3F] text-[13px] mb-3">No dashboard data returned.</p>
           <button
             onClick={() => void load()}
             className="inline-flex items-center h-[33px] px-6 bg-[#16161F] border border-[#FFFFFF0D] text-white text-[14px] hover:bg-[#1A1A24] transition-colors cursor-pointer"
