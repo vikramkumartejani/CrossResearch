@@ -120,7 +120,7 @@ export default function OptionsPositioning() {
                 <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 sm:mb-4">{sectionTitle}</h2>
                 {loading && <ChartLoader className="min-h-[80px] mb-3" />}
                 {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4 sm:mb-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4 sm:mb-5 items-stretch">
                     {cards.map((card) => (
                         <MarketCard key={card.ticker} {...card} />
                     ))}

@@ -40,7 +40,7 @@ export default function MarketCard({
     levels, summary, tags,
 }: MarketCardProps) {
     return (
-        <div className="bg-[#16161F] flex flex-col min-w-0 p-3 sm:p-6">
+        <div className="bg-[#16161F] flex flex-col h-full min-w-0 p-3 sm:p-6">
             {/* ── Top: ticker + price ── */}
             <div className="flex items-center justify-between gap-3 border-b border-[#FFFFFF0D] pb-3 sm:pb-4">
                 <div className="min-w-0">
@@ -104,21 +104,22 @@ export default function MarketCard({
                 </div>
             </div>
 
-            {/* ── Summary ── */}
-            <div className="mb-3 sm:mb-4">
-                <p className="text-white/60 text-[12px] leading-[17px]">{summary}</p>
-            </div>
+            {/* ── Summary + tags pinned to card bottom ── */}
+            <div className="mt-auto pt-3 sm:pt-4 border-t border-[#FFFFFF0D]">
+                <div className="mb-3 sm:mb-4">
+                    <p className="text-white/60 text-[12px] leading-[17px]">{summary}</p>
+                </div>
 
-            {/* ── Tags ── */}
-            <div className="flex flex-wrap gap-2.5">
-                {tags.map(tag => (
-                    <span
-                        key={tag}
-                        className="px-3 py-1 rounded-full border border-[#FFFFFF1A] text-white/60 text-[12px] leading-[17px] font-normal hover:text-white hover:border-[#FFFFFF25] transition-colors cursor-pointer"
-                    >
-                        {tag}
-                    </span>
-                ))}
+                <div className="flex flex-wrap gap-2.5">
+                    {tags.map(tag => (
+                        <span
+                            key={tag}
+                            className="px-3 py-1 rounded-full border border-[#FFFFFF1A] text-white/60 text-[12px] leading-[17px] font-normal hover:text-white hover:border-[#FFFFFF25] transition-colors cursor-pointer"
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </div>
             </div>
         </div>
     )

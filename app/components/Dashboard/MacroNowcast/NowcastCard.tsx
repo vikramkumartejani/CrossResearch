@@ -166,7 +166,7 @@ export default function NowcastCard({
     modelVsActual = [],
 }: NowcastCardProps) {
     return (
-        <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+        <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col h-full">
 
             <div className="flex items-center justify-between mb-2 sm:mb-5">
                 <span className="text-[#838388] text-[12px] leading-[17px] font-normal">{region} · {quarter}</span>
@@ -221,7 +221,7 @@ export default function NowcastCard({
                 </div>
             </div>
 
-            <div>
+            <div className="flex-1 min-h-0">
                 <p className="text-white text-[14px] leading-[17px] font-semibold mb-2.5">Component Drivers</p>
                 <div className="flex flex-col gap-2 sm:gap-3">
                     {drivers.map(d => (
@@ -238,7 +238,7 @@ export default function NowcastCard({
                 </div>
             </div>
 
-            <div className="border-t border-[#FFFFFF12] mt-3 sm:mt-4 pt-3 sm:pt-4">
+            <div className="border-t border-[#FFFFFF12] mt-auto pt-3 sm:pt-4">
                 <div className="flex items-center justify-between">
                     <span className="text-white/60 text-[14px] leading-[17px]">Model Confidence</span>
                     <div className="flex items-center gap-2">

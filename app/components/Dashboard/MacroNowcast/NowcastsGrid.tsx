@@ -118,7 +118,7 @@ export default function NowcastsGrid() {
                 <p className="text-white/40 text-[13px] mb-3">No nowcast cards published yet.</p>
             )}
 
-            <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch">
                 {cards.map((card, i) => (
                     <NowcastCard key={`${card.region}-${card.indicator}-${i}`} {...card} />
                 ))}
