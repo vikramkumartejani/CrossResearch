@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 import { ACCESS_COOKIE, REFRESH_COOKIE, applyAuthCookies, backendBase } from '@/lib/authCookies'
-import { postLoginRedirect, safeNextPath } from '@/lib/authRedirect'
+import {
+  isAffiliatePath,
+  loginPathForAccountType,
+  postLoginRedirect,
+  safeNextPath,
+} from '@/lib/authRedirect'
 
-const DASHBOARD_PREFIXES = [
+const MEMBER_DASHBOARD_PREFIXES = [
   '/analysis',
   '/market-report',
   '/macro-nowcast',
@@ -19,19 +24,40 @@ const DASHBOARD_PREFIXES = [
   '/trading-strategies',
   '/help-center',
   '/contact-support',
-  '/affiliate-center',
 ]
 
-const AUTH_PAGES = ['/login', '/signup', '/forgot-password']
+const AUTH_PAGES = [
+  '/login',
+  '/signup',
+  '/forgot-password',
+  '/affiliate/login',
+  '/affiliate/signup',
+  '/affiliate/forgot-password',
+]
 
-type AccessInfo = { valid: boolean; onboardingDone: boolean }
+type AccessInfo = {
+  valid: boolean
+  onboardingDone: boolean
+  accountType: 'member' | 'affiliate'
+}
 
-function isDashboardPath(pathname: string) {
-  return DASHBOARD_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
+function isMemberDashboardPath(pathname: string) {
+  return MEMBER_DASHBOARD_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
 }
 
 function isAuthPage(pathname: string) {
   return AUTH_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
+}
+
+function isAffiliateAuthPage(pathname: string) {
+  return (
+    pathname === '/affiliate/login' ||
+    pathname === '/affiliate/signup' ||
+    pathname === '/affiliate/forgot-password' ||
+    pathname.startsWith('/affiliate/login/') ||
+    pathname.startsWith('/affiliate/signup/') ||
+    pathname.startsWith('/affiliate/forgot-password/')
+  )
 }
 
 function jwtSecretKey() {
@@ -43,31 +69,49 @@ function jwtSecretKey() {
 }
 
 async function readAccess(token: string | undefined): Promise<AccessInfo> {
-  if (!token) return { valid: false, onboardingDone: false }
+  if (!token) return { valid: false, onboardingDone: false, accountType: 'member' }
   try {
     const { payload } = await jwtVerify(token, jwtSecretKey(), { algorithms: ['HS256'] })
-    if (payload.type !== 'access') return { valid: false, onboardingDone: false }
+    if (payload.type !== 'access') {
+      return { valid: false, onboardingDone: false, accountType: 'member' }
+    }
+    // Pre-role tokens must refresh so we get `at` from the current user doc
+    if (payload.at !== 'member' && payload.at !== 'affiliate') {
+      return { valid: false, onboardingDone: false, accountType: 'member' }
+    }
     // Missing `ob` = legacy tokens treated as complete
     const onboardingDone = payload.ob !== 0 && payload.ob !== '0'
-    return { valid: true, onboardingDone }
+    const accountType = payload.at === 'affiliate' ? 'affiliate' : 'member'
+    return { valid: true, onboardingDone, accountType }
   } catch {
-    return { valid: false, onboardingDone: false }
+    return { valid: false, onboardingDone: false, accountType: 'member' }
   }
 }
 
-function loginRedirect(request: NextRequest) {
+function loginRedirect(request: NextRequest, accountType: 'member' | 'affiliate' = 'member') {
   const url = request.nextUrl.clone()
-  url.pathname = '/login'
-  url.searchParams.set('next', request.nextUrl.pathname)
+  const loginPath = loginPathForAccountType(accountType, request.nextUrl.pathname)
+  const q = loginPath.indexOf('?')
+  if (q >= 0) {
+    url.pathname = loginPath.slice(0, q)
+    url.search = loginPath.slice(q)
+  } else {
+    url.pathname = loginPath
+    url.search = ''
+  }
   return NextResponse.redirect(url)
 }
 
-function redirectTo(request: NextRequest, pathname: string, tokens?: {
-  access_token: string
-  refresh_token: string
-  access_expires_in: number
-  refresh_expires_in: number
-}) {
+function redirectTo(
+  request: NextRequest,
+  pathname: string,
+  tokens?: {
+    access_token: string
+    refresh_token: string
+    access_expires_in: number
+    refresh_expires_in: number
+  }
+) {
   const url = request.nextUrl.clone()
   const q = pathname.indexOf('?')
   if (q >= 0) {
@@ -82,12 +126,15 @@ function redirectTo(request: NextRequest, pathname: string, tokens?: {
   return res
 }
 
-function onboardingRedirect(request: NextRequest, tokens?: {
-  access_token: string
-  refresh_token: string
-  access_expires_in: number
-  refresh_expires_in: number
-}) {
+function onboardingRedirect(
+  request: NextRequest,
+  tokens?: {
+    access_token: string
+    refresh_token: string
+    access_expires_in: number
+    refresh_expires_in: number
+  }
+) {
   const next = safeNextPath(request.nextUrl.pathname)
   const path = next ? `/onboarding?next=${encodeURIComponent(next)}` : '/onboarding'
   return redirectTo(request, path, tokens)
@@ -116,45 +163,60 @@ async function refreshViaBackend(request: NextRequest) {
   }
 }
 
+async function ensureAccess(
+  request: NextRequest,
+  info: AccessInfo
+): Promise<{ info: AccessInfo; tokens: Awaited<ReturnType<typeof refreshViaBackend>> | null }> {
+  if (info.valid) return { info, tokens: null }
+  const tokens = await refreshViaBackend(request)
+  if (!tokens?.access_token) return { info, tokens: null }
+  return { info: await readAccess(tokens.access_token), tokens }
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const access = request.cookies.get(ACCESS_COOKIE)?.value
   let info = await readAccess(access)
 
-  if (isDashboardPath(pathname)) {
-    if (!info.valid) {
-      const tokens = await refreshViaBackend(request)
-      if (!tokens?.access_token) return loginRedirect(request)
-      info = await readAccess(tokens.access_token)
-      if (!info.valid) return loginRedirect(request)
-      if (!info.onboardingDone) return onboardingRedirect(request, tokens)
+  if (isAffiliatePath(pathname)) {
+    const ensured = await ensureAccess(request, info)
+    info = ensured.info
+    if (!info.valid) return loginRedirect(request, 'affiliate')
+    // Member session cannot open the partner panel - send them to partner login to switch
+    if (info.accountType !== 'affiliate') {
+      return loginRedirect(request, 'affiliate')
+    }
+    if (ensured.tokens) {
       const res = NextResponse.next()
-      applyAuthCookies(res, tokens)
+      applyAuthCookies(res, ensured.tokens)
       return res
     }
-    if (!info.onboardingDone) return onboardingRedirect(request)
+    return NextResponse.next()
+  }
+
+  if (isMemberDashboardPath(pathname)) {
+    const ensured = await ensureAccess(request, info)
+    info = ensured.info
+    if (!info.valid) return loginRedirect(request, 'member')
+    // Affiliate session cannot open member tools - send them to member login to switch
+    if (info.accountType === 'affiliate') {
+      return loginRedirect(request, 'member')
+    }
+    if (!info.onboardingDone) return onboardingRedirect(request, ensured.tokens || undefined)
+    if (ensured.tokens) {
+      const res = NextResponse.next()
+      applyAuthCookies(res, ensured.tokens)
+      return res
+    }
     return NextResponse.next()
   }
 
   if (pathname === '/onboarding' || pathname.startsWith('/onboarding/')) {
-    if (!info.valid) {
-      const tokens = await refreshViaBackend(request)
-      if (!tokens?.access_token) return loginRedirect(request)
-      info = await readAccess(tokens.access_token)
-      if (!info.valid) return loginRedirect(request)
-      if (info.onboardingDone) {
-        return redirectTo(
-          request,
-          postLoginRedirect({
-            onboardingDone: true,
-            preferredNext: request.nextUrl.searchParams.get('next'),
-          }),
-          tokens
-        )
-      }
-      const res = NextResponse.next()
-      applyAuthCookies(res, tokens)
-      return res
+    const ensured = await ensureAccess(request, info)
+    info = ensured.info
+    if (!info.valid) return loginRedirect(request, 'member')
+    if (info.accountType === 'affiliate') {
+      return loginRedirect(request, 'member')
     }
     if (info.onboardingDone) {
       return redirectTo(
@@ -162,32 +224,46 @@ export async function middleware(request: NextRequest) {
         postLoginRedirect({
           onboardingDone: true,
           preferredNext: request.nextUrl.searchParams.get('next'),
-        })
+          accountType: 'member',
+        }),
+        ensured.tokens || undefined
       )
+    }
+    if (ensured.tokens) {
+      const res = NextResponse.next()
+      applyAuthCookies(res, ensured.tokens)
+      return res
     }
     return NextResponse.next()
   }
 
   if (isAuthPage(pathname)) {
     const preferredNext = request.nextUrl.searchParams.get('next')
-    if (!info.valid) {
-      const tokens = await refreshViaBackend(request)
-      if (tokens?.access_token) {
-        info = await readAccess(tokens.access_token)
-        if (info.valid) {
-          return redirectTo(
-            request,
-            postLoginRedirect({ onboardingDone: info.onboardingDone, preferredNext }),
-            tokens
-          )
-        }
+    const authRole = isAffiliateAuthPage(pathname) ? 'affiliate' : 'member'
+    const ensured = await ensureAccess(request, info)
+    info = ensured.info
+    if (info.valid) {
+      // Same role already signed in → go to that role's home
+      if (info.accountType === authRole) {
+        return redirectTo(
+          request,
+          postLoginRedirect({
+            onboardingDone: info.onboardingDone,
+            preferredNext,
+            accountType: info.accountType,
+          }),
+          ensured.tokens || undefined
+        )
+      }
+      // Different role signed in → keep this auth page so they can switch accounts
+      if (ensured.tokens) {
+        const res = NextResponse.next()
+        applyAuthCookies(res, ensured.tokens)
+        return res
       }
       return NextResponse.next()
     }
-    return redirectTo(
-      request,
-      postLoginRedirect({ onboardingDone: info.onboardingDone, preferredNext })
-    )
+    return NextResponse.next()
   }
 
   return NextResponse.next()
@@ -232,5 +308,8 @@ export const config = {
     '/login',
     '/signup',
     '/forgot-password',
+    '/affiliate/login',
+    '/affiliate/signup',
+    '/affiliate/forgot-password',
   ],
 }

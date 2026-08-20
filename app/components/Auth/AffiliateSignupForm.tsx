@@ -73,7 +73,12 @@ export default function AffiliateSignupForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ email, code: otp.trim(), purpose: "signup" }),
+        body: JSON.stringify({
+          email,
+          code: otp.trim(),
+          purpose: "signup",
+          account_type: "affiliate",
+        }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -94,7 +99,7 @@ export default function AffiliateSignupForm() {
       const res = await fetch("/api/auth/resend-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, purpose: "signup" }),
+        body: JSON.stringify({ email, purpose: "signup", account_type: "affiliate" }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -161,8 +166,8 @@ export default function AffiliateSignupForm() {
             Become a Partner
           </h1>
           <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal mb-6 sm:mb-10">
-            Create your affiliate account. Applications are reviewed by our team - once approved
-            you get your referral link and dashboard.
+            Create a separate affiliate partner account (same email as your member account is fine).
+            Applications are reviewed by our team - once approved you get your referral link and dashboard.
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col">
@@ -227,8 +232,8 @@ export default function AffiliateSignupForm() {
 
           <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal text-center mt-8 sm:mt-10">
             Already a partner?{" "}
-            <Link href="/login" className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors">
-              Log In
+            <Link href="/affiliate/login" className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors">
+              Partner log in
             </Link>
           </p>
         </>

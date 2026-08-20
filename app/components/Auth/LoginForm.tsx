@@ -10,12 +10,18 @@ import { authErrorMessage } from "@/lib/authUi";
 import { postAuthPath } from "@/lib/authRedirect";
 import LoadingLabel from "../LoadingLabel";
 
-export default function LoginForm() {
+type AccountType = "member" | "affiliate";
+
+export default function LoginForm({ accountType = "member" }: { accountType?: AccountType }) {
+    const isAffiliate = accountType === "affiliate";
     const searchParams = useSearchParams();
     const nextParam = searchParams.get("next");
-    const signupHref = nextParam
-        ? `/signup?next=${encodeURIComponent(nextParam)}`
-        : "/signup";
+    const signupHref = isAffiliate
+        ? "/affiliate/signup"
+        : nextParam
+            ? `/signup?next=${encodeURIComponent(nextParam)}`
+            : "/signup";
+    const forgotHref = isAffiliate ? "/affiliate/forgot-password" : "/forgot-password";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +36,7 @@ export default function LoginForm() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "same-origin",
-                body: JSON.stringify({ email, password, remember }),
+                body: JSON.stringify({ email, password, remember, account_type: accountType }),
             });
             const body = await res.json().catch(() => ({}));
             if (!res.ok) {
@@ -51,7 +57,6 @@ export default function LoginForm() {
 
     return (
         <div className="flex flex-col justify-center h-full w-full py-8 sm:py-10">
-            {/* Logo */}
             <div className="mb-6 sm:mb-10">
                 <Image
                     src="/assets/logo.svg"
@@ -62,52 +67,53 @@ export default function LoginForm() {
                 />
             </div>
 
-            {/* Heading */}
             <h1 className="text-white text-[28px] sm:text-[40px] font-medium leading-10 sm:leading-[56px] mb-3">
-                Log in to your Account
+                {isAffiliate ? "Partner log in" : "Log in to your Account"}
             </h1>
             <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal mb-6 sm:mb-10">
-                Welcome back! Select method to log in:
+                {isAffiliate
+                    ? "Sign in to your affiliate partner account. This is separate from your member dashboard login - same email is fine."
+                    : "Welcome back! Select method to log in:"}
             </p>
 
-            {/* Social buttons */}
-            <div className="flex sm:flex-row flex-col gap-4 mb-8 sm:mb-10">
-                <button
-                    type="button"
-                    className="sm:flex-1 h-[52px] sm:h-[69px] flex items-center justify-center gap-3 rounded-[48px] border border-[#FFFFFF1A] bg-[#FFFFFF08] text-white/70 text-[18px] leading-[29px] cursor-pointer hover:bg-white/10 transition-colors"
-                >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.7666 9.6498H22.8V9.6H12V14.4H18.7818C17.7924 17.1942 15.1338 19.2 12 19.2C8.0238 19.2 4.8 15.9762 4.8 12C4.8 8.0238 8.0238 4.8 12 4.8C13.8354 4.8 15.5052 5.4924 16.7766 6.6234L20.1708 3.2292C18.0276 1.2318 15.1608 0 12 0C5.373 0 0 5.373 0 12C0 18.627 5.373 24 12 24C18.627 24 24 18.627 24 12C24 11.1954 23.9172 10.41 23.7666 9.6498Z" fill="#FFC107" />
-                        <path d="M1.39062 6.4146L5.33323 9.306C6.40003 6.6648 8.98363 4.8 12.007 4.8C13.8424 4.8 15.5122 5.4924 16.7836 6.6234L20.1778 3.2292C18.0346 1.2318 15.1678 0 12.007 0C7.39783 0 3.40063 2.6022 1.39062 6.4146Z" fill="#FF3D00" />
-                        <path d="M11.9975 24C15.0971 24 17.9135 22.8138 20.0429 20.8848L16.3289 17.742C15.1241 18.6546 13.6265 19.2 11.9975 19.2C8.87625 19.2 6.22605 17.2098 5.22765 14.4324L1.31445 17.4474C3.30045 21.3336 7.33365 24 11.9975 24Z" fill="#4CAF50" />
-                        <path d="M23.7666 9.64953H22.8V9.59973H12V14.3997H18.7818C18.3066 15.7419 17.4432 16.8993 16.3296 17.7423C16.3302 17.7417 16.3308 17.7417 16.3314 17.7411L20.0454 20.8839C19.7826 21.1227 24 17.9997 24 11.9997C24 11.1951 23.9172 10.4097 23.7666 9.64953Z" fill="#1976D2" />
-                    </svg>
-                    Sign in with google
-                </button>
+            {!isAffiliate && (
+                <>
+                    <div className="flex sm:flex-row flex-col gap-4 mb-8 sm:mb-10">
+                        <button
+                            type="button"
+                            className="sm:flex-1 h-[52px] sm:h-[69px] flex items-center justify-center gap-3 rounded-[48px] border border-[#FFFFFF1A] bg-[#FFFFFF08] text-white/70 text-[18px] leading-[29px] cursor-pointer hover:bg-white/10 transition-colors"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.7666 9.6498H22.8V9.6H12V14.4H18.7818C17.7924 17.1942 15.1338 19.2 12 19.2C8.0238 19.2 4.8 15.9762 4.8 12C4.8 8.0238 8.0238 4.8 12 4.8C13.8354 4.8 15.5052 5.4924 16.7766 6.6234L20.1708 3.2292C18.0276 1.2318 15.1608 0 12 0C5.373 0 0 5.373 0 12C0 18.627 5.373 24 12 24C18.627 24 24 18.627 24 12C24 11.1954 23.9172 10.41 23.7666 9.6498Z" fill="#FFC107" />
+                                <path d="M1.39062 6.4146L5.33323 9.306C6.40003 6.6648 8.98363 4.8 12.007 4.8C13.8424 4.8 15.5122 5.4924 16.7836 6.6234L20.1778 3.2292C18.0346 1.2318 15.1678 0 12.007 0C7.39783 0 3.40063 2.6022 1.39062 6.4146Z" fill="#FF3D00" />
+                                <path d="M11.9975 24C15.0971 24 17.9135 22.8138 20.0429 20.8848L16.3289 17.742C15.1241 18.6546 13.6265 19.2 11.9975 19.2C8.87625 19.2 6.22605 17.2098 5.22765 14.4324L1.31445 17.4474C3.30045 21.3336 7.33365 24 11.9975 24Z" fill="#4CAF50" />
+                                <path d="M23.7666 9.64953H22.8V9.59973H12V14.3997H18.7818C18.3066 15.7419 17.4432 16.8993 16.3296 17.7423C16.3302 17.7417 16.3308 17.7417 16.3314 17.7411L20.0454 20.8839C19.7826 21.1227 24 17.9997 24 11.9997C24 11.1951 23.9172 10.4097 23.7666 9.64953Z" fill="#1976D2" />
+                            </svg>
+                            Sign in with google
+                        </button>
 
-                <button
-                    type="button"
-                    className="sm:flex-1 h-[52px] sm:h-[69px] flex items-center justify-center gap-3 rounded-[48px] border border-[#FFFFFF1A] bg-[#FFFFFF08] text-white/70 text-[18px] leading-[29px] cursor-pointer hover:bg-white/10 transition-colors"
-                >
-                    <svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16.862 12.6827C16.8513 10.7162 17.7407 9.23204 19.5411 8.13898C18.5337 6.69765 17.012 5.90465 15.0027 5.74926C13.1006 5.59923 11.0217 6.85839 10.2608 6.85839C9.45708 6.85839 7.61389 5.80284 6.16719 5.80284C3.17736 5.85106 0 8.1872 0 12.9399C0 14.3437 0.25719 15.7939 0.771569 17.2906C1.45741 19.2571 3.93286 24.0794 6.51547 23.999C7.86572 23.9669 8.81946 23.0399 10.5769 23.0399C12.2808 23.0399 13.1649 23.999 14.6705 23.999C17.2746 23.9615 19.5143 19.5786 20.168 17.6068C16.6745 15.9618 16.862 12.7845 16.862 12.6827ZM13.8293 3.88464C15.2921 2.14861 15.1581 0.56796 15.1153 0C13.8239 0.0750136 12.329 0.878731 11.4771 1.86998C10.5394 2.93089 9.98753 4.24363 10.1054 5.72247C11.5039 5.82963 12.7791 5.11164 13.8293 3.88464Z" fill="white" />
-                    </svg>
-                    Sign in with apple
-                </button>
-            </div>
+                        <button
+                            type="button"
+                            className="sm:flex-1 h-[52px] sm:h-[69px] flex items-center justify-center gap-3 rounded-[48px] border border-[#FFFFFF1A] bg-[#FFFFFF08] text-white/70 text-[18px] leading-[29px] cursor-pointer hover:bg-white/10 transition-colors"
+                        >
+                            <svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.862 12.6827C16.8513 10.7162 17.7407 9.23204 19.5411 8.13898C18.5337 6.69765 17.012 5.90465 15.0027 5.74926C13.1006 5.59923 11.0217 6.85839 10.2608 6.85839C9.45708 6.85839 7.61389 5.80284 6.16719 5.80284C3.17736 5.85106 0 8.1872 0 12.9399C0 14.3437 0.25719 15.7939 0.771569 17.2906C1.45741 19.2571 3.93286 24.0794 6.51547 23.999C7.86572 23.9669 8.81946 23.0399 10.5769 23.0399C12.2808 23.0399 13.1649 23.999 14.6705 23.999C17.2746 23.9615 19.5143 19.5786 20.168 17.6068C16.6745 15.9618 16.862 12.7845 16.862 12.6827ZM13.8293 3.88464C15.2921 2.14861 15.1581 0.56796 15.1153 0C13.8239 0.0750136 12.329 0.878731 11.4771 1.86998C10.5394 2.93089 9.98753 4.24363 10.1054 5.72247C11.5039 5.82963 12.7791 5.11164 13.8293 3.88464Z" fill="white" />
+                            </svg>
+                            Sign in with apple
+                        </button>
+                    </div>
 
-            {/* Divider */}
-            <div className="flex items-center gap-[9.5px] mb-8 sm:mb-10">
-                <div className="flex-1 h-px bg-white/10" />
-                <span className="text-white/50 text-[16px] leading-6 font-normal whitespace-nowrap">
-                    or continue with email
-                </span>
-                <div className="flex-1 h-px bg-white/10" />
-            </div>
+                    <div className="flex items-center gap-[9.5px] mb-8 sm:mb-10">
+                        <div className="flex-1 h-px bg-white/10" />
+                        <span className="text-white/50 text-[16px] leading-6 font-normal whitespace-nowrap">
+                            or continue with email
+                        </span>
+                        <div className="flex-1 h-px bg-white/10" />
+                    </div>
+                </>
+            )}
 
-            {/* Form */}
             <form onSubmit={handleSubmit} className="flex flex-col">
-                {/* Email */}
                 <div className="relative mb-5">
                     <span className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white/40">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +131,6 @@ export default function LoginForm() {
                     />
                 </div>
 
-                {/* Password */}
                 <div className="relative mb-4">
                     <span className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white/40">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,7 +156,6 @@ export default function LoginForm() {
                         aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                         {showPassword ? (
-                            /* Eye-off - password visible */
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14.5299 9.47004L9.46992 14.53C8.81992 13.88 8.41992 12.99 8.41992 12C8.41992 10.02 10.0199 8.42004 11.9999 8.42004C12.9899 8.42004 13.8799 8.82004 14.5299 9.47004Z" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M17.8198 5.76998C16.0698 4.44998 14.0698 3.72998 11.9998 3.72998C8.46984 3.72998 5.17984 5.80998 2.88984 9.40998C1.98984 10.82 1.98984 13.19 2.88984 14.6C3.67984 15.84 4.59984 16.91 5.59984 17.77" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -161,7 +165,6 @@ export default function LoginForm() {
                                 <path d="M21.9993 2L14.5293 9.47" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         ) : (
-                            /* Eye-on - password hidden */
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 5C7.45 5 3.73 7.94 2 12C3.73 16.06 7.45 19 12 19C16.55 19 20.27 16.06 22 12C20.27 7.94 16.55 5 12 5Z" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#666667" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -170,21 +173,19 @@ export default function LoginForm() {
                     </button>
                 </div>
 
-                {/* Remember me + Forgot password */}
                 <div className="mb-10 sm:mb-12 flex items-center justify-between">
                     <label className="flex items-center gap-1.5 sm:gap-3 cursor-pointer select-none">
                         <CustomCheckbox checked={remember} onChange={setRemember} />
                         <span className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal">Remember me</span>
                     </label>
                     <Link
-                        href="/forgot-password"
+                        href={forgotHref}
                         className="text-white text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal underline underline-offset-2 hover:text-white/90 transition-colors"
                     >
                         Forgot Password?
                     </Link>
                 </div>
 
-                {/* Submit */}
                 <button
                     type="submit"
                     disabled={loading}
@@ -194,15 +195,31 @@ export default function LoginForm() {
                 </button>
             </form>
 
-            {/* Bottom link */}
             <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal text-center mt-8 sm:mt-10">
                 Don&apos;t have an account?{" "}
                 <Link
                     href={signupHref}
                     className="text-white font-semibold underline underline-offset-2 hover:text-white/90 transition-colors"
                 >
-                    Sign Up
+                    {isAffiliate ? "Apply as partner" : "Sign Up"}
                 </Link>
+            </p>
+            <p className="text-white/40 text-[14px] sm:text-[15px] leading-[22px] text-center mt-4">
+                {isAffiliate ? (
+                    <>
+                        Member account?{" "}
+                        <Link href="/login" className="text-white/70 underline underline-offset-2 hover:text-white">
+                            Log in here
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        Affiliate partner?{" "}
+                        <Link href="/affiliate/login" className="text-white/70 underline underline-offset-2 hover:text-white">
+                            Partner log in
+                        </Link>
+                    </>
+                )}
             </p>
         </div>
     );

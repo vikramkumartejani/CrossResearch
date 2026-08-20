@@ -9,8 +9,16 @@ import { authErrorMessage } from "@/lib/authUi";
 import OtpBoxes from "./OtpBoxes";
 import LoadingLabel from "../LoadingLabel";
 
-export default function ForgotPasswordForm() {
+type AccountType = "member" | "affiliate";
+
+export default function ForgotPasswordForm({
+  accountType = "member",
+}: {
+  accountType?: AccountType;
+}) {
   const router = useRouter();
+  const isAffiliate = accountType === "affiliate";
+  const loginHref = isAffiliate ? "/affiliate/login" : "/login";
   const [step, setStep] = useState<"email" | "reset">("email");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -27,7 +35,7 @@ export default function ForgotPasswordForm() {
       const res = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, account_type: accountType }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -65,6 +73,7 @@ export default function ForgotPasswordForm() {
           email,
           code: otp.trim(),
           new_password: password,
+          account_type: accountType,
         }),
       });
       const body = await res.json().catch(() => ({}));
@@ -72,7 +81,7 @@ export default function ForgotPasswordForm() {
         throw new Error(authErrorMessage(body, "Could not reset password"));
       }
       toast.success(body.message || "Password updated.");
-      router.replace("/login");
+      router.replace(loginHref);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not reset password");
     } finally {
@@ -86,7 +95,7 @@ export default function ForgotPasswordForm() {
       const res = await fetch("/api/auth/resend-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, purpose: "reset" }),
+        body: JSON.stringify({ email, purpose: "reset", account_type: accountType }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -109,11 +118,17 @@ export default function ForgotPasswordForm() {
       </div>
 
       <h1 className="text-white text-[28px] sm:text-[40px] font-medium leading-10 sm:leading-[56px] mb-3">
-        {step === "email" ? "Forgot password" : "Reset password"}
+        {step === "email"
+          ? isAffiliate
+            ? "Partner forgot password"
+            : "Forgot password"
+          : "Reset password"}
       </h1>
       <p className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal mb-6 sm:mb-10">
         {step === "email"
-          ? "Enter your account email and we'll send a reset code."
+          ? isAffiliate
+            ? "Enter your affiliate partner email and we'll send a reset code."
+            : "Enter your member account email and we'll send a reset code."
           : `Enter the code sent to ${email} and choose a new password.`}
       </p>
 
@@ -194,7 +209,7 @@ export default function ForgotPasswordForm() {
 
       <p className="text-white/60 text-[16px] sm:text-[18px] text-center mt-8 sm:mt-10">
         Remembered it?{" "}
-        <Link href="/login" className="text-white font-semibold underline underline-offset-2">
+        <Link href={loginHref} className="text-white font-semibold underline underline-offset-2">
           Log In
         </Link>
       </p>

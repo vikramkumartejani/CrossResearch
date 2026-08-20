@@ -59,6 +59,7 @@ export default function SignupForm() {
           email,
           password,
           tradingview_username: noTradingView ? null : tradingViewUsername.trim(),
+          account_type: "member",
           ...(referralCode.trim() ? { ref: referralCode.trim().toLowerCase() } : {}),
         }),
       });
@@ -93,7 +94,12 @@ export default function SignupForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ email, code: otp.trim(), purpose: "signup" }),
+        body: JSON.stringify({
+          email,
+          code: otp.trim(),
+          purpose: "signup",
+          account_type: "member",
+        }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -115,7 +121,7 @@ export default function SignupForm() {
       const res = await fetch("/api/auth/resend-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, purpose: "signup" }),
+        body: JSON.stringify({ email, purpose: "signup", account_type: "member" }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {

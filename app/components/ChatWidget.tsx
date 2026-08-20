@@ -29,7 +29,16 @@ const SUGGESTIONS = [
 const MOCK_REPLY =
   'Got it. Live answers aren’t wired up yet - this is a preview of the assistant. In the meantime, Help Center and Contact Support have the full desk.'
 
-const HIDE_ON = ['/login', '/signup', '/forgot-password', '/onboarding', '/support', '/affiliate/signup']
+const HIDE_ON = [
+  '/login',
+  '/signup',
+  '/forgot-password',
+  '/onboarding',
+  '/support',
+  '/affiliate/signup',
+  '/affiliate/login',
+  '/affiliate/forgot-password',
+]
 
 export default function ChatWidget() {
   const pathname = usePathname()

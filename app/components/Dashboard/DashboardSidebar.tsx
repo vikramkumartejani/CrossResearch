@@ -151,13 +151,14 @@ export default function DashboardSidebar({
 
     async function handleLogout() {
         setOpen(false)
+        const logoutTo = user?.account_type === 'affiliate' ? '/affiliate/login' : '/login'
         try {
             await fetch('/api/auth/logout', { method: 'POST' })
             toast.success('Logged out')
         } catch {
             toast.error('Logout failed')
         }
-        router.replace('/login')
+        router.replace(logoutTo)
         router.refresh()
     }
 

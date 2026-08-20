@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { siteUrl } from '@/lib/site'
 import { authErrorMessage } from '@/lib/authUi'
 import ChartLoader from '../shared/ChartLoader'
+import LoadingLabel from '../../LoadingLabel'
 
 interface FunnelDay {
   date: string
@@ -265,6 +266,7 @@ export default function AffiliateCenter() {
   const [showPayout, setShowPayout] = useState(false)
   const [payoutMethod, setPayoutMethod] = useState('')
   const [requesting, setRequesting] = useState(false)
+  const [loggingOut, setLoggingOut] = useState(false)
 
   const load = useCallback(async () => {
     const controller = new AbortController()
@@ -310,6 +312,18 @@ export default function AffiliateCenter() {
   useEffect(() => {
     void load()
   }, [load])
+
+  async function handleLogout() {
+    try {
+      setLoggingOut(true)
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' })
+      toast.success('Logged out')
+    } catch {
+      toast.error('Logout failed')
+    } finally {
+      window.location.assign('/affiliate/login')
+    }
+  }
 
   async function requestPayout(e: React.FormEvent) {
     e.preventDefault()
@@ -372,16 +386,28 @@ export default function AffiliateCenter() {
 
   const header = (
     <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
-      <div className="mb-3 flex items-center gap-1.5">
-        <PartnerDeskIcon />
-        <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Partner Desk</span>
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="mb-3 flex items-center gap-1.5">
+            <PartnerDeskIcon />
+            <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Partner Desk</span>
+          </div>
+          <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
+            Affiliate Center
+          </h1>
+          <p className="text-[#838388] text-[12px] leading-[17px]">
+            Track every client you bring in - subscription status, contribution, and payouts. Updates in real time.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => void handleLogout()}
+          disabled={loggingOut}
+          className="shrink-0 inline-flex items-center h-[33px] px-4 sm:px-5 border border-[#FFFFFF1A] text-white/70 text-[13px] sm:text-[14px] leading-5 font-medium hover:text-white hover:border-[#FFFFFF33] hover:bg-[#FFFFFF08] transition-colors cursor-pointer disabled:opacity-60"
+        >
+          <LoadingLabel loading={loggingOut}>Log out</LoadingLabel>
+        </button>
       </div>
-      <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
-        Affiliate Center
-      </h1>
-      <p className="text-[#838388] text-[12px] leading-[17px]">
-        Track every client you bring in - subscription status, contribution, and payouts. Updates in real time.
-      </p>
     </div>
   )
 
@@ -409,7 +435,7 @@ export default function AffiliateCenter() {
               Sign in again with your affiliate partner account to open the Affiliate Center.
             </p>
             <Link
-              href="/login?next=/affiliate-center"
+              href="/affiliate/login?next=/affiliate-center"
               className="inline-flex items-center h-[33px] px-6 bg-[#88C4FF] text-black text-[14px] leading-5 font-medium hover:bg-[#88C4FF]/90 transition-colors"
             >
               Sign in
