@@ -121,10 +121,6 @@ export default function Sentiment() {
 
     return (
         <div>
-            <h2 className="text-white text-[18px] leading-[22px] font-medium mb-3 sm:mb-4">
-                {copy.sections.sentiment}
-            </h2>
-
             <div className="bg-[#16161F] p-3 sm:p-4">
                 <div className="flex items-center justify-between gap-2 mb-4">
                     <div>
