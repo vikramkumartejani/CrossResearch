@@ -15,9 +15,33 @@ interface MacroSignalsResponse {
     cached?: boolean
 }
 
+interface CmsBrief extends MacroBrief {
+    use_custom?: boolean
+}
+
 interface SignalCardsResponse {
     title?: string
     cards?: SignalChart[]
+    brief?: CmsBrief
+}
+
+function normalizeBrief(raw: CmsBrief | MacroBrief | null | undefined): MacroBrief | null {
+    if (!raw) return null
+    const points = (Array.isArray(raw.points) ? raw.points : [])
+        .map((pt, i) => ({
+            id: Number(pt.id) || i + 1,
+            text: String(pt.text || '').trim(),
+        }))
+        .filter((pt) => pt.text)
+        .slice(0, 4)
+    return {
+        date: String(raw.date || '').trim() || new Date().toISOString().slice(0, 10),
+        headline: String(raw.headline || '').trim() || 'Macro signals desk',
+        points,
+        conviction: Math.max(0, Math.min(100, Number(raw.conviction ?? 50))),
+        regime: String(raw.regime || '').trim() || 'Mixed',
+        use_custom: Boolean(raw.use_custom),
+    }
 }
 
 export default function MacroSignals() {
@@ -30,35 +54,42 @@ export default function MacroSignals() {
     useEffect(() => {
         let cancelled = false
 
-        // The left brief still comes from the live desk engine.
-        async function loadBrief() {
-            try {
-                const response = await fetch('/api/macro-signals')
-                if (!response.ok) return
-                const data: MacroSignalsResponse = await response.json()
-                if (!cancelled) setBrief(data.brief ?? null)
-            } catch {
-                // brief is optional - the sidebar renders its fallback
-            }
-        }
-
-        // The right-side cards are admin-managed (title/image/footer via CMS).
-        async function loadCards() {
+        async function load() {
             try {
                 setLoading(true)
                 setError(null)
-                const response = await fetch('/api/macro-signal-cards', { cache: 'no-store' })
-                if (!response.ok) {
-                    const body = await response.json().catch(() => ({}))
+
+                const [liveRes, cmsRes] = await Promise.all([
+                    fetch('/api/macro-signals', { cache: 'no-store' }),
+                    fetch('/api/macro-signal-cards', { cache: 'no-store' }),
+                ])
+
+                let liveBrief: MacroBrief | null = null
+                if (liveRes.ok) {
+                    const live: MacroSignalsResponse = await liveRes.json()
+                    liveBrief = normalizeBrief(live.brief)
+                }
+
+                if (!cmsRes.ok) {
+                    const body = await cmsRes.json().catch(() => ({}))
                     throw new Error(body.details || body.detail || body.error || 'Failed to fetch signal cards')
                 }
-                const data: SignalCardsResponse = await response.json()
+
+                const cms: SignalCardsResponse = await cmsRes.json()
                 if (cancelled) return
-                if (typeof data.title === 'string' && data.title.trim()) setSectionTitle(data.title.trim())
-                const list = (Array.isArray(data.cards) ? data.cards : [])
+
+                if (typeof cms.title === 'string' && cms.title.trim()) setSectionTitle(cms.title.trim())
+                const list = (Array.isArray(cms.cards) ? cms.cards : [])
                     .filter((c) => c.active !== false)
                     .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
                 setCards(list)
+
+                const cmsBrief = normalizeBrief(cms.brief)
+                if (cmsBrief?.use_custom) {
+                    setBrief(cmsBrief)
+                } else {
+                    setBrief(liveBrief)
+                }
             } catch (err) {
                 if (!cancelled) {
                     setError(err instanceof Error ? err.message : 'Unknown error')
@@ -69,8 +100,7 @@ export default function MacroSignals() {
             }
         }
 
-        void loadBrief()
-        void loadCards()
+        void load()
         return () => {
             cancelled = true
         }
@@ -100,12 +130,12 @@ export default function MacroSignals() {
                 </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 px-4 lg:px-6 items-stretch">
-                <div className="lg:w-[300px] xl:w-[386px] flex-shrink-0 lg:sticky lg:top-10">
+            <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 px-4 lg:px-6 items-start">
+                <div className="lg:w-[300px] xl:w-[386px] flex-shrink-0 lg:sticky lg:top-10 w-full">
                     <WeeklyHighlights brief={brief} />
                 </div>
 
-                <LockedSection title={sectionTitle} keepTitle className="flex-1">
+                <LockedSection title={sectionTitle} keepTitle className="flex-1 w-full min-w-0">
                     {error && (
                         <div className="mb-3 text-[#E25C3F] text-[13px] leading-[18px]">{error}</div>
                     )}

@@ -143,7 +143,7 @@ export default function GreeksSynthesis() {
             {!loading && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
                     {cards.map((card) => (
-                        <div key={card.label} className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+                        <div key={card.label} className="bg-[#16161F] p-3 sm:p-4 flex flex-col justify-center min-h-[140px] sm:min-h-[160px]">
                             <div className="flex items-center gap-1.5 min-h-5">
                                 {card.symbol}
                                 <span className="text-white text-[14px] leading-5 font-medium">
@@ -151,7 +151,7 @@ export default function GreeksSynthesis() {
                                 </span>
                             </div>
 
-                            <div className="mt-4 sm:mt-6 xl:pr-6">
+                            <div className="mt-3 sm:mt-4 xl:pr-6">
                                 <p className="text-white text-[18px] leading-[22px] font-medium mb-2">{card.title}</p>
                                 <p className="text-[#838388] text-[12px] leading-[17px] font-normal">{card.desc}</p>
                             </div>

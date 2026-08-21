@@ -9,8 +9,9 @@ export interface MacroBrief {
     date: string
     headline: string
     points: BriefPoint[]
-    conviction: number   // 0-100
+    conviction: number // 0-100
     regime: string
+    use_custom?: boolean
 }
 
 export const MACRO_BRIEF: MacroBrief = {
@@ -27,15 +28,11 @@ export const MACRO_BRIEF: MacroBrief = {
         },
         {
             id: 3,
-            text: 'Despite recent volatility, emerging markets show resilience, attracting capital flows and providing diversification opportunities.',
+            text: 'Despite recent volatility, emerging markets show resilience, attracting capital flows.',
         },
         {
             id: 4,
-            text: 'Inflation expectations remain anchored, but supply chain concerns could trigger short-term price spikes, warranting caution.',
-        },
-        {
-            id: 5,
-            text: 'Equity valuations are stretched in many sectors, indicating a potential correction if earnings growth does not meet forecasts.',
+            text: 'Inflation expectations remain anchored, but supply chain concerns could trigger short-term spikes.',
         },
     ],
     conviction: 77,

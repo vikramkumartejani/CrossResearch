@@ -40,7 +40,7 @@ export default function MarketCard({
     levels, summary, tags,
 }: MarketCardProps) {
     return (
-        <div className="bg-[#16161F] flex flex-col h-full min-w-0 p-3 sm:p-6">
+        <div className="bg-[#16161F] flex flex-col min-w-0 p-3 sm:p-6">
             {/* ── Top: ticker + price ── */}
             <div className="flex items-center justify-between gap-3 border-b border-[#FFFFFF0D] pb-3 sm:pb-4">
                 <div className="min-w-0">
@@ -89,10 +89,10 @@ export default function MarketCard({
             <div className="mb-3 sm:mb-4">
                 <p className="text-white/50 text-[10px] leading-[12px] font-normal mb-3">Mechanical Dealer Levels</p>
                 <div className="w-full flex flex-col gap-1.5">
-                    {levels.map((l, i) => (
+                    {levels.map((l) => (
                         <div
                             key={l.label}
-                            className='bg-[#FFFFFF08] p-3 grid grid-cols-3 w-full'
+                            className="bg-[#FFFFFF08] p-3 grid grid-cols-3 w-full"
                         >
                             <p className="text-white text-[12px] leading-[14px] font-medium flex-shrink-0">{l.label}</p>
                             <p className="text-white text-[12px] leading-[14px] font-medium text-center">{l.level.toLocaleString()}</p>
@@ -104,14 +104,11 @@ export default function MarketCard({
                 </div>
             </div>
 
-            {/* ── Summary + tags pinned to card bottom ── */}
-            <div className="mt-auto pt-3 sm:pt-4 border-t border-[#FFFFFF0D]">
-                <div className="mb-3 sm:mb-4">
-                    <p className="text-white/60 text-[12px] leading-[17px]">{summary}</p>
-                </div>
-
+            {/* ── Summary sits under levels so all cards align ── */}
+            <div className="pt-3 sm:pt-4 border-t border-[#FFFFFF0D]">
+                <p className="text-white/60 text-[12px] leading-[17px] mb-3 sm:mb-4">{summary}</p>
                 <div className="flex flex-wrap gap-2.5">
-                    {tags.map(tag => (
+                    {tags.map((tag) => (
                         <span
                             key={tag}
                             className="px-3 py-1 rounded-full border border-[#FFFFFF1A] text-white/60 text-[12px] leading-[17px] font-normal hover:text-white hover:border-[#FFFFFF25] transition-colors cursor-pointer"

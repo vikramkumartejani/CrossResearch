@@ -2,6 +2,9 @@
 import type { MacroBrief } from './weeklyHighlightsData'
 import ChartLoader from '../shared/ChartLoader'
 
+export const MAX_BRIEF_POINTS = 4
+export const MAX_POINT_CHARS = 180
+
 function GlobeIcon() {
     return (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,21 +19,39 @@ function GlobeIcon() {
     )
 }
 
+function clip(text: string, limit: number) {
+    const cleaned = text.replace(/\s+/g, ' ').trim()
+    if (cleaned.length <= limit) return cleaned
+    return `${cleaned.slice(0, Math.max(0, limit - 3)).trimEnd()}...`
+}
+
 export default function WeeklyHighlights({ brief }: { brief: MacroBrief | null }) {
+    const points = (brief?.points || [])
+        .filter((pt) => pt.text?.trim())
+        .slice(0, MAX_BRIEF_POINTS)
+        .map((pt, i) => ({
+            id: i + 1,
+            text: clip(pt.text, MAX_POINT_CHARS),
+        }))
+
+    const conviction = Math.max(0, Math.min(100, Number(brief?.conviction ?? 0)))
+
     return (
-        <div className="flex flex-col h-full min-h-[800px]">
+        <div className="flex flex-col">
             <h2 className="text-white text-[16px] font-medium leading-[22px] mb-3 sm:mb-4">Weekly Highlights</h2>
 
-            <div className="bg-[#16161F] flex flex-col flex-1 min-h-0">
+            <div className="bg-[#16161F] flex flex-col">
                 {brief ? (
                     <>
-                        <div className="px-3 sm:px-5 pt-3 sm:pt-5 pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-[#FFFFFF1A]">
+                        <div className="px-3 sm:px-5 pt-3 sm:pt-5 pb-3 sm:pb-4 border-b border-[#FFFFFF1A]">
                             <div className="flex items-start gap-1.5 flex-wrap">
                                 <GlobeIcon />
                                 <span className="text-[#88C4FF] text-[14px] leading-[20px] font-semibold">
                                     Todays Macro Brief
                                 </span>
-                                <span className="text-white/60 text-[12px] leading-[14px] font-normal sm:ml-auto mt-0.5">{brief.date}</span>
+                                <span className="text-white/60 text-[12px] leading-[14px] font-normal sm:ml-auto mt-0.5">
+                                    {brief.date}
+                                </span>
                             </div>
 
                             <p className="mt-3 sm:mt-4 text-white text-[14px] sm:text-[16px] leading-[19px] font-medium">
@@ -38,28 +59,35 @@ export default function WeeklyHighlights({ brief }: { brief: MacroBrief | null }
                             </p>
                         </div>
 
-                        <ol className="flex flex-col gap-2.5 sm:gap-3 px-3 sm:px-5">
-                            {brief.points.map((pt) => (
-                                <li key={pt.id} className="flex items-start gap-2 sm:gap-3">
-                                    <span className="flex-shrink-0 text-[12px] leading-[14px] text-[#88C4FF] font-semibold">
-                                        {String(pt.id).padStart(2, '0')}
-                                    </span>
-                                    <p className="text-white/60 text-[13px] sm:text-[14px] leading-[16px] sm:leading-[20px] font-normal">{pt.text}</p>
-                                </li>
-                            ))}
-                        </ol>
+                        {points.length > 0 && (
+                            <ol className="flex flex-col gap-2.5 sm:gap-3 px-3 sm:px-5 py-3 sm:py-4">
+                                {points.map((pt) => (
+                                    <li key={pt.id} className="flex items-start gap-2 sm:gap-3">
+                                        <span className="flex-shrink-0 text-[12px] leading-[14px] text-[#88C4FF] font-semibold">
+                                            {String(pt.id).padStart(2, '0')}
+                                        </span>
+                                        <p className="text-white/60 text-[13px] sm:text-[14px] leading-[16px] sm:leading-[20px] font-normal">
+                                            {pt.text}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ol>
+                        )}
 
-                        <div className="pt-4 sm:pt-6 mt-auto px-3 sm:px-5 pb-4 sm:pb-5 border-t border-[#FFFFFF0D]">
+                        <div className="px-3 sm:px-5 py-3 sm:py-4 border-t border-[#FFFFFF0D]">
                             <div className="flex items-center justify-between mb-2">
                                 <span className="text-white/60 text-[12px] leading-[17px] font-normal">Conviction</span>
-                                <span className="text-[#88C4FF] text-[12px] leading-[17px] font-bold">{brief.conviction}<span className="text-[#88C4FF]/60 font-normal">/100</span></span>
+                                <span className="text-[#88C4FF] text-[12px] leading-[17px] font-bold">
+                                    {conviction}
+                                    <span className="text-[#88C4FF]/60 font-normal">/100</span>
+                                </span>
                             </div>
 
                             <div className="relative h-[8px] bg-[#FFFFFF0D] rounded-full overflow-hidden mb-2">
                                 <div
                                     className="absolute inset-y-0 left-0 rounded-full"
                                     style={{
-                                        width: `${brief.conviction}%`,
+                                        width: `${conviction}%`,
                                         background: '#88C4FF',
                                     }}
                                 />
@@ -72,7 +100,7 @@ export default function WeeklyHighlights({ brief }: { brief: MacroBrief | null }
                         </div>
                     </>
                 ) : (
-                    <ChartLoader className="flex-1 min-h-full" />
+                    <ChartLoader className="min-h-[160px]" />
                 )}
             </div>
         </div>
