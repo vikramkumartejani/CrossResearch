@@ -117,8 +117,8 @@ export default function BtcDeskBrief() {
                 : 'text-white'
 
     return (
-        <div className="bg-[#16161F] p-3 sm:p-5 flex flex-col h-full min-h-[800px]">
-            <div className="flex items-center gap-1 mb-4 sm:mb-6">
+        <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+            <div className="flex items-center gap-1 mb-3 sm:mb-4">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M8.83313 11.1943L13.6669 16.0281C13.8865 16.2477 13.9963 16.3575 14.1148 16.4162C14.3401 16.5279 14.6047 16.5279 14.8302 16.4162C14.9486 16.3575 15.0584 16.2477 15.2781 16.0281C15.4977 15.8084 15.6075 15.6986 15.6662 15.5802C15.7779 15.3547 15.7779 15.0901 15.6662 14.8648C15.6075 14.7463 15.4977 14.6365 15.2781 14.4169L10.4444 9.58312L8.83313 7.9719C8.61353 7.7523 8.50373 7.6425 8.38523 7.58377C8.15985 7.47208 7.89525 7.47208 7.6698 7.58377C7.55138 7.6425 7.44155 7.7523 7.22192 7.9719C7.00228 8.19157 6.89247 8.30137 6.83377 8.4198C6.72208 8.64525 6.72208 8.90985 6.83377 9.13522C6.89247 9.25372 7.00228 9.36352 7.22192 9.58312L8.83313 11.1943ZM10.4444 9.58312L8.83313 11.1943"
@@ -140,14 +140,16 @@ export default function BtcDeskBrief() {
                 <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium">BTC Desk Summary</span>
             </div>
 
-            {loading && <ChartLoader className="flex-1 min-h-[180px]" />}
+            {loading && <ChartLoader className="min-h-[120px]" />}
             {error && !loading && <p className="text-[#E25C3F] text-[12px]">{error}</p>}
 
             {!loading && !error && data && (
                 <>
                     <div>
-                        <p className="text-[#838388] text-[14px] leading-[17px] mb-1 sm:mb-2 font-medium">Spot</p>
-                        <p className="text-white text-[24px] leading-[38px] font-semibold">{formatUsd(data.spotPrice)}</p>
+                        <p className="text-[#838388] text-[14px] leading-[17px] mb-1 font-medium">Spot</p>
+                        <p className="text-white text-[22px] sm:text-[24px] leading-[30px] sm:leading-[34px] font-semibold">
+                            {formatUsd(data.spotPrice)}
+                        </p>
                         <div className="flex items-center gap-1 mt-1">
                             <span className={`text-[14px] leading-[17px] font-medium ${changeUp ? 'text-[#2CB37B]' : 'text-[#E25C3F]'}`}>
                                 {formatSignedPct(data.change24h)}
@@ -156,11 +158,11 @@ export default function BtcDeskBrief() {
                         </div>
                     </div>
 
-                    <div className="w-full h-px bg-[#FFFFFF1A] my-3.5 sm:my-5" />
+                    <div className="w-full h-px bg-[#FFFFFF1A] my-3" />
 
                     <div>
-                        <p className="text-[#838388] text-[14px] leading-[17px] font-medium mb-1 sm:mb-2">30D Model Forecast</p>
-                        <p className="text-white text-[24px] leading-[38px] font-semibold">
+                        <p className="text-[#838388] text-[14px] leading-[17px] font-medium mb-1">30D Model Forecast</p>
+                        <p className="text-white text-[22px] sm:text-[24px] leading-[30px] sm:leading-[34px] font-semibold">
                             {formatUsd(data.forecastPrice)}
                         </p>
                         <div className="flex items-center gap-1 mt-1">
@@ -175,7 +177,7 @@ export default function BtcDeskBrief() {
                         </div>
                     </div>
 
-                    <div className="mt-3 sm:mt-5 flex items-center justify-between">
+                    <div className="mt-3 flex items-center justify-between">
                         <div>
                             <p className="text-white/50 text-[14px] leading-[17px] font-medium mb-1">Upper</p>
                             <p className="text-[#2CB37B] text-[14px] leading-[17px] font-medium">
@@ -190,28 +192,28 @@ export default function BtcDeskBrief() {
                         </div>
                     </div>
 
-                    <div className="w-full h-px bg-[#FFFFFF1A] my-3.5 sm:my-5" />
+                    <div className="w-full h-px bg-[#FFFFFF1A] my-3" />
 
-                    <div className="flex flex-col gap-3 sm:gap-4">
-                        <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-2.5 sm:gap-3">
+                        <div className="flex items-center justify-between gap-2">
                             <span className="text-[#838388] text-[14px] leading-[17px] font-medium">Vol Regime</span>
-                            <span className="bg-[#88C4FF1A] text-[#88C4FF] text-[12px] leading-[14px] font-medium px-4 py-[5px]">
+                            <span className="bg-[#88C4FF1A] text-[#88C4FF] text-[12px] leading-[14px] font-medium px-3 py-[5px]">
                                 {data.volRegime}
                             </span>
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-2">
                             <span className="text-[#838388] text-[14px] leading-[17px] font-medium">RV (Current)</span>
                             <span className="text-white text-[14px] leading-[17px] font-medium">
                                 {data.volPct != null ? `${data.volPct.toFixed(1)}%` : '-'}
                             </span>
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-2">
                             <span className="text-[#838388] text-[14px] leading-[17px] font-medium">Fear & Greed</span>
                             <span className={`text-[14px] leading-[17px] font-medium ${fgClass}`}>
                                 {fgValue != null ? `${fgValue.toFixed(0)}·${data.fearRegime}` : '-'}
                             </span>
                         </div>
-                        <div className="flex items-center justify-between border-b border-[#FFFFFF1A] pb-3 sm:pb-4">
+                        <div className="flex items-center justify-between gap-2">
                             <span className="text-[#838388] text-[14px] leading-[17px] font-medium">5d ETF Flow</span>
                             <span
                                 className={`text-[14px] leading-[17px] font-medium ${

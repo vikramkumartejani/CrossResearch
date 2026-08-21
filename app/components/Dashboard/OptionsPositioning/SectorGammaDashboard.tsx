@@ -75,7 +75,7 @@ export default function SectorGammaDashboard() {
     }, [])
 
     return (
-        <div className="mb-4 sm:mb-5 bg-[#16161F] p-3 sm:p-5 grow h-full">
+        <div className="mb-4 sm:mb-5 bg-[#16161F] p-3 sm:p-5 grow h-full min-h-0 flex flex-col">
             <h2 className="text-white text-[18px] leading-[22px] font-medium mb-2">Sector Gamma Dashboard</h2>
             <p className="text-[#838388] text-[14px] leading-[17px] mb-3 sm:mb-4">Dealer concentration map net GEX in $B</p>
 
@@ -106,17 +106,21 @@ export default function SectorGammaDashboard() {
                         </div>
                     </div>
 
-                    <h3 className="text-white text-[18px] leading-[22px] font-medium mb-3">Composite Narrative</h3>
-                    <p className="text-white/50 text-[12px] sm:text-[14px] leading-4 sm:leading-[20px] mb-3 sm:mb-5">{narrative}</p>
-                    <div className="flex flex-wrap gap-2.5">
-                        {tags.map((tag) => (
-                            <span
-                                key={tag}
-                                className="px-3 h-[27px] rounded-full flex items-center justify-between border border-[#FFFFFF1A] text-white/60 text-[12px] leading-[17px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
-                            >
-                                {tag}
-                            </span>
-                        ))}
+                    <div className="flex-1 flex flex-col justify-center min-h-0">
+                        <h3 className="text-white text-[18px] leading-[22px] font-medium mb-3">Composite Narrative</h3>
+                        <p className="text-white/50 text-[12px] sm:text-[14px] leading-4 sm:leading-[20px] mb-3 sm:mb-5">
+                            {narrative}
+                        </p>
+                        <div className="flex flex-wrap gap-2.5">
+                            {tags.map((tag) => (
+                                <span
+                                    key={tag}
+                                    className="px-3 h-[27px] rounded-full flex items-center justify-center border border-[#FFFFFF1A] text-white/60 text-[12px] leading-[17px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
                     </div>
                 </>
             )}

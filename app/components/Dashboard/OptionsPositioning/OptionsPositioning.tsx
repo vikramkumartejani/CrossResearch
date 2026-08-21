@@ -130,11 +130,11 @@ export default function OptionsPositioning() {
                     <GreeksSynthesis />
                 </LockedSection>
 
-                <div className="grid grid-cols-1 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 grow">
-                    <LockedSection title="Sector Gamma">
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_524px] gap-3 sm:gap-4 grow items-stretch">
+                    <LockedSection title="Sector Gamma" className="h-full min-h-0 flex flex-col">
                         <SectorGammaDashboard />
                     </LockedSection>
-                    <LockedSection title="Macro Event Stress">
+                    <LockedSection title="Macro Event Stress" className="h-full min-h-0">
                         <MacroEventStress />
                     </LockedSection>
                 </div>

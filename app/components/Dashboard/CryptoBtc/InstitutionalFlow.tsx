@@ -165,25 +165,6 @@ function MonteCarloForecastChart({
         ctx.stroke()
 
         ctx.beginPath()
-        ctx.setLineDash([6, 4])
-        let medStarted = false
-        median.forEach((p, i) => {
-            if (p.price == null) return
-            const x = toFutX(i)
-            const y = toY(p.price)
-            if (!medStarted) {
-                ctx.moveTo(x, y)
-                medStarted = true
-            } else {
-                ctx.lineTo(x, y)
-            }
-        })
-        ctx.strokeStyle = '#88C4FF'
-        ctx.lineWidth = 2
-        ctx.stroke()
-        ctx.setLineDash([])
-
-        ctx.beginPath()
         ctx.setLineDash([4, 4])
         ctx.strokeStyle = 'rgba(255,255,255,0.35)'
         ctx.lineWidth = 1
@@ -248,7 +229,7 @@ export default function InstitutionalFlow() {
                     levels: (forecast.forecast?.price_levels || {}) as PriceLevels,
                     origin: forecast.forecast?.origin || '',
                     commentary: terminal
-                        ? `Mean/σ bands + Monte Carlo cloud · median ${terminal.bias?.toLowerCase()} ${terminal.change_pct?.toFixed?.(1)}%`
+                        ? `Mean/σ bands + Monte Carlo cloud · terminal ${terminal.bias?.toLowerCase()} ${terminal.change_pct?.toFixed?.(1)}%`
                         : 'Mean/σ bands with regime-conditioned Monte Carlo paths',
                 })
             } catch (err) {
@@ -285,9 +266,6 @@ export default function InstitutionalFlow() {
             <div className="flex flex-wrap gap-x-3 gap-y-1 mb-2 text-[10px] text-[#838388]">
                 <span className="flex items-center gap-1">
                     <span className="w-3 h-[2px] bg-[#4C84C4] inline-block" /> Close
-                </span>
-                <span className="flex items-center gap-1">
-                    <span className="w-3 h-[2px] bg-[#88C4FF] inline-block" /> Median MC
                 </span>
                 <span className="flex items-center gap-1">
                     <span className="w-3 h-[2px] bg-white/50 inline-block" /> Mean
