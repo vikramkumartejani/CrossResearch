@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import ChartLoader from '../shared/ChartLoader'
+import BloombergTv from '../shared/BloombergTv'
 
 type TabId = 'geopolitical_risk_score' | 'reversal_risk_momentum'
 
@@ -307,33 +308,8 @@ export default function RiskTensionMonitoring() {
                     </div>
                 </div>
 
-                <div className="bg-[#16161F] p-4 flex flex-col h-[360px] sm:h-[380px]">
-                    <div className="flex items-center justify-between mb-4 shrink-0">
-                        <div className="flex items-center gap-2">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M1.66797 11.6667C1.66797 8.524 1.66797 6.95262 2.64428 5.97631C3.62059 5 5.19194 5 8.33464 5H11.668C14.8106 5 16.3821 5 17.3583 5.97631C18.3346 6.95262 18.3346 8.524 18.3346 11.6667C18.3346 14.8093 18.3346 16.3808 17.3583 17.357C16.3821 18.3333 14.8106 18.3333 11.668 18.3333H8.33464C5.19194 18.3333 3.62059 18.3333 2.64428 17.357C1.66797 16.3808 1.66797 14.8093 1.66797 11.6667Z"
-                                    stroke="white"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                />
-                                <path
-                                    d="M7.5 2.50033L10 5.00033L13.3333 1.66699"
-                                    stroke="white"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-                            <span className="text-white text-[16px] leading-[19px] font-semibold">Bloomberg TV</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-[#E25C3F] rounded-full animate-pulse" />
-                            <span className="text-[#E25C3F] text-[14px] leading-[17px] font-medium">Live</span>
-                        </div>
-                    </div>
-
-                    <div className="flex-1 bg-[#FFFFFF08] overflow-hidden min-h-0" />
+                <div className="h-[360px] sm:h-[380px]">
+                    <BloombergTv grow className="h-full" />
                 </div>
             </div>
         </div>
