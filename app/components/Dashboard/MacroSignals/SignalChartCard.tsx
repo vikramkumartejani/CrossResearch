@@ -279,12 +279,12 @@ export default function SignalChartCard({ chart }: { chart: SignalChart }) {
                 <p className="mt-1 sm:mt-2 mb-4 text-white text-[14px] sm:text-[15px] sm:text-[16px] leading-[19px] font-medium">{chart.title}</p>
 
                 <div className="w-full">
-                    {chart.image ? (
+                    {chart.image && /res\.cloudinary\.com/i.test(chart.image) ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={media(chart.image)}
                             alt={chart.title}
-                            className="w-full h-auto max-h-[260px] object-contain rounded-[4px]"
+                            className="w-full h-auto max-h-[260px] object-contain rounded-[4px] bg-[#0C0C14]"
                         />
                     ) : chart.chartType === 'bar' && chart.barLabels && chart.barValues ? (
                         <BarChart labels={chart.barLabels} values={chart.barValues} />

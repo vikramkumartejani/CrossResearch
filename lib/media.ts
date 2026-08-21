@@ -2,13 +2,13 @@
  * Image src helper.
  *
  * Static files under `/public/assets` stay on this origin.
- * Admin-uploaded images already come back as full Cloudinary URLs
+ * Admin-uploaded images come back as Cloudinary URLs
  * (`res.cloudinary.com/...`) and are left as-is.
  */
 export function media(src: string): string {
-  return src || ''
+  return (src || '').trim()
 }
 
 export function mediaCssUrl(src: string): string {
-  return `url("${(src || '').replace(/"/g, '%22')}")`
+  return `url("${media(src).replace(/"/g, '%22')}")`
 }
