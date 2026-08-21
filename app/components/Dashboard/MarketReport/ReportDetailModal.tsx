@@ -53,7 +53,7 @@ export default function ReportDetailModal({ report, onClose }: ReportDetailModal
                     {report.tags.map((tag) => (
                         <span
                             key={tag}
-                            className="inline-flex items-center px-3 h-[26px] text-[#88C4FF] text-[11px] sm:text-[12px] leading-[17px] uppercase font-medium rounded-[72px] border border-[#FFFFFF1A]"
+                            className="inline-flex items-center px-3 h-[26px] text-[#88C4FF] text-[11px] sm:text-[12px] leading-[17px] font-medium rounded-[72px] border border-[#FFFFFF1A]"
                         >
                             {tag}
                         </span>

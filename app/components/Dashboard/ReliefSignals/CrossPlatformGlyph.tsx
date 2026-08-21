@@ -4,7 +4,7 @@ const ITEMS = [
     {
         title: 'Fed cuts rates July FOMC',
         pct: '72.2%',
-        tag: 'MACRO',
+        tag: 'Macro',
         dots: 5,
         filledDots: 5,
         verdict: 'Yes',
@@ -22,7 +22,7 @@ const ITEMS = [
     {
         title: 'US enters recession in 2026',
         pct: '20.6%',
-        tag: 'MACRO',
+        tag: 'Macro',
         dots: 5,
         filledDots: 2,
         verdict: 'Yes',

@@ -97,7 +97,7 @@ export default function LockedSection({
       {heading && showHeading ? (
         <div className="relative z-20 mb-3 flex items-center gap-2.5">
           <h2 className="text-white text-[16px] sm:text-[18px] leading-[22px] font-medium">{heading}</h2>
-          <span className="inline-flex items-center gap-1 h-[22px] px-2 rounded-md border border-[#FFFFFF14] bg-[#FFFFFF08] text-white/55 text-[10px] font-medium uppercase tracking-[0.06em]">
+          <span className="inline-flex items-center gap-1 h-[22px] px-2 rounded-md border border-[#FFFFFF14] bg-[#FFFFFF08] text-white/55 text-[10px] font-medium tracking-[0.06em]">
             <LockIcon size={11} />
             Locked
           </span>

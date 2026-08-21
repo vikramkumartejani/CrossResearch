@@ -182,7 +182,7 @@ export default function NewsSidebar() {
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[520px] border-collapse">
                             <thead>
-                                <tr className="text-[#838388] text-[10px] sm:text-[11px] leading-[14px] uppercase tracking-wide">
+                                <tr className="text-[#838388] text-[10px] sm:text-[11px] leading-[14px] tracking-wide">
                                     <th className="text-left font-medium pb-2 pr-3">Signal</th>
                                     <th className="text-right font-medium pb-2 px-1.5">Last</th>
                                     <th className="text-right font-medium pb-2 px-1.5">1D</th>

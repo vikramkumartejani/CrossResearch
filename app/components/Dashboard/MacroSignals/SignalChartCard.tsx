@@ -20,10 +20,17 @@ const BADGE_STYLES: Record<string, string> = {
     NEUTRAL: 'text-[#838388] border-[#83838840]',
 }
 
+function formatBadgeLabel(label: string) {
+    const raw = (label || '').trim()
+    if (!raw) return '-'
+    return raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase()
+}
+
 function Badge({ label }: { label: string }) {
+    const key = (label || '').trim().toUpperCase()
     return (
-        <span className={`text-[12px] leading-[14px] font-normal ${BADGE_STYLES[label] ?? BADGE_STYLES.NEUTRAL}`}>
-            {label}
+        <span className={`text-[12px] leading-[14px] font-normal ${BADGE_STYLES[key] ?? BADGE_STYLES.NEUTRAL}`}>
+            {formatBadgeLabel(label)}
         </span>
     )
 }

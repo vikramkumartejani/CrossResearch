@@ -79,7 +79,7 @@ export default function SupportInboxPage() {
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-wrap items-start justify-between gap-4 mb-8">
           <div>
-            <p className="text-[#838388] text-[12px] uppercase tracking-[0.14em] mb-2">Answer desk</p>
+            <p className="text-[#838388] text-[12px] tracking-[0.14em] mb-2">Answer desk</p>
             <h1 className="text-[28px] sm:text-[34px] font-medium">Support inbox</h1>
             <p className="text-white/50 text-[13px] mt-1">Signed in as {agent}</p>
           </div>

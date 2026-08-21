@@ -21,6 +21,13 @@ function SymbolIcon({ children }: { children: ReactNode }) {
 const ICON_CLASS = 'size-5'
 
 const SYMBOLS: Record<string, ReactNode> = {
+    'Net GEX regime': (
+        <SymbolIcon>
+            <svg className={ICON_CLASS} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 2.5h10v3.2H8.2V17.5H5V2.5z" />
+            </svg>
+        </SymbolIcon>
+    ),
     'NET GEX REGIME': (
         <SymbolIcon>
             <svg className={ICON_CLASS} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -53,8 +60,8 @@ const SYMBOLS: Record<string, ReactNode> = {
 
 const FALLBACK: GreekCard[] = [
     {
-        symbol: SYMBOLS['NET GEX REGIME'],
-        label: 'NET GEX REGIME',
+        symbol: SYMBOLS['Net GEX regime'],
+        label: 'Net GEX regime',
         title: '-',
         desc: '-',
     },
@@ -105,7 +112,7 @@ export default function GreeksSynthesis() {
                               label,
                               title: g.title || '-',
                               desc: g.desc || '',
-                              symbol: SYMBOLS[label] ?? SYMBOLS['NET GEX REGIME'],
+                              symbol: SYMBOLS[label] ?? SYMBOLS['Net GEX regime'],
                           }
                       })
                     : []

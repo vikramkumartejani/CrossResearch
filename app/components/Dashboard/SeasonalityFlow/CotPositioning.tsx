@@ -250,7 +250,7 @@ export default function CotPositioning() {
                         </div>
 
                         <div className="mt-3 sm:mt-4 p-3 sm:p-4 border-t border-[#FFFFFF0D]">
-                            <p className="text-[#88C4FF] text-[14px] sm:text-[16px] leading-[19px] font-semibold uppercase mb-2 sm:mb-3">
+                            <p className="text-[#88C4FF] text-[14px] sm:text-[16px] leading-[19px] font-semibold mb-2 sm:mb-3">
                                 Regime Takeaway
                             </p>
                             <p className="text-white/60 text-[12px] leading-4 sm:leading-[18px]">{takeaway}</p>

@@ -123,7 +123,7 @@ export default function OnboardingFlow() {
       ) : persona ? (
         <div className="flex flex-col gap-6 max-w-[520px]">
           <div>
-            <p className="text-[#6EA8FF] text-[13px] tracking-[0.04em] uppercase mb-3">
+            <p className="text-[#6EA8FF] text-[13px] tracking-[0.04em] mb-3">
               {persona.title || 'Welcome'}
             </p>
             <h1 className="text-white text-[28px] sm:text-[34px] leading-[1.15] font-medium mb-4">

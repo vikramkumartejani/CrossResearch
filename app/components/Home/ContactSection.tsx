@@ -7,7 +7,7 @@ export default function ContactSection() {
     const [selectedDate, setSelectedDate] = useState(27);
     const [selectedTime, setSelectedTime] = useState('04:00 PM');
 
-    const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     const calendarDates = [
         [null, null, null, 1, 2, 3, 4],

@@ -88,7 +88,7 @@ export default function TheCycleWidget() {
         </div>
 
         <div className={`mt-auto pt-3 border-t ${rowBorder}`}>
-          <p className={`text-[11px] uppercase tracking-[0.06em] mb-2 ${muted}`}>Desk Commentary</p>
+          <p className={`text-[11px] tracking-[0.06em] mb-2 ${muted}`}>Desk Commentary</p>
           <div className="flex flex-col gap-2">
             {commentary.slice(0, 2).map((item, index) => (
               <div key={`${index}-${item.slice(0, 24)}`} className="flex gap-2 items-start">

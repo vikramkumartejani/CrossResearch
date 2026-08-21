@@ -34,7 +34,7 @@ function categoryForNav(navId: string): string {
   for (const cat of categories) {
     if (cat.items.some((i) => i.id === navId)) return cat.label
   }
-  return 'DOCUMENTATION'
+  return 'Documentation'
 }
 
 function labelForNav(navId: string): string {
@@ -189,7 +189,7 @@ export default function Tutorial() {
           {filteredCategories.map((cat) => (
             <div key={cat.id} className="mb-5 last:mb-1">
               <p
-                className={`px-2.5 mb-1.5 text-[10px] tracking-[0.1em] font-semibold uppercase ${muted}`}
+                className={`px-2.5 mb-1.5 text-[10px] tracking-[0.1em] font-semibold ${muted}`}
               >
                 {cat.label}
               </p>
@@ -264,7 +264,7 @@ export default function Tutorial() {
             )}
           </div>
 
-          <p className={`text-[11px] tracking-[0.08em] uppercase font-medium mb-2 ${muted}`}>
+          <p className={`text-[11px] tracking-[0.08em] font-medium mb-2 ${muted}`}>
             {categoryForNav(activeNav)}
           </p>
           <h1 className={`text-[28px] sm:text-[32px] font-semibold leading-tight tracking-[-0.02em] mb-2 ${strong}`}>
@@ -367,7 +367,7 @@ export default function Tutorial() {
         className={`hidden lg:flex w-[200px] xl:w-[220px] shrink-0 flex-col border-l ${border} ${docsBg}`}
       >
         <div className="px-4 pt-6 pb-4">
-          <p className={`text-[10px] tracking-[0.1em] font-semibold uppercase mb-3 ${muted}`}>
+          <p className={`text-[10px] tracking-[0.1em] font-semibold mb-3 ${muted}`}>
             On this page
           </p>
           {page.toc.length ? (

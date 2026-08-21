@@ -14,7 +14,7 @@ function formatRisk(value: number | null): string {
 }
 
 export default function StrategicChokepoints() {
-    const [title, setTitle] = useState('STRATEGIC CHOKEPOINTS')
+    const [title, setTitle] = useState('Strategic chokepoints')
     const [rows, setRows] = useState<Chokepoint[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -69,13 +69,13 @@ export default function StrategicChokepoints() {
 
     return (
         <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col h-[360px] sm:h-[380px]">
-            <p className="text-[#C5CDD8] text-[12px] sm:text-[13px] leading-4 font-semibold tracking-[0.12em] uppercase shrink-0 mb-3">
+            <p className="text-[#C5CDD8] text-[12px] sm:text-[13px] leading-4 font-semibold tracking-[0.12em] shrink-0 mb-3">
                 {title}
             </p>
 
             <div className="grid grid-cols-[1fr_64px] gap-3 px-1 pb-2 border-b border-[#FFFFFF14] shrink-0">
-                <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em] uppercase">Chokepoint</span>
-                <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em] uppercase text-right">Risk</span>
+                <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em]">Chokepoint</span>
+                <span className="text-[#6B7280] text-[10px] font-semibold tracking-[0.12em] text-right">Risk</span>
             </div>
 
             {loading && <ChartLoader className="min-h-[120px] mt-3" />}

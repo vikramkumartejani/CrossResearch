@@ -698,7 +698,7 @@ export default function AffiliateCenter() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[640px] text-[13px]">
                 <thead>
-                  <tr className="border-y border-[#FFFFFF0D] text-left text-[#838388] text-[11px] uppercase">
+                  <tr className="border-y border-[#FFFFFF0D] text-left text-[#838388] text-[11px]">
                     <th className="px-4 py-3 font-medium">Client</th>
                     <th className="px-4 py-3 font-medium">Email</th>
                     <th className="px-4 py-3 font-medium">Status</th>
@@ -750,7 +750,7 @@ export default function AffiliateCenter() {
                   </div>
                   <p className="ml-auto text-white text-[13px] font-medium whitespace-nowrap">{money(p.amount)}</p>
                   <span
-                    className={`text-[10px] uppercase font-semibold px-2 py-0.5 ${
+                    className={`text-[10px] font-semibold px-2 py-0.5 ${
                       p.status === 'paid'
                         ? 'bg-[#2CB37B1F] text-[#2CB37B]'
                         : p.status === 'rejected'

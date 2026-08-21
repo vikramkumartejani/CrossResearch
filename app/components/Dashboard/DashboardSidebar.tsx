@@ -41,14 +41,14 @@ function NavIcon({ name }: { name: string }) {
 
 const NAV_SECTIONS = [
     {
-        label: 'WORK SPACE',
+        label: 'Work space',
         items: [
             { label: 'Analysis', href: '/analysis', icon: <NavIcon name="analysis-home" /> },
             { label: 'Market Report', href: '/market-report', icon: <NavIcon name="market-report-file-text" /> },
         ],
     },
     {
-        label: 'MACRO',
+        label: 'Macro',
         items: [
             { label: 'Macro Nowcast', href: '/macro-nowcast', icon: <NavIcon name="macro-nowcast-activity" /> },
             { label: 'Macro Signals', href: '/macro-signals', icon: <NavIcon name="macro-signals-layers" /> },
@@ -56,27 +56,27 @@ const NAV_SECTIONS = [
         ],
     },
     {
-        label: 'FLOW & POSITIONING',
+        label: 'Flow & positioning',
         items: [
             { label: 'Options Positioning', href: '/options-positioning', icon: <NavIcon name="options-positioning-crosshair" /> },
             { label: 'Seasonality & Flow', href: '/seasonality-flow', icon: <NavIcon name="seasonality-flow-bar-chart" /> },
         ],
     },
     {
-        label: 'CRYPTO',
+        label: 'Crypto',
         items: [
             { label: 'Crypto / BTC', href: '/crypto-btc', icon: <NavIcon name="crypto-bitcoin" /> },
         ],
     },
     {
-        label: 'INTELLIGENCE',
+        label: 'Intelligence',
         items: [
             { label: 'Geopolitical', href: '/geopolitical', icon: <NavIcon name="geopolitical-globe" /> },
             { label: 'News', href: '/news', icon: <NavIcon name="news-megaphone" /> },
         ],
     },
     {
-        label: 'LEARNING',
+        label: 'Learning',
         items: [
             { label: 'Tutorial', href: '/tutorial', icon: <NavIcon name="tutorial-graduation-cap" /> },
             { label: 'Education Center', href: '/education-center', icon: <NavIcon name="education-book-open" /> },
@@ -84,7 +84,7 @@ const NAV_SECTIONS = [
         ],
     },
     {
-        label: 'SUPPORT',
+        label: 'Support',
         items: [
             { label: 'Help Center', href: '/help-center', icon: <NavIcon name="help-life-buoy" /> },
             { label: 'Contact Support', href: '/contact-support', icon: <NavIcon name="support-message-circle" /> },
@@ -300,7 +300,7 @@ export default function DashboardSidebar({
                     {navSections.map((section) => (
                         <div key={section.label} className="mb-5">
                             {!compact && (
-                                <p className={`text-[12px] leading-[14px] font-semibold uppercase mb-2.5 ${isLight ? 'text-[#838388]' : 'text-white/60'}`}>
+                                <p className={`text-[12px] leading-[14px] font-semibold mb-2.5 ${isLight ? 'text-[#838388]' : 'text-white/60'}`}>
                                     {section.label}
                                 </p>
                             )}

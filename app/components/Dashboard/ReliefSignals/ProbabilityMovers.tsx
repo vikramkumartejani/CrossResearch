@@ -67,25 +67,25 @@ export default function ProbabilityMovers() {
                         <table className="w-full border-collapse 2xl:min-w-full min-w-[794px]">
                             <thead className="sticky top-0 bg-[#16161F] z-10">
                                 <tr className="border-b border-[#FFFFFF08]">
-                                    <th className="pl-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold uppercase tracking-wide w-[38%]">
+                                    <th className="pl-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[38%]">
                                         EVENT / OUTCOME
                                     </th>
-                                    <th className="pl-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold uppercase tracking-wide w-[13%]">
+                                    <th className="pl-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[13%]">
                                         CATEGORY
                                     </th>
-                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold uppercase tracking-wide w-[8%]">
+                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[8%]">
                                         PROB
                                     </th>
-                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold uppercase tracking-wide w-[9%]">
+                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[9%]">
                                         Δ1M
                                     </th>
-                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold uppercase tracking-wide w-[9%]">
+                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[9%]">
                                         Δ1H
                                     </th>
-                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold uppercase tracking-wide w-[9%]">
+                                    <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[9%]">
                                         Δ24H
                                     </th>
-                                    <th className="px-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold uppercase tracking-wide w-[12%]">
+                                    <th className="px-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[12%]">
                                         SHOCK
                                     </th>
                                 </tr>

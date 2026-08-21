@@ -25,7 +25,7 @@ const PLANS: Record<"monthly" | "annual", PlanCard[]> = {
             id: "starter",
             name: "Starter Pack",
             sub: "Essential insights for beginners journey",
-            price: "FREE",
+            price: "Free",
             priceNote: null,
             features: [
                 "Get one free week of insights",
@@ -72,7 +72,7 @@ const PLANS: Record<"monthly" | "annual", PlanCard[]> = {
             id: "starter",
             name: "Starter Pack",
             sub: "Essential insights for beginners journey",
-            price: "FREE",
+            price: "Free",
             priceNote: null,
             features: [
                 "Get one free week of insights",

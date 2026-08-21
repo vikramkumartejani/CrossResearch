@@ -31,10 +31,10 @@ export default function AnalysisHeader({
   const strong = isLight ? 'text-[#0F172A]' : 'text-white'
 
   const stats = [
-    { label: 'PREV OPEN', value: selectedPair.openPrice },
-    { label: 'PREV HIGH', value: selectedPair.dayHigh },
-    { label: 'PREV LOW', value: selectedPair.dayLow },
-    { label: 'PREV CLOSE', value: selectedPair.prevClose },
+    { label: 'Prev open', value: selectedPair.openPrice },
+    { label: 'Prev high', value: selectedPair.dayHigh },
+    { label: 'Prev low', value: selectedPair.dayLow },
+    { label: 'Prev close', value: selectedPair.prevClose },
   ]
 
   return (
@@ -42,7 +42,7 @@ export default function AnalysisHeader({
 
       {/* Title only - nothing on the right (toggle is floating elsewhere) */}
       <div ref={ref} className="relative mb-6 max-w-xl">
-        <p className={`text-[11px] tracking-[0.08em] uppercase mb-2 ${muted}`}>
+        <p className={`text-[11px] tracking-[0.08em] mb-2 ${muted}`}>
           Market <span className="opacity-50">•</span> Assets
         </p>
         <button
@@ -123,7 +123,7 @@ export default function AnalysisHeader({
               <span className={`text-[16px] sm:text-[18px] font-semibold leading-none tabular-nums ${strong}`}>
                 {stat.value}
               </span>
-              <span className={`mt-1.5 text-[11px] tracking-[0.06em] uppercase leading-none ${muted}`}>
+              <span className={`mt-1.5 text-[11px] tracking-[0.06em] leading-none ${muted}`}>
                 {stat.label}
               </span>
             </div>

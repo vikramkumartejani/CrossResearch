@@ -5,7 +5,7 @@ type Variant = 'left' | 'center' | 'right'
 function Metric({ label, value, up }: { label: string; value: string; up?: boolean }) {
   return (
     <div className="rounded-[10px] bg-white/[0.04] border border-white/[0.06] px-2.5 py-2">
-      <p className="text-[9px] sm:text-[10px] uppercase tracking-wide text-white/35 mb-0.5">{label}</p>
+      <p className="text-[9px] sm:text-[10px] tracking-wide text-white/35 mb-0.5">{label}</p>
       <p className={`text-[12px] sm:text-[14px] font-medium ${up === false ? 'text-[#F07171]' : 'text-[#88C4FF]'}`}>
         {value}
       </p>

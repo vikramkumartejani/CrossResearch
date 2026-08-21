@@ -1,24 +1,24 @@
 const TAPE_ITEMS = [
     {
-        label: 'WATCH',
+        label: 'Watch',
         title: 'Fed Cuts rates before July FOMC',
         change: '+3.06%',
         positive: true,
     },
     {
-        label: 'WATCH',
+        label: 'Watch',
         title: 'Russia – Ukraine announced in Q3',
         change: '-3.77%',
         positive: false,
     },
     {
-        label: 'WATCH',
+        label: 'Watch',
         title: 'US enters recession in 2026',
         change: '+5.74%',
         positive: true,
     },
     {
-        label: 'WATCH',
+        label: 'Watch',
         title: 'Bitcoin Closes above $100K year – end',
         change: '-1.71%',
         positive: false,
@@ -53,7 +53,7 @@ export default function BeliefTape() {
                         className="flex items-center justify-between gap-2 pb-4 last:pb-0 border-b border-[#FFFFFF1A] last:border-0"
                     >
                         <div className="flex items-center gap-2 min-w-0">
-                            <span className="h-[22px] border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[70px] px-2.5 flex items-center justify-center text-white text-[12px] leading-[17px] font-medium uppercase">
+                            <span className="h-[22px] border border-[#FFFFFF0D] bg-[#FFFFFF08] rounded-[70px] px-2.5 flex items-center justify-center text-white text-[12px] leading-[17px] font-medium">
                                 {item.label}
                             </span>
 

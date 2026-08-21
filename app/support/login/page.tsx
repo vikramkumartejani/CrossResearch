@@ -53,7 +53,7 @@ export default function SupportLoginPage() {
     <div className="min-h-screen bg-[#070711] flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         <Image src="/assets/logo.svg" alt="CrossResearch" width={44} height={38} priority />
-        <p className="text-[#838388] text-[12px] uppercase tracking-[0.14em] mt-6 mb-2">Help desk</p>
+        <p className="text-[#838388] text-[12px] tracking-[0.14em] mt-6 mb-2">Help desk</p>
         <h1 className="text-white text-[28px] sm:text-[34px] font-medium leading-tight mb-2">
           Support answer login
         </h1>
