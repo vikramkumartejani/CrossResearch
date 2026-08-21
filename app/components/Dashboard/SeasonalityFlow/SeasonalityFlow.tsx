@@ -31,9 +31,7 @@ export default function SeasonalityFlow() {
 
             <div className="px-4 lg:px-6 flex flex-col gap-4">
                 <CotPositioning />
-                <LockedSection title="Seasonality Map">
-                    <SeasonalityMap />
-                </LockedSection>
+                <SeasonalityMap />
                 <LockedSection title="Seasonality Drivers">
                     <SeasonalityDrivers />
                 </LockedSection>

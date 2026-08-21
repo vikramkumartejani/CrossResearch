@@ -82,26 +82,57 @@ export default function SeasonalityMap() {
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
+        const controller = new AbortController()
+        let timedOut = false
+        const timer = window.setTimeout(() => {
+            timedOut = true
+            controller.abort()
+        }, 90_000)
+
         async function fetchSeasonalityData() {
             try {
                 setLoading(true)
                 setError(null)
 
                 const response = await fetch(
-                    `/api/seasonality-data?instruments=${encodeURIComponent(instrument)}`
+                    `/api/seasonality-data?instruments=${encodeURIComponent(instrument)}`,
+                    { cache: 'no-store', signal: controller.signal }
                 )
 
                 if (!response.ok) {
                     const body = await response.json().catch(() => ({}))
-                    throw new Error(body.details || body.error || 'Failed to fetch seasonality data')
+                    const detail =
+                        typeof body.details === 'string'
+                            ? body.details
+                            : body.error || 'Failed to fetch seasonality data'
+                    throw new Error(detail)
                 }
 
                 const apiData: ApiResponse = await response.json()
+                // Drop stale responses after unmount / instrument change / remount.
+                if (controller.signal.aborted) return
 
-                const years = [...new Set(apiData.month_of_year_history.map((d) => d.year))].sort()
+                const history = Array.isArray(apiData.month_of_year_history)
+                    ? apiData.month_of_year_history
+                    : []
+                const monthStats = Array.isArray(apiData.month_statistics)
+                    ? apiData.month_statistics
+                    : []
+                const dayAverages = Array.isArray(apiData.month_day_averages)
+                    ? apiData.month_day_averages
+                    : []
+                const dayStats = Array.isArray(apiData.day_of_month_statistics)
+                    ? apiData.day_of_month_statistics
+                    : []
+
+                if (!history.length && !monthStats.length) {
+                    throw new Error('Seasonality API returned no rows for this instrument.')
+                }
+
+                const years = [...new Set(history.map((d) => d.year))].sort()
                 setYearlyRows(
                     years.map((year) => {
-                        const yearData = apiData.month_of_year_history.filter((d) => d.year === year)
+                        const yearData = history.filter((d) => d.year === year)
                         const values = MONTHS.map((_, monthIndex) => {
                             const monthData = yearData.find((d) => d.month === monthIndex + 1)
                             const value = monthData?.monthly_return_pct
@@ -112,13 +143,12 @@ export default function SeasonalityMap() {
                 )
                 setYearlyAvg(
                     MONTHS.map((_, monthIndex) => {
-                        const monthStat = apiData.month_statistics.find((d) => d.month === monthIndex + 1)
+                        const monthStat = monthStats.find((d) => d.month === monthIndex + 1)
                         const value = monthStat?.average_return_pct
                         return value == null || !Number.isFinite(value) ? null : value
                     })
                 )
 
-                const dayAverages = apiData.month_day_averages || []
                 setMonthlyRows(
                     MONTHS.map((monthName, monthIndex) => {
                         const monthNum = monthIndex + 1
@@ -134,9 +164,7 @@ export default function SeasonalityMap() {
                 )
                 setMonthlyAvg(
                     DAYS.map((day) => {
-                        const dayStat = (apiData.day_of_month_statistics || []).find(
-                            (d) => d.day_of_month === day
-                        )
+                        const dayStat = dayStats.find((d) => d.day_of_month === day)
                         const value = dayStat?.average_return_pct
                         return value == null || !Number.isFinite(value) ? null : value
                     })
@@ -144,14 +172,27 @@ export default function SeasonalityMap() {
 
                 setYearCount(apiData.metadata?.analysis_year_count || years.length || 11)
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'Unknown error')
-                console.error('Error fetching seasonality data:', err)
+                // Cleanup abort (Strict Mode remount / instrument change) is not a failure.
+                if (controller.signal.aborted && !timedOut) return
+                if (timedOut) {
+                    setError('Seasonality request timed out. Please retry.')
+                } else {
+                    setError(err instanceof Error ? err.message : 'Unknown error')
+                    console.error('Error fetching seasonality data:', err)
+                }
             } finally {
-                setLoading(false)
+                window.clearTimeout(timer)
+                if (!controller.signal.aborted || timedOut) {
+                    setLoading(false)
+                }
             }
         }
 
-        fetchSeasonalityData()
+        void fetchSeasonalityData()
+        return () => {
+            window.clearTimeout(timer)
+            controller.abort()
+        }
     }, [instrument])
 
     const isYearly = view === 'yearly'
