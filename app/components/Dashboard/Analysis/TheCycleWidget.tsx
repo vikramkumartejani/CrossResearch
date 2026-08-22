@@ -5,6 +5,8 @@ import { dashCardClass, useDashboardTheme } from '../DashboardTheme'
 
 /** Desk notes shown under the cycle metrics. */
 const FALLBACK_COMMENTARY = ['Add desk commentary here.']
+const MAX_COMMENTARY = 3
+const MAX_COMMENTARY_CHARS = 72
 
 const CYCLE_ROWS: {
   label: string
@@ -37,7 +39,10 @@ export default function TheCycleWidget() {
         const body = await res.json().catch(() => ({}))
         if (!res.ok || cancelled) return
         const items = Array.isArray(body.items)
-          ? body.items.map((x: unknown) => String(x ?? '').trim()).filter(Boolean)
+          ? body.items
+              .map((x: unknown) => String(x ?? '').trim().slice(0, MAX_COMMENTARY_CHARS))
+              .filter(Boolean)
+              .slice(0, MAX_COMMENTARY)
           : []
         if (items.length) setCommentary(items)
       } catch {
@@ -70,7 +75,7 @@ export default function TheCycleWidget() {
         </span>
       </div>
 
-      <div className="p-4 flex flex-col flex-1 min-h-0 gap-4">
+      <div className="p-4 flex flex-col gap-3">
         <div className={`divide-y ${isLight ? 'divide-[#D5D8E0]' : 'divide-[#FFFFFF0F]'}`}>
           {CYCLE_ROWS.map((row) => (
             <div
@@ -87,15 +92,15 @@ export default function TheCycleWidget() {
           ))}
         </div>
 
-        <div className={`mt-auto pt-3 border-t ${rowBorder}`}>
-          <p className={`text-[11px] tracking-[0.06em] mb-2 ${muted}`}>Desk Commentary</p>
-          <div className="flex flex-col gap-2">
-            {commentary.slice(0, 2).map((item, index) => (
-              <div key={`${index}-${item.slice(0, 24)}`} className="flex gap-2 items-start">
+        <div className={`pt-3 border-t ${rowBorder}`}>
+          <p className={`text-[12px] leading-[16px] font-medium mb-2 ${muted}`}>Desk Commentary</p>
+          <div className="flex flex-col gap-1.5">
+            {commentary.slice(0, MAX_COMMENTARY).map((item, index) => (
+              <div key={`${index}-${item.slice(0, 24)}`} className="flex gap-2 items-center min-w-0">
                 <span className="text-[#88C4FF] text-[12px] font-semibold tabular-nums shrink-0">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <p className={`text-[12px] leading-[17px] ${muted}`}>{item}</p>
+                <p className={`text-[12px] leading-[17px] truncate ${muted}`}>{item}</p>
               </div>
             ))}
           </div>

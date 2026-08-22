@@ -374,31 +374,38 @@ export default function Chart({ selectedPair }: ChartProps) {
     const muted = isLight ? 'text-[#5B6472]' : 'text-white/50'
 
     return (
-        <div className={`${dashCardClass(theme)} p-4 sm:p-5 flex flex-col h-full rounded-[4px]`}>
-            <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-                <h3 className={`text-[16px] sm:text-[18px] leading-[22px] font-medium ${isLight ? 'text-[#0F172A]' : 'text-white'}`}>
-                    Daily Price Action
-                </h3>
-                <span className={`text-[12px] sm:text-[13px] leading-[16px] font-medium ${muted}`}>
+        <div className={`${dashCardClass(theme)} flex flex-col h-full rounded-[4px]`}>
+            <div className={`px-4 py-3.5 border-b ${isLight ? 'border-[#D5D8E0]' : 'border-[#FFFFFF0F]'} flex items-start justify-between gap-3`}>
+                <div>
+                    <h3 className={`text-[16px] sm:text-[18px] leading-[22px] font-medium ${isLight ? 'text-[#0F172A]' : 'text-white'}`}>
+                        Daily Price Action
+                    </h3>
+                    <p className={`text-[12px] leading-[16px] mt-1 ${muted}`}>
+                        Keep a close look on your favorite asset
+                    </p>
+                </div>
+                <span className={`shrink-0 text-[12px] sm:text-[13px] leading-[16px] font-medium ${muted}`}>
                     15-minute · last 24h
                 </span>
             </div>
 
-            {status === 'ready' ? (
-                <UPlotChart
-                    timestamps={timestamps}
-                    prices={prices}
-                    decimals={decimals}
-                    period="1D"
-                    light={isLight}
-                />
-            ) : status === 'loading' ? (
-                <ChartLoader light={isLight} className="min-h-[298px]" />
-            ) : (
-                <div className={`flex-1 min-h-[274px] flex items-center justify-center text-[13px] ${muted}`}>
-                    Unavailable
-                </div>
-            )}
+            <div className="p-4 sm:p-5 flex flex-col flex-1 min-h-0">
+                {status === 'ready' ? (
+                    <UPlotChart
+                        timestamps={timestamps}
+                        prices={prices}
+                        decimals={decimals}
+                        period="1D"
+                        light={isLight}
+                    />
+                ) : status === 'loading' ? (
+                    <ChartLoader light={isLight} className="min-h-[298px]" />
+                ) : (
+                    <div className={`flex-1 min-h-[274px] flex items-center justify-center text-[13px] ${muted}`}>
+                        Unavailable
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
