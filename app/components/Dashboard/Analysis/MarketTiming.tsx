@@ -1,102 +1,127 @@
 'use client'
-import { useState, useEffect } from 'react'
+
+import { useEffect, useState } from 'react'
+
+interface MarketTimingData {
+  clock_label: string
+  month_label: string
+  week_dates: number[]
+  highlight_dates: number[]
+  box_text: string
+}
+
+const FALLBACK: MarketTimingData = {
+  clock_label: '15:00 UTC Time',
+  month_label: 'May 2025',
+  week_dates: [21, 22, 23, 24, 25, 26, 27],
+  highlight_dates: [22, 24],
+  box_text: 'Optimal Trading Window',
+}
+
+const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+function normalize(raw: Partial<MarketTimingData> | null | undefined): MarketTimingData {
+  const week = Array.isArray(raw?.week_dates)
+    ? raw!.week_dates.map((n) => Number(n)).filter((n) => Number.isFinite(n)).slice(0, 7)
+    : FALLBACK.week_dates
+  const highlights = Array.isArray(raw?.highlight_dates)
+    ? raw!.highlight_dates.map((n) => Number(n)).filter((n) => Number.isFinite(n))
+    : FALLBACK.highlight_dates
+  return {
+    clock_label: String(raw?.clock_label || FALLBACK.clock_label).trim() || FALLBACK.clock_label,
+    month_label: String(raw?.month_label || FALLBACK.month_label).trim() || FALLBACK.month_label,
+    week_dates: week.length === 7 ? week : FALLBACK.week_dates,
+    highlight_dates: highlights.length ? highlights : FALLBACK.highlight_dates,
+    box_text: String(raw?.box_text || FALLBACK.box_text).trim() || FALLBACK.box_text,
+  }
+}
 
 export default function MarketTiming() {
-    const [currentTime, setCurrentTime] = useState('14:32:15')
+  const [currentTime, setCurrentTime] = useState('--:--:--')
+  const [data, setData] = useState<MarketTimingData>(FALLBACK)
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const now = new Date()
-            const h = String(now.getUTCHours()).padStart(2, '0')
-            const m = String(now.getUTCMinutes()).padStart(2, '0')
-            const s = String(now.getUTCSeconds()).padStart(2, '0')
-            setCurrentTime(`${h}:${m}:${s}`)
-        }, 1000)
-        return () => clearInterval(interval)
-    }, [])
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date()
+      const h = String(now.getUTCHours()).padStart(2, '0')
+      const m = String(now.getUTCMinutes()).padStart(2, '0')
+      const s = String(now.getUTCSeconds()).padStart(2, '0')
+      setCurrentTime(`${h}:${m}:${s}`)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    // Week of May 2025 containing the 21st
-    const week = [21, 22, 23, 24, 25, 26, 27]
-    const highlightBlue = 22
-    const todayMarker = 24
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      try {
+        const res = await fetch('/api/market-timing', { cache: 'no-store' })
+        if (!res.ok) return
+        const body = await res.json()
+        if (!cancelled) setData(normalize(body))
+      } catch {
+        // keep fallback
+      }
+    }
+    void load()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
-    return (
-        <div className='h-full'>
-            <h4 className="text-white text-[18px] leading-[22px] font-medium">Market Timing</h4>
+  const highlightSet = new Set(data.highlight_dates)
 
-            <div className="mt-3 sm:mt-4 bg-[#16161F] p-4 sm:p-5 flex flex-col">
-                {/* UTC clock */}
-                <div className="flex items-center gap-2 mb-2">
-                    <span className="text-white/60 text-[14px] leading-[17px] font-medium">15:00 UTC Time : {currentTime}</span>
+  return (
+    <div>
+      <h4 className="text-white text-[18px] leading-[22px] font-medium">Market Timing</h4>
 
-                    {/* Month heading */}
-                    <p className="text-white/60 text-[14px] sm:text-[16px] leading-[17px] font-semibold">May 2025</p>
-                </div>
-
-                {/* Calendar grid */}
-                <div className='mt-1 sm:mt-3'>
-                    {/* Week row: day name + date number stacked, tick below */}
-                    <div className="flex items-center justify-between">
-                        {week.map((d, i) => {
-                            const isBlue = d === highlightBlue
-                            const isToday = d === todayMarker
-                            return (
-                                <div key={d} className="flex flex-col items-center gap-[6px]">
-                                    {/* Day name */}
-                                    <span className='text-white/60 text-[14px] font-normal leading-[17px]'>
-                                        {days[i]}
-                                    </span>
-                                    {/* Date badge */}
-                                    <div
-                                        className={`py-[3px] flex items-center justify-center text-[16px] sm:text-[18px] font-semibold leading-5 sm:leading-[22px] cursor-pointer transition-colors
-                                            ${isBlue
-                                                ? 'rounded-[8px] px-2 sm:px-[17px] text-[#88C4FF]'
-                                                : isToday
-                                                    ? 'rounded-[10px] px-[17px] text-[#88C4FF]'
-                                                    : 'text-white'
-                                            }`}
-                                        style={(isBlue || isToday) ? {
-                                            background: 'linear-gradient(180deg, rgba(136, 196, 255, 0.15) 0%, rgba(136, 196, 255, 0) 98.21%)',
-                                        } : undefined}
-                                    >
-                                        {d}
-                                    </div>
-                                    {/* Tick line below */}
-                                    <div className="w-px h-[13px] bg-[#FFFFFF40] mt-0.5" />
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-
-                {/* Optimal Trading Window button */}
-                <button className="mt-4 sm:mt-6 w-fit mx-auto py-2 sm:py-3 px-3 sm:px-4 bg-[#FFFFFF0D] border border-[#FFFFFF0D] rounded-[8px] text-white text-[12px] sm:text-[14px] leading-[17px] font-semibold transition-colors cursor-pointer">
-                    Optimal Trading Window
-                </button>
-
-                {/* Legend */}
-                <div className="mt-4 sm:mt-[22px] flex items-center justify-center gap-2.5 sm:gap-4 flex-wrap">
-                    <span className="flex items-center gap-1 text-[14px] leading-[17px] font-normal text-white">
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M4.49431 1.33754C4.68098 0.888789 5.31764 0.888789 5.50431 1.33754L6.37181 3.42337L8.62348 3.60421C9.10848 3.64296 9.30514 4.24796 8.93556 4.56462L7.22014 6.03421L7.74389 8.23129C7.85681 8.70462 7.34223 9.07837 6.92723 8.82504L4.99931 7.64754L3.07139 8.82504C2.65639 9.07837 2.14181 8.70421 2.25473 8.23129L2.77848 6.03421L1.06306 4.56462C0.693476 4.24796 0.890143 3.64296 1.37514 3.60421L3.62681 3.42337L4.49431 1.33754Z" fill="#62A381" />
-                        </svg>
-                        Bottom Formation
-                    </span>
-                    <span className="flex items-center gap-1 text-[14px] leading-[17px] font-normal text-white">
-                        <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="3" cy="3" r="3" fill="#F4D36D" />
-                        </svg>
-                        No Cluster
-                    </span>
-                    <span className="flex items-center gap-1 text-[14px] leading-[17px] font-normal text-white">
-                        <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="3" cy="3" r="3" fill="#E25C3F" />
-                        </svg>
-                        Top Formation
-                    </span>
-                </div>
-            </div>
+      <div className="mt-3 sm:mt-4 bg-[#16161F] p-3 sm:p-4 flex flex-col">
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <span className="text-white/60 text-[13px] sm:text-[14px] leading-[17px] font-medium">
+            {data.clock_label} : {currentTime}
+          </span>
+          <p className="text-white/60 text-[13px] sm:text-[15px] leading-[17px] font-semibold">
+            {data.month_label}
+          </p>
         </div>
-    )
+
+        <div className="mt-1">
+          <div className="flex items-center justify-between gap-1">
+            {data.week_dates.map((d, i) => {
+              const isHighlight = highlightSet.has(d)
+              return (
+                <div key={`${d}-${i}`} className="flex flex-col items-center gap-1.5 min-w-0">
+                  <span className="text-white/60 text-[12px] sm:text-[14px] font-normal leading-[17px]">
+                    {DAY_NAMES[i] || ''}
+                  </span>
+                  <div
+                    className={`py-[2px] flex items-center justify-center text-[15px] sm:text-[17px] font-semibold leading-5 cursor-default transition-colors ${
+                      isHighlight
+                        ? 'rounded-[8px] px-2 sm:px-3 text-[#88C4FF]'
+                        : 'text-white'
+                    }`}
+                    style={
+                      isHighlight
+                        ? {
+                            background:
+                              'linear-gradient(180deg, rgba(136, 196, 255, 0.15) 0%, rgba(136, 196, 255, 0) 98.21%)',
+                          }
+                        : undefined
+                    }
+                  >
+                    {d}
+                  </div>
+                  <div className="w-px h-[10px] bg-[#FFFFFF40]" />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="mt-3 sm:mt-4 w-full max-w-md mx-auto py-2 sm:py-2.5 px-3 sm:px-4 bg-[#FFFFFF0D] border border-[#FFFFFF0D] rounded-[8px] text-white text-[12px] sm:text-[14px] leading-[17px] font-semibold text-center whitespace-pre-wrap">
+          {data.box_text}
+        </div>
+      </div>
+    </div>
+  )
 }

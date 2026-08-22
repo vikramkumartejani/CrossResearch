@@ -35,37 +35,36 @@ interface PriceRangesProps {
 function PriceRangeCard({ title, subtitle, high, low, isLoading }: RangeItem & { isLoading?: boolean }) {
     return (
         <div className="bg-[#16161F] flex flex-col flex-1 min-w-0">
-            <div className="bg-[#FFFFFF0D] px-2.5 sm:px-4 py-2.5">
-                <p className="text-white text-[12px] sm:text-[14px] font-semibold leading-[17px] pr-10 sm:pr-0">{title}</p>
-                <p className="text-white/60 text-[11px] sm:text-[12px] leading-[14px] font-normal mt-1">{subtitle}</p>
+            <div className="bg-[#FFFFFF0D] px-2.5 sm:px-3 py-2">
+                <p className="text-white text-[12px] sm:text-[14px] font-semibold leading-[17px] pr-6 sm:pr-0">{title}</p>
+                <p className="text-white/60 text-[11px] sm:text-[12px] leading-[14px] font-normal mt-0.5">{subtitle}</p>
             </div>
 
-            {/* HIGH value */}
-            <div className="flex items-start gap-2.5 sm:gap-4 p-3 sm:p-4">
+            <div className="flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3">
                 <div className="flex flex-col items-center">
                     <div
                         style={{
-                            width: '9px',
-                            height: '167px',
+                            width: '8px',
+                            height: '110px',
                             borderRadius: '70px',
                             background: 'linear-gradient(180deg, #2CB37B 0%, #060707 47.04%, #E25C3F 100%)',
                             flexShrink: 0,
                         }}
                     />
                 </div>
-                <div className="flex flex-col justify-between gap-3 h-full">
+                <div className="flex flex-col justify-between h-[110px]">
                     <div className="text-left">
-                        <p className="text-[#23B672] text-[14px] font-semibold leading-[17px]">
+                        <p className="text-[#23B672] text-[13px] sm:text-[14px] font-semibold leading-[17px]">
                             {isLoading ? '...' : high}
                         </p>
-                        <p className="text-white/60 text-[12px] leading-[14px] font-normal mt-1">High</p>
+                        <p className="text-white/60 text-[11px] sm:text-[12px] leading-[14px] font-normal mt-0.5">High</p>
                     </div>
 
                     <div className="text-left">
-                        <p className="text-[#E25C3F] text-[14px] font-semibold leading-[17px]">
+                        <p className="text-[#E25C3F] text-[13px] sm:text-[14px] font-semibold leading-[17px]">
                             {isLoading ? '...' : low}
                         </p>
-                        <p className="text-white/60 text-[12px] leading-[14px] font-normal mt-1">Low</p>
+                        <p className="text-white/60 text-[11px] sm:text-[12px] leading-[14px] font-normal mt-0.5">Low</p>
                     </div>
                 </div>
             </div>
@@ -156,7 +155,7 @@ export default function PriceRanges({ asset }: PriceRangesProps) {
             
             <div className="flex gap-2.5 sm:gap-4 mt-3 sm:mt-4">
                 {isLoading ? (
-                    <ChartLoader className="min-h-[220px]" />
+                    <ChartLoader className="min-h-[160px]" />
                 ) : ranges.length > 0 ? (
                     ranges.map((r) => (
                         <PriceRangeCard key={r.title} {...r} />
