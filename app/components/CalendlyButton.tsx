@@ -3,10 +3,10 @@
 import { type ButtonHTMLAttributes, type ReactNode } from 'react'
 import { type CalendlySlot, getCalendlyUrl, openCalendlyPopup } from '@/lib/calendly'
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+type Props = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'slot'> & {
   children: ReactNode
   /** Prefill Calendly with this date/time when present */
-  slot?: CalendlySlot | null
+  calendlySlot?: CalendlySlot | null
   /** Fallback href when popup assets fail */
   fallbackHref?: string
 }
@@ -14,7 +14,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 export default function CalendlyButton({
   children,
   className = '',
-  slot = null,
+  calendlySlot = null,
   fallbackHref,
   onClick,
   ...rest
@@ -25,7 +25,7 @@ export default function CalendlyButton({
     onClick?.(e)
     if (e.defaultPrevented) return
 
-    const opened = await openCalendlyPopup(url, slot).catch(() => false)
+    const opened = await openCalendlyPopup(url, calendlySlot).catch(() => false)
     if (!opened) {
       const href = fallbackHref || url || '/#contact'
       window.location.assign(href)

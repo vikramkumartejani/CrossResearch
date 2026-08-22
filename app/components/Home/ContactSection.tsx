@@ -444,7 +444,7 @@ export default function ContactSection() {
 
                                     {/* Contact Form button → Calendly popup (layout unchanged) */}
                                     <CalendlyButton
-                                        slot={slot}
+                                        calendlySlot={slot}
                                         disabled={!slot}
                                         className="inline-flex items-center gap-[7px] bg-white text-black px-[23.16px] h-[41.5px] rounded-full text-[12px] leading-[14px] font-semibold hover:bg-white/10 hover:text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                                     >
