@@ -94,8 +94,10 @@ export default function SeasonalityMap() {
                 setLoading(true)
                 setError(null)
 
+                // Prod nginx maps /api/* → FastAPI /*. Use /seasonality (exists);
+                // /seasonality-data does not and 404s.
                 const response = await fetch(
-                    `/api/seasonality-data?instruments=${encodeURIComponent(instrument)}`,
+                    `/api/seasonality?instruments=${encodeURIComponent(instrument)}`,
                     { cache: 'no-store', signal: controller.signal }
                 )
 
