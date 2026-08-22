@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 120
 
-/** Alias of /api/seasonality - prod nginx maps /api/* → FastAPI /* */
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)

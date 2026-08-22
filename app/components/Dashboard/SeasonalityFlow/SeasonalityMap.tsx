@@ -95,7 +95,7 @@ export default function SeasonalityMap() {
                 setError(null)
 
                 const response = await fetch(
-                    `/api/seasonality?instruments=${encodeURIComponent(instrument)}`,
+                    `/api/seasonality-data?instruments=${encodeURIComponent(instrument)}`,
                     { cache: 'no-store', signal: controller.signal }
                 )
 
