@@ -1,5 +1,6 @@
 'use client'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import type { SignalChart } from './signalChartsData'
 import { media } from '@/lib/media'
 
@@ -264,54 +265,149 @@ function BarChart({ labels, values }: { labels: string[]; values: number[] }) {
     )
 }
 
+function ChartVisual({ chart, size = 'card' }: { chart: SignalChart; size?: 'card' | 'modal' }) {
+    const imageClass =
+        size === 'modal'
+            ? 'w-full h-auto max-h-[min(70vh,720px)] object-contain rounded-[4px] bg-[#0C0C14]'
+            : 'w-full h-auto max-h-[260px] object-contain rounded-[4px] bg-[#0C0C14]'
+
+    if (chart.image && /res\.cloudinary\.com/i.test(chart.image)) {
+        return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={media(chart.image)} alt={chart.title} className={imageClass} />
+        )
+    }
+    if (chart.chartType === 'bar' && chart.barLabels && chart.barValues) {
+        return <BarChart labels={chart.barLabels} values={chart.barValues} />
+    }
+    if (chart.chartType === 'dots' && chart.lineValues) {
+        return <DotsChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
+    }
+    if (chart.chartType === 'dashed' && chart.lineValues) {
+        return <DashedChart values={chart.lineValues} yLabels={chart.yLabels} />
+    }
+    if (chart.chartType === 'area-tenor' && chart.lineValues) {
+        return <AreaTenorChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
+    }
+    if (chart.lineValues && chart.lineValues.length > 1) {
+        return <AreaChart values={chart.lineValues} yLabels={chart.yLabels} />
+    }
+    return (
+        <div className="h-[180px] flex items-center justify-center text-white/35 text-[13px]">
+            Chart unavailable
+        </div>
+    )
+}
+
+function SignalChartModal({ chart, onClose }: { chart: SignalChart; onClose: () => void }) {
+    useEffect(() => {
+        const previous = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
+
+        function onKey(e: KeyboardEvent) {
+            if (e.key === 'Escape') onClose()
+        }
+        window.addEventListener('keydown', onKey)
+
+        return () => {
+            document.body.style.overflow = previous
+            window.removeEventListener('keydown', onKey)
+        }
+    }, [onClose])
+
+    return createPortal(
+        <div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-3 sm:p-6"
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-label={chart.title}
+        >
+            <div
+                className="relative w-full max-w-[960px] max-h-[92vh] overflow-y-auto overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden bg-[#16161F] border border-[#FFFFFF14] shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 w-9 h-9 flex items-center justify-center bg-[#FFFFFF0A] border border-[#FFFFFF14] hover:bg-[#FFFFFF14] transition-colors cursor-pointer"
+                    aria-label="Close"
+                >
+                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden>
+                        <path d="M4 4L14 14M14 4L4 14" stroke="#FAFAF9" strokeWidth="1.6" strokeLinecap="round" />
+                    </svg>
+                </button>
+
+                <div className="px-4 sm:px-6 pt-5 sm:pt-6 pb-4 sm:pb-5 pr-12 sm:pr-14">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <span className="text-white/50 text-[12px] leading-[14px] font-normal">
+                            {chart.category}
+                        </span>
+                        <Badge label={chart.badge} />
+                    </div>
+                    <h2 className="mt-2 mb-4 sm:mb-5 text-white text-[18px] sm:text-[22px] leading-[1.25] font-medium">
+                        {chart.title}
+                    </h2>
+
+                    <div className="w-full mb-4 sm:mb-5">
+                        <ChartVisual chart={chart} size="modal" />
+                    </div>
+
+                    <p className="text-white/55 text-[13px] sm:text-[14px] leading-[20px] font-normal">
+                        {chart.description}
+                    </p>
+                </div>
+
+                <div className="px-4 sm:px-6 pb-4 sm:pb-5 flex items-center gap-1.5 text-[#88C4FF] text-[11px] sm:text-[12px] leading-[14px] font-semibold border-t border-[#FFFFFF1A] pt-3 sm:pt-4">
+                    <ArrowRight />
+                    <span>{chart.action}</span>
+                </div>
+            </div>
+        </div>,
+        document.body,
+    )
+}
+
 // ── Main card ────────────────────────────────────────────────────────────────
 export default function SignalChartCard({ chart }: { chart: SignalChart }) {
+    const [open, setOpen] = useState(false)
+
     return (
-        <div className="bg-[#16161F] flex flex-col">
-            <div className='px-3 sm:px-5 pt-3 sm:pt-5'>
-                <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className="text-white/50 text-[12px] leading-[14px] font-normal">
-                        {chart.category}
-                    </span>
-                    <Badge label={chart.badge} />
+        <>
+            <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="bg-[#16161F] flex flex-col text-left w-full cursor-pointer hover:bg-[#1A1A24] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#88C4FF]"
+                aria-label={`Open ${chart.title}`}
+            >
+                <div className="px-3 sm:px-5 pt-3 sm:pt-5">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <span className="text-white/50 text-[12px] leading-[14px] font-normal">
+                            {chart.category}
+                        </span>
+                        <Badge label={chart.badge} />
+                    </div>
+
+                    <p className="mt-1 sm:mt-2 mb-4 text-white text-[14px] sm:text-[15px] sm:text-[16px] leading-[19px] font-medium">
+                        {chart.title}
+                    </p>
+
+                    <div className="w-full pointer-events-none">
+                        <ChartVisual chart={chart} size="card" />
+                    </div>
+
+                    <p className="text-white/50 text-[12px] leading-[16px] sm:leading-[17px] font-normal">
+                        {chart.description}
+                    </p>
                 </div>
 
-                <p className="mt-1 sm:mt-2 mb-4 text-white text-[14px] sm:text-[15px] sm:text-[16px] leading-[19px] font-medium">{chart.title}</p>
-
-                <div className="w-full">
-                    {chart.image && /res\.cloudinary\.com/i.test(chart.image) ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                            src={media(chart.image)}
-                            alt={chart.title}
-                            className="w-full h-auto max-h-[260px] object-contain rounded-[4px] bg-[#0C0C14]"
-                        />
-                    ) : chart.chartType === 'bar' && chart.barLabels && chart.barValues ? (
-                        <BarChart labels={chart.barLabels} values={chart.barValues} />
-                    ) : chart.chartType === 'dots' && chart.lineValues ? (
-                        <DotsChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
-                    ) : chart.chartType === 'dashed' && chart.lineValues ? (
-                        <DashedChart values={chart.lineValues} yLabels={chart.yLabels} />
-                    ) : chart.chartType === 'area-tenor' && chart.lineValues ? (
-                        <AreaTenorChart values={chart.lineValues} yLabels={chart.yLabels} xLabels={chart.xLabels} />
-                    ) : chart.lineValues && chart.lineValues.length > 1 ? (
-                        <AreaChart values={chart.lineValues} yLabels={chart.yLabels} />
-                    ) : (
-                        <div className="h-[180px] flex items-center justify-center text-white/35 text-[13px]">
-                            Chart unavailable
-                        </div>
-                    )}
+                <div className="px-3 sm:px-5 pb-3 sm:pb-5 flex items-center text-left gap-1.5 text-[#88C4FF] text-[10px] leading-[14px] font-semibold border-t border-[#FFFFFF1A] mt-3 sm:mt-4 pt-3 sm:pt-4">
+                    <ArrowRight />
+                    <span>{chart.action}</span>
                 </div>
-
-                <p className="text-white/50 text-[12px] leading-[16px] sm:leading-[17px] font-normal">
-                    {chart.description}
-                </p>
-            </div>
-
-            <button className='cursor-pointer px-3 sm:px-5 pb-3 sm:pb-5 flex items-center text-left gap-1.5 text-[#88C4FF] text-[10px] leading-[14px] font-semibold border-t border-[#FFFFFF1A] mt-3 sm:mt-4 pt-3 sm:pt-4'>
-                <ArrowRight />
-                <span>{chart.action}</span>
             </button>
-        </div>
+
+            {open ? <SignalChartModal chart={chart} onClose={() => setOpen(false)} /> : null}
+        </>
     )
 }
