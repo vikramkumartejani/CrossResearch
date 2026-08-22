@@ -1,30 +1,195 @@
 'use client';
 
 import Image from '@/lib/CldImage';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import CalendlyButton from '@/app/components/CalendlyButton';
+import {
+    openCalendlyPopup,
+    getCalendlyUrl,
+    type CalendlySlot,
+} from '@/lib/calendly';
+
+const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+type LiveTime = { start: string; label: string };
+
+function startOfDay(d: Date) {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function buildMonthGrid(year: number, monthIndex: number): (number | null)[] {
+    const first = new Date(year, monthIndex, 1);
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+    const startPad = first.getDay(); // 0 = Sun
+    const cells: (number | null)[] = [];
+    for (let i = 0; i < startPad; i++) cells.push(null);
+    for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+    while (cells.length % 7 !== 0) cells.push(null);
+    return cells;
+}
+
+function todayParts() {
+    const now = new Date();
+    return { year: now.getFullYear(), monthIndex: now.getMonth(), day: now.getDate() };
+}
+
+function pad2(n: number) {
+    return String(n).padStart(2, '0');
+}
+
+function browserTimeZone() {
+    try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York';
+    } catch {
+        return 'America/New_York';
+    }
+}
 
 export default function ContactSection() {
-    const [selectedDate, setSelectedDate] = useState(27);
-    const [selectedTime, setSelectedTime] = useState('04:00 PM');
+    const initial = todayParts();
+    const [viewYear, setViewYear] = useState(initial.year);
+    const [viewMonthIndex, setViewMonthIndex] = useState(initial.monthIndex);
+    const [selectedYear, setSelectedYear] = useState(initial.year);
+    const [selectedMonthIndex, setSelectedMonthIndex] = useState(initial.monthIndex);
+    const [selectedDay, setSelectedDay] = useState(initial.day);
+    const [selectedStart, setSelectedStart] = useState<string | null>(null);
+    const [selectedLabel, setSelectedLabel] = useState<string>('');
+    const [liveTimes, setLiveTimes] = useState<LiveTime[]>([]);
+    const [availableDates, setAvailableDates] = useState<Set<string>>(new Set());
+    const [timesLoading, setTimesLoading] = useState(false);
+    const [timesError, setTimesError] = useState<string | null>(null);
+    const [tz] = useState(browserTimeZone);
 
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const calendarCells = useMemo(
+        () => buildMonthGrid(viewYear, viewMonthIndex),
+        [viewYear, viewMonthIndex]
+    );
 
-    const calendarDates = [
-        [null, null, null, 1, 2, 3, 4],
-        [5, 6, 7, 8, 9, 10, 11],
-        [12, 13, 14, 15, 16, 17, 18],
-        [19, 20, 21, 22, 23, 24, null],
-        [26, 27, 28, 29, 30, null, null],
-    ];
+    const today = startOfDay(new Date());
+    const selectedDateStr = `${selectedYear}-${pad2(selectedMonthIndex + 1)}-${pad2(selectedDay)}`;
+    const viewMonthStr = `${viewYear}-${pad2(viewMonthIndex + 1)}`;
 
-    // Dates that are unavailable (treated like weekends)
-    const unavailableDates = new Set([23]);
+    const slot: CalendlySlot | null = selectedStart
+        ? {
+              year: selectedYear,
+              month: selectedMonthIndex + 1,
+              day: selectedDay,
+              timeLabel: selectedLabel,
+              timeZone: tz,
+              startIso: selectedStart,
+          }
+        : null;
 
-    const availableTimes = [
-        '09:00 AM', '10:00 AM', '11:00 AM',
-        '12:00 AM', '04:00 PM', '06:00 AM',
-        '08:00 PM', '09:00 PM', '10:00 PM',
-    ];
+    // Month availability (which days have open slots)
+    useEffect(() => {
+        let cancelled = false;
+        async function loadMonth() {
+            try {
+                const res = await fetch(
+                    `/api/calendly/availability?month=${encodeURIComponent(viewMonthStr)}&timezone=${encodeURIComponent(tz)}`,
+                    { cache: 'no-store' }
+                )
+                const body = await res.json().catch(() => ({}))
+                if (cancelled) return
+                const next = new Set<string>()
+                for (const d of body.days || []) {
+                    if (d?.available && d?.date) next.add(d.date)
+                }
+                setAvailableDates(next)
+            } catch {
+                if (!cancelled) setAvailableDates(new Set())
+            }
+        }
+        void loadMonth()
+        return () => {
+            cancelled = true
+        }
+    }, [viewMonthStr, tz])
+
+    // Day times
+    useEffect(() => {
+        let cancelled = false
+        async function loadTimes() {
+            setTimesLoading(true)
+            setTimesError(null)
+            setLiveTimes([])
+            setSelectedStart(null)
+            setSelectedLabel('')
+            try {
+                const res = await fetch(
+                    `/api/calendly/availability?date=${encodeURIComponent(selectedDateStr)}&timezone=${encodeURIComponent(tz)}`,
+                    { cache: 'no-store' }
+                )
+                const body = await res.json().catch(() => ({}))
+                if (cancelled) return
+                if (!res.ok) {
+                    setTimesError(typeof body.error === 'string' ? body.error : 'Could not load times')
+                    return
+                }
+                const times = Array.isArray(body.times) ? (body.times as LiveTime[]) : []
+                setLiveTimes(times)
+                if (times.length) {
+                    setSelectedStart(times[0].start)
+                    setSelectedLabel(times[0].label)
+                }
+            } catch {
+                if (!cancelled) setTimesError('Could not load available times')
+            } finally {
+                if (!cancelled) setTimesLoading(false)
+            }
+        }
+        void loadTimes()
+        return () => {
+            cancelled = true
+        }
+    }, [selectedDateStr, tz])
+
+    function shiftMonth(delta: number) {
+        const d = new Date(viewYear, viewMonthIndex + delta, 1);
+        setViewYear(d.getFullYear());
+        setViewMonthIndex(d.getMonth());
+    }
+
+    function pickDay(day: number) {
+        setSelectedYear(viewYear);
+        setSelectedMonthIndex(viewMonthIndex);
+        setSelectedDay(day);
+    }
+
+    function isPastDay(day: number) {
+        const cell = startOfDay(new Date(viewYear, viewMonthIndex, day));
+        return cell.getTime() < today.getTime();
+    }
+
+    function dayHasSlots(day: number) {
+        const key = `${viewYear}-${pad2(viewMonthIndex + 1)}-${pad2(day)}`;
+        // Until month data loads, allow clicking future weekdays
+        if (availableDates.size === 0) return true;
+        return availableDates.has(key);
+    }
+
+    async function bookSlot(time?: LiveTime) {
+        const pick = time || (selectedStart && selectedLabel
+            ? { start: selectedStart, label: selectedLabel }
+            : null);
+        if (!pick) return;
+        setSelectedStart(pick.start);
+        setSelectedLabel(pick.label);
+        const nextSlot: CalendlySlot = {
+            year: selectedYear,
+            month: selectedMonthIndex + 1,
+            day: selectedDay,
+            timeLabel: pick.label,
+            timeZone: tz,
+            startIso: pick.start,
+        };
+        const opened = await openCalendlyPopup(getCalendlyUrl(), nextSlot).catch(() => false);
+        if (!opened) {
+            const url = getCalendlyUrl();
+            if (url) window.open(url, '_blank', 'noopener,noreferrer');
+        }
+    }
 
     return (
         <section id="contact" className="relative w-full pt-20 lg:pt-[120px] xl:pt-[170px] px-4 sm:px-6">
@@ -93,7 +258,7 @@ export default function ContactSection() {
                                             <path fillRule="evenodd" clipRule="evenodd" d="M12 22C16.9706 22 21 17.9706 21 13C21 8.02944 16.9706 4 12 4C7.02944 4 3 8.02944 3 13C3 17.9706 7.02944 22 12 22ZM12 8.25C12.4142 8.25 12.75 8.58579 12.75 9V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V9C11.25 8.58579 11.5858 8.25 12 8.25Z" fill="white" fillOpacity="0.6" />
                                             <path fillRule="evenodd" clipRule="evenodd" d="M9.25 2C9.25 1.58579 9.58579 1.25 10 1.25H14C14.4142 1.25 14.75 1.58579 14.75 2C14.75 2.41421 14.4142 2.75 14 2.75H10C9.58579 2.75 9.25 2.41421 9.25 2Z" fill="white" fillOpacity="0.6" />
                                         </svg>
-                                        <span className='text-white/60 text-[16px] leading-[21px] font-normal'>3 Mins</span>
+                                        <span className='text-white/60 text-[16px] leading-[21px] font-normal'>30 Mins</span>
                                     </div>
                                     {/* Video */}
                                     <div className="flex items-center gap-2">
@@ -111,7 +276,7 @@ export default function ContactSection() {
                                             <path d="M12.0001 2C12.831 2 13.5708 2.36421 14.1793 2.92113C14.7849 3.47525 15.2966 4.24878 15.7104 5.16315C16.1267 6.08292 16.4501 7.15868 16.669 8.32612C16.8445 9.26194 16.9512 10.2485 16.9868 11.25H21.9724C21.5889 6.07745 17.2707 2 12.0001 2Z" fill="white" fillOpacity="0.6" />
                                             <path d="M16.669 15.6739C16.4501 16.8413 16.1267 17.9171 15.7104 18.8368C15.2966 19.7512 14.7849 20.5247 14.1793 21.0789C13.5708 21.6358 12.831 22 12.0001 22C17.2707 22 21.5889 17.9226 21.9724 12.75H16.9868C16.9512 13.7515 16.8445 14.7381 16.669 15.6739Z" fill="white" fillOpacity="0.6" />
                                         </svg>
-                                        <span className='text-white/60 text-[16px] leading-[21px] font-normal'>America/New Work</span>
+                                        <span className='text-white/60 text-[16px] leading-[21px] font-normal'>{tz.replace(/_/g, ' ')}</span>
                                     </div>
                                 </div>
                             </div>
@@ -121,11 +286,14 @@ export default function ContactSection() {
                                 {/* Month nav */}
                                 <div className="flex items-center justify-between mb-5 sm:mb-[26px]">
                                     <h3 className="text-white text-[20px] sm:text-[24px] leading-[26px] font-semibold">
-                                        Nov <span className="text-white/60 font-normal text-[14px]">2026</span>
+                                        {MONTH_SHORT[viewMonthIndex]}{' '}
+                                        <span className="text-white/60 font-normal text-[14px]">{viewYear}</span>
                                     </h3>
                                     <div className="flex gap-2.5">
                                         <button
+                                            type="button"
                                             aria-label="Previous month"
+                                            onClick={() => shiftMonth(-1)}
                                             className="w-[35px] h-[35px] rounded-full bg-[#FFFFFF]/5 flex items-center justify-center cursor-pointer"
                                         >
                                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,7 +301,9 @@ export default function ContactSection() {
                                             </svg>
                                         </button>
                                         <button
+                                            type="button"
                                             aria-label="Next month"
+                                            onClick={() => shiftMonth(1)}
                                             className="w-[35px] h-[35px] rounded-full bg-[#FFFFFF]/5 flex items-center justify-center cursor-pointer"
                                         >
                                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +315,7 @@ export default function ContactSection() {
 
                                 {/* Day headers */}
                                 <div className="grid grid-cols-7 gap-4 sm:gap-[35.67px] mb-4 sm:mb-[15px]">
-                                    {daysOfWeek.map((d) => (
+                                    {DAYS_OF_WEEK.map((d) => (
                                         <div key={d} className="text-center text-white/60 text-[14px] leading-[15px] font-normal">
                                             {d}
                                         </div>
@@ -154,25 +324,31 @@ export default function ContactSection() {
 
                                 {/* Date cells */}
                                 <div className="grid grid-cols-7 gap-4 sm:gap-[35.67px] gap-y-4 sm:gap-y-[33px]">
-                                    {calendarDates.flat().map((date, i) => {
+                                    {calendarCells.map((date, i) => {
                                         const colIndex = i % 7; // 0=SUN, 6=SAT
                                         const isWeekend = colIndex === 0 || colIndex === 6;
-                                        const isUnavailable = isWeekend || (date !== null && unavailableDates.has(date));
-                                        const isSelected = date === selectedDate;
-                                        const isWeekday = date && !isUnavailable;
+                                        const isPast = date != null && isPastDay(date);
+                                        const noSlots = date != null && !isPast && !isWeekend && !dayHasSlots(date);
+                                        const isUnavailable = !date || isWeekend || isPast || noSlots;
+                                        const isSelected =
+                                            date === selectedDay &&
+                                            viewYear === selectedYear &&
+                                            viewMonthIndex === selectedMonthIndex;
+                                        const isSelectable = date != null && !isWeekend && !isPast && !noSlots;
 
                                         return (
                                             <button
-                                                key={i}
-                                                onClick={() => isWeekday && setSelectedDate(date!)}
-                                                disabled={!date || isUnavailable}
+                                                key={`${viewYear}-${viewMonthIndex}-${i}`}
+                                                type="button"
+                                                onClick={() => isSelectable && pickDay(date!)}
+                                                disabled={isUnavailable}
                                                 className={[
                                                     "h-8 sm:h-9 w-9 sm:w-[53px] mx-auto text-[13px] sm:text-[14px] rounded-lg leading-[15px] font-normal transition-all",
                                                     !date ? "invisible" : "",
-                                                    isUnavailable ? "text-white/30 cursor-not-allowed" : "",
+                                                    isUnavailable && date ? "text-white/30 cursor-not-allowed" : "",
                                                     isSelected
                                                         ? "bg-[#88C4FF] text-black font-semibold border border-[#FFFFFF0D] cursor-pointer"
-                                                        : isWeekday
+                                                        : isSelectable
                                                             ? "bg-[#FFFFFF08] text-white border border-[#FFFFFF0D] cursor-pointer hover:bg-[#FFFFFF18]"
                                                             : "",
                                                 ].join(" ")}
@@ -190,20 +366,37 @@ export default function ContactSection() {
                                 <h4 className="text-white text-[16px] sm:text-[18px] leading-[20px] font-semibold mb-4">Available Times</h4>
 
                                 <div className="mb-5 sm:mb-7 grid grid-cols-3 gap-3">
-                                    {availableTimes.map((t) => (
-                                        <button
-                                            key={t}
-                                            onClick={() => setSelectedTime(t)}
-                                            className={[
-                                                "px-2 py-2.5 sm:py-3 rounded-lg text-[13px] sm:text-[14px] leading-[15px] font-normal transition-all whitespace-nowrap cursor-pointer border border-[#FFFFFF0D]",
-                                                selectedTime === t
-                                                    ? "bg-[#88C4FF] text-black font-semibold"
-                                                    : "bg-[#FFFFFF08] text-white",
-                                            ].join(" ")}
-                                        >
-                                            {t}
-                                        </button>
-                                    ))}
+                                    {timesLoading && (
+                                        <p className="col-span-3 text-white/50 text-[13px] leading-[18px]">
+                                            Loading available times…
+                                        </p>
+                                    )}
+                                    {!timesLoading && timesError && (
+                                        <p className="col-span-3 text-[#E25C3F] text-[13px] leading-[18px]">
+                                            {timesError}
+                                        </p>
+                                    )}
+                                    {!timesLoading && !timesError && liveTimes.length === 0 && (
+                                        <p className="col-span-3 text-white/50 text-[13px] leading-[18px]">
+                                            No open times on this day. Pick another date.
+                                        </p>
+                                    )}
+                                    {!timesLoading &&
+                                        liveTimes.map((t) => (
+                                            <button
+                                                key={t.start}
+                                                type="button"
+                                                onClick={() => void bookSlot(t)}
+                                                className={[
+                                                    "px-2 py-2.5 sm:py-3 rounded-lg text-[13px] sm:text-[14px] leading-[15px] font-normal transition-all whitespace-nowrap cursor-pointer border border-[#FFFFFF0D]",
+                                                    selectedStart === t.start
+                                                        ? "bg-[#88C4FF] text-black font-semibold"
+                                                        : "bg-[#FFFFFF08] text-white",
+                                                ].join(" ")}
+                                            >
+                                                {t.label}
+                                            </button>
+                                        ))}
                                 </div>
 
                                 {/* Get in touch */}
@@ -249,13 +442,17 @@ export default function ContactSection() {
                                         </a>
                                     </div>
 
-                                    {/* Contact Form button */}
-                                    <button className="inline-flex items-center gap-[7px] bg-white text-black px-[23.16px] h-[41.5px] rounded-full text-[12px] leading-[14px] font-semibold hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
+                                    {/* Contact Form button → Calendly popup (layout unchanged) */}
+                                    <CalendlyButton
+                                        slot={slot}
+                                        disabled={!slot}
+                                        className="inline-flex items-center gap-[7px] bg-white text-black px-[23.16px] h-[41.5px] rounded-full text-[12px] leading-[14px] font-semibold hover:bg-white/10 hover:text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                                    >
                                         Contact Form
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.32349 10.5831L11.3938 6.51273L7.32349 2.44238M11.3938 6.51273H1.625" stroke="currentColor" strokeWidth="1.08543" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
-                                    </button>
+                                    </CalendlyButton>
                                 </div>
                             </div>
                         </div>

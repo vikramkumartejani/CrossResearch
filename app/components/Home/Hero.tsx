@@ -35,12 +35,14 @@ export default function Hero() {
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                             <div className="flex items-center">
                                 {[
-                                    '/assets/person-1.png',
-                                    '/assets/person-2.png',
-                                    '/assets/person-3.png',
+                                    '/assets/1.png',
+                                    '/assets/2.png',
+                                    '/assets/3.png',
+                                    '/assets/4.png',
+                                    '/assets/5.png',
                                 ].map((src, i) => (
                                     <div
-                                        key={i}
+                                        key={src}
                                         className="w-7 sm:w-8 h-7 sm:h-8 rounded-full border border-white overflow-hidden -ml-2 first:ml-0"
                                         style={{ zIndex: i + 1 }}
                                     >

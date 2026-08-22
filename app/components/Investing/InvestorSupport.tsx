@@ -1,4 +1,5 @@
 import React from 'react'
+import CalendlyButton from '../CalendlyButton'
 
 const SUPPORT_ITEMS = [
     {
@@ -133,9 +134,9 @@ const InvestorSupport = () => {
                             {/* Right: CTA or arrow */}
                             <div className="w-full sm:w-fit relative z-40 flex-shrink-0">
                                 {item.cta ? (
-                                    <button className="w-full bg-white text-black font-inter text-[16px] sm:text-[18px] font-semibold px-5 sm:px-8 h-12 sm:h-[60px] rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap">
+                                    <CalendlyButton className="w-full bg-white text-black font-inter text-[16px] sm:text-[18px] font-semibold px-5 sm:px-8 h-12 sm:h-[60px] rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap">
                                         {item.cta}
-                                    </button>
+                                    </CalendlyButton>
                                 ) : (
                                     <div className="relative z-10 flex-shrink-0 w-12 h-12 sm:w-[75px] sm:h-[75px] rounded-full bg-[#FFFFFF0D] border border-[#FFFFFF0D] flex items-center justify-center cursor-pointer hover:bg-[#FFFFFF18] transition-colors">
                                         <svg width="35" height="35" className='w-8 h-8 sm:w-[35px] sm:h-[35px]' viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
