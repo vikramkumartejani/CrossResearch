@@ -5,8 +5,8 @@ import LogoSlider from "./components/LogoSlider";
 import GlobalMarketInsights from "./components/Home/GlobalMarketInsights";
 import StatsSection from "./components/Home/StatsSection";
 import ResearchStackSection from "./components/Home/ResearchStackSection";
-// import MarketsSection from "./components/Home/MarketsSection";
-// import IntelligenceSection from "./components/Home/IntelligenceSection";
+import MarketsSection from "./components/Home/MarketsSection";
+import IntelligenceSection from "./components/Home/IntelligenceSection";
 import ArticlesSection from "./components/Home/ArticlesSection";
 import FAQ from "./components/FAQ";
 import PricingSection from "./components/Home/PricingSection";
@@ -91,8 +91,8 @@ export default function Home() {
         <div className="relative" style={{ zIndex: 1 }}>
           <StatsSection />
           <ResearchStackSection />
-          {/* <MarketsSection />
-          <IntelligenceSection /> */}
+          <MarketsSection />
+          <IntelligenceSection />
         </div>
       </div>
 
