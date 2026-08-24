@@ -10,6 +10,7 @@ import {
   type DeskMessage,
   type DeskThread,
 } from '@/lib/deskChat'
+import { quotesMapFromResponse } from '../Analysis/marketHeader'
 import ChatHistorySidebar from './ChatHistorySidebar'
 import DataAttachMenu, { type AttachKind } from './DataAttachMenu'
 
@@ -78,6 +79,14 @@ const TOOLS: { id: ToolId; label: string; icon: ReactNode }[] = [
       </svg>
     ),
   },
+]
+
+const TICKER_FALLBACK = [
+  { label: 'EURUSD', value: '1.08769' },
+  { label: 'DXY', value: '97.45' },
+  { label: 'US 2Y', value: '3.71%' },
+  { label: 'US 10Y', value: '4.29%' },
+  { label: 'VIX', value: '18.5' },
 ]
 
 function TypingDots() {
@@ -186,6 +195,7 @@ export default function AiResearch() {
     chart: false,
     sources: false,
   })
+  const [ticker, setTicker] = useState(TICKER_FALLBACK)
   const listRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const nextId = useRef(1)
@@ -193,6 +203,32 @@ export default function AiResearch() {
 
   useEffect(() => {
     setThreads(loadThreads())
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      try {
+        const res = await fetch('/api/market-header?asset=EURUSD', { cache: 'no-store' })
+        const body = await res.json().catch(() => ({}))
+        if (!res.ok || cancelled) return
+        const quotes = quotesMapFromResponse(body.data ?? body)
+        const quote = quotes.EURUSD
+        if (!quote || typeof quote.price !== 'number') return
+        const precision = quote.precision ?? 5
+        setTicker((prev) =>
+          prev.map((row) =>
+            row.label === 'EURUSD' ? { ...row, value: quote.price.toFixed(precision) } : row
+          )
+        )
+      } catch {
+        // keep mock ticker
+      }
+    }
+    void load()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   useEffect(() => {
@@ -358,9 +394,25 @@ export default function AiResearch() {
                 Quantitative Market Intelligence
               </span>
             </div>
-            <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px]">
+            <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
               CrossResearch AI
             </h1>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[12px] leading-[17px] text-[#838388]">
+              {ticker.map((row, i) => (
+                <span key={row.label} className="inline-flex items-center gap-3">
+                  {i > 0 && <span className="text-[#FFFFFF28]">|</span>}
+                  <span>
+                    {row.label} <span className="text-white tabular-nums">{row.value}</span>
+                  </span>
+                </span>
+              ))}
+              <span className="inline-flex items-center gap-3">
+                <span className="text-[#FFFFFF28]">|</span>
+                <span>
+                  Macro Regime: <span className="text-white">Stagnation</span>
+                </span>
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <button
