@@ -4,29 +4,13 @@ const STATS = [
     { value: '32', label: 'Years Of Experience' },
 ]
 
-function TargetBadgeIcon() {
-    return (
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-            <circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" />
-            <circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" />
-            <circle cx="7.5" cy="7.5" r="3.5" fill="#88C4FF" />
-        </svg>
-    )
-}
-
 export default function StatsSection() {
     return (
         <section className="relative w-full overflow-hidden py-16 xl:py-[100px] 2xl:py-[120px] px-4 sm:px-6">
-            {/* <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -top-24 -right-20 h-[360px] w-[360px] rounded-full bg-[#227ED9]/25 blur-[140px]"
-            /> */}
-
             <div className="relative max-w-[1560px] mx-auto">
-                <div className="mb-5 sm:mb-6 inline-flex items-center gap-2 rounded-[100px] border border-[#FFFFFF1A] bg-[#FFFFFF08] pl-3.5 pr-4 py-[9px] text-[14px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal text-white/85">
-                    <TargetBadgeIcon />
-                   By the numbers
-                </div>
+                <p className="mb-5 sm:mb-6 text-[14px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal text-white/85">
+                    By the numbers
+                </p>
 
                 <h2 className="font-medium text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-tight lg:leading-[59px] mb-4 sm:mb-6 bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">
                     Trusted by Data. Driven by Results.
