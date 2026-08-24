@@ -437,7 +437,7 @@ export default function AiResearch() {
         <div className="px-4 lg:px-6 pb-6 flex-1 min-h-0 flex flex-col">
           <div className="mx-auto w-full max-w-[820px] flex flex-col flex-1 min-h-0">
             {inThread ? (
-              <div ref={listRef} className="flex-1 min-h-[220px] overflow-y-auto space-y-3 pb-4 dashboard-scroll">
+              <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto space-y-3 pb-4 dashboard-scroll">
                 {messages.map((m) => (
                   <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div
@@ -459,97 +459,103 @@ export default function AiResearch() {
                 {typing && <TypingDots />}
               </div>
             ) : (
-              <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">
-                What do you want to understand?
-              </h2>
+              <div className="flex-1 min-h-0" aria-hidden />
             )}
 
-            <form onSubmit={onSubmit} className={inThread ? 'mt-auto' : 'mb-5'}>
-              <div className="border border-[#FFFFFF0D] bg-[#16161F] px-3.5 pt-3.5 pb-3">
-                {attachments.length > 0 && (
-                  <div className="mb-3">
-                    <AttachmentChips items={attachments} onRemove={removeAttachment} />
-                  </div>
-                )}
-                <textarea
-                  ref={textareaRef}
-                  value={input}
-                  onChange={(e) => {
-                    setInput(e.target.value)
-                    resizeTextarea()
-                  }}
-                  onKeyDown={onKeyDown}
-                  rows={inThread ? 2 : 3}
-                  placeholder="Analyze the current EURUSD setup across macro, positioning and price dynamics..."
-                  className="w-full resize-none bg-transparent text-white text-[13px] sm:text-[14px] leading-[20px] placeholder:text-[#838388] outline-none min-h-[52px]"
-                />
-                <div className="mt-3 flex items-end justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-1 min-w-0">
-                    <DataAttachMenu
-                      open={dataOpen}
-                      active={attachments.length > 0}
-                      onToggle={() => setDataOpen((v) => !v)}
-                      onClose={() => setDataOpen(false)}
-                      onPick={addFiles}
-                    />
-                    {TOOLS.map((tool) => {
-                      const on = tools[tool.id]
-                      return (
-                        <button
-                          key={tool.id}
-                          type="button"
-                          onClick={() => toggleTool(tool.id)}
-                          className={`inline-flex items-center gap-1.5 h-8 px-2.5 text-[12px] leading-none transition-colors cursor-pointer ${
-                            on
-                              ? 'bg-[#88C4FF1A] text-[#88C4FF] border border-[#88C4FF55]'
-                              : 'text-[#838388] border border-transparent hover:text-white hover:bg-[#FFFFFF08]'
-                          }`}
-                        >
-                          {tool.icon}
-                          <span className="hidden sm:inline">{tool.label}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={!canSend}
-                    aria-label="Send"
-                    className="w-8 h-8 shrink-0 inline-flex items-center justify-center rounded-[8px] bg-[#88C4FF] text-black disabled:opacity-40 cursor-pointer"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7Z"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinejoin="round"
+            <div className="mt-auto shrink-0 pt-2">
+              {!inThread && (
+                <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">
+                  What do you want to understand?
+                </h2>
+              )}
+
+              <form onSubmit={onSubmit} className={!inThread ? 'mb-5' : undefined}>
+                <div className="border border-[#FFFFFF0D] bg-[#16161F] px-3.5 pt-3.5 pb-3">
+                  {attachments.length > 0 && (
+                    <div className="mb-3">
+                      <AttachmentChips items={attachments} onRemove={removeAttachment} />
+                    </div>
+                  )}
+                  <textarea
+                    ref={textareaRef}
+                    value={input}
+                    onChange={(e) => {
+                      setInput(e.target.value)
+                      resizeTextarea()
+                    }}
+                    onKeyDown={onKeyDown}
+                    rows={inThread ? 2 : 3}
+                    placeholder="Analyze the current EURUSD setup across macro, positioning and price dynamics..."
+                    className="w-full resize-none bg-transparent text-white text-[13px] sm:text-[14px] leading-[20px] placeholder:text-[#838388] outline-none min-h-[52px]"
+                  />
+                  <div className="mt-3 flex items-end justify-between gap-3">
+                    <div className="flex flex-wrap items-center gap-1 min-w-0">
+                      <DataAttachMenu
+                        open={dataOpen}
+                        active={attachments.length > 0}
+                        onToggle={() => setDataOpen((v) => !v)}
+                        onClose={() => setDataOpen(false)}
+                        onPick={addFiles}
                       />
-                    </svg>
-                  </button>
+                      {TOOLS.map((tool) => {
+                        const on = tools[tool.id]
+                        return (
+                          <button
+                            key={tool.id}
+                            type="button"
+                            onClick={() => toggleTool(tool.id)}
+                            className={`inline-flex items-center gap-1.5 h-8 px-2.5 text-[12px] leading-none transition-colors cursor-pointer ${
+                              on
+                                ? 'bg-[#88C4FF1A] text-[#88C4FF] border border-[#88C4FF55]'
+                                : 'text-[#838388] border border-transparent hover:text-white hover:bg-[#FFFFFF08]'
+                            }`}
+                          >
+                            {tool.icon}
+                            <span className="hidden sm:inline">{tool.label}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={!canSend}
+                      aria-label="Send"
+                      className="w-8 h-8 shrink-0 inline-flex items-center justify-center rounded-[8px] bg-[#88C4FF] text-black disabled:opacity-40 cursor-pointer"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7Z"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <p className="text-[10px] text-[#838388] mt-2 px-0.5">Preview only · replies are mocked</p>
-            </form>
+                <p className="text-[10px] text-[#838388] mt-2 px-0.5">Preview only · replies are mocked</p>
+              </form>
 
-            {!inThread && (
-              <div className="flex flex-col gap-2">
-                {AI_RESEARCH_PROMPTS.map((prompt) => (
-                  <button
-                    key={prompt.question}
-                    type="button"
-                    onClick={() => pushMock(prompt.question, [])}
-                    className="w-full flex items-center gap-4 sm:gap-8 px-4 py-3.5 bg-[#16161F] border border-transparent text-left hover:border-[#FFFFFF18] transition-colors cursor-pointer"
-                  >
-                    <span className="shrink-0 w-[92px] sm:w-[110px] text-[11px] tracking-[0.14em] uppercase text-[#838388] font-medium">
-                      {prompt.category}
-                    </span>
-                    <span className="text-[13px] sm:text-[14px] leading-[20px] text-white/85">
-                      {prompt.question}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
+              {!inThread && (
+                <div className="flex flex-col gap-2">
+                  {AI_RESEARCH_PROMPTS.map((prompt) => (
+                    <button
+                      key={prompt.question}
+                      type="button"
+                      onClick={() => pushMock(prompt.question, [])}
+                      className="w-full flex items-center gap-4 sm:gap-8 px-4 py-3.5 bg-[#16161F] border border-transparent text-left hover:border-[#FFFFFF18] transition-colors cursor-pointer"
+                    >
+                      <span className="shrink-0 w-[92px] sm:w-[110px] text-[11px] tracking-[0.14em] uppercase text-[#838388] font-medium">
+                        {prompt.category}
+                      </span>
+                      <span className="text-[13px] sm:text-[14px] leading-[20px] text-white/85">
+                        {prompt.question}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
