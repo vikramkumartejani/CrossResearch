@@ -118,7 +118,7 @@ function TargetBadgeIcon() {
 
 export default function ResearchStackSection() {
     return (
-        <section className="w-full px-4 sm:px-6 pb-[60px] 2xl:pb-[40px]">
+        <section className="w-full px-4 sm:px-6 pb-[80px] 2xl:pb-[120px]">
             <div className="mx-auto max-w-[1560px]">
                 <div className='flex xl:flex-row flex-col items-center lg:items-start justify-between lg:text-left text-center'>
                     <div className="mb-5 sm:mb-6 inline-flex items-center gap-2 rounded-[100px] border border-[#FFFFFF1A] bg-[#FFFFFF08] pl-3.5 pr-4 py-[9px] text-[14px] sm:text-[16px] leading-5 sm:leading-[22px] font-normal text-white/85">
