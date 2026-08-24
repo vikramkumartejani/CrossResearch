@@ -16,6 +16,31 @@ import { mediaCssUrl } from '@/lib/media'
 // PNG artwork from /assets/sidebar-icons used as CSS masks so the icons inherit
 // the nav item color (inactive grey, active blue, hover, light/dark themes).
 
+function IconSparkles() {
+    return (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden className="inline-block">
+            <path
+                d="M8 1.5l1.05 3.2L12.4 5.7 9.05 7.05 8 10.5 6.95 7.05 3.6 5.7l3.35-1L8 1.5Z"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M12.75 9.25l.45 1.35 1.35.45-1.35.45-.45 1.35-.45-1.35-1.35-.45 1.35-.45.45-1.35Z"
+                stroke="currentColor"
+                strokeWidth="1.1"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M3.4 9.6l.35 1.05 1.05.35-1.05.35-.35 1.05-.35-1.05-1.05-.35 1.05-.35.35-1.05Z"
+                stroke="currentColor"
+                strokeWidth="1.1"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
 function NavIcon({ name }: { name: string }) {
     const url = mediaCssUrl(`/assets/sidebar-icons/${name}.png`)
     return (
@@ -71,6 +96,7 @@ const NAV_SECTIONS = [
     {
         label: 'Intelligence',
         items: [
+            { label: 'AI Research', href: '/ai-research', icon: <IconSparkles /> },
             { label: 'Geopolitical', href: '/geopolitical', icon: <NavIcon name="geopolitical-globe" /> },
             { label: 'News', href: '/news', icon: <NavIcon name="news-megaphone" /> },
         ],
