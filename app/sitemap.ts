@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${BASE_URL}/crypto-btc`,          lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
         { url: `${BASE_URL}/education-center`,    lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },
         { url: `${BASE_URL}/geopolitical`,        lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
+        { url: `${BASE_URL}/ai-research`,         lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
         { url: `${BASE_URL}/macro-nowcast`,       lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
         { url: `${BASE_URL}/macro-signals`,       lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
         { url: `${BASE_URL}/market-report`,       lastModified: new Date(), changeFrequency: 'daily',  priority: 0.5 },
