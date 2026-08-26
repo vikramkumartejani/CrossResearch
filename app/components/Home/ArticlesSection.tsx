@@ -15,6 +15,7 @@ const ARTICLES = [
         date: "November 12, 2024",
         size: "small" as const,
         image: "/assets/macro.png",
+        imageMobile: "/assets/macro-phone.png",
     },
     {
         id: 2,
@@ -25,6 +26,7 @@ const ARTICLES = [
         date: "November 12, 2024",
         size: "small" as const,
         image: "/assets/gold-market.png",
+        imageMobile: "/assets/gold-market-phone.png",
     },
     {
         id: 3,
@@ -35,6 +37,7 @@ const ARTICLES = [
         date: "November 12, 2024",
         size: "large" as const,
         image: "/assets/gold-strategy.png",
+        imageMobile: "/assets/gold-strategy-phone.png",
     },
 ];
 
@@ -55,14 +58,22 @@ function ArticleMedia({
     article: (typeof ARTICLES)[number]
     tagsAlign: 'left' | 'right'
 }) {
+    const sizes = article.size === 'large' ? '(max-width: 1024px) 100vw, 708px' : '(max-width: 1024px) 100vw, 318px'
     return (
         <>
+            <Image
+                src={article.imageMobile}
+                alt={article.title}
+                fill
+                className="object-cover lg:hidden"
+                sizes="100vw"
+            />
             <Image
                 src={article.image}
                 alt={article.title}
                 fill
-                className="object-cover"
-                sizes={article.size === 'large' ? '(max-width: 1024px) 100vw, 708px' : '(max-width: 1024px) 100vw, 318px'}
+                className="object-cover hidden lg:block"
+                sizes={sizes}
             />
             <div className={`absolute bottom-5 z-10 flex items-center gap-2 ${tagsAlign === 'right' ? 'right-6' : 'left-5'}`}>
                 <span className="bg-[#0B0B14]/70 backdrop-blur-sm px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/80">{article.category}</span>
