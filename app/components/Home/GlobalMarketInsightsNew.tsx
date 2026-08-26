@@ -10,7 +10,7 @@ const TABS = [
         id: 'nowcasting',
         title: 'Nowcasting',
         description: 'Track economic activity, inflation, and growth expectations before official releases',
-        image: '/assets/global-market-insights-right-image.png',
+        image: '/assets/Nowcasting.png',
         icon: (
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.6666 6.82043C21.9665 6.82043 23.6164 6.82043 24.6415 7.87184C25.6666 8.92325 25.6666 10.6155 25.6666 13.9999C25.6666 17.3844 25.6666 19.0766 24.6415 20.128C23.6164 21.1794 21.9665 21.1794 18.6666 21.1794L9.33329 21.1794C6.03346 21.1794 4.38354 21.1794 3.35842 20.128C2.33329 19.0766 2.33329 17.3844 2.33329 13.9999C2.33329 10.6155 2.33329 8.92325 3.35842 7.87184C4.38354 6.82043 6.03346 6.82043 9.33329 6.82043L18.6666 6.82043Z" fill="currentColor" />
@@ -22,7 +22,7 @@ const TABS = [
         id: 'quant',
         title: 'Proprietary Quant Models',
         description: 'Monitor risk regimes, volatility trends, and market stress indicators across asset classes',
-        image: '/assets/our-features.png',
+        image: '/assets/Proprietory.png',
         icon: (
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd" d="M3.94043 5.9294C3.5 6.55691 3.5 8.42217 3.5 12.1527V13.9898C3.5 20.5676 8.44546 23.7597 11.5483 25.1151C12.39 25.4827 12.8109 25.6666 14 25.6666C15.1891 25.6666 15.61 25.4827 16.4517 25.1151C19.5545 23.7597 24.5 20.5676 24.5 13.9898V12.1527C24.5 8.42217 24.5 6.55691 24.0596 5.9294C23.6191 5.30188 21.8653 4.70154 18.3576 3.50084L17.6893 3.27209C15.8609 2.6462 14.9466 2.33325 14 2.33325C13.0534 2.33325 12.1391 2.6462 10.3107 3.27209L9.6424 3.50084C6.13471 4.70154 4.38087 5.30188 3.94043 5.9294ZM19.1917 12.7749L15.225 9.79992C14.4991 9.25547 13.5009 9.25547 12.775 9.79992L8.80833 12.7749C8.42173 13.0649 8.34338 13.6133 8.63333 13.9999C8.92328 14.3865 9.47173 14.4649 9.85833 14.1749L13.825 11.1999C13.9287 11.1221 14.0713 11.1221 14.175 11.1999L18.1417 14.1749C18.5283 14.4649 19.0767 14.3865 19.3667 13.9999C19.6566 13.6133 19.5783 13.0649 19.1917 12.7749ZM16.8583 15.6916L14.525 13.9416C14.2139 13.7083 13.7861 13.7083 13.475 13.9416L11.1417 15.6916C10.7551 15.9815 10.6767 16.53 10.9667 16.9166C11.2566 17.3032 11.8051 17.3815 12.1917 17.0916L14 15.7353L15.8083 17.0916C16.1949 17.3815 16.7434 17.3032 17.0333 16.9166C17.3233 16.53 17.2449 15.9815 16.8583 15.6916Z" fill="currentColor" />
@@ -33,7 +33,7 @@ const TABS = [
         id: 'tradingview',
         title: 'TradingView Toolkit',
         description: 'Advanced institutional indicators designed for traders seeking higher-conviction market signals',
-        image: '/assets/markets.png',
+        image: '/assets/Toolkit.png',
         icon: (
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd" d="M2.33333 7.73976C2.33333 4.75383 4.7539 2.33325 7.73983 2.33325C10.7258 2.33325 13.1463 4.75383 13.1463 7.73976C13.1463 10.7257 10.7258 13.1463 7.73983 13.1463C4.7539 13.1463 2.33333 10.7257 2.33333 7.73976Z" fill="currentColor" />
@@ -170,14 +170,13 @@ export default function GlobalMarketInsightsNew() {
                             className="absolute inset-0 transition-opacity duration-500"
                             style={{ opacity: i === activeIndex ? 1 : 0 }}
                         >
-                            {/* <Image
+                            <Image
                                 src={tab.image}
                                 alt={tab.title}
                                 fill
                                 className="object-cover object-top"
                                 priority={i === 0}
-                            /> */}
-                            <p className="text-white text-[14px] sm:text-[16px] font-semibold flex items-center justify-center h-full">{tab.title}</p>
+                            />
                         </div>
                     ))}
                 </div>
