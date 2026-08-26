@@ -58,7 +58,7 @@ const TradingView = () => {
                     {/* Right - dashboard image */}
                     <div className="relative w-full lg:max-w-[737px] bg-[#FFFFFF08] rounded-[11px] relative z-30">
                         <Image
-                            src="/assets/our-features.webp"
+                            src="/assets/image 132.png"
                             alt="Cross Asset Alpha Engine Dashboard"
                             width={1200}
                             height={640}

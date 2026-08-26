@@ -36,7 +36,7 @@ const SECTIONS: FeatureSection[] = [
         imageWidth: 659,
         imageHeight: 653,
         imageAlt: 'Divergence & Exhaustion Scanner',
-        imageLeft: true,
+        imageLeft: true, // image left, text right
     },
     {
         id: 'nfp',
@@ -54,9 +54,9 @@ const SECTIONS: FeatureSection[] = [
         imageWidth: 740,
         imageHeight: 460,
         imageAlt: 'NFP Economic Release Predictor Chart',
-        imageLeft: false,
+        imageLeft: false, // text left, image right
     },
-    
+
     {
         id: 'market-structure',
         badge: 'Trading View',
@@ -73,7 +73,7 @@ const SECTIONS: FeatureSection[] = [
         imageWidth: 740,
         imageHeight: 460,
         imageAlt: 'Market Structure & Liquidity Map',
-        imageLeft: true,
+        imageLeft: true, // image left, text right
     },
 ]
 
@@ -125,10 +125,13 @@ export default function FeatureSections() {
         <div className="px-4 sm:px-6 pt-16 sm:pt-24 lg:pt-32">
             <div className="max-w-[1560px] mx-auto flex flex-col gap-10 sm:gap-14 lg:gap-20">
 
-                {/* Card 1 - NFP - right-top glow */}
-                <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:p-12 2xl:pl-[90px] 2xl:pr-[74px] 2xl:py-[70px] rounded-[30px] sm:rounded-[40px] lg:rounded-[60px] 2xl:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
-                    <GlowRight />
-                    <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
+                {/* Card 1 - Divergence - image left, text right */}
+                <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:pt-[42px] lg:pb-[41px] rounded-[30px] sm:rounded-[40px] lg:rounded-[60px] 2xl:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
+                    <GlowLeft />
+                    <div className="relative z-10 w-full lg:w-[48%] lg:max-w-[715px] rounded-[20px] overflow-hidden flex-shrink-0 order-2 lg:order-1">
+                        <Image src={s0.image} alt={s0.imageAlt} width={s0.imageWidth} height={s0.imageHeight} className="w-full h-auto object-contain" />
+                    </div>
+                    <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full lg:w-[48%] order-1 lg:order-2">
                         <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" /><circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" /><circle cx="7.5" cy="7.5" r="3.5" fill="#88C4FF" /></svg>
                             {s0.badge}
@@ -148,13 +151,9 @@ export default function FeatureSections() {
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </button>
                     </div>
-                    <div className="relative z-10 w-full lg:max-w-[380px] xl:max-w-[715px] rounded-[20px] overflow-hidden flex-shrink-0 max-h-[636px]">
-                        <Image src={s0.image} alt={s0.imageAlt} width={s0.imageWidth} height={s0.imageHeight} className="w-full h-auto object-cover" />
-                    </div>
                 </div>
 
-                {/* Card 2 - Divergence - left-top glow */}
-                {/* Ellipse 1 (left) + Ellipse 18 (right) - between card 1 and card 2 */}
+                {/* Card 2 - NFP - text left, image right */}
                 <div className="relative">
                     <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                         width: '765px', height: '489px',
@@ -169,19 +168,16 @@ export default function FeatureSections() {
                         zIndex: 0,
                     }} />
                     <div className="relative" style={{ zIndex: 1 }}>
-                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:pt-[42px] lg:pb-[41px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
-                    <GlowLeft />
-                    <div className="relative z-10 w-full lg:max-w-[699px] rounded-[20px] sm:rounded-[28px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
-                        <Image src={s1.image} alt={s1.imageAlt} width={s1.imageWidth} height={s1.imageHeight}  style={{ mixBlendMode: "screen" }} className="w-full h-auto object-cover" />
-                    </div>
-                    <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
+                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[70px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
+                    <GlowRight />
+                    <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full lg:w-[48%] order-1">
                         <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" /><circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" /><circle cx="7.5" cy="7.5" r="3.5" fill="#88C4FF" /></svg>
                             {s1.badge}
                         </div>
                         <h2 className="max-w-[615px] text-left font-normal text-2xl sm:text-3xl md:text-4xl xl:text-[54px] leading-tight xl:leading-[59px] bg-[linear-gradient(176.19deg,#B1D8FF_-8.19%,#FFFFFF_107.43%)] bg-clip-text text-transparent">{s1.title}</h2>
                         <p className="text-white/80 text-[16px] sm:text-[18px] xl:text-[20px] leading-5 sm:leading-6 xl:leading-[30px] font-semibold my-4 sm:my-5">{s1.subtitle}</p>
-                        {s1.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5 2xl:pr-10">Scans divergences and exhaustion signals, identifying high probability reversal setups <span className="text-white font-semibold">market wide</span></p>}
+                        {s1.description && <p className="text-white/60 text-[14px] sm:text-[18px] leading-5 sm:leading-[27px] font-normal mb-4 sm:mb-5">{s1.description}</p>}
                         <div className="flex flex-col gap-3.5 sm:gap-5 mb-6 sm:mb-8">
                             {s1.points.map((point, i) => (
                                 <div key={i} className="flex items-center gap-2 sm:gap-3"><CheckIcon /><span className="text-white/60 text-[14px] leading-5 xl:text-[18px] xl:leading-[27px]">{point.text}</span></div>
@@ -192,11 +188,14 @@ export default function FeatureSections() {
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </button>
                     </div>
+                    <div className="relative z-10 w-full lg:w-[48%] lg:max-w-[699px] rounded-[20px] sm:rounded-[28px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0 order-2">
+                        <Image src={s1.image} alt={s1.imageAlt} width={s1.imageWidth} height={s1.imageHeight} style={{ mixBlendMode: "screen" }} className="w-full h-auto object-contain" />
+                    </div>
                 </div>
                     </div>
                 </div>
 
-                {/* Card 3 - Market Structure - left-top glow */}
+                {/* Card 3 - Market Structure - image left, text right */}
                 <div className="relative">
                     <div aria-hidden="true" className="absolute pointer-events-none lg:block hidden blur-[250px]" style={{
                         width: '977px', height: '446px',
@@ -212,12 +211,12 @@ export default function FeatureSections() {
                         zIndex: 0,
                     }} />
                     <div className="relative" style={{ zIndex: 1 }}>
-                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[32px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col-reverse lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
+                        <div className='relative border border-[#FFFFFF0D] bg-[#FFFFFF05] p-6 sm:p-10 lg:pl-[88px] lg:pr-[63px] lg:py-[32px] rounded-[30px] sm:rounded-[40px] lg:rounded-[80px] flex flex-col lg:flex-row justify-between gap-8 lg:gap-6 items-center overflow-hidden'>
                     <GlowLeft />
-                    <div className="relative z-10 w-full lg:max-w-[699px] max-h-[712px] rounded-[20px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0">
-                        <Image src={s2.image} alt={s2.imageAlt} width={659} height={673}  style={{ mixBlendMode: "screen" }} className='object-contain w-full h-auto' />
+                    <div className="relative z-10 w-full lg:w-[48%] lg:max-w-[699px] rounded-[20px] overflow-hidden p-3 sm:p-5 border border-[#FFFFFF14] flex-shrink-0 order-2 lg:order-1">
+                        <Image src={s2.image} alt={s2.imageAlt} width={659} height={673} style={{ mixBlendMode: "screen" }} className='object-contain w-full h-auto' />
                     </div>
-                    <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full">
+                    <div className="relative z-10 flex flex-col max-w-full lg:max-w-[615px] w-full lg:w-[48%] order-1 lg:order-2">
                         <div className="mb-4 sm:mb-5 w-fit bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" /><circle cx="7.5" cy="7.5" r="5.5" fill="#21314F" /><circle cx="7.5" cy="7.5" r="3.5" fill="#88C4FF" /></svg>
                             {s2.badge}
