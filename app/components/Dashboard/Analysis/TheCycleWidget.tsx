@@ -93,8 +93,10 @@ export default function TheCycleWidget() {
         </div>
 
         <div className={`mt-2 pt-5 border-t ${rowBorder}`}>
-          <p className={`text-[12px] leading-[16px] font-medium mb-2 ${muted}`}>Desk Commentary</p>
-          <div className="flex flex-col gap-1.5">
+          <p className={`text-[13px] leading-[18px] pb-3 border-b ${rowBorder} ${muted}`}>
+            Desk Commentary
+          </p>
+          <div className="flex flex-col gap-1.5 pt-3">
             {commentary.slice(0, MAX_COMMENTARY).map((item, index) => (
               <div key={`${index}-${item.slice(0, 24)}`} className="flex gap-2 items-center min-w-0">
                 <span className="text-[#88C4FF] text-[12px] font-semibold tabular-nums shrink-0">

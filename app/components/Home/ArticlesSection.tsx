@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from '@/lib/CldImage';
 
 const ARTICLES = [
     {
@@ -12,7 +13,8 @@ const ARTICLES = [
         desc: "Recent macro developments and NFP data shape market sentiment and expectations.",
         category: "Finance",
         date: "November 12, 2024",
-        size: "small",
+        size: "small" as const,
+        image: "/assets/macro.png",
     },
     {
         id: 2,
@@ -21,7 +23,8 @@ const ARTICLES = [
         desc: "Gold prices rise driven by demand inflation uncertainty and safe haven buying",
         category: "Finance",
         date: "November 12, 2024",
-        size: "small",
+        size: "small" as const,
+        image: "/assets/gold-market.png",
     },
     {
         id: 3,
@@ -30,7 +33,8 @@ const ARTICLES = [
         desc: "2024 gold surge driven by inflation trends and strategic market positioning.",
         category: "Finance",
         date: "November 12, 2024",
-        size: "large",
+        size: "large" as const,
+        image: "/assets/gold-strategy.png",
     },
 ];
 
@@ -44,6 +48,30 @@ function TagDot() {
     );
 }
 
+function ArticleMedia({
+    article,
+    tagsAlign,
+}: {
+    article: (typeof ARTICLES)[number]
+    tagsAlign: 'left' | 'right'
+}) {
+    return (
+        <>
+            <Image
+                src={article.image}
+                alt={article.title}
+                fill
+                className="object-cover"
+                sizes={article.size === 'large' ? '(max-width: 1024px) 100vw, 708px' : '(max-width: 1024px) 100vw, 318px'}
+            />
+            <div className={`absolute bottom-5 z-10 flex items-center gap-2 ${tagsAlign === 'right' ? 'right-6' : 'left-5'}`}>
+                <span className="bg-[#0B0B14]/70 backdrop-blur-sm px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/80">{article.category}</span>
+                <span className="bg-[#0B0B14]/70 backdrop-blur-sm px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/80">{article.date}</span>
+            </div>
+        </>
+    )
+}
+
 function ArticleCard({ article }: { article: typeof ARTICLES[number] }) {
     const isLarge = article.size === "large";
     return (
@@ -51,11 +79,8 @@ function ArticleCard({ article }: { article: typeof ARTICLES[number] }) {
             href={`/articles/${article.id}`}
             className={`bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 flex items-start flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200 w-full ${isLarge ? 'xl:p-[30px]' : 'xl:py-4 xl:pl-4 xl:pr-5 xl:flex-row xl:items-center'}`}
         >
-            <div className={`relative flex-shrink-0 w-full bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px] ${isLarge ? 'h-[200px] sm:h-[334px]' : 'xl:w-[318px] min-h-[200px] sm:min-h-[334px]'}`}>
-                <div className={`absolute bottom-5 flex items-center gap-2 ${isLarge ? 'right-6' : 'left-5'}`}>
-                    <span className="bg-[#FFFFFF0D] px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/50">{article.category}</span>
-                    <span className="bg-[#FFFFFF0D] px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/50">{article.date}</span>
-                </div>
+            <div className={`relative flex-shrink-0 w-full overflow-hidden bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px] ${isLarge ? 'h-[200px] sm:h-[334px]' : 'xl:w-[318px] min-h-[200px] sm:min-h-[334px]'}`}>
+                <ArticleMedia article={article} tagsAlign={isLarge ? 'right' : 'left'} />
             </div>
             <div className={`flex-1 mt-6 sm:mt-8 flex flex-col justify-between ${!isLarge ? 'xl:pl-8 xl:mt-0' : ''}`}>
                 <div>
@@ -113,11 +138,8 @@ export default function ArticlesSection() {
                     <div className="flex flex-col gap-6">
                         {small.map((article) => (
                             <Link key={article.id} href={`/articles/${article.id}`} className="bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 xl:py-4 xl:pl-4 xl:pr-5 flex items-start lg:items-center xl:flex-row flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200">
-                                <div className="relative flex-shrink-0 w-full xl:w-[318px] min-h-[334px] bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px]">
-                                    <div className="absolute bottom-5 left-5 flex items-center gap-2">
-                                        <span className="bg-[#FFFFFF0D] px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/50">{article.category}</span>
-                                        <span className="bg-[#FFFFFF0D] px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/50">{article.date}</span>
-                                    </div>
+                                <div className="relative flex-shrink-0 w-full xl:w-[318px] min-h-[334px] overflow-hidden bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px]">
+                                    <ArticleMedia article={article} tagsAlign="left" />
                                 </div>
                                 <div className="flex-1 xl:pl-8 mt-6 sm:mt-8 xl:mt-0 flex flex-col justify-between">
                                     <div>
@@ -134,11 +156,8 @@ export default function ArticlesSection() {
                     </div>
                     {large.map((article) => (
                         <Link key={article.id} href={`/articles/${article.id}`} className="bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 xl:p-[30px] flex items-start flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200">
-                            <div className="relative flex-shrink-0 w-full lg:max-w-[708px] h-[334px] lg:min-h-[550px] bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px]">
-                                <div className="absolute bottom-5 lg:bottom-6 right-6 flex items-center gap-2">
-                                    <span className="bg-[#FFFFFF0D] px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/50">{article.category}</span>
-                                    <span className="bg-[#FFFFFF0D] px-4 py-[7px] rounded-full text-[12px] leading-4 font-normal text-white/50">{article.date}</span>
-                                </div>
+                            <div className="relative flex-shrink-0 w-full lg:max-w-[708px] h-[334px] lg:min-h-[550px] overflow-hidden bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px]">
+                                <ArticleMedia article={article} tagsAlign="right" />
                             </div>
                             <div className="mt-6 sm:mt-8">
                                 <div className="mb-4 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-[7.37px] pl-[12.89px] pr-[14.73px] py-[8.29px] rounded-[100px] text-[12.89px] leading-[15px] font-normal font-inter">
