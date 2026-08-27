@@ -16,8 +16,8 @@ const NAV_LINKS = [
         items: [
             { label: "Market Report", href: "/market-report" },
             { label: "Macro Nowcast", href: "/macro-nowcast" },
-            { label: "Options Flow", href: "/options-flow" },
-            { label: "BTC Forecast", href: "/btc-forecast" },
+            { label: "Options Flow", href: "/options-positioning" },
+            { label: "BTC Forecast", href: "/crypto-btc" },
             { label: "News", href: "/news" },
         ],
     },
@@ -28,8 +28,8 @@ const NAV_LINKS = [
         items: [
             { label: "Brokers", href: "/brokers" },
             { label: "Prop Firm", href: "/prop-firm" },
-            { label: "Strategies & Education", href: "/strategies" },
-            { label: "Tradingview Indicators", href: "/algo" },
+            { label: "Strategies & Education", href: "/education-center" },
+            { label: "Tradingview Indicators", href: "https://www.tradingview.com/u/crossresearch/" },
         ],
     },
     {
@@ -133,6 +133,9 @@ export default function Navbar() {
                                             <Link
                                                 key={item.label}
                                                 href={item.href}
+                                                {...(item.href.startsWith("http")
+                                                    ? { target: "_blank", rel: "noopener noreferrer" }
+                                                    : {})}
                                                 className="block px-4 py-2 text-[16px] text-nowrap leading-[20px] font-normal transition-colors duration-150 text-[#E8FCFFCC] hover:text-white"
                                                 role="menuitem"
                                             >
@@ -218,6 +221,9 @@ export default function Navbar() {
                                                         <li key={item.label}>
                                                             <Link
                                                                 href={item.href}
+                                                                {...(item.href.startsWith("http")
+                                                                    ? { target: "_blank", rel: "noopener noreferrer" }
+                                                                    : {})}
                                                                 className="block pl-6.5 pr-5 py-2 text-[15px] leading-5 transition-colors duration-150 text-white/70 hover:text-white"
                                                                 onClick={closeMobileMenu}
                                                             >
