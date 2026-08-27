@@ -16,6 +16,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${BASE_URL}/brokers`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
         { url: `${BASE_URL}/investing`,  lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
         { url: `${BASE_URL}/prop-firm`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+        { url: `${BASE_URL}/policies`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+        { url: `${BASE_URL}/policies/terms`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+        { url: `${BASE_URL}/policies/privacy`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
 
         // Auth pages
         { url: `${BASE_URL}/login`,      lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.4 },

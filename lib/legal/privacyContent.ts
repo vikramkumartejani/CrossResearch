@@ -1,0 +1,288 @@
+import type { PolicyDocument } from './types'
+
+export const privacyPolicy: PolicyDocument = {
+  slug: "privacy",
+  title: "Privacy Policy",
+  description: "How CrossResearch collects, uses, and protects personal information.",
+  intro: [
+  "CrossResearch respects the privacy of its users and is committed to handling personal information responsibly and in accordance with applicable data-protection laws.",
+  "This Privacy Policy explains what information CrossResearch collects, why it is processed, how it may be shared, how long it may be retained and the rights available to users."
+  ],
+  contactEmail: "admin@crossresearch.io",
+  sections: [
+    {
+      id: "data-controller",
+      title: "Who Is Responsible for Your Data",
+      number: 1,
+      blocks: [
+      { type: 'p', text: "The data controller responsible for personal information processed through CrossResearch is:" },
+      { type: 'p', text: "Crossresearch.io" },
+      ],
+    },
+    {
+      id: "scope",
+      title: "Scope of This Policy",
+      number: 2,
+      blocks: [
+      { type: 'p', text: "This Policy applies when you visit the CrossResearch website, create or use an account, purchase or manage a subscription, use CrossResearch research or analytical products, interact with AI-powered functionality, communicate with us, subscribe to marketing communications or otherwise use the CrossResearch Services." },
+      { type: 'p', text: "\"Personal data\" or \"personal information\" means information relating to an identified or identifiable individual." },
+      ],
+    },
+    {
+      id: "information-collected",
+      title: "Information We May Collect",
+      number: 3,
+      blocks: [
+      { type: 'p', text: "Depending on how you interact with CrossResearch, we may process: Account and Contact Information This may include your name, username, email address, account identifiers, country or region, authentication information and information you voluntarily provide through your account." },
+      { type: 'p', text: "Subscription and Transaction Information When you purchase a subscription or other paid Service, we may receive information such as your subscription plan, billing status, transaction identifier, purchase date, currency, billing country, payment status and related records." },
+      { type: 'p', text: "Payment-card or banking details may be processed directly by third-party payment processors." },
+      { type: 'p', text: "CrossResearch generally receives the information necessary to confirm and administer the transaction rather than full payment-card credentials." },
+      { type: 'p', text: "Product and Usage Information We may collect information about how you interact with CrossResearch, including pages or features accessed, research viewed, settings, preferences, searches, interactions with tools, subscription usage, session information and technical events." },
+      { type: 'p', text: "Device, Security and Log Information We may process IP addresses, browser type, operating system, device information, timestamps, authentication events, error logs and similar technical information." },
+      { type: 'p', text: "This information may be used to operate the Services, detect fraud and abuse, enforce our Terms, diagnose technical problems and protect users and CrossResearch." },
+      { type: 'p', text: "AI and User-Submitted Content When you interact with AI-powered or interactive features, we may process prompts, questions, instructions, uploaded or submitted content, configurations and resulting outputs to provide the requested functionality." },
+      { type: 'p', text: "Users should avoid submitting information they are not authorized to disclose." },
+      { type: 'p', text: "Communications If you contact CrossResearch, we may process your contact information and the contents of communications, support requests, feedback and associated records." },
+      { type: 'p', text: "Marketing Preferences We may process whether you have subscribed to, opened, interacted with or unsubscribed from marketing or informational communications." },
+      { type: 'p', text: "Referral and Affiliate Information Where referral or affiliate programs are used, CrossResearch may process referral identifiers, referral sources, clicks, conversions and related information necessary to operate, attribute and prevent abuse of those programs." },
+      { type: 'p', text: "Cookies and Similar Technologies CrossResearch may use cookies, local storage, pixels or similar technologies as described below." },
+      ],
+    },
+    {
+      id: "why-we-process",
+      title: "Why We Process Personal Data",
+      number: 4,
+      blocks: [
+      { type: 'p', text: "CrossResearch may process personal information to:" },
+      {
+        type: 'ul',
+        items: [
+          "create, authenticate and administer user accounts;",
+          "provide research, software, AI functionality and other Services requested by users;",
+          "process and administer subscriptions and transactions;",
+          "maintain user settings, preferences and product history;",
+          "provide customer support;",
+          "communicate important account, security or service information;",
+          "maintain, troubleshoot and improve the Services;",
+          "understand product performance and usage;",
+          "prevent fraud, unauthorized account sharing, scraping, abuse and cybersecurity threats;",
+          "enforce our Terms and protect CrossResearch's legal and intellectual-property rights;",
+          "maintain accounting, tax and transaction records;",
+          "comply with legal obligations and lawful requests;",
+          "administer referral or affiliate programs;",
+          "send marketing communications where legally permitted; and",
+          "establish, exercise or defend legal claims."
+        ],
+      },
+      ],
+    },
+    {
+      id: "legal-bases",
+      title: "Legal Bases for Processing",
+      number: 5,
+      blocks: [
+      { type: 'p', text: "Where laws such as the GDPR or similar legislation require a legal basis, CrossResearch may rely on one or more of the following: Performance of a contract: where processing is necessary to create an account, provide a subscription, deliver requested functionality or otherwise fulfil our agreement with you." },
+      { type: 'p', text: "Legitimate interests: where processing is reasonably necessary to operate, secure, improve and protect CrossResearch, prevent abuse, understand service performance, communicate with users or protect our legal rights, provided those interests are not overridden by applicable individual rights." },
+      { type: 'p', text: "Consent: where required, including for certain marketing communications, optional cookies or other processing for which consent is the appropriate legal basis." },
+      { type: 'p', text: "Legal obligations: where processing is necessary to comply with applicable tax, accounting, regulatory, judicial or other legal requirements." },
+      { type: 'p', text: "Legal claims and protection of rights: where information is reasonably necessary to establish, exercise or defend legal or contractual rights." },
+      { type: 'p', text: "Where processing relies on consent, consent may be withdrawn subject to applicable law." },
+      ],
+    },
+    {
+      id: "ai-processing",
+      title: "AI Processing",
+      number: 6,
+      blocks: [
+      { type: 'p', text: "Information submitted to AI-powered functionality may be processed by CrossResearch and technical service providers used to operate those features." },
+      { type: 'p', text: "Such processing may include transmission of relevant prompts or contextual information to infrastructure or AI service providers where necessary to generate requested outputs." },
+      { type: 'p', text: "CrossResearch will seek to limit disclosures to information reasonably required to provide the functionality." },
+      { type: 'p', text: "Users should not submit confidential, sensitive, regulated or third-party personal information unless they have the appropriate right and a legitimate reason to do so." },
+      { type: 'p', text: "CrossResearch does not use AI-generated financial analysis to make legal or similarly significant decisions about users solely through automated processing." },
+      ],
+    },
+    {
+      id: "cookies-analytics",
+      title: "Cookies and Analytics",
+      number: 7,
+      blocks: [
+      { type: 'p', text: "CrossResearch may use cookies and similar technologies for purposes including: Essential functionality: authentication, account security, session management and technical operation." },
+      { type: 'p', text: "Preferences: remembering settings and user choices." },
+      { type: 'p', text: "Analytics: understanding how the Services are used and identifying technical or product improvements." },
+      { type: 'p', text: "Marketing or attribution: measuring campaigns, referrals or conversions where applicable." },
+      { type: 'p', text: "Where applicable law requires consent before non-essential cookies or similar technologies are used, CrossResearch will request such consent." },
+      { type: 'p', text: "Users may be able to manage their preferences through a cookie-management interface or applicable browser controls." },
+      { type: 'p', text: "Disabling certain technologies may affect some functionality." },
+      ],
+    },
+    {
+      id: "marketing",
+      title: "Marketing Communications",
+      number: 8,
+      blocks: [
+      { type: 'p', text: "CrossResearch may send product updates, research communications, newsletters, offers or similar marketing communications where permitted by applicable law." },
+      { type: 'p', text: "Users may opt out of marketing emails using the unsubscribe mechanism provided in those communications or by contacting CrossResearch." },
+      { type: 'p', text: "Opting out of marketing does not prevent CrossResearch from sending necessary transactional, subscription, account, legal or security communications." },
+      ],
+    },
+    {
+      id: "data-sharing",
+      title: "How Personal Data May Be Shared",
+      number: 9,
+      blocks: [
+      { type: 'p', text: "CrossResearch does not disclose personal data indiscriminately." },
+      { type: 'p', text: "Information may be shared with carefully selected third parties where reasonably necessary for the purposes described in this Policy, including: Infrastructure and hosting providers used to operate the platform." },
+      { type: 'p', text: "AI and technology providers used to provide analytical or interactive functionality." },
+      { type: 'p', text: "Payment processors and billing providers used to administer transactions and subscriptions." },
+      { type: 'p', text: "Email and communication providers used to send requested or permitted communications." },
+      { type: 'p', text: "Analytics, security and fraud-prevention providers used to understand product usage and protect the Services." },
+      { type: 'p', text: "Professional advisers , including lawyers, accountants, auditors or insurers, where reasonably necessary." },
+      { type: 'p', text: "Authorities or legal parties where disclosure is required by applicable law, lawful legal process or to establish, exercise or defend legal rights." },
+      { type: 'p', text: "Corporate transaction parties where CrossResearch is involved in a merger, financing, acquisition, reorganization, sale of assets or similar transaction, subject to appropriate legal safeguards." },
+      { type: 'p', text: "Personal information may also be disclosed at the user's direction or with the user's authorization." },
+      { type: 'p', text: "Service providers processing information on CrossResearch's behalf are expected to process it consistently with applicable contractual and legal requirements." },
+      ],
+    },
+    {
+      id: "affiliate-links",
+      title: "Affiliate and Third-Party Links",
+      number: 10,
+      blocks: [
+      { type: 'p', text: "CrossResearch may contain links to third-party websites, brokers, platforms, providers or other services." },
+      { type: 'p', text: "Third parties operate under their own privacy practices, and CrossResearch is not responsible for how an independent third party processes information after a user leaves or interacts separately from the CrossResearch Services." },
+      { type: 'p', text: "Where CrossResearch receives affiliate or referral compensation, appropriate referral identifiers or conversion information may be processed for attribution, accounting and fraud-prevention purposes." },
+      { type: 'p', text: "Affiliate compensation does not give the third party unrestricted access to CrossResearch user information." },
+      ],
+    },
+    {
+      id: "sale-personal-data",
+      title: "Sale of Personal Data",
+      number: 11,
+      blocks: [
+      { type: 'p', text: "CrossResearch does not sell personal data to third parties for monetary consideration." },
+      { type: 'p', text: "Certain data-protection laws may define terms such as \"sale,\" \"sharing\" or targeted advertising more broadly than an ordinary commercial sale." },
+      { type: 'p', text: "If CrossResearch engages in processing that triggers specific opt-out rights under applicable law, CrossResearch will provide the disclosures and controls required by that law." },
+      ],
+    },
+    {
+      id: "international-transfers",
+      title: "International Data Transfers",
+      number: 12,
+      blocks: [
+      { type: 'p', text: "CrossResearch may use service providers or infrastructure located in countries other than the country in which a user resides." },
+      { type: 'p', text: "As a result, personal data may be processed internationally." },
+      { type: 'p', text: "Where applicable data-protection law requires safeguards for international transfers, CrossResearch will use an appropriate legal mechanism, which may include adequacy decisions, approved contractual protections or other lawful transfer mechanisms." },
+      ],
+    },
+    {
+      id: "data-retention",
+      title: "Data Retention",
+      number: 13,
+      blocks: [
+      { type: 'p', text: "CrossResearch retains personal information only for as long as reasonably necessary for the purposes for which it was collected and for legitimate legal, operational, security and accounting requirements." },
+      { type: 'p', text: "Retention periods may differ depending on the type of information." },
+      { type: 'p', text: "For example, account information may generally be retained while an account remains active; transaction and billing records may be retained for periods required by tax or accounting law; security records may be retained where reasonably necessary for fraud and abuse prevention; support records may be retained for operational and legal purposes; and marketing information may be retained until a user withdraws or opts out, subject to records necessary to respect that choice." },
+      { type: 'p', text: "Where information is no longer required, CrossResearch may delete or anonymize it." },
+      { type: 'p', text: "Information may be retained for a longer period where reasonably necessary to establish, exercise or defend legal claims, investigate fraud or infringement, comply with legal requirements or preserve evidence of Terms or intellectual-property violations." },
+      ],
+    },
+    {
+      id: "account-deletion",
+      title: "Account Deletion",
+      number: 14,
+      blocks: [
+      { type: 'p', text: "Users may request deletion of their account and associated personal information subject to applicable legal and operational requirements." },
+      { type: 'p', text: "Deletion does not necessarily require immediate removal of information that CrossResearch must retain for legal obligations, financial records, fraud prevention, security, dispute resolution or the establishment or defence of legal claims." },
+      { type: 'p', text: "Information that has been properly anonymized and can no longer reasonably identify a user may also be retained." },
+      ],
+    },
+    {
+      id: "security",
+      title: "Security",
+      number: 15,
+      blocks: [
+      { type: 'p', text: "CrossResearch uses reasonable technical and organizational measures designed to protect personal information against unauthorized access, alteration, disclosure, loss or misuse." },
+      { type: 'p', text: "Measures may include access controls, authentication, encryption in transit, security monitoring, restricted administrative access and other protections appropriate to the nature of the Services." },
+      { type: 'p', text: "No electronic system, transmission method or storage system can be guaranteed to be completely secure." },
+      { type: 'p', text: "Users are responsible for protecting their login credentials and should promptly notify CrossResearch if they believe their account has been compromised." },
+      ],
+    },
+    {
+      id: "privacy-rights",
+      title: "Privacy Rights",
+      number: 16,
+      blocks: [
+      { type: 'p', text: "Depending on where a user resides and applicable law, users may have rights relating to their personal data, including rights to:" },
+      {
+        type: 'ul',
+        items: [
+          "receive information about how personal data is processed;",
+          "access personal data held about them;",
+          "correct inaccurate or incomplete information;",
+          "request deletion of personal data in certain circumstances;",
+          "restrict certain processing;",
+          "object to certain processing;",
+          "withdraw consent where processing relies on consent;",
+          "receive eligible information in a portable format;",
+          "object to direct marketing;",
+          "lodge a complaint with an applicable data-protection authority; and",
+          "exercise other rights provided by applicable privacy legislation."
+        ],
+      },
+      { type: 'p', text: "These rights may be subject to legal limitations or exceptions." },
+      { type: 'p', text: "CrossResearch may request reasonable information necessary to verify the identity and authority of the person making a privacy request." },
+      { type: 'p', text: "CrossResearch will not unlawfully discriminate against a user for exercising applicable privacy rights." },
+      { type: 'p', text: "Requests may be submitted to:" },
+      { type: 'p', text: "admin@crossresearch.io" },
+      ],
+    },
+    {
+      id: "children",
+      title: "Children",
+      number: 17,
+      blocks: [
+      { type: 'p', text: "CrossResearch is intended for adults and is not directed toward children under 18." },
+      { type: 'p', text: "CrossResearch does not knowingly seek to collect personal information from children through the Services." },
+      { type: 'p', text: "If CrossResearch becomes aware that personal information from a child has been collected contrary to applicable requirements, reasonable steps will be taken to delete or otherwise appropriately handle that information." },
+      ],
+    },
+    {
+      id: "sensitive-info",
+      title: "Sensitive Personal Information",
+      number: 18,
+      blocks: [
+      { type: 'p', text: "CrossResearch does not require users to provide sensitive personal information such as medical data, biometric data, political opinions, religious beliefs or similar specially protected information for ordinary use of the Services." },
+      { type: 'p', text: "Users should not submit such information through prompts, uploads, communications or other interactive functionality unless specifically requested for a legitimate and lawful purpose." },
+      ],
+    },
+    {
+      id: "legal-requests",
+      title: "Legal Requests and Protection of CrossResearch",
+      number: 19,
+      blocks: [
+      { type: 'p', text: "CrossResearch may preserve or disclose information where reasonably believed necessary to comply with applicable law or lawful legal process, respond to competent authorities, investigate fraud or cybersecurity incidents, enforce the Terms, protect users, establish or defend legal claims, or investigate and enforce intellectual-property rights." },
+      { type: 'p', text: "Any such processing remains subject to applicable law." },
+      ],
+    },
+    {
+      id: "changes",
+      title: "Changes to This Privacy Policy",
+      number: 20,
+      blocks: [
+      { type: 'p', text: "CrossResearch may update this Privacy Policy to reflect changes in its Services, technology, data practices or legal obligations." },
+      { type: 'p', text: "The current version and effective date will be published through the CrossResearch website." },
+      { type: 'p', text: "Where required by applicable law, material changes will be communicated through an appropriate notice." },
+      ],
+    },
+    {
+      id: "contact",
+      title: "Contact",
+      number: 21,
+      blocks: [
+      { type: 'p', text: "Questions, requests or concerns relating to this Privacy Policy or CrossResearch's processing of personal information may be directed to:" },
+      { type: 'p', text: "admin@crossresearch.io" },
+      { type: 'p', text: "Users who are entitled under applicable law to complain to a supervisory or data-protection authority retain the right to do so." },
+      ],
+    }
+  ],
+}

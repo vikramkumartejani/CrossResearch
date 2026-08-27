@@ -292,7 +292,7 @@ export default function SignupForm() {
             <label className="mb-4 flex items-center gap-1.5 cursor-pointer select-none">
               <CustomCheckbox checked={agreed} onChange={setAgreed} />
               <span className="text-white/60 text-[16px] sm:text-[18px] leading-[22px] sm:leading-[29px] font-normal">I agree to the</span>
-              <Link href="/terms" className="underline underline-offset-2 hover:text-white/90 transition-colors">
+              <Link href="/policies/terms" className="underline underline-offset-2 hover:text-white/90 transition-colors">
                 Terms &amp; Privacy
               </Link>
             </label>

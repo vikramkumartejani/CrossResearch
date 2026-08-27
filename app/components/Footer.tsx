@@ -252,9 +252,9 @@ export default function Footer() {
                         © 2026 <Image src="/assets/logo.svg" alt="" width={16.06} height={13} /> All Rights Reserved.
                     </p>
                     <div className="flex items-center gap-3 text-white/70">
-                        <Link href="#" className="hover:text-white text-[16px] sm:text-[18px] leading-[27px] font-normal transition-colors">Terms &amp; Conditions</Link>
+                        <Link href="/policies/terms" className="hover:text-white text-[16px] sm:text-[18px] leading-[27px] font-normal transition-colors">Terms &amp; Conditions</Link>
                         <span>|</span>
-                        <Link href="#" className="hover:text-white text-[16px] sm:text-[18px] leading-[27px] font-normal transition-colors">Privacy Policy</Link>
+                        <Link href="/policies/privacy" className="hover:text-white text-[16px] sm:text-[18px] leading-[27px] font-normal transition-colors">Privacy Policy</Link>
                     </div>
                 </div>
 
