@@ -41,7 +41,10 @@ export default function TicketDetailPage() {
     try {
       setLoading(true)
       setError(null)
-      const res = await fetch(`/api/tickets/${encodeURIComponent(id)}`, { cache: 'no-store' })
+      const res = await fetch(`/api/auth/tickets/${encodeURIComponent(id)}`, {
+        cache: 'no-store',
+        credentials: 'same-origin',
+      })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
         throw new Error(
@@ -69,8 +72,9 @@ export default function TicketDetailPage() {
     try {
       setSending(true)
       setError(null)
-      const res = await fetch(`/api/tickets/${encodeURIComponent(id)}/messages`, {
+      const res = await fetch(`/api/auth/tickets/${encodeURIComponent(id)}/messages`, {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: 'user', body: reply, author: 'You' }),
       })

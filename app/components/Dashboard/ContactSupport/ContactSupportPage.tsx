@@ -104,7 +104,12 @@ export default function ContactSupportPage() {
     try {
       setLoading(true)
       setError(null)
-      const res = await fetch('/api/tickets', { cache: 'no-store' })
+      // Must be under /api/auth/* - nginx sends /api/tickets straight to FastAPI
+      // (no cookies), which returns 401 "Please log in to use support tickets".
+      const res = await fetch('/api/auth/tickets', {
+        cache: 'no-store',
+        credentials: 'same-origin',
+      })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
         const detail = body.details ?? body.detail ?? body.error
@@ -135,8 +140,9 @@ export default function ContactSupportPage() {
     try {
       setCreating(true)
       setError(null)
-      const res = await fetch('/api/tickets', {
+      const res = await fetch('/api/auth/tickets', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
