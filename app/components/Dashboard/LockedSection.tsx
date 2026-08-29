@@ -1,11 +1,11 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState, type ReactNode } from 'react'
 import { toast } from 'sonner'
 import { usePlan } from './PlanProvider'
-import { authErrorMessage } from '@/lib/authUi'
 import { PLAN_LABEL, planAllows, type PlanId } from '@/lib/plans'
+import { startWhopCheckout } from '@/lib/startCheckout'
+import type { PaidPlanId } from '@/lib/whopCatalog'
 
 function LockIcon({ size = 14 }: { size?: number }) {
   return (
@@ -50,8 +50,7 @@ export default function LockedSection({
   /** Hide the heading row above the veil (title still names the unlock card) */
   showHeading?: boolean
 }) {
-  const router = useRouter()
-  const { plan, loading, refresh, setPlanOptimistic } = usePlan()
+  const { plan, loading } = usePlan()
   const [busy, setBusy] = useState(false)
   const allowed = planAllows(plan, required)
   const heading = (title || label || '').trim()
@@ -59,17 +58,7 @@ export default function LockedSection({
   async function unlock() {
     setBusy(true)
     try {
-      const res = await fetch('/api/auth/plan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: required }),
-      })
-      const body = await res.json().catch(() => ({}))
-      if (!res.ok) throw new Error(authErrorMessage(body, 'Upgrade failed'))
-      setPlanOptimistic(required)
-      toast.success(body.message || `Unlocked with ${PLAN_LABEL[required]}`)
-      await refresh()
-      router.refresh()
+      await startWhopCheckout(required as PaidPlanId, 'monthly')
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Upgrade failed')
     } finally {
@@ -138,7 +127,7 @@ export default function LockedSection({
               onClick={() => void unlock()}
               className="mt-4 w-full inline-flex items-center justify-center h-10 rounded-lg bg-[#88C4FF] text-black text-[13px] font-semibold hover:bg-[#9dceff] transition-colors disabled:opacity-60 cursor-pointer"
             >
-              {busy ? 'Unlocking…' : `Unlock with ${planLabel}`}
+              {busy ? 'Opening checkout…' : `Unlock with ${planLabel}`}
             </button>
           </div>
         </div>

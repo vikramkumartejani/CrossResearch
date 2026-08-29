@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "setup:whop": "node scripts/setup-whop-plans.mjs",
+    "list:whop-plans": "node scripts/list-whop-plans.mjs"
   },
   "dependencies": {
     "@tiptap/extension-color": "^3.28.0",
@@ -15,6 +17,8 @@
     "@tiptap/extension-underline": "^3.28.0",
     "@tiptap/react": "^3.28.0",
     "@tiptap/starter-kit": "^3.28.0",
+    "@whop/checkout": "^0.6.0",
+    "@whop/sdk": "^1.0.14",
     "country-flag-icons": "1.6.20",
     "framer-motion": "^12.41.0",
     "jose": "^6.2.8",

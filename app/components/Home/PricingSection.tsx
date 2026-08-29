@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { authErrorMessage } from "@/lib/authUi";
 import { PLAN_LABEL, type PlanId } from "@/lib/plans";
+import { startWhopCheckout } from "@/lib/startCheckout";
 import { mediaCssUrl } from "@/lib/media";
 
 type PlanCard = {
@@ -130,7 +131,7 @@ function toPlanId(cardId: PlanCard["id"]): PlanId {
     return "free";
 }
 
-function usePlanCheckout() {
+function usePlanCheckout(billing: "monthly" | "annual") {
     const router = useRouter();
     const [busyId, setBusyId] = useState<string | null>(null);
 
@@ -171,15 +172,7 @@ function usePlanCheckout() {
                 toast.message("Log in to subscribe");
                 return;
             }
-            const res = await fetch("/api/auth/plan", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ plan }),
-            });
-            const body = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(authErrorMessage(body, "Subscribe failed"));
-            toast.success(body.message || `Upgraded to ${PLAN_LABEL[plan]}`);
-            router.push("/analysis");
+            await startWhopCheckout(plan, billing);
         } catch (err) {
             toast.error(err instanceof Error ? err.message : "Subscribe failed");
         } finally {
@@ -325,7 +318,7 @@ export default function PricingSection() {
     const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
     const [activePlan, setActivePlan] = useState(0);
     const plans = PLANS[billing];
-    const { choosePlan, busyId } = usePlanCheckout();
+    const { choosePlan, busyId } = usePlanCheckout(billing);
 
     useEffect(() => {
         const timer = setInterval(() => {
