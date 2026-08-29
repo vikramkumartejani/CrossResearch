@@ -1,11 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { PLAN_LABEL, normalizePlan } from '@/lib/plans'
 
-export default function CheckoutCompletePage() {
+function CheckoutCompleteFallback() {
+  return (
+    <main className="min-h-screen bg-[#070711] text-white flex items-center justify-center px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-[28px] font-semibold mb-3">Confirming your subscription…</h1>
+        <p className="text-white/60">This usually takes a few seconds after checkout.</p>
+      </div>
+    </main>
+  )
+}
+
+function CheckoutCompleteContent() {
   const searchParams = useSearchParams()
   const status = searchParams.get('status')
   const [plan, setPlan] = useState<string | null>(null)
@@ -96,5 +107,13 @@ export default function CheckoutCompletePage() {
         )}
       </div>
     </main>
+  )
+}
+
+export default function CheckoutCompletePage() {
+  return (
+    <Suspense fallback={<CheckoutCompleteFallback />}>
+      <CheckoutCompleteContent />
+    </Suspense>
   )
 }
