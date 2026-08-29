@@ -44,14 +44,18 @@ export function whopRedirectBase(): string {
   return origin
 }
 
-export function whopCheckoutCompleteUrl(): string {
+export function whopCheckoutCompleteUrl(opts?: { plan?: string; interval?: string }): string {
   const base = whopRedirectBase()
   if (!base.startsWith('https://')) {
     throw new Error(
       'Whop requires an HTTPS redirect URL. Set WHOP_REDIRECT_URL (e.g. https://crossresearch.io or your ngrok URL).',
     )
   }
-  return `${base}/checkout/complete?status=success`
+  const url = new URL(`${base}/checkout/complete`)
+  url.searchParams.set('status', 'success')
+  if (opts?.plan) url.searchParams.set('plan', opts.plan)
+  if (opts?.interval) url.searchParams.set('interval', opts.interval)
+  return url.toString()
 }
 
 export function whopStatusCode(err: unknown): number | undefined {

@@ -19,6 +19,7 @@ function CheckoutCompleteFallback() {
 function CheckoutCompleteContent() {
   const searchParams = useSearchParams()
   const status = searchParams.get('status')
+  const expectedPlan = normalizePlan(searchParams.get('plan'))
   const [plan, setPlan] = useState<string | null>(null)
   const [loading, setLoading] = useState(status !== 'error')
 
@@ -28,14 +29,44 @@ function CheckoutCompleteContent() {
     let cancelled = false
     let attempts = 0
 
+    function isExpected(userPlan: string): boolean {
+      if (expectedPlan === 'gold' || expectedPlan === 'platinum') {
+        return userPlan === expectedPlan
+      }
+      return userPlan === 'gold' || userPlan === 'platinum'
+    }
+
+    async function confirmPaidPlan(): Promise<string | null> {
+      const res = await fetch('/api/auth/checkout/confirm', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plan: expectedPlan === 'gold' || expectedPlan === 'platinum' ? expectedPlan : undefined,
+        }),
+      })
+      if (!res.ok) return null
+      const body = (await res.json().catch(() => ({}))) as { plan?: string }
+      const confirmed = normalizePlan(body.plan)
+      return confirmed === 'gold' || confirmed === 'platinum' ? confirmed : null
+    }
+
     async function poll() {
       attempts += 1
       try {
+        if (attempts === 1) {
+          const confirmed = await confirmPaidPlan()
+          if (confirmed && !cancelled) {
+            setPlan(confirmed)
+            setLoading(false)
+            return
+          }
+        }
         const res = await fetch('/api/auth/me', { cache: 'no-store', credentials: 'same-origin' })
         if (!res.ok) return
         const body = await res.json().catch(() => ({}))
         const userPlan = normalizePlan(body?.user?.plan)
-        if (userPlan === 'gold' || userPlan === 'platinum') {
+        if (isExpected(userPlan)) {
           if (!cancelled) {
             setPlan(userPlan)
             setLoading(false)
@@ -57,7 +88,7 @@ function CheckoutCompleteContent() {
     return () => {
       cancelled = true
     }
-  }, [status])
+  }, [status, expectedPlan])
 
   if (status === 'error') {
     return (

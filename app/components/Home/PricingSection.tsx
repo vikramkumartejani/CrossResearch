@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -319,13 +319,6 @@ export default function PricingSection() {
     const [activePlan, setActivePlan] = useState(0);
     const plans = PLANS[billing];
     const { choosePlan, busyId } = usePlanCheckout(billing);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setActivePlan(prev => (prev + 1) % plans.length);
-        }, 4000);
-        return () => clearInterval(timer);
-    }, [plans.length]);
 
     return (
         <section id="pricing" className="relative w-full pt-20 sm:pt-[120px] lg:pt-[170px] px-4 sm:px-6 scroll-mt-24">

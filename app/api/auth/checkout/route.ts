@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       ...(companyId ? { account_id: companyId } : {}),
       plan_id: planId,
       mode: 'payment',
-      redirect_url: whopCheckoutCompleteUrl(),
+      redirect_url: whopCheckoutCompleteUrl({ plan, interval }),
       ...(isWhopSandbox() ? { three_ds_level: 'frictionless' as const } : {}),
       metadata: {
         user_id: user.id,
