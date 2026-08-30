@@ -10,13 +10,13 @@ export default function HeroPreview() {
       />
 
       <div className="relative mx-auto w-full max-w-[1280px] z-10">
-        <div className="relative rounded-[18px] sm:rounded-[22px] overflow-hidden">
+        <div className="relative rounded-[18px] sm:rounded-[22px] overflow-hidden h-[200px] sm:h-auto">
           <Image
-            src="/assets/crossresearch_1600x900.png"
+            src="/assets/crossresearch_hero.png"
             alt="CrossResearch platform dashboard"
-            width={1600}
-            height={900}
-            className="w-full h-auto block"
+            width={1599}
+            height={429}
+            className="w-full h-full sm:h-auto object-cover object-[center_20%] sm:object-contain"
             priority
             unoptimized
           />

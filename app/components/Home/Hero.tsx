@@ -43,14 +43,14 @@ export default function Hero() {
                                 ].map((src, i) => (
                                     <div
                                         key={src}
-                                        className="w-7 sm:w-8 h-7 sm:h-8 rounded-full border border-white overflow-hidden -ml-2 first:ml-0"
+                                        className="w-5 sm:w-8 h-5 sm:h-8 rounded-full border border-white overflow-hidden -ml-1.5 sm:-ml-2 first:ml-0"
                                         style={{ zIndex: i + 1 }}
                                     >
                                         <Image
                                             src={src}
                                             alt={`Trader ${i + 1}`}
-                                            width={28}
-                                            height={28}
+                                            width={20}
+                                            height={20}
                                             className="w-full h-full object-cover"
                                             unoptimized
                                         />

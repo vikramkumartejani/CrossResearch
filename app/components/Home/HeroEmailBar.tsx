@@ -36,8 +36,8 @@ export default function HeroEmailBar() {
   }
 
   return (
-    <div className="w-fit max-w-full">
-      <div className="inline-flex items-center gap-2 h-[48px] sm:h-[56px] rounded-full bg-[#FFFFFF0A] border border-[#FFFFFF14] pl-3.5 sm:pl-5 pr-1 shadow-[0_0_0_1px_rgba(136,196,255,0.06)_inset]">
+    <div className="w-full sm:w-fit max-w-full">
+      <div className="flex items-center gap-1.5 sm:gap-2 h-[48px] sm:h-[56px] w-full rounded-full bg-[#FFFFFF0A] border border-[#FFFFFF14] pl-3 sm:pl-5 pr-1 shadow-[0_0_0_1px_rgba(136,196,255,0.06)_inset]">
         <svg
           width="18"
           height="18"
@@ -74,13 +74,13 @@ export default function HeroEmailBar() {
           placeholder="Enter email to receive newsletter"
           autoComplete="email"
           aria-label="Email address"
-          className="cr-hero-email cr-autofill-dark w-[230px] sm:w-[340px] bg-transparent h-full text-white text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist outline-none placeholder:font-urbanist placeholder:text-white/45"
+          className="cr-hero-email cr-autofill-dark min-w-0 flex-1 sm:flex-none sm:w-[340px] bg-transparent h-full text-white text-[13px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist outline-none placeholder:font-urbanist placeholder:text-white/45"
         />
         <button
           type="button"
           onClick={() => void subscribe()}
           disabled={loading}
-          className="shrink-0 min-w-[96px] sm:min-w-[120px] h-[32px] sm:h-[40px] px-4 sm:px-5 rounded-full bg-white text-[#070711] text-[14px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist font-medium hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-70"
+          className="shrink-0 h-[32px] sm:h-[40px] px-3.5 sm:px-5 rounded-full bg-white text-[#070711] text-[13px] sm:text-[20px] leading-[20px] sm:leading-[32px] font-urbanist font-medium hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-70"
         >
           <LoadingLabel loading={loading}>Subscribe</LoadingLabel>
         </button>
