@@ -5,7 +5,7 @@ import 'uplot/dist/uPlot.min.css'
 import { dashCardClass, useDashboardTheme } from '../DashboardTheme'
 import ChartLoader from '../shared/ChartLoader'
 
-type Period = '1D'
+type Period = '1D' | '1W' | '1M'
 
 export interface CurrencyPair {
     symbol: string
@@ -338,6 +338,8 @@ export default function Chart({ selectedPair }: ChartProps) {
     const isLight = theme === 'light'
     const [timestamps, setTimestamps] = useState<number[]>([])
     const [prices, setPrices] = useState<number[]>([])
+    const [chartPeriod, setChartPeriod] = useState<Period>('1D')
+    const [chartSubtitle, setChartSubtitle] = useState('15-minute · last 24h')
     const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
 
     useEffect(() => {
@@ -357,6 +359,13 @@ export default function Chart({ selectedPair }: ChartProps) {
                 if (ts.length < 2 || px.length < 2) {
                     throw new Error('Not enough Yahoo bars')
                 }
+                const period = String(body.period || '1D').trim()
+                setChartPeriod(period === '1W' || period === '1M' ? period : '1D')
+                setChartSubtitle(
+                    typeof body.subtitle === 'string' && body.subtitle.trim()
+                        ? body.subtitle.trim()
+                        : '15-minute · last 24h',
+                )
                 setTimestamps(ts)
                 setPrices(px)
                 setStatus('ready')
@@ -385,7 +394,7 @@ export default function Chart({ selectedPair }: ChartProps) {
                     </p>
                 </div>
                 <span className={`shrink-0 text-[12px] sm:text-[13px] leading-[16px] font-medium ${muted}`}>
-                    15-minute · last 24h
+                    {chartSubtitle}
                 </span>
             </div>
 
@@ -395,7 +404,7 @@ export default function Chart({ selectedPair }: ChartProps) {
                         timestamps={timestamps}
                         prices={prices}
                         decimals={decimals}
-                        period="1D"
+                        period={chartPeriod}
                         light={isLight}
                     />
                 ) : status === 'loading' ? (

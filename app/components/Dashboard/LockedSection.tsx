@@ -5,7 +5,11 @@ import { toast } from 'sonner'
 import { usePlan } from './PlanProvider'
 import { PLAN_LABEL, planAllows, type PlanId } from '@/lib/plans'
 import { startWhopCheckout } from '@/lib/startCheckout'
+import { startCryptoCheckout } from '@/lib/startCryptoCheckout'
 import type { PaidPlanId } from '@/lib/whopCatalog'
+import SubscribePaymentModal, {
+  type SubscribePaymentMethod,
+} from '@/app/components/billing/SubscribePaymentModal'
 
 function LockIcon({ size = 14 }: { size?: number }) {
   return (
@@ -51,19 +55,34 @@ export default function LockedSection({
   showHeading?: boolean
 }) {
   const { plan, loading } = usePlan()
-  const [busy, setBusy] = useState(false)
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [busyMethod, setBusyMethod] = useState<SubscribePaymentMethod | null>(null)
   const allowed = planAllows(plan, required)
   const heading = (title || label || '').trim()
 
-  async function unlock() {
-    setBusy(true)
+  async function payWithCard() {
+    setBusyMethod('card')
     try {
       await startWhopCheckout(required as PaidPlanId, 'monthly')
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Upgrade failed')
-    } finally {
-      setBusy(false)
+      setBusyMethod(null)
     }
+  }
+
+  async function payWithCrypto() {
+    setBusyMethod('crypto')
+    try {
+      await startCryptoCheckout(required as PaidPlanId, 'monthly')
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Crypto checkout failed')
+      setBusyMethod(null)
+    }
+  }
+
+  function closePaymentModal() {
+    if (busyMethod) return
+    setShowPaymentModal(false)
   }
 
   if (loading || allowed) {
@@ -123,15 +142,25 @@ export default function LockedSection({
             </div>
             <button
               type="button"
-              disabled={busy}
-              onClick={() => void unlock()}
+              disabled={showPaymentModal}
+              onClick={() => setShowPaymentModal(true)}
               className="mt-4 w-full inline-flex items-center justify-center h-10 rounded-lg bg-[#88C4FF] text-black text-[13px] font-semibold hover:bg-[#9dceff] transition-colors disabled:opacity-60 cursor-pointer"
             >
-              {busy ? 'Opening checkout…' : `Unlock with ${planLabel}`}
+              {`Unlock with ${planLabel}`}
             </button>
           </div>
         </div>
       </div>
+
+      <SubscribePaymentModal
+        open={showPaymentModal}
+        onClose={closePaymentModal}
+        plan={required as PaidPlanId}
+        interval="monthly"
+        busyMethod={busyMethod}
+        onPayCard={() => void payWithCard()}
+        onPayCrypto={() => void payWithCrypto()}
+      />
     </div>
   )
 }

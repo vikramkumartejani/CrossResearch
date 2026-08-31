@@ -7,6 +7,11 @@ import { toast } from "sonner";
 import { authErrorMessage } from "@/lib/authUi";
 import { PLAN_LABEL, type PlanId } from "@/lib/plans";
 import { startWhopCheckout } from "@/lib/startCheckout";
+import { startCryptoCheckout } from "@/lib/startCryptoCheckout";
+import type { BillingInterval, PaidPlanId } from "@/lib/billingCatalog";
+import SubscribePaymentModal, {
+    type SubscribePaymentMethod,
+} from "@/app/components/billing/SubscribePaymentModal";
 import { mediaCssUrl } from "@/lib/media";
 
 type PlanCard = {
@@ -131,15 +136,29 @@ function toPlanId(cardId: PlanCard["id"]): PlanId {
     return "free";
 }
 
-function usePlanCheckout(billing: "monthly" | "annual") {
+function usePlanCheckout(billing: BillingInterval) {
     const router = useRouter();
     const [busyId, setBusyId] = useState<string | null>(null);
+    const [paymentModal, setPaymentModal] = useState<{
+        plan: PaidPlanId;
+        cardId: string;
+    } | null>(null);
+    const [busyMethod, setBusyMethod] = useState<SubscribePaymentMethod | null>(null);
+
+    async function ensureLoggedIn(): Promise<boolean> {
+        const me = await fetch("/api/auth/me", { cache: "no-store" });
+        if (!me.ok) {
+            router.push(`/login?next=${encodeURIComponent("/#pricing")}`);
+            toast.message("Log in to subscribe");
+            return false;
+        }
+        return true;
+    }
 
     async function choosePlan(card: PlanCard) {
         const plan = toPlanId(card.id);
 
         if (plan === "free") {
-            // Starter: signup if logged out, else confirm free plan
             const me = await fetch("/api/auth/me", { cache: "no-store" });
             if (!me.ok) {
                 router.push("/signup");
@@ -166,24 +185,51 @@ function usePlanCheckout(billing: "monthly" | "annual") {
 
         setBusyId(card.id);
         try {
-            const me = await fetch("/api/auth/me", { cache: "no-store" });
-            if (!me.ok) {
-                router.push(`/login?next=${encodeURIComponent("/#pricing")}`);
-                toast.message("Log in to subscribe");
-                return;
-            }
-            await startWhopCheckout(plan, billing);
-        } catch (err) {
-            toast.error(err instanceof Error ? err.message : "Subscribe failed");
+            if (!(await ensureLoggedIn())) return;
+            setPaymentModal({ plan, cardId: card.id });
         } finally {
             setBusyId(null);
         }
     }
 
-    return { choosePlan, busyId };
+    async function payWithCard() {
+        if (!paymentModal) return;
+        setBusyMethod("card");
+        try {
+            await startWhopCheckout(paymentModal.plan, billing);
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Subscribe failed");
+            setBusyMethod(null);
+        }
+    }
+
+    async function payWithCrypto() {
+        if (!paymentModal) return;
+        setBusyMethod("crypto");
+        try {
+            await startCryptoCheckout(paymentModal.plan, billing);
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Crypto checkout failed");
+            setBusyMethod(null);
+        }
+    }
+
+    function closePaymentModal() {
+        if (busyMethod) return;
+        setPaymentModal(null);
+    }
+
+    return {
+        choosePlan,
+        busyId,
+        paymentModal,
+        busyMethod,
+        payWithCard,
+        payWithCrypto,
+        closePaymentModal,
+    };
 }
 
-/** Side card (Starter / Platinum) */
 function SideCard({
     plan,
     onChoose,
@@ -238,7 +284,6 @@ function SideCard({
     );
 }
 
-/** Center featured card (Gold) */
 function FeaturedCard({
     plan,
     onChoose,
@@ -315,10 +360,18 @@ function FeaturedCard({
 }
 
 export default function PricingSection() {
-    const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+    const [billing, setBilling] = useState<BillingInterval>("monthly");
     const [activePlan, setActivePlan] = useState(0);
     const plans = PLANS[billing];
-    const { choosePlan, busyId } = usePlanCheckout(billing);
+    const {
+        choosePlan,
+        busyId,
+        paymentModal,
+        busyMethod,
+        payWithCard,
+        payWithCrypto,
+        closePaymentModal,
+    } = usePlanCheckout(billing);
 
     return (
         <section id="pricing" className="relative w-full pt-20 sm:pt-[120px] lg:pt-[170px] px-4 sm:px-6 scroll-mt-24">
@@ -415,13 +468,35 @@ export default function PricingSection() {
                                 transition={{ duration: 0.1, ease: 'easeInOut' }}
                             >
                                 {plans[activePlan].featured
-                                    ? <FeaturedCard plan={plans[activePlan]} onChoose={choosePlan} busy={busyId === plans[activePlan].id} />
-                                    : <SideCard plan={plans[activePlan]} onChoose={choosePlan} busy={busyId === plans[activePlan].id} />}
+                                    ? (
+                                        <FeaturedCard
+                                            plan={plans[activePlan]}
+                                            onChoose={choosePlan}
+                                            busy={busyId === plans[activePlan].id}
+                                        />
+                                    )
+                                    : (
+                                        <SideCard
+                                            plan={plans[activePlan]}
+                                            onChoose={choosePlan}
+                                            busy={busyId === plans[activePlan].id}
+                                        />
+                                    )}
                             </motion.div>
                         </AnimatePresence>
                     </div>
                 </div>
             </div>
+
+            <SubscribePaymentModal
+                open={Boolean(paymentModal)}
+                onClose={closePaymentModal}
+                plan={paymentModal?.plan ?? "gold"}
+                interval={billing}
+                busyMethod={busyMethod}
+                onPayCard={() => void payWithCard()}
+                onPayCrypto={() => void payWithCrypto()}
+            />
         </section>
     );
 }
