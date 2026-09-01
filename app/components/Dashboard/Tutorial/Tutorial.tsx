@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useDashboardTheme } from '../DashboardTheme'
+import { media } from '@/lib/media'
 import data from './tutorialData.json'
 
 type Block =
@@ -25,6 +26,7 @@ type Category = {
   items: { id: string; label: string }[]
 }
 
+const QUICKSTART_IMAGE = '/assets/pictures/quickstart.png'
 const categories = data.categories as Category[]
 const navToPage = data.navToPage as Record<string, string>
 const navOrder = data.navOrder as string[]
@@ -276,17 +278,16 @@ export default function Tutorial() {
 
           {activeNav === 'quickstart' && (
             <div
-              className={`mt-6 mb-8 w-full aspect-[16/9] max-h-[340px] rounded-xl border ${border} ${
+              className={`mt-6 mb-8 w-full aspect-[16/9] max-h-[340px] rounded-xl border ${border} overflow-hidden ${
                 isLight ? 'bg-[#E8ECF2]' : 'bg-[#12121A]'
-              } flex items-start p-4`}
+              }`}
             >
-              <div className={`inline-flex items-center gap-2 text-[12px] ${muted}`}>
-                <svg width="15" height="15" viewBox="0 0 18 18" fill="none" aria-hidden>
-                  <rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.3" />
-                  <path d="M7.5 6.5v5l4.5-2.5-4.5-2.5Z" fill="currentColor" />
-                </svg>
-                Quickstart
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={media(QUICKSTART_IMAGE)}
+                alt="CrossResearch quickstart overview"
+                className="w-full h-full object-cover object-center"
+              />
             </div>
           )}
 

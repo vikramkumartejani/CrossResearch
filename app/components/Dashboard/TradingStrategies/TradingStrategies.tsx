@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react'
 import ContentDetailModal from '../shared/ContentDetailModal'
 import LockedSection from '../LockedSection'
 import ChartLoader from '../shared/ChartLoader'
+import ContentCardImage from '../shared/ContentCardImage'
+import { strategyImage } from '@/lib/contentPictures'
 
 const TABS = ['Recent', 'Momentum', 'Reversals', 'Breakouts', 'All'] as const
 type Tab = (typeof TABS)[number]
@@ -16,6 +18,7 @@ type Strategy = {
   title: string
   desc?: string
   contentHtml?: string
+  image?: string | null
   tag?: string | null
   author: string
   date: string
@@ -46,7 +49,15 @@ function byPlacement(list: Strategy[], placement: Placement) {
     .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
 }
 
-function SmallCard({ card, onOpen }: { card: Strategy; onOpen: (card: Strategy) => void }) {
+function SmallCard({
+  card,
+  onOpen,
+  imageVariant = 'grid',
+}: {
+  card: Strategy
+  onOpen: (card: Strategy) => void
+  imageVariant?: 'grid' | 'grid-recent'
+}) {
   return (
     <div
       role="button"
@@ -57,7 +68,8 @@ function SmallCard({ card, onOpen }: { card: Strategy; onOpen: (card: Strategy) 
       }}
       className="bg-[#16161F] flex flex-col cursor-pointer transition-colors hover:bg-[#1A1A24]"
     >
-      <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[199px] relative">
+      <div className="flex-1 min-h-[160px] sm:min-h-[199px] relative overflow-hidden">
+        <ContentCardImage src={strategyImage(card, imageVariant)} alt={card.title} />
         {card.tag && (
           <div className="absolute z-10 top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5 rounded">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -286,9 +298,14 @@ export default function TradingStrategies() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') setSelected(featured)
                   }}
-                  className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors hover:bg-[#1A1A24]"
+                  className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors hover:bg-[#1A1A24] overflow-hidden"
                 >
-                  <div className="flex-1 bg-[#FFFFFF08] min-h-[160px] sm:min-h-[220px] xl:min-h-[481px]" />
+                  <div className="flex-1 min-h-[160px] sm:min-h-[220px] xl:min-h-[481px] overflow-hidden">
+                    <ContentCardImage
+                      src={strategyImage(featured, 'featured')}
+                      alt={featured.title}
+                    />
+                  </div>
                   <div className="p-3 sm:p-0">
                     <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
                       {featured.type}
@@ -310,7 +327,7 @@ export default function TradingStrategies() {
 
               <LockedSection required="platinum" title="Strategy Cards" showHeading={false} contentClassName="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {gridCards.map((card) => (
-                  <SmallCard key={card.id} card={card} onOpen={setSelected} />
+                  <SmallCard key={card.id} card={card} onOpen={setSelected} imageVariant="grid-recent" />
                 ))}
               </LockedSection>
             </div>

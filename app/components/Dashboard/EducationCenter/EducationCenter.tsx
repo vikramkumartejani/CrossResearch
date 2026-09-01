@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import ContentDetailModal from '../shared/ContentDetailModal'
 import ChartLoader from '../shared/ChartLoader'
+import ContentCardImage from '../shared/ContentCardImage'
+import { educationImage } from '@/lib/contentPictures'
 
 const TABS = ['Recent', 'Macro', 'Technical', 'Psychology', 'All'] as const
 type Tab = (typeof TABS)[number]
@@ -17,6 +19,7 @@ type Article = {
   title: string
   desc?: string
   contentHtml?: string
+  image?: string | null
   author: string
   date: string
   placement: Placement
@@ -44,7 +47,15 @@ function byPlacement(list: Article[], placement: Placement) {
     .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
 }
 
-function SmallCard({ card, onOpen }: { card: Article; onOpen: (card: Article) => void }) {
+function SmallCard({
+  card,
+  onOpen,
+  imageVariant = 'grid',
+}: {
+  card: Article
+  onOpen: (card: Article) => void
+  imageVariant?: 'grid' | 'recent-left'
+}) {
   return (
     <div
       role="button"
@@ -55,7 +66,9 @@ function SmallCard({ card, onOpen }: { card: Article; onOpen: (card: Article) =>
       }}
       className="bg-[#16161F] flex flex-col cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
     >
-      <div className="flex-1 bg-[#FFFFFF08] min-h-[140px] sm:min-h-[180px]" />
+      <div className="flex-1 min-h-[140px] sm:min-h-[180px] overflow-hidden">
+        <ContentCardImage src={educationImage(card, imageVariant)} alt={card.title} />
+      </div>
       <div className="p-3 sm:p-4">
         <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">
           {topicLabel(card)}
@@ -80,8 +93,12 @@ function BottomCard({ card, onOpen }: { card: Article; onOpen: (card: Article) =
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') onOpen(card)
       }}
-      className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
+      className="bg-[#16161F] flex flex-col cursor-pointer transition-colors h-full hover:bg-[#1A1A24] overflow-hidden"
     >
+      <div className="h-[140px] sm:h-[160px] overflow-hidden">
+        <ContentCardImage src={educationImage(card, 'bottom')} alt={card.title} />
+      </div>
+      <div className="p-3 sm:p-4">
       <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
         {topicLabel(card)}
       </span>
@@ -96,6 +113,7 @@ function BottomCard({ card, onOpen }: { card: Article; onOpen: (card: Article) =
       <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">
         By {card.author} • {card.date}
       </p>
+      </div>
     </div>
   )
 }
@@ -342,7 +360,7 @@ export default function EducationCenter() {
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] gap-3 sm:gap-4 mb-3 sm:mb-4">
               <div className="min-h-0">
                 {recentLayout.left ? (
-                  <SmallCard card={recentLayout.left} onOpen={setSelected} />
+                  <SmallCard card={recentLayout.left} onOpen={setSelected} imageVariant="recent-left" />
                 ) : (
                   <div className="bg-[#16161F] h-full min-h-[220px]" />
                 )}
@@ -359,9 +377,14 @@ export default function EducationCenter() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') setSelected(featured)
                       }}
-                      className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
+                      className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors h-full hover:bg-[#1A1A24] overflow-hidden"
                     >
-                      <div className="flex-1 bg-[#FFFFFF08] min-h-[180px] sm:min-h-[260px] xl:min-h-[320px]" />
+                      <div className="flex-1 min-h-[180px] sm:min-h-[260px] xl:min-h-[320px] overflow-hidden">
+                        <ContentCardImage
+                          src={educationImage(featured, 'featured')}
+                          alt={featured.title}
+                        />
+                      </div>
                       <div className="p-3 sm:p-0">
                         <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
                           {topicLabel(featured)}

@@ -11,7 +11,7 @@ const TABS = [
         title: 'Nowcasting',
         description: 'Track economic activity, inflation, and growth expectations before official releases',
         image: '/assets/Nowcasting.png',
-        imageMobile: '/assets/proprietary.png',
+        imageMobile: '/assets/Nowcasting-phone.png',
         icon: (
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.6666 6.82043C21.9665 6.82043 23.6164 6.82043 24.6415 7.87184C25.6666 8.92325 25.6666 10.6155 25.6666 13.9999C25.6666 17.3844 25.6666 19.0766 24.6415 20.128C23.6164 21.1794 21.9665 21.1794 18.6666 21.1794L9.33329 21.1794C6.03346 21.1794 4.38354 21.1794 3.35842 20.128C2.33329 19.0766 2.33329 17.3844 2.33329 13.9999C2.33329 10.6155 2.33329 8.92325 3.35842 7.87184C4.38354 6.82043 6.03346 6.82043 9.33329 6.82043L18.6666 6.82043Z" fill="currentColor" />
