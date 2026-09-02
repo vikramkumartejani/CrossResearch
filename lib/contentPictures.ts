@@ -8,7 +8,6 @@ export const EDUCATION_PICTURES = {
   featured: picture('education featured.png'),
   left: picture('education left.png'),
   grid: picture('education grid all.png'),
-  bottom: picture('getting started.png'),
 } as const
 
 export const STRATEGY_PICTURES = {
@@ -27,9 +26,6 @@ export function educationImage(
   }
   if (variant === 'recent-left' || (article.placement === 'grid' && Number(article.sort_order ?? 0) === 1)) {
     return EDUCATION_PICTURES.left
-  }
-  if (variant === 'bottom' || article.placement === 'bottom') {
-    return EDUCATION_PICTURES.bottom
   }
   return EDUCATION_PICTURES.grid
 }

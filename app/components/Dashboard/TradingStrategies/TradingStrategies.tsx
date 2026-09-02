@@ -53,10 +53,12 @@ function SmallCard({
   card,
   onOpen,
   imageVariant = 'grid',
+  fillHeight = false,
 }: {
   card: Strategy
   onOpen: (card: Strategy) => void
   imageVariant?: 'grid' | 'grid-recent'
+  fillHeight?: boolean
 }) {
   return (
     <div
@@ -66,9 +68,15 @@ function SmallCard({
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') onOpen(card)
       }}
-      className="bg-[#16161F] flex flex-col cursor-pointer transition-colors hover:bg-[#1A1A24]"
+      className={`bg-[#16161F] flex flex-col cursor-pointer transition-colors hover:bg-[#1A1A24]${fillHeight ? ' h-full' : ''}`}
     >
-      <div className="flex-1 min-h-[160px] sm:min-h-[199px] relative overflow-hidden">
+      <div
+        className={
+          fillHeight
+            ? 'flex-1 min-h-[160px] sm:min-h-[199px] relative overflow-hidden'
+            : 'h-[160px] sm:h-[199px] shrink-0 relative overflow-hidden'
+        }
+      >
         <ContentCardImage src={strategyImage(card, imageVariant)} alt={card.title} />
         {card.tag && (
           <div className="absolute z-10 top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5 rounded">
@@ -298,7 +306,7 @@ export default function TradingStrategies() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') setSelected(featured)
                   }}
-                  className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors hover:bg-[#1A1A24] overflow-hidden"
+                  className="bg-[#16161F] p-0 sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors hover:bg-[#1A1A24] overflow-hidden h-full min-h-0"
                 >
                   <div className="flex-1 min-h-[160px] sm:min-h-[220px] xl:min-h-[481px] overflow-hidden">
                     <ContentCardImage
@@ -325,9 +333,9 @@ export default function TradingStrategies() {
                 <div className="hidden xl:block" />
               )}
 
-              <LockedSection required="platinum" title="Strategy Cards" showHeading={false} contentClassName="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <LockedSection required="platinum" title="Strategy Cards" showHeading={false} contentClassName="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 h-full">
                 {gridCards.map((card) => (
-                  <SmallCard key={card.id} card={card} onOpen={setSelected} imageVariant="grid-recent" />
+                  <SmallCard key={card.id} card={card} onOpen={setSelected} imageVariant="grid-recent" fillHeight />
                 ))}
               </LockedSection>
             </div>

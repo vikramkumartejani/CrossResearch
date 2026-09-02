@@ -51,10 +51,12 @@ function SmallCard({
   card,
   onOpen,
   imageVariant = 'grid',
+  fillHeight = false,
 }: {
   card: Article
   onOpen: (card: Article) => void
   imageVariant?: 'grid' | 'recent-left'
+  fillHeight?: boolean
 }) {
   return (
     <div
@@ -64,9 +66,15 @@ function SmallCard({
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') onOpen(card)
       }}
-      className="bg-[#16161F] flex flex-col cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
+      className={`bg-[#16161F] flex flex-col cursor-pointer transition-colors hover:bg-[#1A1A24]${fillHeight ? ' h-full' : ''}`}
     >
-      <div className="flex-1 min-h-[140px] sm:min-h-[180px] overflow-hidden">
+      <div
+        className={
+          fillHeight
+            ? 'flex-1 min-h-[140px] sm:min-h-[180px] overflow-hidden'
+            : 'h-[140px] sm:h-[180px] shrink-0 overflow-hidden'
+        }
+      >
         <ContentCardImage src={educationImage(card, imageVariant)} alt={card.title} />
       </div>
       <div className="p-3 sm:p-4">
@@ -93,12 +101,8 @@ function BottomCard({ card, onOpen }: { card: Article; onOpen: (card: Article) =
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') onOpen(card)
       }}
-      className="bg-[#16161F] flex flex-col cursor-pointer transition-colors h-full hover:bg-[#1A1A24] overflow-hidden"
+      className="bg-[#16161F] p-3 sm:p-4 cursor-pointer transition-colors h-full hover:bg-[#1A1A24]"
     >
-      <div className="h-[140px] sm:h-[160px] overflow-hidden">
-        <ContentCardImage src={educationImage(card, 'bottom')} alt={card.title} />
-      </div>
-      <div className="p-3 sm:p-4">
       <span className="text-[12px] sm:text-[16px] leading-[17px] sm:leading-[19px] font-medium text-[#88C4FF]">
         {topicLabel(card)}
       </span>
@@ -113,7 +117,6 @@ function BottomCard({ card, onOpen }: { card: Article; onOpen: (card: Article) =
       <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[22px]">
         By {card.author} • {card.date}
       </p>
-      </div>
     </div>
   )
 }
@@ -358,9 +361,9 @@ export default function EducationCenter() {
         {showRecent && (
           <>
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] gap-3 sm:gap-4 mb-3 sm:mb-4">
-              <div className="min-h-0">
+              <div className="min-h-0 h-full">
                 {recentLayout.left ? (
-                  <SmallCard card={recentLayout.left} onOpen={setSelected} imageVariant="recent-left" />
+                  <SmallCard card={recentLayout.left} onOpen={setSelected} imageVariant="recent-left" fillHeight />
                 ) : (
                   <div className="bg-[#16161F] h-full min-h-[220px]" />
                 )}
@@ -377,7 +380,7 @@ export default function EducationCenter() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') setSelected(featured)
                       }}
-                      className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors h-full hover:bg-[#1A1A24] overflow-hidden"
+                      className="bg-[#16161F] sm:p-5 flex flex-col gap-0 sm:gap-5 cursor-pointer transition-colors h-full min-h-0 hover:bg-[#1A1A24] overflow-hidden"
                     >
                       <div className="flex-1 min-h-[180px] sm:min-h-[260px] xl:min-h-[320px] overflow-hidden">
                         <ContentCardImage
