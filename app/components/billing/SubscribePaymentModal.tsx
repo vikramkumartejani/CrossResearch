@@ -115,7 +115,7 @@ export default function SubscribePaymentModal({
 
         <div className="flex items-start justify-between gap-4 mb-5">
           <div>
-            <p className="text-[#88C4FF] text-[12px] font-semibold tracking-[0.08em] uppercase mb-1">
+            <p className="text-[#88C4FF] text-[12px] font-semibold tracking-[0.08em] mb-1">
               Choose payment method
             </p>
             <h3 id="subscribe-payment-title" className="text-white text-[20px] sm:text-[22px] font-semibold leading-tight">

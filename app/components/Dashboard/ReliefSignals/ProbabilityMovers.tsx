@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import ChartLoader from '../shared/ChartLoader'
-import { useBeliefMarkets } from './beliefMarkets'
+import { formatSeverityLabel, severityBg, useBeliefMarkets } from './beliefMarkets'
 
 const FILTER_TABS = ['Macro', 'Geopolitics', 'Politics', 'Markets']
 
@@ -68,25 +68,25 @@ export default function ProbabilityMovers() {
                             <thead className="sticky top-0 bg-[#16161F] z-10">
                                 <tr className="border-b border-[#FFFFFF08]">
                                     <th className="pl-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[38%]">
-                                        EVENT / OUTCOME
+                                        Event / Outcome
                                     </th>
                                     <th className="pl-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[13%]">
-                                        CATEGORY
+                                        Category
                                     </th>
                                     <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[8%]">
-                                        PROB
+                                        Prob
                                     </th>
                                     <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[9%]">
-                                        Δ1M
+                                        Δ1m
                                     </th>
                                     <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[9%]">
-                                        Δ1H
+                                        Δ1h
                                     </th>
                                     <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[9%]">
-                                        Δ24H
+                                        Δ24h
                                     </th>
                                     <th className="px-4 py-2.5 text-left text-[#838388] text-[12px] leading-[14px] font-semibold tracking-wide w-[12%]">
-                                        SHOCK
+                                        Shock
                                     </th>
                                 </tr>
                             </thead>
@@ -155,9 +155,9 @@ export default function ProbabilityMovers() {
                                         </td>
                                         <td className="px-4 py-3.5 align-middle">
                                             <span
-                                                className={`text-white text-[12px] font-medium px-2 py-0.5 text-center w-full inline-block ${row.shockColor}`}
+                                                className={`text-white text-[12px] font-medium px-2 py-0.5 text-center w-full inline-block rounded-sm ${severityBg(row.shockLabel)}`}
                                             >
-                                                {row.shockLabel}
+                                                {formatSeverityLabel(row.shockLabel)}
                                             </span>
                                         </td>
                                     </tr>

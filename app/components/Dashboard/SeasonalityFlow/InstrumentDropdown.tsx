@@ -12,7 +12,7 @@ export const SEASONALITY_INSTRUMENTS = [
     { value: 'NAS100', label: 'NAS100' },
     { value: 'US30', label: 'US30' },
     { value: 'SP500', label: 'SP500' },
-    { value: 'BTCUSD', label: 'BITCOIN' },
+    { value: 'BTCUSD', label: 'Bitcoin' },
 ] as const
 
 export type SeasonalityInstrument = (typeof SEASONALITY_INSTRUMENTS)[number]['value']

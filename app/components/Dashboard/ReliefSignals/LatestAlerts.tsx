@@ -1,7 +1,7 @@
 'use client'
 
 import ChartLoader from '../shared/ChartLoader'
-import { useBeliefMarkets } from './beliefMarkets'
+import { formatSeverityLabel, severityBg, useBeliefMarkets } from './beliefMarkets'
 
 export default function LatestAlerts() {
     const { data, loading, error } = useBeliefMarkets()
@@ -36,9 +36,9 @@ export default function LatestAlerts() {
                                     {alert.time}
                                 </span>
                                 <span
-                                    className={`${alert.severityColor} text-white w-[68px] text-center text-[11px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0`}
+                                    className={`${severityBg(alert.severity)} text-white w-[68px] text-center text-[11px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0 rounded-sm`}
                                 >
-                                    {alert.severity}
+                                    {formatSeverityLabel(alert.severity)}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between gap-2 flex-1 min-w-0 pl-[72px] sm:pl-0">

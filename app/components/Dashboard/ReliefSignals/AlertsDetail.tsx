@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import ChartLoader from '../shared/ChartLoader'
-import { useBeliefMarkets } from './beliefMarkets'
+import { formatSeverityLabel, severityBg, useBeliefMarkets } from './beliefMarkets'
 
 const FILTER_TABS = ['All', 'Extreme', 'High', 'Notable'] as const
 
@@ -53,9 +53,9 @@ export default function AlertsDetail() {
                                 <div className="flex items-start justify-between gap-3 mb-3">
                                     <div className="flex items-center gap-2.5 min-w-0 flex-wrap">
                                         <span
-                                            className={`${alert.severityColor} text-white w-[68px] text-center text-[12px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0`}
+                                            className={`${severityBg(alert.severity)} text-white w-[68px] text-center text-[12px] leading-[14px] font-medium px-2 py-0.5 flex-shrink-0 rounded-sm`}
                                         >
-                                            {alert.severity}
+                                            {formatSeverityLabel(alert.severity)}
                                         </span>
                                         <span className="text-white text-[14px] leading-[19px] font-semibold">
                                             {alert.title}
@@ -67,19 +67,19 @@ export default function AlertsDetail() {
                                     <span
                                         className={`text-[12px] leading-[17px] font-semibold flex-shrink-0 ${alert.statusColor}`}
                                     >
-                                        {alert.status}
+                                        {formatSeverityLabel(alert.status)}
                                     </span>
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-3">
                                     <span className="text-[#838388] text-[12px] leading-[15px] pr-2">
-                                        PREV → NOW{' '}
+                                        Prev → Now{' '}
                                         <span className="text-white font-medium pl-0.5">
                                             {alert.prev} → {alert.now}
                                         </span>
                                     </span>
                                     <span className="text-[#838388] text-[12px] leading-[15px]">
-                                        CHANGE{' '}
+                                        Change{' '}
                                         <span
                                             className={`font-medium pl-0.5 ${
                                                 alert.change.startsWith('+')
@@ -93,16 +93,16 @@ export default function AlertsDetail() {
                                         </span>
                                     </span>
                                     <span className="text-[#838388] text-[12px] leading-[15px]">
-                                        REL <span className="text-white font-medium pl-0.5">{alert.relative}</span>
+                                        Rel <span className="text-white font-medium pl-0.5">{alert.relative}</span>
                                     </span>
                                     <span className="text-[#838388] text-[12px] leading-[15px]">
-                                        WIN <span className="text-white font-medium pl-0.5">{alert.window}</span>
+                                        Win <span className="text-white font-medium pl-0.5">{alert.window}</span>
                                     </span>
                                     <span className="text-[#838388] text-[12px] leading-[15px]">
                                         Z <span className="text-white font-medium pl-0.5">{alert.z}</span>
                                     </span>
                                     <span className="text-[#838388] text-[12px] leading-[15px]">
-                                        SIG <span className="text-white font-medium pl-0.5">{alert.signal}</span>
+                                        Sig <span className="text-white font-medium pl-0.5">{alert.signal}</span>
                                     </span>
                                 </div>
 

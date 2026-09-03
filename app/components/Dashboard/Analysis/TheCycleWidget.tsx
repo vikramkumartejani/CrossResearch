@@ -20,7 +20,7 @@ const CYCLE_ROWS: {
     label: 'Regime Play',
     value: (
       <span className="inline-flex items-center gap-1 text-[#E25C3F]">
-        <span aria-hidden>↘</span> DOWN
+        <span aria-hidden>↘</span> Down
       </span>
     ),
   },
@@ -71,7 +71,7 @@ export default function TheCycleWidget() {
           </p>
         </div>
         <span className="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide text-[#2CB37B]">
-          LIVE
+          Live
         </span>
       </div>
 

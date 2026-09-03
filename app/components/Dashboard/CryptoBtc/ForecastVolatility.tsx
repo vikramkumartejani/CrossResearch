@@ -336,7 +336,7 @@ export default function ForecastVolatility() {
 
                 <div className="mt-3 sm:mt-4 flex items-start flex-wrap gap-x-6 gap-y-3 sm:gap-8">
                     {[
-                        { label: '5D NET', value: formatFlow(etfMeta?.flow5d ?? null), pos: (etfMeta?.flow5d ?? 0) >= 0 },
+                        { label: '5d net', value: formatFlow(etfMeta?.flow5d ?? null), pos: (etfMeta?.flow5d ?? 0) >= 0 },
                         { label: '20D', value: formatFlow(etfMeta?.flow20d ?? null), pos: (etfMeta?.flow20d ?? 0) >= 0 },
                         {
                             label: 'Cumulative',

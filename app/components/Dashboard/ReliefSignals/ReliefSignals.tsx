@@ -4,7 +4,7 @@ import Watchlist from './Watchlist'
 import ProbabilityMovers from './ProbabilityMovers'
 import AlertsDetail from './AlertsDetail'
 import LockedSection from '../LockedSection'
-import { BeliefMarketsProvider, useBeliefMarkets } from './beliefMarkets'
+import { BeliefMarketsProvider, formatSeverityLabel, useBeliefMarkets } from './beliefMarkets'
 
 function ReliefSignalsContent() {
     const { data, loading, refresh } = useBeliefMarkets()
@@ -64,7 +64,7 @@ function ReliefSignalsContent() {
                     <div className="flex items-center gap-1">
                         <div className="w-1.5 h-1.5 bg-white rounded-full" />
                         <p className="text-[12px] leading-[18px] font-medium">
-                            Market State <span className="text-[14px] leading-[18px] font-semibold">{marketState}</span>
+                            Market State <span className="text-[14px] leading-[18px] font-semibold">{formatSeverityLabel(marketState)}</span>
                         </p>
                     </div>
                 </div>

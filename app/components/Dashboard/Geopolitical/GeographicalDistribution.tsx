@@ -287,7 +287,7 @@ export default function GeographicalDistribution() {
                             >
                                 <div className={`px-2.5 py-2 flex items-center justify-between gap-2 ${layersCollapsed ? '' : 'border-b border-[#2A3140]'}`}>
                                     <p className="text-[#D5DCE8] text-[10px] font-semibold tracking-[0.14em]">
-                                        LAYERS
+                                        Layers
                                     </p>
                                     <button
                                         type="button"

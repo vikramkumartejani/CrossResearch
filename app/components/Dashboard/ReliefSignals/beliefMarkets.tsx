@@ -51,6 +51,24 @@ export interface BeliefMover {
   url?: string | null
 }
 
+/** Tailwind must see these class strings in the client bundle (API-only classes get purged). */
+export const SEV_BG: Record<string, string> = {
+  EXTREME: 'bg-[#E25C3F]',
+  HIGH: 'bg-[#E8A020]',
+  NOTABLE: 'bg-[#838388]',
+  DEVELOPING: 'bg-[#2CB37B]',
+}
+
+export function formatSeverityLabel(value: string): string {
+  const v = (value || '').trim()
+  if (!v) return '-'
+  return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase()
+}
+
+export function severityBg(severity: string): string {
+  return SEV_BG[severity.trim().toUpperCase()] ?? SEV_BG.NOTABLE
+}
+
 export interface BeliefMarketsPayload {
   market_state?: string
   updated_at?: string

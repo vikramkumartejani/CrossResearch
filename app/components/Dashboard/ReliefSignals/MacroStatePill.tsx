@@ -23,7 +23,7 @@ export default function MacroStatePill() {
 
             {/* Description */}
             <p className="text-[#838388] text-[12px] leading-[17px] mb-5">
-                One word captures market sentiment-CALM, ELEVATED, DIVERGENT, FRAGILE, or STRESSED. Always visible, always honest.
+                One word captures market sentiment - Calm, Elevated, Divergent, Fragile, or Stressed. Always visible, always honest.
             </p>
 
             {/* State bars */}

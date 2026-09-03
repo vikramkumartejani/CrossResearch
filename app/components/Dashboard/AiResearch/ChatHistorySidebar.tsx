@@ -29,14 +29,12 @@ export default function ChatHistorySidebar({
   threads,
   activeId,
   onSelect,
-  onNew,
   onDelete,
   onClose,
 }: {
   threads: DeskThread[]
   activeId: string | null
   onSelect: (id: string) => void
-  onNew: () => void
   onDelete: (id: string) => void
   onClose?: () => void
 }) {
@@ -46,27 +44,18 @@ export default function ChatHistorySidebar({
     <aside className="flex flex-col h-full min-h-0 w-full bg-[#070711]">
       <div className="flex items-center justify-between gap-2 px-4 py-4 border-b border-[#FFFFFF0D]">
         <p className="text-white text-[14px] leading-[17px] font-semibold">Chat history</p>
-        <div className="flex items-center gap-1">
+        {onClose && (
           <button
             type="button"
-            onClick={onNew}
-            className="h-7 px-2 text-[12px] text-[#88C4FF] hover:underline cursor-pointer"
+            onClick={onClose}
+            aria-label="Close history"
+            className="w-7 h-7 inline-flex items-center justify-center text-[#838388] hover:text-white cursor-pointer"
           >
-            New
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M1 1l10 10M11 1 1 11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
           </button>
-          {onClose && (
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close history"
-              className="w-7 h-7 inline-flex items-center justify-center text-[#838388] hover:text-white cursor-pointer"
-            >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M1 1l10 10M11 1 1 11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-              </svg>
-            </button>
-          )}
-        </div>
+        )}
       </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto dashboard-scroll px-2 py-3">

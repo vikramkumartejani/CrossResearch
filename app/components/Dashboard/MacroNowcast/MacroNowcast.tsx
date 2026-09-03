@@ -24,7 +24,7 @@ export default function MacroNowcast() {
                 </div>
                 <div className='flex items-center gap-1 flex-shrink-0'>
                     <div className='w-1.5 h-1.5 bg-white rounded-full' />
-                    <p className='text-[12px] leading-[18px] font-medium'>Market State <span className='text-[14px] leading-[18px] font-semibold'>DIVERGENT</span></p>
+                    <p className='text-[12px] leading-[18px] font-medium'>Market State <span className='text-[14px] leading-[18px] font-semibold'>Divergent</span></p>
                 </div>
             </div>
 

@@ -26,7 +26,7 @@ export default function AnalysisHeader({
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const title = `${selectedPair.baseName} / ${selectedPair.quoteName}`.toUpperCase()
+  const title = `${selectedPair.baseName} / ${selectedPair.quoteName}`
   const muted = isLight ? 'text-[#838388]' : 'text-white/50'
   const strong = isLight ? 'text-[#0F172A]' : 'text-white'
 

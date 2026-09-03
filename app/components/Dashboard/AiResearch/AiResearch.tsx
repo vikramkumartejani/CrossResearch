@@ -159,8 +159,8 @@ function AttachmentChips({
             // eslint-disable-next-line @next/next/no-img-element
             <img src={file.previewUrl} alt="" className="w-7 h-7 rounded object-cover" />
           ) : (
-            <span className="w-7 h-7 rounded bg-[#FFFFFF0D] text-[#838388] text-[9px] font-semibold inline-flex items-center justify-center uppercase">
-              {file.kind === 'doc' ? 'DOC' : file.kind === 'screenshot' ? 'SCR' : 'IMG'}
+            <span className="w-7 h-7 rounded bg-[#FFFFFF0D] text-[#838388] text-[9px] font-semibold inline-flex items-center justify-center">
+              {file.kind === 'doc' ? 'Doc' : file.kind === 'screenshot' ? 'Scr' : 'Img'}
             </span>
           )}
           <span className="text-[11px] truncate max-w-[140px] text-white/80">{file.name}</span>
@@ -373,8 +373,8 @@ export default function AiResearch() {
   return (
     <div className="flex min-h-[calc(100dvh-8.5rem)] lg:min-h-[calc(100dvh-5.5rem)]">
       <div className="flex-1 min-w-0 flex flex-col">
-        <div className="relative border-b border-[#FFFFFF0D] px-4 lg:px-6 py-8 sm:py-10 mb-5">
-          <div className="absolute right-4 lg:right-6 top-8 sm:top-10 flex items-center gap-3 shrink-0">
+        <div className={`relative border-b border-[#FFFFFF0D] px-4 lg:px-6 py-5 sm:py-6 xl:py-4 mb-3 xl:mb-1 ${inThread ? '' : 'hidden'}`}>
+          <div className="absolute right-4 lg:right-6 top-5 sm:top-6 xl:top-4 flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => setHistoryOpen(true)}
@@ -413,7 +413,7 @@ export default function AiResearch() {
                 Quantitative Market Intelligence
               </span>
             </div>
-            <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-3 sm:mb-4">
+            <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 sm:mb-3 xl:mb-2">
               CrossResearch AI
             </h1>
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[12px] leading-[17px] text-[#838388]">
@@ -436,7 +436,11 @@ export default function AiResearch() {
         </div>
 
         <div className="px-4 lg:px-6 pb-6 flex-1 min-h-0 flex flex-col">
-          <div className="mx-auto w-full max-w-[820px] flex flex-col flex-1 min-h-0">
+          <div
+            className={`mx-auto w-full max-w-[820px] flex flex-col flex-1 min-h-0 ${
+              inThread ? '' : 'justify-center'
+            }`}
+          >
             {inThread ? (
               <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto space-y-3 pb-4 dashboard-scroll">
                 {messages.map((m) => (
@@ -459,18 +463,58 @@ export default function AiResearch() {
                 ))}
                 {typing && <TypingDots />}
               </div>
-            ) : (
-              <div className="flex-1 min-h-0" aria-hidden />
-            )}
+            ) : null}
 
-            <div className="mt-auto shrink-0 pt-2">
+            <div className={`shrink-0 ${inThread ? 'mt-auto pt-2' : ''}`}>
               {!inThread && (
-                <h2 className="text-white text-[18px] font-medium leading-[22px] mb-4">
+                <div className="flex flex-col items-center text-center mb-6">
+                  <div className="mb-3 flex items-center justify-center gap-1">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
+                      <path
+                        d="M8 1.5l1.05 3.2L12.4 5.7 9.05 7.05 8 10.5 6.95 7.05 3.6 5.7l3.35-1L8 1.5Z"
+                        stroke="#838388"
+                        strokeWidth="1.2"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M13.5 10.5l.4 1.2 1.2.4-1.2.4-.4 1.2-.4-1.2-1.2-.4 1.2-.4.4-1.2Z"
+                        stroke="#838388"
+                        strokeWidth="1.1"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span className="text-[#838388] text-[12px] leading-[14px] font-medium">
+                      Quantitative Market Intelligence
+                    </span>
+                  </div>
+                  <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 sm:mb-3">
+                    CrossResearch AI
+                  </h1>
+                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[12px] leading-[17px] text-[#838388]">
+                    {ticker.map((row, i) => (
+                      <span key={row.label} className="inline-flex items-center gap-3">
+                        {i > 0 && <span className="text-[#FFFFFF28]">|</span>}
+                        <span>
+                          {row.label} <span className="text-white tabular-nums">{row.value}</span>
+                        </span>
+                      </span>
+                    ))}
+                    <span className="inline-flex items-center gap-3">
+                      <span className="text-[#FFFFFF28]">|</span>
+                      <span>
+                        Macro Regime: <span className="text-white">Stagnation</span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              )}
+              {!inThread && (
+                <h2 className="text-white text-[18px] font-medium leading-[22px] mb-3 xl:mb-2.5">
                   What do you want to understand?
                 </h2>
               )}
 
-              <form onSubmit={onSubmit} className={!inThread ? 'mb-5' : undefined}>
+              <form onSubmit={onSubmit} className={!inThread ? 'mb-4 xl:mb-3' : undefined}>
                 <div className="border border-[#FFFFFF0D] bg-[#16161F] px-3.5 pt-3.5 pb-3">
                   {attachments.length > 0 && (
                     <div className="mb-3">
@@ -546,7 +590,7 @@ export default function AiResearch() {
                       onClick={() => pushMock(prompt.question, [])}
                       className="w-full flex items-center gap-4 sm:gap-8 px-4 py-3.5 bg-[#16161F] border border-transparent text-left hover:border-[#FFFFFF18] transition-colors cursor-pointer"
                     >
-                      <span className="shrink-0 w-[92px] sm:w-[110px] text-[11px] tracking-[0.14em] uppercase text-[#838388] font-medium">
+                      <span className="shrink-0 w-[92px] sm:w-[110px] text-[12px] text-[#838388] font-medium">
                         {prompt.category}
                       </span>
                       <span className="text-[13px] sm:text-[14px] leading-[20px] text-white/85">
@@ -566,7 +610,6 @@ export default function AiResearch() {
           threads={threads}
           activeId={activeId}
           onSelect={openThread}
-          onNew={startNew}
           onDelete={deleteThread}
         />
       </div>
@@ -584,7 +627,6 @@ export default function AiResearch() {
               threads={threads}
               activeId={activeId}
               onSelect={openThread}
-              onNew={startNew}
               onDelete={deleteThread}
               onClose={() => setHistoryOpen(false)}
             />

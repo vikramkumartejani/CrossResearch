@@ -125,7 +125,7 @@ function InstrumentTable({ title, rows }: { title: string; rows: CotInstrumentRo
                             >
                                 {row.net_display}
                             </p>
-                            <p className="text-[11px] sm:text-[12px] leading-[14px] font-normal text-white/60 mt-1">NET</p>
+                            <p className="text-[11px] sm:text-[12px] leading-[14px] font-normal text-white/60 mt-1">Net</p>
                         </div>
                         <div>
                             <p
@@ -135,7 +135,7 @@ function InstrumentTable({ title, rows }: { title: string; rows: CotInstrumentRo
                             >
                                 {row.wow_display}
                             </p>
-                            <p className="text-[11px] sm:text-[12px] leading-[14px] font-normal text-white/60 mt-1">WOW</p>
+                            <p className="text-[11px] sm:text-[12px] leading-[14px] font-normal text-white/60 mt-1">WoW</p>
                         </div>
                         <div className="self-center">
                             <Sparkline values={row.trend} positive={row.net_positive} />
