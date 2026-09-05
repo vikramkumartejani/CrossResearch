@@ -15,7 +15,7 @@ const AUTH_PATHS = [
   '/affiliate/login',
   '/affiliate/forgot-password',
 ]
-const DASHBOARD_PATHS = ['/analysis', '/market-report', '/macro-nowcast', '/macro-signals', '/relief-signals', '/options-positioning', '/seasonality-flow', '/crypto-btc', '/geopolitical', '/news', '/ai-research', '/tutorial', '/education-center', '/trading-strategies', '/help-center', '/contact-support']
+const DASHBOARD_PATHS = ['/analysis', '/market-report', '/macro-nowcast', '/macro-signals', '/relief-signals', '/options-positioning', '/seasonality-flow', '/crypto-btc', '/equity-analyst', '/geopolitical', '/news', '/ai-research', '/tutorial', '/education-center', '/trading-strategies', '/help-center', '/contact-support']
 
 function isDashboardPath(pathname: string) {
     return DASHBOARD_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
