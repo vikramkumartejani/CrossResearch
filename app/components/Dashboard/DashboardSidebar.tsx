@@ -91,6 +91,11 @@ const NAV_SECTIONS = [
         label: 'Crypto',
         items: [
             { label: 'Crypto / BTC', href: '/crypto-btc', icon: <NavIcon name="crypto-bitcoin" /> },
+        ],
+    },
+    {
+        label: 'Stocks',
+        items: [
             { label: 'Equity Analyst', href: '/equity-analyst', icon: <NavIcon name="analysis-home" /> },
         ],
     },
