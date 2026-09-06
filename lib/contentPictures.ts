@@ -20,6 +20,8 @@ export function educationImage(
   article: { image?: string | null; placement?: string; sort_order?: number },
   variant: 'recent-left' | 'featured' | 'bottom' | 'grid' = 'grid',
 ): string {
+  // All / library grid: one shared thumbnail for every card (custom art stays on Recent).
+  if (variant === 'grid') return EDUCATION_PICTURES.grid
   if (article.image?.trim()) return article.image.trim()
   if (variant === 'featured' || article.placement === 'featured') {
     return EDUCATION_PICTURES.featured
@@ -34,6 +36,8 @@ export function strategyImage(
   item: { image?: string | null; placement?: string },
   variant: 'featured' | 'grid-recent' | 'grid' = 'grid',
 ): string {
+  // All / filter grid: one shared thumbnail for every card (custom art stays on Recent).
+  if (variant === 'grid') return STRATEGY_PICTURES.gridAll
   if (item.image?.trim()) return item.image.trim()
   if (variant === 'featured' || item.placement === 'featured') {
     return STRATEGY_PICTURES.featured

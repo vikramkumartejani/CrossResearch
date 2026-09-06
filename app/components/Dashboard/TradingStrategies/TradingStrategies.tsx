@@ -78,21 +78,6 @@ function SmallCard({
         }
       >
         <ContentCardImage src={strategyImage(card, imageVariant)} alt={card.title} />
-        {card.tag && (
-          <div className="absolute z-10 top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5 rounded">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z" stroke="white" strokeWidth="1.2" />
-              <path d="M7.125 12V6" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
-              <path d="M8.25 6V4.5M10.125 6V4.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
-              <path d="M8.25 13.5V12M10.125 13.5V12" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
-              <path d="M7.125 9H10.875C11.4963 9 12 9.5037 12 10.125V10.875C12 11.4963 11.4963 12 10.875 12H6" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M6 6H10.875C11.4963 6 12 6.50368 12 7.125V7.875C12 8.4963 11.4963 9 10.875 9H7.125" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span className="text-white text-[12px] sm:text-[16px] leading-[19px] font-medium line-clamp-1">
-              {card.tag}
-            </span>
-          </div>
-        )}
       </div>
       <div className="p-3 sm:p-4">
         <p className="text-[12px] sm:text-[14px] leading-[17px] font-medium text-[#88C4FF]">{card.type}</p>

@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import type { Report } from './reportData'
-import { media } from '@/lib/media'
 
 interface ReportDetailModalProps {
     report: Report
@@ -72,19 +71,6 @@ export default function ReportDetailModal({ report, onClose }: ReportDetailModal
                     <span>{report.date}</span>
                     <span>{report.readTime}</span>
                     {report.track ? <span>{report.track}</span> : null}
-                </div>
-
-                <div className="w-full bg-[#16161F] border border-[#FFFFFF0D] overflow-hidden mb-6 aspect-[16/9] sm:aspect-[2.2/1] flex items-center justify-center">
-                    {report.chartImage ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                            src={media(report.chartImage)}
-                            alt={report.title}
-                            className="w-full h-full object-cover"
-                        />
-                    ) : (
-                        <p className="text-[#838388] text-[12px] sm:text-[13px]">Image</p>
-                    )}
                 </div>
 
                 <div className="bg-[#16161F] border border-[#FFFFFF0D] px-4 py-4 sm:px-5 sm:py-5">
