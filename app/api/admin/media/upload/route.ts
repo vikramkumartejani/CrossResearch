@@ -10,7 +10,19 @@ export async function OPTIONS(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const form = await request.formData()
+    const incoming = await request.formData()
+    // Rebuild FormData so the file Blob survives the Next.js → FastAPI hop.
+    const form = new FormData()
+    for (const [key, value] of incoming.entries()) {
+      form.append(key, value)
+    }
+    if (!form.get('file')) {
+      return withCors(
+        request,
+        NextResponse.json({ error: 'Upload failed', detail: 'multipart form must include a file field' }, { status: 400 })
+      )
+    }
+
     const headers: Record<string, string> = {}
     const adminKey = request.headers.get('x-admin-key')
     if (adminKey) headers['X-Admin-Key'] = adminKey

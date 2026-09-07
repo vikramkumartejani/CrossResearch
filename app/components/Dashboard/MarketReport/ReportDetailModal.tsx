@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { Report } from './reportData'
 
 interface ReportDetailModalProps {
@@ -14,7 +14,32 @@ const CONTENT_CLASS =
     '[&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 ' +
     '[&_li]:mb-1 [&_p]:mb-3 [&_h2]:text-white [&_h2]:text-[20px] [&_h2]:font-medium [&_h2]:mb-3 ' +
     '[&_h3]:text-white [&_h3]:text-[17px] [&_h3]:font-medium [&_h3]:mb-2 ' +
-    '[&_a]:text-[#88C4FF] [&_img]:max-w-full [&_img]:h-auto [&_img]:my-4'
+    '[&_a]:text-[#88C4FF]'
+
+/** Pull <img> tags out of article HTML so media can sit above the text in its own block. */
+function splitArticleHtml(html: string): { imageSrcs: string[]; bodyHtml: string } {
+    if (typeof window === 'undefined') {
+        return { imageSrcs: [], bodyHtml: html }
+    }
+    const doc = new DOMParser().parseFromString(html, 'text/html')
+    const imageSrcs: string[] = []
+    doc.querySelectorAll('img').forEach((img) => {
+        const src = (img.getAttribute('src') || '').trim()
+        if (src) imageSrcs.push(src)
+        const parent = img.parentElement
+        if (
+            parent &&
+            parent.tagName === 'P' &&
+            parent.childNodes.length === 1 &&
+            parent.parentElement
+        ) {
+            parent.remove()
+        } else {
+            img.remove()
+        }
+    })
+    return { imageSrcs, bodyHtml: doc.body.innerHTML }
+}
 
 export default function ReportDetailModal({ report, onClose }: ReportDetailModalProps) {
     useEffect(() => {
@@ -32,7 +57,8 @@ export default function ReportDetailModal({ report, onClose }: ReportDetailModal
         }
     }, [onClose])
 
-    const html = report.contentHtml?.trim() || `<p>${report.body}</p>`
+    const rawHtml = report.contentHtml?.trim() || `<p>${report.body}</p>`
+    const { imageSrcs, bodyHtml } = useMemo(() => splitArticleHtml(rawHtml), [rawHtml])
 
     return (
         <div className="fixed inset-0 z-[100] bg-[#0B0B10] overflow-y-auto">
@@ -73,8 +99,26 @@ export default function ReportDetailModal({ report, onClose }: ReportDetailModal
                     {report.track ? <span>{report.track}</span> : null}
                 </div>
 
+                {imageSrcs.length > 0 ? (
+                    <div className="mb-5 space-y-4">
+                        {imageSrcs.map((src) => (
+                            <div
+                                key={src}
+                                className="bg-[#16161F] border border-[#FFFFFF0D] overflow-hidden"
+                            >
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={src}
+                                    alt=""
+                                    className="block w-full h-auto"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                ) : null}
+
                 <div className="bg-[#16161F] border border-[#FFFFFF0D] px-4 py-4 sm:px-5 sm:py-5">
-                    <div className={CONTENT_CLASS} dangerouslySetInnerHTML={{ __html: html }} />
+                    <div className={CONTENT_CLASS} dangerouslySetInnerHTML={{ __html: bodyHtml }} />
                 </div>
 
                 <p className="mt-8 text-[#838388] text-[11px] leading-4">

@@ -6,7 +6,11 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
-    const form = await request.formData()
+    const incoming = await request.formData()
+    const form = new FormData()
+    for (const [key, value] of incoming.entries()) {
+      form.append(key, value)
+    }
     const headers: Record<string, string> = {}
     const access = request.cookies.get(ACCESS_COOKIE)?.value
     if (access) headers.Authorization = `Bearer ${access}`
