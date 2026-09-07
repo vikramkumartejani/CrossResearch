@@ -25,6 +25,17 @@ type Summary = {
   state?: string
   reading?: string
   qc?: { passed?: number; warnings?: number; failures?: number }
+  coverage?: {
+    overall?: number | null
+    confidence?: 'HIGH' | 'MEDIUM' | 'LOW' | string | null
+    fundamental?: number | null
+    valuation?: number | null
+    momentum?: number | null
+    estimates?: number | null
+    governance?: number | null
+    missing?: string[]
+  } | null
+  degraded_sections?: string[]
 }
 
 type AnalysisResponse = {
@@ -67,6 +78,12 @@ function formatScore(v: number | string | undefined) {
   const n = asNumber(v)
   if (n == null) return '-'
   return Number.isInteger(n) ? String(n) : n.toFixed(1)
+}
+
+function confidenceClass(c: string) {
+  if (c === 'HIGH') return 'text-[#2CB37B]'
+  if (c === 'MEDIUM') return 'text-[#F4BD62]'
+  return 'text-[#E25C3F]'
 }
 
 function EquityTickerPicker({
@@ -342,6 +359,23 @@ export default function EquityAnalyst() {
               {summary?.state || (loading ? 'Loading…' : '-')}
             </span>
           </div>
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <span className="text-[#838388] text-[12px]">Coverage</span>
+            <span className="text-[12px] font-medium text-right tabular-nums">
+              <span className="text-white">
+                {summary?.coverage?.overall != null
+                  ? `${Math.round(summary.coverage.overall)}%`
+                  : loading
+                    ? '…'
+                    : '-'}
+              </span>
+              {summary?.coverage?.confidence ? (
+                <span className={`ml-2 ${confidenceClass(summary.coverage.confidence)}`}>
+                  {summary.coverage.confidence}
+                </span>
+              ) : null}
+            </span>
+          </div>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {(
               [
@@ -355,6 +389,9 @@ export default function EquityAnalyst() {
                 <p className={`text-[15px] font-semibold tabular-nums ${scoreClass(value)}`}>
                   {loading && !summary ? '…' : formatScore(value)}
                 </p>
+                {!loading && summary && value == null ? (
+                  <p className="text-white/35 text-[10px] leading-tight">Insufficient coverage</p>
+                ) : null}
               </div>
             ))}
           </div>
