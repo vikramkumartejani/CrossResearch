@@ -62,6 +62,24 @@ function NavIcon({ name }: { name: string }) {
     )
 }
 
+function IconSettings() {
+    return (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden className="inline-block">
+            <path
+                d="M8 10.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z"
+                stroke="currentColor"
+                strokeWidth="1.2"
+            />
+            <path
+                d="M12.8 8.55v-1.1l-1.2-.24a3.7 3.7 0 00-.32-.78l.72-1.02-.8-.8-1.02.72c-.24-.14-.5-.24-.78-.32L9.16 3.8H6.84l-.24 1.21c-.28.08-.54.18-.78.32l-1.02-.72-.8.8.72 1.02c-.14.24-.24.5-.32.78L3.2 7.45v1.1l1.2.24c.08.28.18.54.32.78l-.72 1.02.8.8 1.02-.72c.24.14.5.24.78.32l.24 1.21h2.32l.24-1.21c.28-.08.54-.18.78-.32l1.02.72.8-.8-.72-1.02c.14-.24.24-.5.32-.78l1.2-.24z"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+            />
+        </svg>
+    )
+}
+
 // ─── Nav structure ────────────────────────────────────────────────────────────
 
 const NAV_SECTIONS = [
@@ -120,6 +138,7 @@ const NAV_SECTIONS = [
         items: [
             { label: 'Help Center', href: '/help-center', icon: <NavIcon name="help-life-buoy" /> },
             { label: 'Contact Support', href: '/contact-support', icon: <NavIcon name="support-message-circle" /> },
+            { label: 'Settings', href: '/settings', icon: <IconSettings /> },
         ],
     },
 ]
@@ -304,9 +323,25 @@ export default function DashboardSidebar({
                         }`}>
                             <button
                                 type="button"
+                                onClick={() => {
+                                    setOpen(false)
+                                    goTo('/settings')
+                                }}
+                                className={`flex items-center gap-2.5 w-full px-4 py-3 text-[13px] transition-colors ${
+                                    isLight
+                                        ? 'text-[#0F172A] hover:bg-[#F3F5F8]'
+                                        : 'text-white hover:bg-[#FFFFFF08]'
+                                }`}
+                            >
+                                Settings
+                            </button>
+                            <button
+                                type="button"
                                 onClick={() => void handleLogout()}
-                                className={`flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] transition-colors ${
-                                    isLight ? 'hover:bg-[#F3F5F8]' : 'hover:bg-[#FFFFFF08]'
+                                className={`flex items-center gap-2.5 w-full px-4 py-3 text-[13px] text-[#FF6B6B] transition-colors border-t ${
+                                    isLight
+                                        ? 'hover:bg-[#F3F5F8] border-[#E8EAEF]'
+                                        : 'hover:bg-[#FFFFFF08] border-[#FFFFFF0F]'
                                 }`}
                             >
                                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none">

@@ -26,6 +26,7 @@ const MEMBER_DASHBOARD_PREFIXES = [
   '/trading-strategies',
   '/help-center',
   '/contact-support',
+  '/settings',
 ]
 
 const AUTH_PAGES = [
@@ -307,6 +308,8 @@ export const config = {
     '/help-center/:path*',
     '/contact-support',
     '/contact-support/:path*',
+    '/settings',
+    '/settings/:path*',
     '/affiliate-center',
     '/affiliate-center/:path*',
     '/onboarding',
