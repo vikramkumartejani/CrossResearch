@@ -96,30 +96,30 @@ function Sparkline({ values, positive }: { values: number[]; positive: boolean }
 // ── Sub-table ─────────────────────────────────────────────────────────────────
 function InstrumentTable({ title, rows }: { title: string; rows: CotInstrumentRow[] }) {
     return (
-        <div className="bg-[#16161F] h-[590px]">
-            <h4 className="text-white text-[16px] leading-[19px] font-medium p-3 sm:p-4">{title}</h4>
-            <div className="grid grid-cols-[1fr_64px_64px_64px] sm:grid-cols-[1fr_80px_80px_80px] gap-1 sm:gap-4 px-3 sm:px-4 pb-3 border-b border-[#FFFFFF0D]">
+        <div className="bg-[#16161F] h-full min-w-0 flex flex-col overflow-hidden">
+            <h4 className="text-white text-[16px] leading-[19px] font-medium p-3 sm:p-4 shrink-0">{title}</h4>
+            <div className="grid grid-cols-[minmax(0,1fr)_56px_56px_56px] sm:grid-cols-[minmax(0,1fr)_72px_72px_72px] xl:grid-cols-[minmax(0,1fr)_64px_64px_64px] 2xl:grid-cols-[minmax(0,1fr)_80px_80px_80px] gap-x-2 sm:gap-x-3 px-3 sm:px-4 pb-3 border-b border-[#FFFFFF0D] shrink-0">
                 {['Instrument', 'Net', 'Wow', '10W Trend'].map((h) => (
-                    <span key={h} className="text-white/60 text-[11px] sm:text-[14px] leading-[17px] font-normal">
+                    <span key={h} className="text-white/60 text-[11px] sm:text-[14px] leading-[17px] font-normal truncate">
                         {h}
                     </span>
                 ))}
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col flex-1 min-h-0 overflow-y-auto">
                 {rows.map((row) => (
                     <div
                         key={row.ticker}
-                        className="grid grid-cols-[1fr_64px_64px_64px] sm:grid-cols-[1fr_80px_80px_80px] gap-1 sm:gap-4 py-3 px-3 sm:px-4 border-b border-[#FFFFFF08] last:border-0"
+                        className="grid grid-cols-[minmax(0,1fr)_56px_56px_56px] sm:grid-cols-[minmax(0,1fr)_72px_72px_72px] xl:grid-cols-[minmax(0,1fr)_64px_64px_64px] 2xl:grid-cols-[minmax(0,1fr)_80px_80px_80px] gap-x-2 sm:gap-x-3 py-3 px-3 sm:px-4 border-b border-[#FFFFFF08] last:border-0"
                     >
-                        <div>
-                            <p className="text-white text-[12px] sm:text-[14px] leading-[17px] font-semibold mb-1">
+                        <div className="min-w-0 pr-1">
+                            <p className="text-white text-[12px] sm:text-[14px] leading-[17px] font-semibold mb-1 truncate">
                                 {row.name}
                             </p>
-                            <p className="text-white/60 text-[11px] sm:text-[12px] leading-[14px]">{row.ticker}</p>
+                            <p className="text-white/60 text-[11px] sm:text-[12px] leading-[14px] truncate">{row.ticker}</p>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                             <p
-                                className={`text-[12px] sm:text-[14px] leading-[17px] font-semibold ${
+                                className={`text-[12px] sm:text-[14px] leading-[17px] font-semibold tabular-nums ${
                                     row.net_positive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'
                                 }`}
                             >
@@ -127,9 +127,9 @@ function InstrumentTable({ title, rows }: { title: string; rows: CotInstrumentRo
                             </p>
                             <p className="text-[11px] sm:text-[12px] leading-[14px] font-normal text-white/60 mt-1">Net</p>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                             <p
-                                className={`text-[12px] sm:text-[14px] leading-[17px] font-semibold ${
+                                className={`text-[12px] sm:text-[14px] leading-[17px] font-semibold tabular-nums ${
                                     row.wow_positive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'
                                 }`}
                             >
@@ -137,7 +137,7 @@ function InstrumentTable({ title, rows }: { title: string; rows: CotInstrumentRo
                             </p>
                             <p className="text-[11px] sm:text-[12px] leading-[14px] font-normal text-white/60 mt-1">WoW</p>
                         </div>
-                        <div className="self-center">
+                        <div className="self-center min-w-0">
                             <Sparkline values={row.trend} positive={row.net_positive} />
                         </div>
                     </div>
@@ -212,12 +212,12 @@ export default function CotPositioning() {
             )}
 
             {!loading && !error && payload && (
-                <div className="mt-4 grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-3 sm:gap-4">
+                <div className="mt-4 grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-3 sm:gap-4 xl:items-stretch">
                     <InstrumentTable title="Global Financial Instruments" rows={payload.financials} />
                     <InstrumentTable title="Energy & Metals Instruments" rows={payload.commodities} />
-                    <div className="bg-[#16161F] flex flex-col h-[590px] overflow-y-auto">
-                        <div className="p-3 sm:p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#FFFFFF0D]">
-                            <div className="flex flex-col">
+                    <div className="bg-[#16161F] flex flex-col min-w-0 min-h-0 xl:max-h-[min(72vh,720px)] overflow-hidden xl:col-span-2 2xl:col-span-1">
+                        <div className="p-3 sm:p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#FFFFFF0D] shrink-0">
+                            <div className="flex flex-col min-w-0">
                                 <span className="text-[#88C4FF] text-[12px] leading-[14px] font-normal mb-2">
                                     Desk Commentary
                                 </span>
@@ -230,18 +230,18 @@ export default function CotPositioning() {
                             </span>
                         </div>
 
-                        <div className="flex flex-col gap-2.5 sm:gap-4 flex-1 p-3 sm:p-4">
+                        <div className="flex flex-col gap-2.5 sm:gap-4 flex-1 min-h-0 overflow-y-auto p-3 sm:p-4">
                             {observations.length === 0 && (
                                 <p className="text-white/50 text-[13px] sm:text-[14px]">
                                     Insufficient positioning history is available to generate commentary.
                                 </p>
                             )}
                             {observations.map((item) => (
-                                <div key={item.num} className="flex gap-2 sm:gap-4">
+                                <div key={item.num} className="flex gap-2 sm:gap-4 min-w-0">
                                     <span className="text-[#88C4FF] text-[13px] sm:text-[14px] leading-[17px] font-semibold flex-shrink-0">
                                         {item.num}
                                     </span>
-                                    <p className="text-white/50 text-[13px] sm:text-[14px] leading-[20px] sm:leading-[21px]">
+                                    <p className="text-white/50 text-[13px] sm:text-[14px] leading-[20px] sm:leading-[21px] min-w-0">
                                         <span className="text-white font-semibold">{item.highlight}</span>
                                         {item.text}
                                     </p>
@@ -249,7 +249,7 @@ export default function CotPositioning() {
                             ))}
                         </div>
 
-                        <div className="mt-3 sm:mt-4 p-3 sm:p-4 border-t border-[#FFFFFF0D]">
+                        <div className="mt-auto p-3 sm:p-4 border-t border-[#FFFFFF0D] shrink-0">
                             <p className="text-[#88C4FF] text-[14px] sm:text-[16px] leading-[19px] font-semibold mb-2 sm:mb-3">
                                 Regime Takeaway
                             </p>
