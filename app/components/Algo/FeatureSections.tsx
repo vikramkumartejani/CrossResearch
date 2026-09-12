@@ -32,11 +32,11 @@ const SECTIONS: FeatureSection[] = [
             { text: 'Multi-ticker scanner - scan watchlists in real time' },
         ],
         ctaText: 'Explore Indicator',
-        image: '/assets/indicator.png',
+        image: '/assets/divergence.png',
         imageWidth: 659,
         imageHeight: 653,
         imageAlt: 'Divergence & Exhaustion Scanner',
-        imageLeft: true, // image left, text right
+        imageLeft: true,
     },
     {
         id: 'nfp',

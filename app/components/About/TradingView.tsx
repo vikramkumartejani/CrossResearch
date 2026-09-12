@@ -13,9 +13,9 @@ const TradingView = () => {
         <div className='px-4 sm:px-6 pt-16 sm:pt-24 lg:pt-32'>
             <div className='max-w-[1560px] mx-auto'>
                 {/* Outer card */}
-                <div className="relative bg-[#FFFFFF05] border border-[#FFFFFF0D] gap-6 rounded-[20px] p-5 sm:p-10 md:py-12 lg:py-20 2xl:py-[90px] md:px-12 2xl:px-20 sm:rounded-[40px] lg:rounded-[60px] xl:rounded-[80px] overflow-hidden flex lg:flex-row flex-col justify-between">
+                <div className="relative bg-[#FFFFFF05] border border-[#FFFFFF0D] gap-6 lg:gap-10 rounded-[20px] p-5 sm:p-10 md:py-12 lg:py-16 xl:py-20 md:px-12 2xl:px-20 sm:rounded-[40px] lg:rounded-[60px] xl:rounded-[80px] overflow-hidden flex lg:flex-row flex-col lg:items-stretch justify-between">
                     {/* Left - content */}
-                    <div className="w-full lg:max-w-[615px] flex flex-col justify-center relative z-30">
+                    <div className="w-full lg:max-w-[520px] xl:max-w-[560px] flex-shrink-0 flex flex-col justify-center relative z-30">
                         <div className="w-fit mb-4 sm:mb-5 bg-[#88C4FF1A] text-[#88C4FF] inline-flex items-center gap-2 pl-3.5 pr-[16px] py-[9px] rounded-[100px] text-[14px] sm:text-[18px] leading-5 sm:leading-[22px] font-normal font-inter">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                                 <circle cx="7.5" cy="7.5" r="7.5" fill="#88C4FF" />
@@ -55,21 +55,17 @@ const TradingView = () => {
                         </div>
                     </div>
 
-                    {/* Right - dashboard image */}
-                    <div className="relative w-full lg:max-w-[737px] bg-[#FFFFFF08] rounded-[11px] relative z-30">
+                    {/* Right - stretch to fill the panel */}
+                    <div className="relative w-full min-w-0 lg:flex-1 lg:max-w-[737px] self-stretch min-h-[280px] sm:min-h-[360px] lg:min-h-0 z-30 overflow-hidden rounded-[11px] bg-[#0a0f18]">
                         <Image
-                            src="/assets/image 132.png"
-                            alt="Cross Asset Alpha Engine Dashboard"
-                            width={1200}
-                            height={640}
-                            style={{ mixBlendMode: "lighten", opacity: 1 }}
-                            className="w-full h-full rounded-[11px]"
+                            src="/assets/institutional.png"
+                            alt="TradingView chart and script tools"
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 737px"
+                            className="object-fill object-center rounded-[11px]"
+                            style={{ mixBlendMode: 'lighten' }}
                         />
-                      
                     </div>
-
-
-                    
                 </div>
             </div>
         </div>
