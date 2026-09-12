@@ -1,3 +1,5 @@
+import type { ContentBlock } from '@/lib/marketReportBlocks'
+
 export type ReportPlacement = 'main' | 'sidebar'
 
 export interface Report {
@@ -11,6 +13,8 @@ export interface Report {
     author: string
     date: string
     contentHtml: string
+    /** Ordered text/image sections. Preferred over parsing contentHtml alone. */
+    contentBlocks?: ContentBlock[]
     chartImage?: string | null
     placement?: ReportPlacement
     sidebarId?: number | null
