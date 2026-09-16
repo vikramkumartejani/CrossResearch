@@ -4,9 +4,9 @@ interface Stat {
 }
 
 const STATS: Stat[] = [
-    { value: '25K+', label: 'Active Members' },
+    { value: '10,000+', label: 'Active Traders' },
     { value: '2021', label: 'Founded' },
-    { value: '120+', label: 'Algos & Modules' },
+    { value: '50+', label: 'TradingView Indicators' },
     { value: '40+', label: 'Markets Covered' },
     { value: '1M +', label: 'Data Points / Day' },
     { value: '100%', label: 'Customer – Funded' },

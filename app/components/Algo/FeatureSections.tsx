@@ -42,7 +42,7 @@ const SECTIONS: FeatureSection[] = [
         id: 'nfp',
         badge: 'Proprietary',
         title: 'NFP & Economic Release Predictor',
-        subtitle: 'Pre-event intelligence with 90% directional accuracy',
+        subtitle: 'Pre-event intelligence with documented scenario frameworks',
         description: 'Quant models forecast macro events early, revealing likely surprise direction before release',
         points: [
             { text: 'Pre-NFP estimate model updated 48h before release' },

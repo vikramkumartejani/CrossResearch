@@ -101,6 +101,12 @@ export default function AuthorsPage() {
             Methodology
           </Link>
           <Link
+            href="/reports/weekly-outlook/2026-09-20"
+            className="inline-flex items-center rounded-lg border border-white/15 px-4 py-2.5 text-[13px] text-white/80 hover:text-white"
+          >
+            Latest weekly outlook
+          </Link>
+          <Link
             href="/education"
             className="inline-flex items-center rounded-lg border border-white/15 px-4 py-2.5 text-[13px] text-white/80 hover:text-white"
           >

@@ -8,36 +8,39 @@ import Image from '@/lib/CldImage';
 const ARTICLES = [
     {
         id: 1,
-        tag: "Macro Insights NFP",
-        title: "Recent macro developments and NFP insights",
-        desc: "Recent macro developments and NFP data shape market sentiment and expectations.",
-        category: "Finance",
-        date: "November 12, 2024",
-        size: "small" as const,
-        image: "/assets/macro.png",
-        imageMobile: "/assets/macro-phone.png",
+        slug: 'understanding-market-regimes',
+        tag: 'Macro Insights',
+        title: 'Understanding market regimes',
+        desc: 'Identify trending, ranging, and volatile regimes - then adapt strategy and risk with CrossResearch frameworks.',
+        category: 'Finance',
+        date: 'August 26, 2026',
+        size: 'small' as const,
+        image: '/assets/macro.png',
+        imageMobile: '/assets/macro-phone.png',
     },
     {
         id: 2,
-        tag: "Gold Market Surge",
-        title: "Gold Prices Surge 30%: Key Drivers and Outlook",
-        desc: "Gold prices rise driven by demand inflation uncertainty and safe haven buying",
-        category: "Finance",
-        date: "November 12, 2024",
-        size: "small" as const,
-        image: "/assets/gold-market.png",
-        imageMobile: "/assets/gold-market-phone.png",
+        slug: 'pivot-structure-support-resistance',
+        tag: 'Technical Analysis',
+        title: 'Pivot structure and support/resistance',
+        desc: 'Map liquidity and invalidation with structural pivots - without overfitting every swing.',
+        category: 'Finance',
+        date: 'September 5, 2026',
+        size: 'small' as const,
+        image: '/assets/gold-market.png',
+        imageMobile: '/assets/gold-market-phone.png',
     },
     {
         id: 3,
-        tag: "Gold Strategy Insights",
-        title: "2024 gold surge and strategic market approaches",
-        desc: "2024 gold surge driven by inflation trends and strategic market positioning.",
-        category: "Finance",
-        date: "November 12, 2024",
-        size: "large" as const,
-        image: "/assets/gold-strategy.png",
-        imageMobile: "/assets/gold-strategy-phone.png",
+        slug: 'crossresearch-multi-asset-dashboards',
+        tag: 'Product Updates',
+        title: 'CrossResearch multi-asset dashboards',
+        desc: 'Equities, crypto, and forex in one research environment with shared macro context.',
+        category: 'Finance',
+        date: 'September 12, 2026',
+        size: 'large' as const,
+        image: '/assets/gold-strategy.png',
+        imageMobile: '/assets/gold-strategy-phone.png',
     },
 ];
 
@@ -87,7 +90,7 @@ function ArticleCard({ article }: { article: typeof ARTICLES[number] }) {
     const isLarge = article.size === "large";
     return (
         <Link
-            href={`/articles/${article.id}`}
+            href={`/blog/${article.slug}`}
             className={`bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 flex items-start flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200 w-full ${isLarge ? 'xl:p-[30px]' : 'xl:py-4 xl:pl-4 xl:pr-5 xl:flex-row xl:items-center'}`}
         >
             <div className={`relative flex-shrink-0 w-full overflow-hidden bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px] ${isLarge ? 'h-[200px] sm:h-[334px]' : 'xl:w-[318px] min-h-[200px] sm:min-h-[334px]'}`}>
@@ -148,7 +151,7 @@ export default function ArticlesSection() {
                 <div className="hidden lg:grid grid-cols-2 gap-6">
                     <div className="flex flex-col gap-6">
                         {small.map((article) => (
-                            <Link key={article.id} href={`/articles/${article.id}`} className="bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 xl:py-4 xl:pl-4 xl:pr-5 flex items-start lg:items-center xl:flex-row flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200">
+                            <Link key={article.id} href={`/blog/${article.slug}`} className="bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 xl:py-4 xl:pl-4 xl:pr-5 flex items-start lg:items-center xl:flex-row flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200">
                                 <div className="relative flex-shrink-0 w-full xl:w-[318px] min-h-[334px] overflow-hidden bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px]">
                                     <ArticleMedia article={article} tagsAlign="left" />
                                 </div>
@@ -166,7 +169,7 @@ export default function ArticlesSection() {
                         ))}
                     </div>
                     {large.map((article) => (
-                        <Link key={article.id} href={`/articles/${article.id}`} className="bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 xl:p-[30px] flex items-start flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200">
+                        <Link key={article.id} href={`/blog/${article.slug}`} className="bg-[#FFFFFF08] border border-[#FFFFFF0D] group p-4 sm:p-5 xl:p-[30px] flex items-start flex-col rounded-[30px] xl:rounded-[50px] overflow-hidden transition-all duration-200">
                             <div className="relative flex-shrink-0 w-full lg:max-w-[708px] h-[334px] lg:min-h-[550px] overflow-hidden bg-[#FFFFFF0D] rounded-[30px] xl:rounded-[40px]">
                                 <ArticleMedia article={article} tagsAlign="right" />
                             </div>
@@ -210,7 +213,7 @@ export default function ArticlesSection() {
 
                 {/* View All button */}
                 <div className="flex justify-center mt-10 sm:mt-[60px]">
-                    <Link href="/articles" className="bg-white inline-flex items-center gap-2.5 px-8 h-[50px] sm:h-[62px] rounded-full text-[20px] leading-6 font-semibold transition-all duration-200 hover:bg-white/10 text-black hover:text-white">
+                    <Link href="/blog" className="bg-white inline-flex items-center gap-2.5 px-8 h-[50px] sm:h-[62px] rounded-full text-[20px] leading-6 font-semibold transition-all duration-200 hover:bg-white/10 text-black hover:text-white">
                         View All
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M11.25 16.25L17.5 10L11.25 3.75M17.5 10H2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </Link>

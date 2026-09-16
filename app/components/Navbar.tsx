@@ -11,7 +11,7 @@ const NAV_LINKS = [
     { label: "Affiliate", href: "/affiliate" },
     {
         label: "Trading Desk",
-        href: "/trading-desk",
+        href: "/analysis",
         hasDropdown: true,
         items: [
             { label: "Market Report", href: "/market-report" },
@@ -23,13 +23,13 @@ const NAV_LINKS = [
     },
     {
         label: "Features",
-        href: "/features",
+        href: "/algo",
         hasDropdown: true,
         items: [
             { label: "Brokers", href: "/brokers" },
             { label: "Prop Firm", href: "/prop-firm" },
-            { label: "Strategies & Education", href: "/education-center" },
-            { label: "Tradingview Indicators", href: "https://www.tradingview.com/u/crossresearch/" },
+            { label: "Education hub", href: "/education" },
+            { label: "Tradingview Indicators", href: "/indicators/tradingview" },
         ],
     },
     {
@@ -38,8 +38,8 @@ const NAV_LINKS = [
         hasDropdown: true,
         items: [
             { label: "Who's CR", href: "/about" },
-            { label: "Get Started", href: "/get-started" },
-            { label: "Plans", href: "/plans" },
+            { label: "Get Started", href: "/signup" },
+            { label: "Plans", href: "/#pricing" },
         ],
     },
 ];

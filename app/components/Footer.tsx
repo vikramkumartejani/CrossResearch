@@ -11,9 +11,9 @@ const NAV_COLS = [
         links: [
             { label: 'Features', href: '/algo' },
             { label: 'How It Works', href: '/about' },
-            { label: 'Indicators', href: '/algo' },
-            { label: 'Back testing', href: '/algo' },
-            { label: 'Market Signals', href: '/algo' },
+            { label: 'Indicators', href: '/indicators/tradingview' },
+            { label: 'Research hubs', href: '/research/macro' },
+            { label: 'Methodology', href: '/methodology' },
             { label: 'Dashboard', href: '/analysis' },
         ],
     },
@@ -32,19 +32,19 @@ const NAV_COLS = [
         links: [
             { label: 'Market Insights', href: '/blog' },
             { label: 'Trading Strategies', href: '/blog' },
-            { label: 'Macro Analysis', href: '/blog' },
-            { label: 'Tutorials', href: '/blog' },
-            { label: 'News & Updates', href: '/blog' },
+            { label: 'Macro Analysis', href: '/research/macro' },
+            { label: 'Education', href: '/education' },
+            { label: 'Latest reports', href: '/reports' },
         ],
     },
     {
         heading: 'Contact',
         links: [
-            { label: 'Support', href: '/contact-support' },
-            { label: 'Help Center', href: '/help-center' },
+            { label: 'Support', href: '/#contact' },
+            { label: 'Help & FAQ', href: '/#faq' },
             { label: 'Contact Us', href: '/#contact' },
             { label: 'Community', href: '/affiliate' },
-            { label: 'Feedback', href: '/contact-support' },
+            { label: 'Authors', href: '/authors' },
         ],
     },
 ];

@@ -1,6 +1,7 @@
 import Image from '@/lib/CldImage';
 import Link from 'next/link';
 import type { Post } from './blogData';
+import { blogPath } from './blogData';
 
 interface GridCardProps {
     post: Post;
@@ -8,7 +9,7 @@ interface GridCardProps {
 
 export default function GridCard({ post }: GridCardProps) {
     return (
-        <Link href={`/blog/${post.id}`} className="group flex flex-col border border-[#FFFFFF1A] bg-[#FFFFFF08] rounded-[20px] sm:rounded-[32px] p-4 sm:p-6">
+        <Link href={blogPath(post)} className="group flex flex-col border border-[#FFFFFF1A] bg-[#FFFFFF08] rounded-[20px] sm:rounded-[32px] p-4 sm:p-6">
             <div className="relative w-full h-[180px] sm:h-[240px] lg:h-[336px] overflow-hidden mb-4 sm:mb-8 rounded-[14px] sm:rounded-[24px] bg-[#FFFFFF08] border border-[#FFFFFF1A]">
                 <Image
                     src={post.image}

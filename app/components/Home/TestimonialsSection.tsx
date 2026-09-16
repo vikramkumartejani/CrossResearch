@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import Image from '@/lib/CldImage';
 import { motion } from 'framer-motion';
 import { media } from '@/lib/media';
 
@@ -25,18 +24,18 @@ interface CardProps {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const TESTIMONIALS: Testimonial[] = [
-    { id: 'testimonial-marvin', rating: 5, quote: "By far the only signal provider I need to earn some profits. They don't only share numbers but rational fundamental and logical behind their views, nothing but respect to the team and it all.", name: 'Marvin McKinney', role: 'Student', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
-    { id: 'testimonial-brooklyn', rating: 5, quote: "It's not just for the signals, but the markets commentary made are just wow, they literally make you understand the markets and the rational behind every move.", name: 'Brooklyn Simmons', role: 'CS grad', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
-    { id: 'testimonial-cameron', rating: 4, quote: "As an experienced trader who became a dad lately this has been nothing but gems. Without them and their markets roundabout I wouldn't be able to keep up with the markets, a genuine work.", name: 'Cameron Williamson', role: 'Owner of Plantio', avatar: 'https://randomuser.me/api/portraits/men/76.jpg' },
-    { id: 'testimonial-kathryn', rating: 3, quote: "A game changer for me, I went through so many services before, CRM has topped my expectations and were the best so far.", name: 'Kathryn Murphy', role: 'Doctor', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
-    { id: 'testimonial-james', rating: 5, quote: "The macro intelligence tools here are second to none. I've been able to anticipate market moves that I would've completely missed otherwise. Worth every penny.", name: 'James Thornton', role: 'Hedge Fund Analyst', avatar: 'https://randomuser.me/api/portraits/men/52.jpg' },
-    { id: 'testimonial-sarah', rating: 5, quote: "The research quality is institutional-grade but presented in a way that's actually digestible. I check it every morning before the market opens.", name: 'Sarah Chen', role: 'Day Trader', avatar: 'https://randomuser.me/api/portraits/women/33.jpg' },
-    { id: 'testimonial-alex', rating: 5, quote: "I've tried nearly every research service out there. Cross Research is the only one that actually explains the 'why' behind every market call. My win rate improved significantly.", name: 'Alex Rivera', role: 'Swing Trader', avatar: 'https://randomuser.me/api/portraits/men/41.jpg' },
-    { id: 'testimonial-priya', rating: 4, quote: "As someone who juggles a full-time job with trading, the concise daily summaries are a lifesaver. 20 minutes and I'm fully briefed. Highly recommend.", name: 'Priya Nair', role: 'Software Engineer', avatar: 'https://randomuser.me/api/portraits/women/55.jpg' },
-    { id: 'testimonial-daniel', rating: 5, quote: "The volatility analytics alone are worth the subscription. I've been able to size my positions so much better since joining. The team clearly has real institutional experience.", name: 'Daniel Osei', role: 'Portfolio Manager', avatar: 'https://randomuser.me/api/portraits/men/63.jpg' },
-    { id: 'testimonial-lena', rating: 5, quote: "What separates Cross Research from the noise is the macro context. Every signal comes with a rationale. That's what I needed as a beginner trying to learn properly.", name: 'Lena Fischer', role: 'Finance Student', avatar: 'https://randomuser.me/api/portraits/women/22.jpg' },
-    { id: 'testimonial-ryan', rating: 4, quote: "I was skeptical at first, but their track record speaks for itself. The regime detection tools flagged the last two major corrections before they happened. Genuinely impressive.", name: 'Ryan Kowalski', role: 'Futures Trader', avatar: 'https://randomuser.me/api/portraits/men/88.jpg' },
-    { id: 'testimonial-amara', rating: 5, quote: "The community and the research together make this unbeatable. I came for the signals, I stayed for the education. My trading has never been more consistent.", name: 'Amara Diallo', role: 'Independent Investor', avatar: 'https://randomuser.me/api/portraits/women/77.jpg' },
+    { id: 'testimonial-marvin', rating: 5, quote: "By far the only signal provider I need to earn some profits. They don't only share numbers but rational fundamental and logical behind their views, nothing but respect to the team and it all.", name: 'Verified Platinum Subscriber', role: 'Retail trader', avatar: '' },
+    { id: 'testimonial-brooklyn', rating: 5, quote: "It's not just for the signals, but the markets commentary made are just wow, they literally make you understand the markets and the rational behind every move.", name: 'Verified Gold Subscriber', role: 'Part-time trader', avatar: '' },
+    { id: 'testimonial-cameron', rating: 4, quote: "As an experienced trader who became a dad lately this has been nothing but gems. Without them and their markets roundabout I wouldn't be able to keep up with the markets, a genuine work.", name: 'Verified Platinum Subscriber', role: 'Busy professional', avatar: '' },
+    { id: 'testimonial-kathryn', rating: 4, quote: "A game changer for me, I went through so many services before, CrossResearch has topped my expectations and were the best so far.", name: 'Verified Gold Subscriber', role: 'Independent trader', avatar: '' },
+    { id: 'testimonial-james', rating: 5, quote: "The macro intelligence tools here are second to none. I've been able to anticipate market moves that I would've completely missed otherwise. Worth every penny.", name: 'Verified Platinum Subscriber', role: 'Macro-focused trader', avatar: '' },
+    { id: 'testimonial-sarah', rating: 5, quote: "The research quality is institutional-grade but presented in a way that's actually digestible. I check it every morning before the market opens.", name: 'Verified Gold Subscriber', role: 'Day trader', avatar: '' },
+    { id: 'testimonial-alex', rating: 5, quote: "I've tried nearly every research service out there. CrossResearch is the only one that actually explains the 'why' behind every market call.", name: 'Verified Platinum Subscriber', role: 'Swing trader', avatar: '' },
+    { id: 'testimonial-priya', rating: 4, quote: "As someone who juggles a full-time job with trading, the concise daily summaries are a lifesaver. 20 minutes and I'm fully briefed.", name: 'Verified Gold Subscriber', role: 'Software professional', avatar: '' },
+    { id: 'testimonial-daniel', rating: 5, quote: "The volatility analytics alone are worth the subscription. I've been able to size my positions so much better since joining.", name: 'Verified Platinum Subscriber', role: 'Portfolio-focused trader', avatar: '' },
+    { id: 'testimonial-lena', rating: 5, quote: "What separates CrossResearch from the noise is the macro context. Every signal comes with a rationale. That's what I needed as a beginner trying to learn properly.", name: 'Verified Starter Subscriber', role: 'Learning trader', avatar: '' },
+    { id: 'testimonial-ryan', rating: 4, quote: "I was skeptical at first, but the regime detection tools flagged the last two major corrections before they happened.", name: 'Verified Platinum Subscriber', role: 'Futures trader', avatar: '' },
+    { id: 'testimonial-amara', rating: 5, quote: "The community and the research together make this unbeatable. I came for the signals, I stayed for the education.", name: 'Verified Gold Subscriber', role: 'Independent investor', avatar: '' },
 ];
 
 const CARD_W_DESKTOP = 491;
@@ -96,8 +95,8 @@ function TestimonialCard({ t, isActive, onClick }: CardProps) {
                 </div>
                 <p className="text-white/50 text-[20px] sm:text-[22px] leading-6 sm:leading-[33px] font-normal flex-1 mb-6">{t.quote}</p>
                 <div className="flex items-center gap-5 sm:gap-6">
-                    <div className="w-12 sm:w-[63px] h-12 sm:h-[63px] rounded-full overflow-hidden flex-shrink-0 bg-[#DFD8D4]">
-                        <Image src={t.avatar} alt={t.name} width={63} height={63} className="w-full h-full object-cover" unoptimized />
+                    <div className="w-12 sm:w-[63px] h-12 sm:h-[63px] rounded-full overflow-hidden flex-shrink-0 bg-[#88C4FF26] border border-[#88C4FF55] flex items-center justify-center text-[#88C4FF] text-[14px] sm:text-[16px] font-semibold">
+                        CR
                     </div>
                     <div>
                         <p className="text-white text-[20px] sm:text-[23px] font-medium leading-6 sm:leading-[35px]">{t.name}</p>

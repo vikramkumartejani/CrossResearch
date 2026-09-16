@@ -1,6 +1,7 @@
 import Image from '@/lib/CldImage';
 import Link from 'next/link';
 import type { Post } from './blogData';
+import { blogPath } from './blogData';
 
 interface FeaturedPostProps {
     post: Post;
@@ -8,7 +9,7 @@ interface FeaturedPostProps {
 
 export default function FeaturedPost({ post }: FeaturedPostProps) {
     return (
-        <Link href={`/blog/${post.id}`} className="group block">
+        <Link href={blogPath(post)} className="group block">
             <div className="relative w-full h-[220px] sm:h-[300px] lg:h-[382px] rounded-[16px] sm:rounded-[24px] overflow-hidden mb-5 sm:mb-10 border border-[#FFFFFF1A] bg-[#FFFFFF08]">
                 <Image
                     src={post.image}

@@ -90,7 +90,7 @@ input.cr-hero-email::placeholder {
   will-change: transform;
 }
 
-/* Dashboard sidebar custom scrollbar */
+/* Dashboard sidebar custom scrollbar (legacy) */
 .dashboard-nav::-webkit-scrollbar {
   width: 3px;
 }
@@ -103,6 +103,15 @@ input.cr-hero-email::placeholder {
 }
 .dashboard-nav::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* Top command dock: hide scrollbar, keep swipe/scroll */
+.dashboard-topbar-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.dashboard-topbar-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 /* Dark UI scrollbars (main panel + nested section scrolls) */

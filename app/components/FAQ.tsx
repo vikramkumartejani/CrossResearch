@@ -22,7 +22,7 @@ const FAQS: FaqItem[] = [
     {
         id: 'faq-accuracy',
         question: 'How accurate are your market predictions?',
-        answer: 'Our predictions are based on institutional-grade quantitative models and proprietary algorithms. While no model is 100% accurate, our track record shows strong performance across various market regimes. We focus on probability-weighted scenarios rather than point predictions.',
+        answer: 'Our research uses quantitative models and structured frameworks. No model is 100% accurate. We publish methodology and limitations, and we focus on probability-weighted scenarios rather than guaranteed point predictions.',
     },
     {
         id: 'faq-differentiators',

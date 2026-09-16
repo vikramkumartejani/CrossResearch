@@ -1,6 +1,7 @@
 import Image from '@/lib/CldImage';
 import Link from 'next/link';
 import type { Post } from './blogData';
+import { blogPath } from './blogData';
 
 interface SidebarCardProps {
     post: Post;
@@ -8,7 +9,7 @@ interface SidebarCardProps {
 
 export default function SidebarCard({ post }: SidebarCardProps) {
     return (
-        <Link href={`/blog/${post.id}`} className="flex items-center gap-4 sm:gap-6 group">
+        <Link href={blogPath(post)} className="flex items-center gap-4 sm:gap-6 group">
             <div className="relative flex-shrink-0 w-[130px] h-[110px] sm:w-[180px] sm:h-[110px] lg:w-[256px] lg:h-[150px] rounded-[6px] overflow-hidden border border-[#FFFFFF1A] bg-[#FFFFFF08]">
                 <Image
                     src={post.image}

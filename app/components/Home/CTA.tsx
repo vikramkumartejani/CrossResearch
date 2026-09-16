@@ -52,7 +52,7 @@ export default function CTA() {
                         </h2>
 
                         <p className="text-white/70 text-[14px] sm:text-[20px] leading-5 sm:leading-[32px] font-normal font-inter mb-7 sm:mb-8">
-                            reviews showed that more than 75% of subscribers <br className="sm:block hidden" /> make back their money within 3 days
+                            reviews showed that many subscribers find the research <br className="sm:block hidden" /> pays for itself through better decisions - results vary
                         </p>
 
                         <div className="flex gap-2.5 sm:gap-4 flex-wrap justify-center">

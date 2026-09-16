@@ -1,3 +1,5 @@
+import { BRAND_METRICS } from '@/lib/brandMetrics'
+
 interface StatCard {
     id: string
     value: string
@@ -8,22 +10,22 @@ interface StatCard {
 const STATS: StatCard[] = [
     {
         id: 'indicators',
-        value: '50+',
+        value: BRAND_METRICS.indicatorsLabel,
         label: 'TradingView indicators',
     },
     {
         id: 'accuracy',
-        value: '90%',
-        label: 'Macro model accuracy',
+        value: 'Documented',
+        label: 'Model methodology',
     },
     {
         id: 'traders',
-        value: '10k+',
+        value: BRAND_METRICS.tradersShort,
         label: 'Active traders',
     },
     {
         id: 'modules',
-        value: '16',
+        value: BRAND_METRICS.modulesLabel,
         label: 'Macro data modules',
     },
     {

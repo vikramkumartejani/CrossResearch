@@ -44,32 +44,32 @@ export const EDUCATION_HUB: HubConfig = {
   ],
   clusters: [
     {
-      href: '/education',
+      href: '/education/forex',
       label: 'Forex foundations',
       blurb: 'How FX markets work, sessions, pairs, and the building blocks of currency trading.',
     },
     {
-      href: '/education',
+      href: '/education/technical-analysis',
       label: 'Technical analysis',
       blurb: 'Price action, structure, indicators, and how technical tools fit a research workflow.',
     },
     {
-      href: '/education',
+      href: '/education/fundamental-analysis',
       label: 'Fundamental analysis',
       blurb: 'How growth, inflation, rates, and policy feed into trade ideas.',
     },
     {
-      href: '/education',
+      href: '/education/market-structure',
       label: 'Market structure & order flow',
       blurb: 'Liquidity, positioning, and microstructure concepts traders actually use.',
     },
     {
-      href: '/education',
+      href: '/education/risk-management',
       label: 'Risk management',
       blurb: 'Position sizing, drawdown control, and process discipline.',
     },
     {
-      href: '/education',
+      href: '/education/trading-strategies',
       label: 'Trading strategies',
       blurb: 'Frameworks that combine macro context with execution rules.',
     },
@@ -100,32 +100,32 @@ export const MACRO_HUB: HubConfig = {
   ],
   clusters: [
     {
-      href: '/research/macro',
+      href: '/research/macro/inflation',
       label: 'Inflation',
       blurb: 'CPI, PCE, shelter, goods vs services, and market pricing of inflation risk.',
     },
     {
-      href: '/research/macro',
+      href: '/research/macro/labor-market',
       label: 'Labor market',
       blurb: 'Employment, wages, participation, and what labor data means for policy.',
     },
     {
-      href: '/research/macro',
+      href: '/research/macro/growth',
       label: 'Growth & activity',
       blurb: 'GDP nowcasts, PMI, demand, and late-cycle signals.',
     },
     {
-      href: '/research/macro',
+      href: '/research/macro/liquidity',
       label: 'Liquidity & rates',
       blurb: 'Real yields, balance sheets, funding conditions, and cross-asset beta.',
     },
     {
-      href: '/research/macro',
+      href: '/research/macro/central-banks',
       label: 'Central banks',
       blurb: 'Fed, ECB, BoE, and policy path interpretation.',
     },
     {
-      href: '/models',
+      href: '/models/macro-regime-model',
       label: 'Macro models',
       blurb: 'Nowcasts and regime models that quantify the narrative.',
     },
@@ -154,29 +154,29 @@ export const REPORTS_HUB: HubConfig = {
   ],
   clusters: [
     {
-      href: '/reports',
+      href: '/reports/weekly-outlook/2026-09-20',
       label: 'Weekly market outlook',
       blurb: 'Cross-asset weekly framing of regime, catalysts, and key levels.',
     },
     {
-      href: '/reports',
+      href: '/reports/gold/gold-outlook-2026-09-20',
       label: 'Gold & commodities',
       blurb: 'Gold outlooks tied to real rates, USD, and positioning.',
     },
     {
-      href: '/reports',
+      href: '/reports/forex/eurusd-outlook-2026-09-20',
       label: 'Forex reports',
       blurb: 'EURUSD and major FX views driven by rates differentials and risk.',
     },
     {
-      href: '/reports',
-      label: 'Equities notes',
-      blurb: 'Index and sector research linked to the macro regime.',
-    },
-    {
-      href: '/reports',
+      href: '/reports/events/fomc-september-2026',
       label: 'Macro event previews',
       blurb: 'CPI, NFP, FOMC, and other high-impact event briefings.',
+    },
+    {
+      href: '/reports/events/us-cpi-september-2026',
+      label: 'CPI analysis',
+      blurb: 'Inflation event preview with market transmission.',
     },
     {
       href: '/research/macro',
@@ -208,24 +208,24 @@ export const INDICATORS_HUB: HubConfig = {
   ],
   clusters: [
     {
-      href: '/indicators/tradingview',
-      label: 'Indicator categories',
-      blurb: 'Structure, momentum, volatility, liquidity, and order-flow style tools.',
-    },
-    {
-      href: '/indicators/tradingview',
+      href: '/indicators/best-tradingview-indicators',
       label: 'How to choose indicators',
       blurb: 'Repainting, lag, timeframe suitability, and confirmation rules.',
     },
     {
-      href: '/indicators/tradingview',
+      href: '/indicators/market-structure-indicators',
       label: 'Market structure tools',
       blurb: 'Swing structure, levels, and regime-aware technical context.',
     },
     {
-      href: '/indicators/tradingview',
+      href: '/indicators/momentum-indicators',
       label: 'Momentum & volatility',
       blurb: 'When momentum indicators help and when they fail.',
+    },
+    {
+      href: '/indicators/order-flow-indicators',
+      label: 'Order-flow tools',
+      blurb: 'Participation and imbalance-style TradingView workflows.',
     },
     {
       href: 'https://www.tradingview.com/u/crossresearch/',
@@ -233,7 +233,7 @@ export const INDICATORS_HUB: HubConfig = {
       blurb: 'Published scripts and indicator profiles on TradingView.',
     },
     {
-      href: '/education',
+      href: '/education/technical-analysis',
       label: 'Technical education',
       blurb: 'Lessons that explain the concepts behind the tools.',
     },
@@ -261,22 +261,22 @@ export const MODELS_HUB: HubConfig = {
   ],
   clusters: [
     {
-      href: '/models',
+      href: '/models/macro-regime-model',
       label: 'Macro regime model',
       blurb: 'Growth and inflation regime classification for cross-asset context.',
     },
     {
-      href: '/models',
+      href: '/models/inflation-nowcast',
       label: 'Inflation nowcast',
       blurb: 'Near-term inflation tracking and surprise risk.',
     },
     {
-      href: '/models',
+      href: '/models/growth-nowcast',
       label: 'Growth nowcast',
       blurb: 'Activity tracking that feeds risk appetite and policy odds.',
     },
     {
-      href: '/models',
+      href: '/models/fed-expectations',
       label: 'Central-bank expectations',
       blurb: 'Policy path interpretation tied to data and pricing.',
     },
@@ -315,27 +315,27 @@ export const AI_HUB: HubConfig = {
   ],
   clusters: [
     {
-      href: '/ai-finance',
+      href: '/ai-finance/machine-learning',
       label: 'Machine learning pipelines',
       blurb: 'Data, labels, validation, and leakage pitfalls in financial ML.',
     },
     {
-      href: '/ai-finance',
+      href: '/ai-finance/financial-nlp',
       label: 'Financial NLP',
       blurb: 'News, transcripts, and text signals with careful evaluation.',
     },
     {
-      href: '/ai-finance',
+      href: '/ai-finance/feature-engineering',
       label: 'Feature engineering',
       blurb: 'Macro, market, and alternative features that actually generalize.',
     },
     {
-      href: '/ai-finance',
+      href: '/ai-finance/forecasting',
       label: 'Forecasting & signals',
       blurb: 'How model outputs become research and trading context.',
     },
     {
-      href: '/ai-finance',
+      href: '/ai-finance/backtesting',
       label: 'Backtesting discipline',
       blurb: 'Walk-forward design, costs, and overfitting controls.',
     },
