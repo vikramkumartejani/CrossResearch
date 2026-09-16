@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Affiliate Partner Log In",
   description: "Log in to your CrossResearch affiliate partner account.",
+  robots: { index: false, follow: false },
 };
 
 export default function AffiliateLoginPage() {

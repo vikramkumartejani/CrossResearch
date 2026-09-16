@@ -32,12 +32,22 @@ export const metadata: Metadata = {
     default: 'CrossResearch - Institutional-Grade Market Intelligence',
     template: '%s | CrossResearch',
   },
-  description: 'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.',
+  description:
+    'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide. Trading education, macro research, market reports, TradingView indicators, forecasting models, and AI/ML finance research.',
   authors: [{ name: 'CrossResearch', url: SITE }],
   creator: 'CrossResearch',
   publisher: 'CrossResearch',
   robots: { index: true, follow: true },
   metadataBase: new URL(SITE),
+  keywords: [
+    'CrossResearch',
+    'market intelligence',
+    'trading education',
+    'macro analysis',
+    'TradingView indicators',
+    'macro forecasting',
+    'AI for finance',
+  ],
 };
 
 export default function RootLayout({

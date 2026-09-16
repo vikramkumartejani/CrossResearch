@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Affiliate Forgot Password",
   description: "Reset your CrossResearch affiliate partner password.",
+  robots: { index: false, follow: false },
 };
 
 export default function AffiliateForgotPasswordPage() {

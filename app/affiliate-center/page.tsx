@@ -2,6 +2,7 @@ import AffiliateCenter from '@/app/components/Dashboard/AffiliateCenter/Affiliat
 
 export const metadata = {
   title: 'Affiliate Center',
+  robots: { index: false, follow: false },
 }
 
 export default function AffiliateCenterPage() {

@@ -1,45 +1,44 @@
 import type { Metadata } from 'next'
-// import Navbar from "./components/Navbar";
-import Hero from "./components/Home/Hero";
-import LogoSlider from "./components/LogoSlider";
-import GlobalMarketInsights from "./components/Home/GlobalMarketInsights";
-import StatsSection from "./components/Home/StatsSection";
-import ResearchStackSection from "./components/Home/ResearchStackSection";
-import ArticlesSection from "./components/Home/ArticlesSection";
-import FAQ from "./components/FAQ";
-import PricingSection from "./components/Home/PricingSection";
-import ContactSection from "./components/Home/ContactSection";
-import TestimonialsSection from "./components/Home/TestimonialsSection";
-import CTA from "./components/Home/CTA";
+import Hero from './components/Home/Hero'
+import LogoSlider from './components/LogoSlider'
+import GlobalMarketInsights from './components/Home/GlobalMarketInsights'
+import StatsSection from './components/Home/StatsSection'
+import ResearchStackSection from './components/Home/ResearchStackSection'
+import ArticlesSection from './components/Home/ArticlesSection'
+import FAQ from './components/FAQ'
+import PricingSection from './components/Home/PricingSection'
+import ContactSection from './components/Home/ContactSection'
+import TestimonialsSection from './components/Home/TestimonialsSection'
+import CTA from './components/Home/CTA'
+import { OrganizationJsonLd, WebSiteJsonLd, SeoCrawlLinks } from './components/seo/JsonLd'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+/** SEO metadata only - page UI unchanged from pre-SEO design. */
+export const metadata: Metadata = pageMetadata({
   title: 'CrossResearch - Institutional-Grade Market Intelligence for Retail Traders',
-  description: 'Access proprietary algorithms, macro intelligence, volatility analytics, and market regime tools trusted by advanced traders worldwide. Start your free trial today.',
-  keywords: ['market intelligence', 'trading signals', 'macro analysis', 'algo trading', 'market regime', 'volatility analytics', 'CrossResearch', 'institutional trading'],
-  authors: [{ name: 'CrossResearch', url: 'https://crossresearch.io' }],
-  robots: { index: true, follow: true },
-  alternates: { canonical: 'https://crossresearch.io' },
-  openGraph: {
-    title: 'CrossResearch - Institutional-Grade Market Intelligence',
-    description: 'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.',
-    url: 'https://crossresearch.io',
-    siteName: 'CrossResearch',
-    type: 'website',
-    locale: 'en_US',
-    images: [{ url: 'https://crossresearch.io/og-image.png', width: 1200, height: 630, alt: 'CrossResearch' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'CrossResearch - Institutional-Grade Market Intelligence',
-    description: 'Access proprietary algorithms, macro intelligence, and market regime tools trusted by advanced traders worldwide.',
-    site: '@crossresearch',
-    images: ['https://crossresearch.io/og-image.png'],
-  },
-}
+  description:
+    'Access proprietary algorithms, macro intelligence, volatility analytics, and market regime tools trusted by advanced traders worldwide. Start your free trial today.',
+  path: '/',
+  absoluteTitle: true,
+  keywords: [
+    'financial research',
+    'trading education',
+    'macro analysis',
+    'market reports',
+    'TradingView indicators',
+    'macro forecasting',
+    'AI for finance',
+    'market intelligence',
+    'CrossResearch',
+  ],
+})
 
 export default function Home() {
   return (
     <main className="font-urbanist">
+      <OrganizationJsonLd />
+      <WebSiteJsonLd />
+      <SeoCrawlLinks />
       <Hero />
 
       <div className="relative">
@@ -63,11 +62,10 @@ export default function Home() {
                     bg-[rgba(34,126,217,0.4)]"
         />
         <div className="relative" style={{ zIndex: 1 }}>
-          <div className='py-7 sm:py-14 2xl:py-[120px]'>
+          <div className="py-7 sm:py-14 2xl:py-[120px]">
             <LogoSlider />
           </div>
           <GlobalMarketInsights />
-
         </div>
       </div>
 
@@ -89,7 +87,6 @@ export default function Home() {
         <div className="relative" style={{ zIndex: 1 }}>
           <StatsSection />
           <ResearchStackSection />
-       
         </div>
       </div>
 
@@ -112,5 +109,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-  );
+  )
 }
