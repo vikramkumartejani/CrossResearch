@@ -3,6 +3,8 @@
 import Watchlist from './Watchlist'
 import ProbabilityMovers from './ProbabilityMovers'
 import AlertsDetail from './AlertsDetail'
+import SentimentHeatmap from './SentimentHeatmap'
+import ImpliedProbability from './ImpliedProbability'
 import LockedSection from '../LockedSection'
 import { BeliefMarketsProvider, formatSeverityLabel, useBeliefMarkets } from './beliefMarkets'
 
@@ -70,15 +72,22 @@ function ReliefSignalsContent() {
                 </div>
             </div>
 
-            <div className="px-4 lg:px-6 flex flex-col xl:flex-row gap-4 xl:h-[760px]">
-                <div className="flex-1 min-w-0 min-h-0 h-[420px] xl:h-full">
-                    <ProbabilityMovers />
+            <div className="px-4 lg:px-6 flex flex-col xl:flex-row gap-4 items-stretch">
+                <div className="flex-1 min-w-0 flex flex-col gap-4">
+                    <div className="h-[420px] xl:h-[520px] min-h-0">
+                        <ProbabilityMovers />
+                    </div>
+                    <SentimentHeatmap />
                 </div>
-                <div className="flex flex-col gap-4 flex-1 min-w-0 min-h-0 xl:h-full">
-                    <LockedSection title="Watchlist" className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
+
+                <div className="w-full xl:w-[420px] 2xl:w-[460px] flex flex-col gap-4 flex-shrink-0">
+                    <LockedSection title="Watchlist" className="min-h-0 h-[280px]">
                         <Watchlist />
                     </LockedSection>
-                    <LockedSection title="Alerts" className="min-h-0 h-[360px] xl:flex-1 xl:h-auto xl:min-h-0">
+                    <div className="min-h-[260px]">
+                        <ImpliedProbability />
+                    </div>
+                    <LockedSection title="Alerts" className="min-h-0 h-[300px]">
                         <AlertsDetail />
                     </LockedSection>
                 </div>

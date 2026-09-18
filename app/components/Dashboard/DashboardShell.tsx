@@ -2,7 +2,9 @@
 
 import { useTransition, type ReactNode } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import Image from '@/lib/CldImage'
 import DashboardTopBar from './DashboardTopBar'
+import MarketTickerBar from './MarketTickerBar'
 import { PlanProvider } from './PlanProvider'
 import { DashboardThemeProvider, useDashboardTheme } from './DashboardTheme'
 
@@ -29,6 +31,7 @@ function DashboardShellInner({ children }: { children: ReactNode }) {
       }`}
     >
       <DashboardTopBar navigating={isNavigating} onNavigate={navigateDashboard} />
+      <MarketTickerBar />
 
       <div className="relative flex flex-col flex-1 min-w-0 min-h-0">
         <main className="relative flex-1 overflow-y-auto min-h-0 dashboard-scroll">
@@ -44,16 +47,19 @@ function DashboardShellInner({ children }: { children: ReactNode }) {
             {children}
           </div>
         </main>
-        <p
-          className={`shrink-0 border-t py-3 px-4 text-center text-[12px] sm:text-[14px] leading-[20px] font-normal ${
+        <div
+          className={`shrink-0 border-t py-3 px-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center text-[12px] sm:text-[14px] leading-[20px] font-normal ${
             isLight
               ? 'border-[#D5D8E0] bg-[#F3F5F8] text-[#838388]'
               : 'border-[#FFFFFF0D] bg-[#070711] text-[#838388]'
           }`}
         >
-          Market intelligence • Not investment advice • Users remain solely responsible for all
-          investment decisions and associated risks
-        </p>
+          <Image src="/assets/logo.svg" alt="CrossResearch" width={18} height={18} className="opacity-80" />
+          <p>
+            Market intelligence • Not investment advice • Users remain solely responsible for all
+            investment decisions and associated risks
+          </p>
+        </div>
       </div>
     </div>
   )

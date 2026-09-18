@@ -1,267 +1,434 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { MarketReportsPage, Report } from './reportData'
-import { buildReportRows } from './reportData'
 import ReportDetailModal from './ReportDetailModal'
-import LockedSection from '../LockedSection'
 import ChartLoader from '../shared/ChartLoader'
+import DeskMarketSignals from './DeskMarketSignals'
 import { media } from '@/lib/media'
 
-function Tag({ label }: { label: string }) {
-    return (
-        <span className="inline-flex items-center px-3 sm:px-[15px] h-[26px] sm:h-[29px] text-[#88C4FF] text-[11px] sm:text-[12px] leading-[17px] font-medium rounded-[72px] border border-[#FFFFFF1A]">
-            {label}
-        </span>
-    )
-}
+type PubTab = 'latest' | 'read' | 'themes'
 
-function Thumb({ src }: { src?: string | null }) {
-    if (src) {
-        return (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-                src={media(src)}
-                alt=""
-                className="w-full lg:w-[172px] h-[140px] lg:h-[113px] flex-shrink-0 object-cover bg-[#FFFFFF0D]"
-            />
-        )
-    }
-    return <div className="w-full lg:w-[172px] h-[140px] lg:h-[113px] flex-shrink-0 bg-[#FFFFFF0D]" />
-}
-
-function MainCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }) {
-    return (
-        <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onOpen(r)}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') onOpen(r)
-            }}
-            className="bg-[#16161F] p-3.5 sm:p-5 cursor-pointer transition-colors hover:bg-[#1A1A24]"
-        >
-            <div className="flex flex-col-reverse xl:flex-row xl:items-start xl:justify-between gap-2.5 sm:gap-4">
-                <div className="w-full sm:max-w-[843px]">
-                    <div className="flex items-center gap-2 flex-wrap">
-                        {r.tags.map((t) => (
-                            <Tag key={t} label={t} />
-                        ))}
-                    </div>
-                    <h3 className="mt-3 text-white text-[20px] sm:text-[24px] 2xl:text-[28px] leading-[26px] sm:leading-[28px] 2xl:leading-[34px] font-medium mb-2">
-                        {r.title}
-                    </h3>
-                    <p className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[16px] sm:leading-[20px] font-medium mb-2 sm:mb-4">
-                        {r.subtitle}
-                    </p>
-                    <p className="text-white/60 text-[12px] leading-[19px] font-normal sm:max-w-[647px]">{r.body}</p>
-
-                    <div className="flex items-center justify-between mt-3 sm:mt-5 pt-3 sm:pt-4 border-t border-[#FFFFFF26]">
-                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">
-                            {r.author}
-                        </span>
-                        <span className="text-white text-[12px] sm:text-[14px] leading-[22px] font-semibold">
-                            {r.date}
-                        </span>
-                    </div>
-                </div>
-
-                <div className="w-full xl:max-w-[231px]">
-                    <div className="flex items-center justify-end gap-3 sm:gap-10">
-                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] font-normal">
-                            {r.readTime}
-                        </span>
-                    </div>
-                    <div className="flex flex-col items-end gap-1 sm:gap-2.5 flex-shrink-0 pt-1 sm:pt-2.5 relative">
-                        <Thumb src={r.chartImage} />
-                        <span className="text-white/60 text-[12px] sm:text-[14px] leading-[22px] lg:static absolute bottom-2.5 right-2.5">
-                            {r.track}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-function SideCard({ r, onOpen }: { r: Report; onOpen: (report: Report) => void }) {
-    return (
-        <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onOpen(r)}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') onOpen(r)
-            }}
-            className="cursor-pointer transition-colors h-full flex flex-col min-h-0"
-        >
-            <div className="flex items-center gap-2 flex-wrap">
-                {r.tags.map((t) => (
-                    <Tag key={t} label={t} />
-                ))}
-            </div>
-
-            <div className="max-w-[337px] flex-1">
-                <h4 className="mt-3 text-white text-[20px] font-medium leading-[24px] mb-2">{r.title}</h4>
-                <p className="text-[#88C4FF] text-[12px] leading-[16px] font-medium mb-2">{r.subtitle}</p>
-                <p className="text-white/60 font-normal text-[12px] leading-[19px]">{r.body}</p>
-            </div>
-
-            <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-[#FFFFFF26]">
-                <span className="text-white/60 text-[12px] leading-[19px] font-normal">{r.author}</span>
-                <span className="text-white text-[12px] leading-[19px] font-semibold">{r.date}</span>
-            </div>
-        </div>
-    )
-}
+const ACCENT = '#E8A020'
 
 const EMPTY_PAGE: MarketReportsPage = {
-    eyebrow: '',
-    title: '',
-    subtitle: '',
+  eyebrow: '',
+  title: '',
+  subtitle: '',
+}
+
+function Tag({ label }: { label: string }) {
+  return (
+    <span className="inline-flex items-center px-2.5 h-[22px] rounded-full border border-white/15 text-[#C8CDD6] text-[11px] leading-none font-medium whitespace-nowrap">
+      {label}
+    </span>
+  )
+}
+
+function PubSpark({ up = true }: { up?: boolean }) {
+  const stroke = up ? '#2CB37B' : '#E25C3F'
+  return (
+    <div className="w-[52px] h-[52px] rounded bg-[#0B0E14] border border-white/[0.06] flex items-center justify-center flex-shrink-0">
+      <svg width="36" height="20" viewBox="0 0 36 20" fill="none" aria-hidden>
+        <path
+          d="M1 14 L8 11 L14 13 L20 6 L28 9 L35 3"
+          stroke={stroke}
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      </svg>
+    </div>
+  )
+}
+
+function YieldChart({ title }: { title: string }) {
+  const [range, setRange] = useState('1Y')
+  const ranges = ['1Y', '3Y', '5Y', '10Y']
+
+  return (
+    <div className="h-full min-h-[320px] sm:min-h-[360px] flex flex-col">
+      <div className="flex items-center justify-between gap-2 mb-3">
+        <p className="text-white/90 text-[13px] font-medium truncate">{title}</p>
+        <div className="flex items-center gap-0.5">
+          {ranges.map((r) => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => setRange(r)}
+              className={`px-2 py-1 text-[11px] leading-none font-medium cursor-pointer transition-colors ${
+                range === r
+                  ? 'text-white border border-white/25'
+                  : 'text-[#8B8B93] border border-transparent hover:text-white'
+              }`}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="relative flex-1 min-h-[280px] sm:min-h-[320px] rounded-sm bg-[#0B0E14] border border-white/[0.06] overflow-hidden">
+        <svg viewBox="0 0 400 220" className="absolute inset-0 w-full h-full" preserveAspectRatio="none" aria-hidden>
+          {[40, 80, 120, 160, 200].map((y) => (
+            <line key={y} x1="16" y1={y} x2="384" y2={y} stroke="#FFFFFF0F" strokeWidth="1" />
+          ))}
+          {[80, 160, 240, 320].map((x) => (
+            <line key={x} x1={x} y1="16" x2={x} y2="204" stroke="#FFFFFF08" strokeWidth="1" />
+          ))}
+          <path
+            d="M20 150 C50 145, 70 160, 95 130 C120 100, 145 115, 170 85 C195 55, 220 70, 245 48 C270 30, 295 55, 320 42 C340 34, 360 50, 380 58"
+            fill="none"
+            stroke="#88C4FF"
+            strokeWidth="2.2"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          <circle cx="245" cy="48" r="4" fill="#88C4FF" />
+          <rect x="210" y="18" width="58" height="18" rx="3" fill="#16161F" stroke="#88C4FF55" />
+          <text x="239" y="31" textAnchor="middle" fill="#88C4FF" fontSize="10" fontWeight="600">
+            5.337%
+          </text>
+          <rect x="352" y="50" width="40" height="16" rx="2" fill="#88C4FF" />
+          <text x="372" y="61.5" textAnchor="middle" fill="#0B0E14" fontSize="9" fontWeight="700">
+            4.283
+          </text>
+        </svg>
+        <div className="absolute bottom-2 left-3 right-3 flex justify-between text-[10px] text-[#8B8B93]">
+          <span>Mar</span>
+          <span>Jun</span>
+          <span>Sep</span>
+          <span>Dec</span>
+          <span>Mar</span>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function MarketReport() {
-    const [selected, setSelected] = useState<Report | null>(null)
-    const [page, setPage] = useState<MarketReportsPage>(EMPTY_PAGE)
-    const [reports, setReports] = useState<Report[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+  const [selected, setSelected] = useState<Report | null>(null)
+  const [page, setPage] = useState<MarketReportsPage>(EMPTY_PAGE)
+  const [reports, setReports] = useState<Report[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [pubTab, setPubTab] = useState<PubTab>('latest')
 
-    useEffect(() => {
-        let cancelled = false
-        const controller = new AbortController()
+  useEffect(() => {
+    let cancelled = false
+    const controller = new AbortController()
 
-        async function load() {
-            try {
-                setLoading(true)
-                setError(null)
-                const res = await fetch('/api/market-reports', {
-                    cache: 'no-store',
-                    signal: controller.signal,
-                })
-                if (!res.ok) throw new Error('Failed to load market reports')
-                const data = await res.json()
-                if (cancelled) return
+    async function load() {
+      try {
+        setLoading(true)
+        setError(null)
+        const res = await fetch('/api/market-reports', {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+        if (!res.ok) throw new Error('Failed to load market reports')
+        const data = await res.json()
+        if (cancelled) return
 
-                setPage({
-                    eyebrow: data.page?.eyebrow || 'Market Reports',
-                    title: data.page?.title || 'Research & Strategy Desk',
-                    subtitle:
-                        data.page?.subtitle ||
-                        'Long-form macro, FX and digital-asset reports authored by the CrossResearch desks.',
-                })
-                const list = Array.isArray(data.reports) ? [...data.reports] : []
-                setReports(list)
-            } catch (err) {
-                if (cancelled || (err instanceof DOMException && err.name === 'AbortError')) return
-                setError(err instanceof Error ? err.message : 'Unknown error')
-            } finally {
-                if (!cancelled) setLoading(false)
-            }
-        }
+        setPage({
+          eyebrow: data.page?.eyebrow || 'GLOBAL MACRO RESEARCH',
+          title: data.page?.title || 'Research & Strategy Desk',
+          subtitle:
+            data.page?.subtitle ||
+            'Independent research, macro views and market intelligence for a more informed tomorrow.',
+        })
+        setReports(Array.isArray(data.reports) ? [...data.reports] : [])
+      } catch (err) {
+        if (cancelled || (err instanceof DOMException && err.name === 'AbortError')) return
+        setError(err instanceof Error ? err.message : 'Unknown error')
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
 
-        void load()
-        return () => {
-            cancelled = true
-            controller.abort()
-        }
-    }, [])
+    void load()
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
+  }, [])
 
-    return (
-        <div className="">
-            {loading && (
-                <div className="px-4 lg:px-6">
-                    <ChartLoader className="min-h-[360px]" />
-                </div>
-            )}
+  const mains = useMemo(
+    () =>
+      [...reports]
+        .filter((r) => r && String(r.placement || 'main') !== 'sidebar')
+        .sort((a, b) => Number(b.id) - Number(a.id)),
+    [reports]
+  )
 
-            {!loading && (
-                <>
-            <div className="border-b border-[#FFFFFF0D] pb-5 sm:pb-6 mb-4 sm:mb-5 px-4 lg:px-6">
-                <div className="mb-3 flex items-center gap-1">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <g clipPath="url(#clip_mr)">
-                            <path
-                                d="M1.5 4.5C1.5 2.84315 2.84315 1.5 4.5 1.5C6.15685 1.5 7.5 2.84315 7.5 4.5V13.5C7.5 15.1569 6.15685 16.5 4.5 16.5C2.84315 16.5 1.5 15.1569 1.5 13.5V4.5Z"
-                                stroke="#838388"
-                                strokeWidth="1.2"
-                            />
-                            <path
-                                d="M7.4997 6.1818L9.98495 3.69655C11.1565 2.52498 13.056 2.52498 14.2276 3.69655C15.3992 4.86812 15.3992 6.76762 14.2276 7.93919L6.97949 15.1873"
-                                stroke="#838388"
-                                strokeWidth="1.2"
-                            />
-                            <path
-                                d="M4.5 16.5L13.5 16.5C15.1569 16.5 16.5 15.1569 16.5 13.5C16.5 11.8431 15.1569 10.5 13.5 10.5L11.625 10.5"
-                                stroke="#838388"
-                                strokeWidth="1.2"
-                            />
-                            <path
-                                d="M5.25 13.5C5.25 13.9142 4.91421 14.25 4.5 14.25C4.08579 14.25 3.75 13.9142 3.75 13.5C3.75 13.0858 4.08579 12.75 4.5 12.75C4.91421 12.75 5.25 13.0858 5.25 13.5Z"
-                                stroke="#838388"
-                                strokeWidth="1.2"
-                            />
-                        </g>
-                        <defs>
-                            <clipPath id="clip_mr">
-                                <rect width="18" height="18" rx="4" fill="white" />
-                            </clipPath>
-                        </defs>
-                    </svg>
-                    <span className="text-[#838388] text-[12px] font-medium">{page.eyebrow}</span>
-                </div>
-                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
-                    {page.title}
-                </h1>
-                <p className="text-[#838388] text-[12px] leading-[17px]">{page.subtitle}</p>
-            </div>
+  const featured = mains[0] || null
 
-            {error && (
-                <div className="px-4 lg:px-6 text-[#E25C3F] text-[13px] py-10">{error}</div>
-            )}
+  /** Right rail prefers CMS sidebar rows (matches the mock list), then other mains. */
+  const railReports = useMemo(() => {
+    const sides = [...reports]
+      .filter((r) => String(r.placement) === 'sidebar')
+      .sort((a, b) => Number(b.id) - Number(a.id))
+    const otherMains = mains.slice(1)
+    const seen = new Set<number>()
+    const out: Report[] = []
+    for (const r of [...sides, ...otherMains]) {
+      if (featured && r.id === featured.id) continue
+      if (seen.has(r.id)) continue
+      seen.add(r.id)
+      out.push(r)
+    }
+    return out
+  }, [reports, mains, featured])
 
-            {!error && (
-                <div className="px-4 lg:px-6 flex flex-col gap-4">
-                    {buildReportRows(reports).map(({ main, side }, index) => {
-                        const row = (
-                            <div
-                                className={`relative grid grid-cols-1 gap-x-4 gap-y-3 sm:gap-y-4 items-stretch ${
-                                    side ? 'xl:grid-cols-[1fr_389px]' : ''
-                                }`}
-                            >
-                                {side && index === 0 && (
-                                    <div
-                                        aria-hidden
-                                        className="hidden xl:block absolute top-0 bottom-0 right-0 w-[389px] bg-[#16161F] pointer-events-none"
-                                    />
-                                )}
-                                <MainCard r={main} onOpen={setSelected} />
-                                {side && (
-                                    <div
-                                        className={`relative z-10 p-3.5 sm:p-5 h-full flex flex-col ${
-                                            index === 0 ? 'bg-[#16161F] xl:bg-transparent' : 'bg-[#16161F]'
-                                        }`}
-                                    >
-                                        <SideCard r={side} onOpen={setSelected} />
-                                    </div>
-                                )}
-                            </div>
-                        )
+  const themes = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const r of reports) {
+      for (const t of r.tags || []) counts.set(t, (counts.get(t) || 0) + 1)
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8)
+      .map(([tag, count]) => ({ tag, count }))
+  }, [reports])
 
-                        if (index === 0) return <div key={main.id}>{row}</div>
-                        return (
-                            <LockedSection key={main.id} title="Market Report">
-                                {row}
-                            </LockedSection>
-                        )
-                    })}
-                </div>
-            )}
-                </>
-            )}
+  const publications = useMemo(() => {
+    const list = [...railReports]
+    if (pubTab === 'read') list.sort((a, b) => Number(b.id) - Number(a.id))
+    return list
+  }, [railReports, pubTab])
 
-            {selected && <ReportDetailModal report={selected} onClose={() => setSelected(null)} />}
+  return (
+    <div className="min-h-full w-full">
+      {loading && (
+        <div className="px-4 lg:px-6">
+          <ChartLoader className="min-h-[360px]" />
         </div>
-    )
+      )}
+
+      {!loading && (
+        <>
+          <div className="px-4 lg:px-6 pt-1 pb-6 mb-5 border-b border-white/[0.06]">
+            <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
+              <div className="max-w-[520px] shrink-0">
+                <p className="text-[#8B8B93] text-[11px] font-semibold tracking-[0.14em] uppercase mb-2">
+                  {(page.eyebrow || 'Global Macro Research').toUpperCase()}
+                </p>
+                <h1 className="text-white text-[28px] sm:text-[34px] font-semibold leading-[1.15] mb-2">
+                  {page.title || 'Research & Strategy Desk'}
+                </h1>
+                <p className="text-[#8B8B93] text-[13px] leading-[18px]">
+                  {page.subtitle ||
+                    'Independent research, macro views and market intelligence for a more informed tomorrow.'}
+                </p>
+              </div>
+              <DeskMarketSignals />
+            </div>
+          </div>
+
+          {error && <div className="px-4 lg:px-6 text-[#E25C3F] text-[13px] py-8">{error}</div>}
+
+          {!error && (
+            <div className="px-4 lg:px-6 pb-10">
+              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.7fr)_minmax(300px,0.95fr)] gap-5 items-stretch">
+                {/* LEFT: Featured Research */}
+                <section className="rounded-lg border border-white/[0.08] bg-[#12151C] overflow-hidden min-w-0 flex flex-col">
+                  {featured ? (
+                    <>
+                      <div className="p-5 sm:p-6 flex-1 flex flex-col min-h-0">
+                        <div className="flex items-center gap-2 mb-5 shrink-0">
+                          <span className="w-[3px] h-3.5 rounded-sm" style={{ background: ACCENT }} />
+                          <span
+                            className="text-[11px] font-semibold tracking-[0.12em] uppercase"
+                            style={{ color: ACCENT }}
+                          >
+                            Featured Research
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-7 items-stretch flex-1 min-h-0">
+                          <div className="min-w-0 flex flex-col">
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {(featured.tags || []).map((t) => (
+                                <Tag key={t} label={t} />
+                              ))}
+                            </div>
+
+                            <p className="text-[#8B8B93] text-[11px] font-medium tracking-[0.08em] uppercase mb-2">
+                              {featured.author || 'CrossResearch Macro Desk'}
+                            </p>
+
+                            <h2 className="text-white text-[22px] sm:text-[26px] font-semibold leading-[1.2] mb-3">
+                              {featured.title}
+                            </h2>
+
+                            {featured.subtitle ? (
+                              <p className="text-[#88C4FF] text-[14px] leading-[20px] font-medium mb-3">
+                                {featured.subtitle}
+                              </p>
+                            ) : null}
+
+                            <p className="text-[#B0B4BD] text-[13px] sm:text-[14px] leading-[21px] mb-5 flex-1">
+                              {featured.body}
+                            </p>
+
+                            <button
+                              type="button"
+                              onClick={() => setSelected(featured)}
+                              className="text-[14px] font-semibold hover:underline cursor-pointer self-start mt-auto"
+                              style={{ color: ACCENT }}
+                            >
+                              Read Full Report →
+                            </button>
+                          </div>
+
+                          <div className="min-w-0 h-full flex flex-col min-h-[280px]">
+                            {featured.chartImage ? (
+                              <div className="flex flex-col h-full min-h-0">
+                                <div className="flex items-center justify-between gap-2 mb-3 shrink-0">
+                                  <p className="text-white/90 text-[13px] font-medium truncate">
+                                    {featured.track || 'Desk Chart'}
+                                  </p>
+                                </div>
+                                <div className="relative flex-1 min-h-[240px] rounded-sm bg-[#0B0E14] border border-white/[0.06] overflow-hidden">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img
+                                    src={media(featured.chartImage)}
+                                    alt=""
+                                    className="absolute inset-0 w-full h-full object-cover"
+                                  />
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="h-full min-h-[280px]">
+                                <YieldChart title={featured.track || 'U.S. 30Y Yield (TV)'} />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="px-5 sm:px-6 py-3.5 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[12px] shrink-0 mt-auto">
+                        <span className="text-[#8B8B93]">
+                          {featured.author || 'CrossResearch Macro Desk'}
+                        </span>
+                        <span className="text-[#B0B4BD]">
+                          {featured.date}
+                          {featured.readTime ? ` | ${featured.readTime}` : ''}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="p-8 text-[#8B8B93] text-[13px]">No featured research published yet.</div>
+                  )}
+                </section>
+
+                {/* RIGHT: height locked to featured; list scrolls when longer */}
+                <div className="relative min-w-0 min-h-[420px] lg:min-h-0 self-stretch">
+                  <aside className="rounded-lg border border-white/[0.08] bg-[#12151C] p-4 sm:p-5 flex flex-col overflow-hidden lg:absolute lg:inset-0">
+                    <div className="flex items-start justify-between gap-2 mb-4 shrink-0">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                        {(
+                          [
+                            { id: 'latest', label: 'Latest Publications' },
+                            { id: 'read', label: 'Most Read' },
+                            { id: 'themes', label: 'Top Themes' },
+                          ] as const
+                        ).map((t) => (
+                          <button
+                            key={t.id}
+                            type="button"
+                            onClick={() => setPubTab(t.id)}
+                            className={`text-[12px] sm:text-[13px] font-medium pb-1.5 cursor-pointer transition-colors border-b-2 ${
+                              pubTab === t.id
+                                ? 'text-white'
+                                : 'text-[#8B8B93] border-transparent hover:text-white'
+                            }`}
+                            style={pubTab === t.id ? { borderColor: ACCENT } : undefined}
+                          >
+                            {t.label}
+                          </button>
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => publications[0] && setSelected(publications[0])}
+                        className="text-[12px] font-medium hover:underline cursor-pointer whitespace-nowrap shrink-0"
+                        style={{ color: ACCENT }}
+                      >
+                        View All →
+                      </button>
+                    </div>
+
+                    {pubTab === 'themes' ? (
+                      <div className="flex flex-col flex-1 min-h-0 overflow-y-auto dashboard-scroll pr-1">
+                        {themes.length === 0 && (
+                          <p className="text-[#8B8B93] text-[12px] py-8">No themes yet.</p>
+                        )}
+                        {themes.map((t) => (
+                          <div
+                            key={t.tag}
+                            className="flex items-center justify-between py-3 border-b border-white/[0.06] last:border-0"
+                          >
+                            <span className="text-white text-[14px] font-medium">{t.tag}</span>
+                            <span className="text-[#8B8B93] text-[12px]">{t.count}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col flex-1 min-h-0 overflow-y-auto dashboard-scroll pr-1">
+                        {publications.length === 0 && (
+                          <p className="text-[#8B8B93] text-[12px] py-8">No publications yet.</p>
+                        )}
+                        {publications.map((r, i) => (
+                          <button
+                            key={r.id}
+                            type="button"
+                            onClick={() => setSelected(r)}
+                            className="flex items-start gap-3 py-3.5 border-b border-white/[0.06] last:border-0 text-left hover:bg-white/[0.02] transition-colors cursor-pointer w-full shrink-0"
+                          >
+                            {r.chartImage ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={media(r.chartImage)}
+                                alt=""
+                                className="w-[52px] h-[52px] object-cover rounded bg-[#0B0E14] flex-shrink-0"
+                              />
+                            ) : (
+                              <PubSpark up={i % 2 === 0} />
+                            )}
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap gap-1.5 mb-1.5">
+                                {(r.tags || []).slice(0, 2).map((t) => (
+                                  <Tag key={t} label={t} />
+                                ))}
+                              </div>
+                              <p className="text-white text-[14px] leading-[18px] font-semibold mb-1 line-clamp-1">
+                                {r.title}
+                              </p>
+                              <p className="text-[#8B8B93] text-[12px] leading-[16px] line-clamp-1">
+                                {r.subtitle || r.body}
+                              </p>
+                            </div>
+                            <div className="flex-shrink-0 text-right w-[78px] pt-0.5">
+                              <p className="text-[#8B8B93] text-[11px] leading-[14px]">
+                                {r.readTime || '-'}
+                              </p>
+                              <p className="text-[#8B8B93] text-[11px] leading-[14px] mt-1">{r.date}</p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </aside>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {selected && <ReportDetailModal report={selected} onClose={() => setSelected(null)} />}
+    </div>
+  )
 }

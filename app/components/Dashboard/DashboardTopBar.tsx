@@ -1,7 +1,5 @@
 'use client'
 
-import Link from 'next/link'
-import Image from '@/lib/CldImage'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   useEffect,
@@ -404,15 +402,7 @@ export default function DashboardTopBar({ navigating = false, onNavigate }: Dash
 
   return (
     <header className={`relative shrink-0 z-50 border-b ${barBg}`}>
-      <div className="flex items-center gap-4 h-12 px-4 lg:px-6">
-        <Link
-          href="/"
-          title="Back to home"
-          className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-md opacity-90 hover:opacity-100 transition-opacity"
-        >
-          <Image src="/assets/logo.svg" alt="CrossResearch" width={20} height={20} />
-        </Link>
-
+      <div className="flex items-center gap-3 h-12 px-4 lg:px-6">
         <nav
           ref={scrollerRef}
           aria-busy={navigating}

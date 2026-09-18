@@ -43,6 +43,8 @@ export interface BeliefMover {
   verdict: string
   category: string
   prob: string
+  /** 0–1 probability when API provides it */
+  prob_raw?: number
   d1m: string
   d1h: string
   d24h: string

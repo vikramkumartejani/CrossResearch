@@ -1,202 +1,284 @@
 'use client'
+
 import { useEffect, useMemo, useState } from 'react'
 import ChartLoader from '../shared/ChartLoader'
+import NewsRail, { topicToCategory, type NewsRailFilters } from './NewsRail'
 
 interface NewsItem {
-    id?: string
-    category: string
-    source: string
-    time: string
-    impact: string
-    impactColor: string
-    title: string
-    desc: string
-    url?: string
+  id?: string
+  category: string
+  source: string
+  time: string
+  publishedAt?: string
+  impact: string
+  impactScore?: number
+  title: string
+  desc: string
+  url?: string
 }
 
-interface Featured {
-    tag?: string
-    title: string
-    desc: string
-    url?: string
+const WIRE_TABS = [
+  'All',
+  'Top Stories',
+  'Macro',
+  'Markets',
+  'Geopolitics',
+  'Crypto',
+  'Earnings',
+  'Central Banks',
+  'Energy',
+]
+
+const SOURCE_COLORS = ['#E25C3F', '#E8A020', '#2796FF', '#2CB37B', '#A855F7', '#88C4FF']
+
+function sourceColor(source: string): string {
+  let hash = 0
+  for (let i = 0; i < source.length; i++) hash = (hash * 31 + source.charCodeAt(i)) >>> 0
+  return SOURCE_COLORS[hash % SOURCE_COLORS.length]
 }
 
-interface Tab {
-    id: string
-    label: string
-    count: number
+function clockTime(publishedAt?: string, fallback?: string): string {
+  if (publishedAt) {
+    const d = new Date(publishedAt)
+    if (!Number.isNaN(d.getTime())) {
+      return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })
+    }
+  }
+  // Relative strings like "Just now" - show as-is shortened
+  if (fallback && /^\d{1,2}:\d{2}/.test(fallback)) return fallback
+  return fallback || '--:--'
 }
 
-const FALLBACK_TABS = ['All', 'Macro', 'Rates', 'Geopolitics', 'Energy', 'Equities', 'Crypto', 'Regulation']
+function isLive(item: NewsItem): boolean {
+  const title = item.title.toLowerCase()
+  if (title.includes(' live') || title.startsWith('live ') || title.includes('security council live')) {
+    return true
+  }
+  if (item.time.toLowerCase().includes('just now')) return true
+  if (item.publishedAt) {
+    const t = new Date(item.publishedAt).getTime()
+    if (Number.isFinite(t) && Date.now() - t < 15 * 60 * 1000) return true
+  }
+  return false
+}
+
+function matchesTab(item: NewsItem, tab: string): boolean {
+  if (tab === 'All') return true
+  if (tab === 'Top Stories') return (item.impactScore || 0) >= 55 || item.impact.toLowerCase().includes('high')
+  if (tab === 'Markets') return item.category === 'Equities' || item.category === 'Macro'
+  if (tab === 'Central Banks') return item.category === 'Rates'
+  if (tab === 'Earnings') {
+    return (
+      item.category === 'Equities' &&
+      /earn|guidance|eps|revenue|quarter/i.test(`${item.title} ${item.desc}`)
+    )
+  }
+  return item.category === tab
+}
 
 export default function NewsFeed() {
-    const [activeTab, setActiveTab] = useState('All')
-    const [items, setItems] = useState<NewsItem[]>([])
-    const [featured, setFeatured] = useState<Featured | null>(null)
-    const [tabs, setTabs] = useState<Tab[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState('All')
+  const [items, setItems] = useState<NewsItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [rail, setRail] = useState<NewsRailFilters>({
+    newsSection: 'top',
+    topic: 'All Topics',
+    source: 'All Sources',
+  })
 
-    useEffect(() => {
-        let cancelled = false
-        async function load() {
-            try {
-                setLoading(true)
-                setError(null)
-                const res = await fetch('/api/news-wire', { cache: 'no-store' })
-                const body = await res.json().catch(() => ({}))
-                if (!res.ok) {
-                    throw new Error(
-                        typeof body.detail === 'string'
-                            ? body.detail
-                            : body.error || `Failed to load news (${res.status})`
-                    )
-                }
-                if (cancelled) return
-                const list: NewsItem[] = (body.items || []).map((n: any) => ({
-                    id: n.id,
-                    category: String(n.category || 'Macro'),
-                    source: String(n.source || 'Wire'),
-                    time: String(n.time || '-'),
-                    impact: String(n.impact || 'Low Impact'),
-                    impactColor: String(n.impactColor || 'text-[#2796FF]'),
-                    title: String(n.title || ''),
-                    desc: String(n.desc || n.summary || ''),
-                    url: n.url,
-                }))
-                setItems(list)
-                setFeatured(
-                    body.featured
-                        ? {
-                              tag: body.featured.tag || 'Top Of The Wire',
-                              title: String(body.featured.title || ''),
-                              desc: String(body.featured.desc || ''),
-                              url: body.featured.url,
-                          }
-                        : null
-                )
-                const apiTabs: Tab[] = Array.isArray(body.tabs)
-                    ? body.tabs.map((t: any) => ({
-                          id: String(t.id || t.label),
-                          label: String(t.label || t.id),
-                          count: Number(t.count || 0),
-                      }))
-                    : []
-                setTabs(apiTabs.length ? apiTabs : FALLBACK_TABS.map((id) => ({ id, label: id, count: 0 })))
-            } catch (err) {
-                if (!cancelled) {
-                    setError(err instanceof Error ? err.message : 'Failed to load news')
-                    setItems([])
-                    setFeatured(null)
-                }
-            } finally {
-                if (!cancelled) setLoading(false)
-            }
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      try {
+        setLoading(true)
+        setError(null)
+        const res = await fetch('/api/news-wire', { cache: 'no-store' })
+        const body = await res.json().catch(() => ({}))
+        if (!res.ok) {
+          throw new Error(
+            typeof body.detail === 'string'
+              ? body.detail
+              : body.error || `Failed to load news (${res.status})`
+          )
         }
-        void load()
-        return () => {
-            cancelled = true
+        if (cancelled) return
+        const list: NewsItem[] = (body.items || []).map((n: any) => ({
+          id: n.id,
+          category: String(n.category || 'Macro'),
+          source: String(n.source || 'Wire'),
+          time: String(n.time || '-'),
+          publishedAt: n.publishedAt ? String(n.publishedAt) : undefined,
+          impact: String(n.impact || 'Low Impact'),
+          impactScore: Number(n.impactScore || 0),
+          title: String(n.title || ''),
+          desc: String(n.desc || n.summary || ''),
+          url: n.url,
+        }))
+        setItems(list)
+        if (list[0]?.id) setSelectedId(list[0].id)
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Failed to load news')
+          setItems([])
         }
-    }, [])
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    void load()
+    const id = setInterval(load, 60_000)
+    return () => {
+      cancelled = true
+      clearInterval(id)
+    }
+  }, [])
 
-    const filtered = useMemo(
-        () => (activeTab === 'All' ? items : items.filter((n) => n.category === activeTab)),
-        [items, activeTab]
-    )
+  const filtered = useMemo(() => {
+    let list = items.filter((n) => matchesTab(n, activeTab))
 
-    const visibleTabs = tabs.length
-        ? tabs
-        : FALLBACK_TABS.map((id) => ({ id, label: id, count: 0 }))
+    const topicCat = topicToCategory(rail.topic)
+    if (topicCat) list = list.filter((n) => n.category === topicCat)
 
-    return (
-        <div className="flex flex-col">
-            <div className="bg-[#16161F] p-3 sm:p-4 mb-4 sm:mb-5">
-                <span className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[14px] sm:leading-[17px] font-medium">
-                    {featured?.tag || 'Top Of The Wire'}
-                </span>
-                {loading && !featured ? (
-                    <ChartLoader className="min-h-[120px] mt-3" />
-                ) : featured ? (
-                    <>
-                        <h2 className="text-white text-[18px] sm:text-[34px] leading-[24px] sm:leading-[44px] font-semibold my-2 sm:my-3">
-                            {featured.url ? (
-                                <a href={featured.url} target="_blank" rel="noreferrer" className="hover:underline">
-                                    {featured.title}
-                                </a>
-                            ) : (
-                                featured.title
-                            )}
-                        </h2>
-                        <p className="text-[#838388] text-[12px] sm:text-[16px] leading-[16px] sm:leading-[24px] font-normal sm:max-w-[850px]">
-                            {featured.desc}
-                        </p>
-                    </>
-                ) : (
-                    <p className="text-white/40 text-[14px] mt-3">No featured story yet.</p>
-                )}
-            </div>
+    if (rail.source !== 'All Sources') {
+      const needle = rail.source.toLowerCase()
+      list = list.filter((n) => n.source.toLowerCase().includes(needle.split(' ')[0].toLowerCase()))
+    }
 
-            <div className="overflow-x-auto mb-4 sm:mb-5">
-                <div className="flex items-center sm:gap-2 p-1 bg-[#16161F] border border-[#FFFFFF0D] w-fit min-w-max">
-                    {visibleTabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`px-3 py-1 text-[13px] sm:text-[14px] leading-[20px] font-semibold transition-colors cursor-pointer whitespace-nowrap ${
-                                activeTab === tab.id
-                                    ? 'text-white bg-[#FFFFFF0D]'
-                                    : 'text-[#838388] hover:text-white/70'
-                            }`}
-                        >
-                            {tab.label}
-                            {tab.id !== 'All' && tab.count > 0 ? (
-                                <span className="ml-1 text-white/30 font-normal">{tab.count}</span>
-                            ) : null}
-                        </button>
-                    ))}
-                </div>
-            </div>
+    if (rail.newsSection === 'top') {
+      list = [...list].sort((a, b) => (b.impactScore || 0) - (a.impactScore || 0))
+    }
 
-            {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
-            {loading && <ChartLoader className="min-h-[140px] mb-3" />}
-            {!loading && !error && filtered.length === 0 && (
-                <p className="text-white/40 text-[13px] mb-3">No stories in this category.</p>
-            )}
+    return list
+  }, [items, activeTab, rail])
 
-            <div className="flex flex-col gap-2.5 sm:gap-4">
-                {filtered.map((item, i) => (
-                    <div key={item.id || i} className="p-3 sm:p-4 bg-[#16161F] cursor-pointer">
-                        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 mb-2">
-                            <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-[#88C4FF] text-[12px] sm:text-[14px] leading-[20px] font-normal">
-                                    {item.category}
-                                </span>
-                                <span className="text-[#838388] text-[12px] sm:text-[14px] leading-[20px] font-normal">
-                                    • {item.source}
-                                </span>
-                                <span className="bg-[#FFFFFF08] rounded-full px-2.5 py-1 text-white/60 text-[12px] leading-[14px] font-normal">
-                                    {item.time}
-                                </span>
-                            </div>
-                            <span className={`text-[12px] leading-[16px] font-medium flex-shrink-0 ${item.impactColor}`}>
-                                {item.impact}
-                            </span>
-                        </div>
-                        <h3 className="text-white text-[14px] sm:text-[20px] leading-[20px] sm:leading-[24px] font-semibold mb-1.5">
-                            {item.url ? (
-                                <a href={item.url} target="_blank" rel="noreferrer" className="hover:underline">
-                                    {item.title}
-                                </a>
-                            ) : (
-                                item.title
-                            )}
-                        </h3>
-                        <p className="text-[#838388] text-[13px] sm:text-[14px] leading-[20px] sm:leading-[21px] font-normal sm:max-w-[850px]">
-                            {item.desc}
-                        </p>
-                    </div>
-                ))}
-            </div>
+  const tabCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const tab of WIRE_TABS) {
+      counts[tab] = items.filter((n) => matchesTab(n, tab)).length
+    }
+    return counts
+  }, [items])
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 min-w-0 items-stretch">
+      <div className="w-full lg:w-[220px] xl:w-[240px] flex-shrink-0 lg:max-h-[calc(100vh-220px)] lg:sticky lg:top-4">
+        <NewsRail filters={rail} onChange={setRail} />
+      </div>
+
+      <div className="flex-1 min-w-0 flex flex-col">
+        <div className="overflow-x-auto mb-4">
+          <div className="flex items-center gap-1 min-w-max">
+            {WIRE_TABS.map((tab) => {
+              const active = activeTab === tab
+              const count = tabCounts[tab] || 0
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-3 py-1.5 text-[13px] leading-[16px] font-medium transition-colors cursor-pointer whitespace-nowrap ${
+                    active
+                      ? 'bg-[#88C4FF] text-[#0E0E16]'
+                      : 'text-[#838388] hover:text-white bg-transparent'
+                  }`}
+                >
+                  {tab}
+                  {tab !== 'All' && count > 0 ? (
+                    <span className={`ml-1 ${active ? 'text-[#0E0E16]/70' : 'text-white/30'}`}>{count}</span>
+                  ) : null}
+                </button>
+              )
+            })}
+          </div>
         </div>
-    )
+
+        {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
+        {loading && <ChartLoader className="min-h-[160px] mb-3" />}
+        {!loading && !error && filtered.length === 0 && (
+          <p className="text-white/40 text-[13px] mb-3">No stories for this filter.</p>
+        )}
+
+        {!loading && filtered.length > 0 && (
+          <div className="bg-[#16161F] border border-[#FFFFFF0D] overflow-x-auto">
+            <table className="w-full border-collapse min-w-[640px]">
+              <thead>
+                <tr className="border-b border-[#FFFFFF0D]">
+                  <th className="pl-4 pr-3 py-2.5 text-left text-[#838388] text-[11px] font-semibold w-[72px]">
+                    Time
+                  </th>
+                  <th className="px-3 py-2.5 text-left text-[#838388] text-[11px] font-semibold w-[140px]">
+                    Source
+                  </th>
+                  <th className="pr-4 pl-3 py-2.5 text-left text-[#838388] text-[11px] font-semibold">
+                    Headline
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((item, i) => {
+                  const rowId = item.id || `row-${i}`
+                  const active = selectedId === rowId
+                  const live = isLive(item)
+                  return (
+                    <tr
+                      key={rowId}
+                      onClick={() => setSelectedId(rowId)}
+                      className={`border-b border-[#FFFFFF08] last:border-0 cursor-pointer transition-colors ${
+                        active ? 'bg-[#FFFFFF0A]' : 'hover:bg-[#FFFFFF05]'
+                      }`}
+                    >
+                      <td className="pl-4 pr-3 py-3 align-middle text-[#838388] text-[13px] tabular-nums whitespace-nowrap">
+                        {clockTime(item.publishedAt, item.time)}
+                      </td>
+                      <td className="px-3 py-3 align-middle">
+                        <span className="inline-flex items-center gap-2 text-[13px] text-white/80">
+                          <span
+                            className="w-2 h-2 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: sourceColor(item.source) }}
+                          />
+                          <span className="truncate max-w-[120px]">{item.source}</span>
+                        </span>
+                      </td>
+                      <td className="pr-4 pl-3 py-3 align-middle">
+                        <div className="flex items-start justify-between gap-3">
+                          <p className="text-white text-[14px] sm:text-[15px] leading-[20px] font-medium">
+                            {item.url ? (
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="hover:underline"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {item.title}
+                              </a>
+                            ) : (
+                              item.title
+                            )}
+                          </p>
+                          {live && (
+                            <span className="flex-shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-[#E25C3F] text-white text-[10px] leading-[14px] font-semibold uppercase tracking-wide">
+                              Live
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {!loading && filtered.length > 0 && (
+          <p className="mt-3 text-[#838388] text-[12px] leading-[16px]">
+            Showing 1–{filtered.length} of {items.length} stories
+          </p>
+        )}
+      </div>
+    </div>
+  )
 }
