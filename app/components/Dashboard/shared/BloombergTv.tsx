@@ -33,9 +33,9 @@ export default function BloombergTv({ className = '', height, grow = false }: Bl
           </svg>
           <span className="text-white text-[16px] leading-[19px] font-semibold">Bloomberg TV</span>
         </div>
-        <div className="flex items-center gap-1 bg-[#E25C3F1A] py-1 sm:py-1.5 px-2 sm:px-3">
-          <div className="w-1.5 h-1.5 bg-[#E25C3F] rounded-full animate-pulse" />
-          <span className="text-[#E25C3F] text-[14px] leading-[17px] font-medium">Live</span>
+        <div className="flex items-center gap-1 bg-[#88C4FF1A] py-1 sm:py-1.5 px-2 sm:px-3">
+          <div className="w-1.5 h-1.5 bg-[#88C4FF] rounded-full animate-pulse" />
+          <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium">Live</span>
         </div>
       </div>
 

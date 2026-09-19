@@ -16,10 +16,10 @@ type TickerItem = {
 }
 
 const TICKER_ITEMS: TickerItem[] = [
-  { key: 'nas', label: 'NASDAQ', symbol: 'NAS100', precision: 2 },
-  { key: 'dow', label: 'DOW', symbol: 'US30', precision: 2 },
+  { key: 'nas', label: 'Nasdaq', symbol: 'NAS100', precision: 2 },
+  { key: 'dow', label: 'Dow', symbol: 'US30', precision: 2 },
   { key: 'spx', label: 'S&P', symbol: 'SP500', precision: 2 },
-  { key: 'gold', label: 'GOLD', symbol: 'XAUUSD', precision: 2 },
+  { key: 'gold', label: 'Gold', symbol: 'XAUUSD', precision: 2 },
   { key: 'btc', label: 'BTC', symbol: 'BTCUSD', precision: 2 },
   { key: 'wti', label: 'WTI', symbol: 'USOIL', precision: 2 },
   { key: 'eur', label: 'EURUSD', symbol: 'EURUSD', precision: 5 },
@@ -128,7 +128,7 @@ export default function MarketTickerBar() {
           <div className="flex items-center justify-start gap-5 sm:gap-6 w-max pr-2">
             {rows.map((row) => (
               <div key={row.key} className="flex items-baseline gap-1.5 whitespace-nowrap text-[11px] sm:text-[12px]">
-                <span className={`font-semibold tracking-wide ${nameTone}`}>{row.label}</span>
+                <span className={`font-medium normal-case ${nameTone}`}>{row.label}</span>
                 <span className={`font-medium tabular-nums ${priceTone}`}>{row.price}</span>
                 <span
                   className={`font-medium tabular-nums ${

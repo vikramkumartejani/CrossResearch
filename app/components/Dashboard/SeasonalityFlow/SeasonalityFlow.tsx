@@ -1,5 +1,6 @@
 'use client'
 import CotPositioning from './CotPositioning'
+import CotPositioningCharts from './CotPositioningCharts'
 import SeasonalityMap from './SeasonalityMap'
 import SeasonalityDrivers from './SeasonalityDrivers'
 import LockedSection from '../LockedSection'
@@ -30,6 +31,7 @@ export default function SeasonalityFlow() {
             </div>
 
             <div className="px-4 lg:px-6 flex flex-col gap-4">
+                <CotPositioningCharts />
                 <CotPositioning />
                 <SeasonalityMap />
                 <LockedSection title="Seasonality Drivers">

@@ -4,8 +4,8 @@ import LockedSection from '../LockedSection'
 
 export default function News() {
   return (
-    <div>
-      <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
+    <div className="flex flex-col min-h-0 xl:h-[calc(100dvh-148px)] xl:max-h-[calc(100dvh-148px)] xl:overflow-hidden">
+      <div className="border-b border-[#FFFFFF0D] pb-5 mb-4 px-4 lg:px-6 shrink-0">
         <div className="mb-3 flex items-center gap-1">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -48,10 +48,17 @@ export default function News() {
         </p>
       </div>
 
-      <div className="px-4 lg:px-6">
-        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_400px] 2xl:grid-cols-[minmax(0,1fr)_460px] gap-3 sm:gap-4 items-start">
-          <NewsFeed />
-          <LockedSection title="Desk Briefing" showHeading={false}>
+      <div className="flex-1 min-h-0 overflow-hidden px-4 lg:px-6 pb-4">
+        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_400px] 2xl:grid-cols-[minmax(0,1fr)_460px] gap-3 sm:gap-4 items-stretch h-full min-h-0 overflow-hidden">
+          <div className="min-h-0 h-full overflow-hidden">
+            <NewsFeed />
+          </div>
+          <LockedSection
+            title="Desk Briefing"
+            showHeading={false}
+            className="h-full min-h-0 overflow-hidden"
+            contentClassName="h-full min-h-0 overflow-hidden"
+          >
             <NewsSidebar />
           </LockedSection>
         </div>

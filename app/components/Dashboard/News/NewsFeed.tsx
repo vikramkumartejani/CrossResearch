@@ -162,13 +162,13 @@ export default function NewsFeed() {
   }, [items])
 
   return (
-    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 min-w-0 items-stretch">
-      <div className="w-full lg:w-[220px] xl:w-[240px] flex-shrink-0 lg:max-h-[calc(100vh-220px)] lg:sticky lg:top-4">
+    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 min-w-0 items-stretch h-full min-h-0 overflow-hidden">
+      <div className="w-full lg:w-[220px] xl:w-[240px] flex-shrink-0 h-auto lg:h-full min-h-0 overflow-hidden">
         <NewsRail filters={rail} onChange={setRail} />
       </div>
 
-      <div className="flex-1 min-w-0 flex flex-col">
-        <div className="overflow-x-auto mb-4">
+      <div className="flex-1 min-w-0 flex flex-col h-full min-h-0 overflow-hidden">
+        <div className="overflow-x-auto mb-3 shrink-0">
           <div className="flex items-center gap-1 min-w-max">
             {WIRE_TABS.map((tab) => {
               const active = activeTab === tab
@@ -194,24 +194,24 @@ export default function NewsFeed() {
           </div>
         </div>
 
-        {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
-        {loading && <ChartLoader className="min-h-[160px] mb-3" />}
+        {error && <p className="text-[#E25C3F] text-[13px] mb-2 shrink-0">{error}</p>}
+        {loading && <ChartLoader className="min-h-[160px] mb-2 shrink-0" />}
         {!loading && !error && filtered.length === 0 && (
-          <p className="text-white/40 text-[13px] mb-3">No stories for this filter.</p>
+          <p className="text-white/40 text-[13px] mb-2 shrink-0">No stories for this filter.</p>
         )}
 
         {!loading && filtered.length > 0 && (
-          <div className="bg-[#16161F] border border-[#FFFFFF0D] overflow-x-auto">
+          <div className="bg-[#16161F] border border-[#FFFFFF0D] flex-1 min-h-0 overflow-y-auto overflow-x-auto dashboard-scroll">
             <table className="w-full border-collapse min-w-[640px]">
-              <thead>
+              <thead className="sticky top-0 z-10 bg-[#16161F]">
                 <tr className="border-b border-[#FFFFFF0D]">
-                  <th className="pl-4 pr-3 py-2.5 text-left text-[#838388] text-[11px] font-semibold w-[72px]">
+                  <th className="pl-4 pr-3 py-2.5 text-left text-[#838388] text-[11px] font-medium w-[72px]">
                     Time
                   </th>
-                  <th className="px-3 py-2.5 text-left text-[#838388] text-[11px] font-semibold w-[140px]">
+                  <th className="px-3 py-2.5 text-left text-[#838388] text-[11px] font-medium w-[140px]">
                     Source
                   </th>
-                  <th className="pr-4 pl-3 py-2.5 text-left text-[#838388] text-[11px] font-semibold">
+                  <th className="pr-4 pl-3 py-2.5 text-left text-[#838388] text-[11px] font-medium">
                     Headline
                   </th>
                 </tr>
@@ -259,7 +259,7 @@ export default function NewsFeed() {
                             )}
                           </p>
                           {live && (
-                            <span className="flex-shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-[#E25C3F] text-white text-[10px] leading-[14px] font-semibold uppercase tracking-wide">
+                            <span className="flex-shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-[#E25C3F] text-white text-[10px] leading-[14px] font-medium">
                               Live
                             </span>
                           )}
@@ -271,12 +271,6 @@ export default function NewsFeed() {
               </tbody>
             </table>
           </div>
-        )}
-
-        {!loading && filtered.length > 0 && (
-          <p className="mt-3 text-[#838388] text-[12px] leading-[16px]">
-            Showing 1–{filtered.length} of {items.length} stories
-          </p>
         )}
       </div>
     </div>

@@ -87,9 +87,9 @@ export default function NewsRail({
   onChange: (next: NewsRailFilters) => void
 }) {
   return (
-    <aside className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 h-full min-h-0 overflow-y-auto">
+    <aside className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 h-full min-h-0 overflow-y-auto dashboard-scroll">
       <div className="mb-5">
-        <p className="text-[#838388] text-[11px] leading-[14px] font-semibold tracking-wide uppercase mb-2">
+        <p className="text-[#838388] text-[11px] leading-[14px] font-medium mb-2 normal-case">
           News
         </p>
         <div className="flex flex-col gap-0.5">
@@ -115,7 +115,7 @@ export default function NewsRail({
       </div>
 
       <div className="mb-5">
-        <p className="text-[#838388] text-[11px] leading-[14px] font-semibold tracking-wide uppercase mb-2">
+        <p className="text-[#838388] text-[11px] leading-[14px] font-medium mb-2 normal-case">
           Topics
         </p>
         <div className="flex flex-col gap-0.5">
@@ -141,7 +141,7 @@ export default function NewsRail({
       </div>
 
       <div>
-        <p className="text-[#838388] text-[11px] leading-[14px] font-semibold tracking-wide uppercase mb-2">
+        <p className="text-[#838388] text-[11px] leading-[14px] font-medium mb-2 normal-case">
           Sources
         </p>
         <div className="flex flex-col gap-1">

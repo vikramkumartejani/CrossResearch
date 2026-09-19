@@ -122,13 +122,13 @@ export default function DeskMarketSignals() {
   }, [quotes])
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-4 w-full xl:w-auto xl:min-w-[480px]">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-4 w-full xl:w-auto xl:min-w-[480px] xl:h-full xl:items-center xl:content-center">
       {rows.map((row) => (
-        <div key={row.key} className="min-w-0">
-          <p className="text-[#8B8B93] text-[11px] leading-none mb-1.5">{row.label}</p>
+        <div key={row.key} className="min-w-0 flex flex-col justify-center">
+          <p className="text-[#8B8B93] text-[11px] leading-none mb-1.5 normal-case">{row.label}</p>
           <div className="flex items-center gap-2">
             <div className="min-w-0">
-              <p className="text-white text-[15px] leading-none font-semibold tabular-nums truncate">
+              <p className="text-white text-[15px] leading-none font-medium tabular-nums truncate">
                 {row.price}
               </p>
               <p

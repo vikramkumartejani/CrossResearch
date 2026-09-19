@@ -59,17 +59,17 @@ export default function MacroNowcast() {
             </div>
 
             <div className="flex flex-col xl:flex-row gap-4 items-stretch">
-              <div className="w-full xl:w-[42%] 2xl:w-[40%] flex flex-col gap-4 min-w-0">
-                <div className="min-h-[320px] xl:min-h-[380px]">
+              <div className="w-full xl:w-[42%] 2xl:w-[40%] flex flex-col min-w-0">
+                <div className="min-h-[320px] xl:min-h-0 xl:flex-1">
                   <KeyNowcastsTable />
-                </div>
-                <div className="min-h-[280px] xl:min-h-[300px]">
-                  <NowcastPathChart />
                 </div>
               </div>
 
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 flex flex-col gap-4">
                 <NowcastsGrid compact />
+                <div className="min-h-[280px] xl:min-h-[300px]">
+                  <NowcastPathChart />
+                </div>
               </div>
             </div>
           </LockedSection>

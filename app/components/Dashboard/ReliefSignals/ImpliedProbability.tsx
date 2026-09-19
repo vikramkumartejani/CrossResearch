@@ -144,6 +144,16 @@ export default function ImpliedProbability() {
   const { data, loading, error } = useBeliefMarkets()
   const movers = data?.movers || []
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onDoc)
+    return () => document.removeEventListener('mousedown', onDoc)
+  }, [])
 
   const selected = useMemo(() => {
     if (!movers.length) return null
@@ -157,6 +167,8 @@ export default function ImpliedProbability() {
   const series = useMemo(() => (selected ? buildSeries(selected) : []), [selected])
   const now = selected ? parseProbPct(selected) : null
   const d24 = selected ? parsePp(selected.d24h) : null
+  const menuItems = movers.slice(0, 12)
+  const activeValue = selectedId || (movers[0]?.id || movers[0]?.event) || ''
 
   return (
     <div className="bg-[#16161F] flex flex-col min-h-[240px] h-full">
@@ -168,18 +180,57 @@ export default function ImpliedProbability() {
               {selected?.event || 'Select a mover'}
             </p>
           </div>
-          {movers.length > 1 && (
-            <select
-              value={selectedId || (movers[0]?.id || movers[0]?.event) || ''}
-              onChange={(e) => setSelectedId(e.target.value)}
-              className="bg-[#FFFFFF0A] text-white text-[12px] border border-[#FFFFFF14] px-2 py-1.5 max-w-[140px] outline-none"
-            >
-              {movers.slice(0, 12).map((m) => (
-                <option key={m.id || m.event} value={m.id || m.event}>
-                  {m.event.slice(0, 42)}
-                </option>
-              ))}
-            </select>
+          {menuItems.length > 1 && (
+            <div ref={menuRef} className="relative shrink-0">
+              <button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                className="flex items-center gap-1.5 max-w-[160px] bg-[#FFFFFF0A] text-white text-[12px] border border-[#FFFFFF14] px-2 py-1.5 outline-none cursor-pointer hover:border-[#FFFFFF30] transition-colors"
+              >
+                <span className="truncate">
+                  {(selected?.event || 'Select').slice(0, 28)}
+                  {(selected?.event?.length || 0) > 28 ? '…' : ''}
+                </span>
+                <svg
+                  width="10"
+                  height="6"
+                  viewBox="0 0 11 7"
+                  fill="none"
+                  className={`shrink-0 transition-transform ${menuOpen ? 'rotate-180' : ''}`}
+                  aria-hidden
+                >
+                  <path
+                    d="M4.47619 6.21084C4.87182 6.6369 5.54615 6.6369 5.94178 6.21084L10.1486 1.68045C10.7427 1.0406 10.2889 0 9.41577 0H1.0022C0.129033 0 -0.324743 1.0406 0.269403 1.68045L4.47619 6.21084Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+              {menuOpen && (
+                <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[280px] max-h-64 overflow-y-auto rounded border border-[#FFFFFF14] bg-[#16161F] shadow-[0_12px_32px_rgba(0,0,0,0.45)] dashboard-scroll">
+                  {menuItems.map((m) => {
+                    const value = m.id || m.event
+                    const active = value === activeValue
+                    return (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => {
+                          setSelectedId(value)
+                          setMenuOpen(false)
+                        }}
+                        className={`w-full text-left px-3 py-2.5 text-[12px] leading-[16px] cursor-pointer transition-colors ${
+                          active
+                            ? 'bg-[#88C4FF] text-[#0B0E14]'
+                            : 'text-white/85 hover:bg-[#FFFFFF0A]'
+                        }`}
+                      >
+                        {m.event}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           )}
         </div>
 

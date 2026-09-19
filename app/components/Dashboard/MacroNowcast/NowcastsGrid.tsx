@@ -1,16 +1,26 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import NowcastCard from './NowcastCard'
 import ChartLoader from '../shared/ChartLoader'
 import { useNowcastData } from './nowcastData'
 
-const MOBILE_INITIAL = 4
+const PAGE_SIZE = 2
 
 export default function NowcastsGrid({ compact = false }: { compact?: boolean }) {
   const { cards, loading, error } = useNowcastData()
-  const [showAll, setShowAll] = useState(false)
-  const visibleCards = showAll ? cards : cards.slice(0, MOBILE_INITIAL)
+  const [page, setPage] = useState(0)
+
+  const pageCount = Math.max(1, Math.ceil(cards.length / PAGE_SIZE))
+
+  useEffect(() => {
+    setPage((p) => Math.min(p, pageCount - 1))
+  }, [pageCount])
+
+  const pageCards = useMemo(() => {
+    const start = page * PAGE_SIZE
+    return cards.slice(start, start + PAGE_SIZE)
+  }, [cards, page])
 
   return (
     <div className={compact ? 'h-full min-h-0 flex flex-col' : 'mb-4 sm:mb-5'}>
@@ -29,45 +39,58 @@ export default function NowcastsGrid({ compact = false }: { compact?: boolean })
         <p className="text-white/40 text-[13px] mb-3">No nowcast cards published yet.</p>
       )}
 
-      <div
-        className={
-          compact
-            ? 'hidden sm:grid sm:grid-cols-1 xl:grid-cols-2 gap-4 items-stretch flex-1 min-h-0 overflow-y-auto'
-            : 'hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch'
-        }
-      >
-        {cards.map((card, i) => (
-          <NowcastCard key={`${card.region}-${card.indicator}-${i}`} {...card} />
-        ))}
-      </div>
-
-      <div className="sm:hidden">
-        <div className="grid grid-cols-1 gap-3">
-          {visibleCards.map((card, i) => (
-            <NowcastCard key={`${card.region}-${card.indicator}-${i}`} {...card} />
-          ))}
-        </div>
-
-        {!showAll && cards.length > MOBILE_INITIAL && (
-          <button
-            type="button"
-            onClick={() => setShowAll(true)}
-            className="mt-3 w-full py-2 border border-[#FFFFFF1A] text-white/60 text-[14px] leading-[20px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
+      {!loading && !error && cards.length > 0 && (
+        <>
+          <div
+            className={
+              compact
+                ? 'grid grid-cols-1 xl:grid-cols-2 gap-4 items-stretch flex-1 min-h-0'
+                : 'grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch'
+            }
           >
-            See {cards.length - MOBILE_INITIAL} More Nowcasts ↓
-          </button>
-        )}
+            {pageCards.map((card, i) => (
+              <NowcastCard key={`${card.region}-${card.indicator}-${page}-${i}`} {...card} />
+            ))}
+          </div>
 
-        {showAll && cards.length > MOBILE_INITIAL && (
-          <button
-            type="button"
-            onClick={() => setShowAll(false)}
-            className="mt-3 w-full py-2 border border-[#FFFFFF1A] text-white/60 text-[14px] leading-[20px] font-normal hover:text-white hover:border-[#FFFFFF30] transition-colors cursor-pointer"
-          >
-            Show Less ↑
-          </button>
-        )}
-      </div>
+          {pageCount > 1 && (
+            <div className="mt-3 flex items-center justify-between gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={page === 0}
+                className="px-3 py-1.5 text-[13px] font-medium border border-[#FFFFFF1A] text-white/70 hover:text-white hover:border-[#FFFFFF30] disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer transition-colors"
+              >
+                ← Prev
+              </button>
+              <div className="flex items-center gap-1.5">
+                {Array.from({ length: pageCount }, (_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Page ${i + 1}`}
+                    onClick={() => setPage(i)}
+                    className={`w-2 h-2 rounded-full cursor-pointer transition-colors ${
+                      i === page ? 'bg-[#88C4FF]' : 'bg-[#FFFFFF28] hover:bg-[#FFFFFF50]'
+                    }`}
+                  />
+                ))}
+                <span className="ml-2 text-[#838388] text-[12px] tabular-nums">
+                  {page + 1} / {pageCount}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+                disabled={page >= pageCount - 1}
+                className="px-3 py-1.5 text-[13px] font-medium border border-[#FFFFFF1A] text-white/70 hover:text-white hover:border-[#FFFFFF30] disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer transition-colors"
+              >
+                Next →
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   )
 }

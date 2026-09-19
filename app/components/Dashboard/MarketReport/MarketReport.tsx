@@ -9,7 +9,7 @@ import { media } from '@/lib/media'
 
 type PubTab = 'latest' | 'read' | 'themes'
 
-const ACCENT = '#E8A020'
+const ACCENT = '#88C4FF'
 
 const EMPTY_PAGE: MarketReportsPage = {
   eyebrow: '',
@@ -17,10 +17,19 @@ const EMPTY_PAGE: MarketReportsPage = {
   subtitle: '',
 }
 
+function formatLabel(label: string) {
+  const t = label.trim()
+  if (!t) return t
+  if (t !== t.toUpperCase()) return t
+  return t
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
 function Tag({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center px-2.5 h-[22px] rounded-full border border-white/15 text-[#C8CDD6] text-[11px] leading-none font-medium whitespace-nowrap">
-      {label}
+    <span className="inline-flex items-center px-2.5 h-[22px] rounded-full border border-white/15 text-[#C8CDD6] text-[11px] leading-none font-medium whitespace-nowrap normal-case">
+      {formatLabel(label)}
     </span>
   )
 }
@@ -132,7 +141,7 @@ export default function MarketReport() {
         if (cancelled) return
 
         setPage({
-          eyebrow: data.page?.eyebrow || 'GLOBAL MACRO RESEARCH',
+          eyebrow: data.page?.eyebrow || 'Global Macro Research',
           title: data.page?.title || 'Research & Strategy Desk',
           subtitle:
             data.page?.subtitle ||
@@ -209,12 +218,12 @@ export default function MarketReport() {
       {!loading && (
         <>
           <div className="px-4 lg:px-6 pt-1 pb-6 mb-5 border-b border-white/[0.06]">
-            <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
-              <div className="max-w-[520px] shrink-0">
-                <p className="text-[#8B8B93] text-[11px] font-semibold tracking-[0.14em] uppercase mb-2">
-                  {(page.eyebrow || 'Global Macro Research').toUpperCase()}
+            <div className="flex flex-col xl:flex-row xl:items-stretch xl:justify-between gap-6">
+              <div className="max-w-[520px] shrink-0 flex flex-col justify-center">
+                <p className="text-[#838388] text-[12px] leading-[14px] font-medium mb-2 normal-case">
+                  {formatLabel(page.eyebrow || 'Global Macro Research')}
                 </p>
-                <h1 className="text-white text-[28px] sm:text-[34px] font-semibold leading-[1.15] mb-2">
+                <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 normal-case">
                   {page.title || 'Research & Strategy Desk'}
                 </h1>
                 <p className="text-[#8B8B93] text-[13px] leading-[18px]">
@@ -239,7 +248,7 @@ export default function MarketReport() {
                         <div className="flex items-center gap-2 mb-5 shrink-0">
                           <span className="w-[3px] h-3.5 rounded-sm" style={{ background: ACCENT }} />
                           <span
-                            className="text-[11px] font-semibold tracking-[0.12em] uppercase"
+                            className="text-[12px] leading-[14px] font-medium normal-case"
                             style={{ color: ACCENT }}
                           >
                             Featured Research
@@ -254,11 +263,11 @@ export default function MarketReport() {
                               ))}
                             </div>
 
-                            <p className="text-[#8B8B93] text-[11px] font-medium tracking-[0.08em] uppercase mb-2">
-                              {featured.author || 'CrossResearch Macro Desk'}
+                            <p className="text-[#8B8B93] text-[12px] leading-[14px] font-medium mb-2 normal-case">
+                              {formatLabel(featured.author || 'CrossResearch Macro Desk')}
                             </p>
 
-                            <h2 className="text-white text-[22px] sm:text-[26px] font-semibold leading-[1.2] mb-3">
+                            <h2 className="text-white text-[22px] sm:text-[26px] font-medium leading-[1.2] mb-3 normal-case">
                               {featured.title}
                             </h2>
 
@@ -275,7 +284,7 @@ export default function MarketReport() {
                             <button
                               type="button"
                               onClick={() => setSelected(featured)}
-                              className="text-[14px] font-semibold hover:underline cursor-pointer self-start mt-auto"
+                              className="text-[14px] font-medium hover:underline cursor-pointer self-start mt-auto"
                               style={{ color: ACCENT }}
                             >
                               Read Full Report →
@@ -309,8 +318,8 @@ export default function MarketReport() {
                       </div>
 
                       <div className="px-5 sm:px-6 py-3.5 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[12px] shrink-0 mt-auto">
-                        <span className="text-[#8B8B93]">
-                          {featured.author || 'CrossResearch Macro Desk'}
+                        <span className="text-[#8B8B93] normal-case">
+                          {formatLabel(featured.author || 'CrossResearch Macro Desk')}
                         </span>
                         <span className="text-[#B0B4BD]">
                           {featured.date}
@@ -403,7 +412,7 @@ export default function MarketReport() {
                                   <Tag key={t} label={t} />
                                 ))}
                               </div>
-                              <p className="text-white text-[14px] leading-[18px] font-semibold mb-1 line-clamp-1">
+                              <p className="text-white text-[14px] leading-[18px] font-medium mb-1 line-clamp-1 normal-case">
                                 {r.title}
                               </p>
                               <p className="text-[#8B8B93] text-[12px] leading-[16px] line-clamp-1">

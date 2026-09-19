@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import ChartLoader from '../shared/ChartLoader'
+import DarkSelect from '../shared/DarkSelect'
 import { formatNowcastNumber, useNowcastData } from './nowcastData'
 import type { NowcastCardProps } from './NowcastCard'
 
@@ -325,17 +326,12 @@ export default function NowcastPathChart() {
           )}
         </div>
         {options.length > 0 && (
-          <select
+          <DarkSelect
             value={selectedKey || options.find((o) => o.card === selected)?.key || options[0].key}
-            onChange={(e) => setSelectedKey(e.target.value)}
-            className="bg-[#FFFFFF0A] text-white text-[12px] border border-[#FFFFFF14] px-2 py-1.5 outline-none max-w-[200px]"
-          >
-            {options.map((o) => (
-              <option key={o.key} value={o.key}>
-                {o.label}
-              </option>
-            ))}
-          </select>
+            onChange={setSelectedKey}
+            options={options.map((o) => ({ id: o.key, label: o.label }))}
+            minMenuWidth={220}
+          />
         )}
       </div>
 

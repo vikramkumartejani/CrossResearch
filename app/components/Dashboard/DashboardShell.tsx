@@ -48,14 +48,20 @@ function DashboardShellInner({ children }: { children: ReactNode }) {
           </div>
         </main>
         <div
-          className={`shrink-0 border-t py-3 px-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center text-[12px] sm:text-[14px] leading-[20px] font-normal ${
+          className={`relative shrink-0 border-t py-3 px-4 flex items-center justify-center text-center text-[12px] sm:text-[14px] leading-[20px] font-normal ${
             isLight
               ? 'border-[#D5D8E0] bg-[#F3F5F8] text-[#838388]'
               : 'border-[#FFFFFF0D] bg-[#070711] text-[#838388]'
           }`}
         >
-          <Image src="/assets/logo.svg" alt="CrossResearch" width={18} height={18} className="opacity-80" />
-          <p>
+          <Image
+            src="/assets/logo.svg"
+            alt="CrossResearch"
+            width={18}
+            height={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 opacity-80 shrink-0"
+          />
+          <p className="px-8 sm:px-10 max-w-[920px]">
             Market intelligence • Not investment advice • Users remain solely responsible for all
             investment decisions and associated risks
           </p>

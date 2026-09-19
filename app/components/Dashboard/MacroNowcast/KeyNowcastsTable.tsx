@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import ChartLoader from '../shared/ChartLoader'
+import DarkSelect from '../shared/DarkSelect'
 import { formatNowcastNumber, useNowcastData } from './nowcastData'
 import type { NowcastCardProps } from './NowcastCard'
 
@@ -65,18 +66,15 @@ export default function KeyNowcastsTable() {
         <div>
           <h3 className="text-white text-[16px] leading-[20px] font-semibold">Key Nowcasts</h3>
           <div className="mt-2">
-            <select
+            <DarkSelect
               value={regionFilter}
-              onChange={(e) => setRegionFilter(e.target.value)}
-              className="bg-[#FFFFFF0A] text-[#838388] text-[12px] border border-[#FFFFFF14] px-2 py-1.5 outline-none max-w-[220px]"
-            >
-              <option value="all">All regions</option>
-              {regions.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
+              onChange={setRegionFilter}
+              options={[
+                { id: 'all', label: 'All regions' },
+                ...regions.map((r) => ({ id: r, label: r })),
+              ]}
+              align="left"
+            />
           </div>
         </div>
         <div className="flex items-center gap-1">
