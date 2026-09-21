@@ -52,11 +52,6 @@ export default function HelpCenter() {
 
   return (
     <div className="px-4 lg:px-6 pb-8">
-      <div className="mb-3 flex items-center gap-1.5">
-        <IconHelp />
-        <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Help Center</span>
-      </div>
-
       <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
         {title}
       </h1>

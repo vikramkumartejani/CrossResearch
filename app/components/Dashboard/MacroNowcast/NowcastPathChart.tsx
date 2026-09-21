@@ -335,14 +335,14 @@ export default function NowcastPathChart() {
         )}
       </div>
 
-      <div className="flex-1 min-h-[200px] px-2 sm:px-3 py-3">
+      <div className="flex-1 min-h-0 px-2 sm:px-3 py-3 relative">
         {loading && <ChartLoader className="min-h-[160px]" />}
         {error && !loading && <p className="px-2 text-[#E25C3F] text-[12px]">{error}</p>}
         {!loading && !error && !chartData && (
           <p className="px-2 text-[#838388] text-[12px]">No series available.</p>
         )}
         {!loading && !error && chartData && selected && (
-          <div className="h-full min-h-[200px]">
+          <div className="absolute inset-2 sm:inset-3">
             <NowcastLineChart
               nowcastSeries={chartData.nowcastSeries}
               consensus={selected.consensus}

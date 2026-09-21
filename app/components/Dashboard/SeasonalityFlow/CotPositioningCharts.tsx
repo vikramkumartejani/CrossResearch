@@ -99,11 +99,11 @@ function ZScoreBars({
   mode: MetricMode
 }) {
   const W = 640
-  const H = 280
+  const H = 150
   const padL = 36
   const padR = 12
-  const padT = 16
-  const padB = 36
+  const padT = 12
+  const padB = 28
   const plotW = W - padL - padR
   const plotH = H - padT - padB
 
@@ -166,11 +166,11 @@ function HistoryChart({
   labels: string[]
 }) {
   const W = 640
-  const H = 260
+  const H = 140
   const padL = 44
   const padR = 48
-  const padT = 12
-  const padB = 32
+  const padT = 10
+  const padB = 28
   const plotW = W - padL - padR
   const plotH = H - padT - padB
   const n = netSeries.length
@@ -333,7 +333,7 @@ export default function CotPositioningCharts() {
       )}
       {!loading && !error && (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4">
-          <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 flex flex-col min-h-[340px] overflow-visible">
+          <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 flex flex-col min-h-[180px] overflow-visible">
             <div className="flex items-start justify-between gap-3 mb-3 shrink-0 relative z-20">
               <div className="flex items-center gap-2 min-w-0">
                 <h3 className="text-white text-[15px] sm:text-[16px] leading-[20px] font-medium truncate">
@@ -348,7 +348,7 @@ export default function CotPositioningCharts() {
               </div>
               <DarkSelect value={metric} options={METRIC_OPTIONS} onChange={setMetric} />
             </div>
-            <div className="flex-1 min-h-[240px]">
+            <div className="flex-1 min-h-[130px]">
               {barRows.length ? (
                 <ZScoreBars rows={barRows} mode={metric} />
               ) : (
@@ -368,7 +368,7 @@ export default function CotPositioningCharts() {
             </div>
           </div>
 
-          <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 flex flex-col min-h-[340px] overflow-visible">
+          <div className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 flex flex-col min-h-[180px] overflow-visible">
             <div className="flex items-start justify-between gap-3 mb-2 shrink-0 relative z-20">
               <h3 className="text-white text-[15px] sm:text-[16px] leading-[20px] font-medium">
                 Positioning History
@@ -389,7 +389,7 @@ export default function CotPositioningCharts() {
                 <span className="w-2 h-2 rounded-full bg-[#E8EAED]" /> Price index
               </span>
             </div>
-            <div className="flex-1 min-h-[220px]">
+            <div className="flex-1 min-h-[120px]">
               {historyNetK.length >= 2 ? (
                 <HistoryChart netSeries={historyNetK} priceSeries={historyPrice} labels={historyLabels} />
               ) : (

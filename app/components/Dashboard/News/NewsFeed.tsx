@@ -162,8 +162,8 @@ export default function NewsFeed() {
   }, [items])
 
   return (
-    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 min-w-0 items-stretch h-full min-h-0 overflow-hidden">
-      <div className="w-full lg:w-[220px] xl:w-[240px] flex-shrink-0 h-auto lg:h-full min-h-0 overflow-hidden">
+    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 min-w-0 h-full min-h-0">
+      <div className="w-full lg:w-[220px] xl:w-[240px] flex-shrink-0 lg:sticky lg:top-3 lg:self-start max-h-[min(100%,calc(100dvh-180px))] overflow-y-auto dashboard-scroll">
         <NewsRail filters={rail} onChange={setRail} />
       </div>
 
@@ -201,75 +201,77 @@ export default function NewsFeed() {
         )}
 
         {!loading && filtered.length > 0 && (
-          <div className="bg-[#16161F] border border-[#FFFFFF0D] flex-1 min-h-0 overflow-y-auto overflow-x-auto dashboard-scroll">
-            <table className="w-full border-collapse min-w-[640px]">
-              <thead className="sticky top-0 z-10 bg-[#16161F]">
-                <tr className="border-b border-[#FFFFFF0D]">
-                  <th className="pl-4 pr-3 py-2.5 text-left text-[#838388] text-[11px] font-medium w-[72px]">
-                    Time
-                  </th>
-                  <th className="px-3 py-2.5 text-left text-[#838388] text-[11px] font-medium w-[140px]">
-                    Source
-                  </th>
-                  <th className="pr-4 pl-3 py-2.5 text-left text-[#838388] text-[11px] font-medium">
-                    Headline
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((item, i) => {
-                  const rowId = item.id || `row-${i}`
-                  const active = selectedId === rowId
-                  const live = isLive(item)
-                  return (
-                    <tr
-                      key={rowId}
-                      onClick={() => setSelectedId(rowId)}
-                      className={`border-b border-[#FFFFFF08] last:border-0 cursor-pointer transition-colors ${
-                        active ? 'bg-[#FFFFFF0A]' : 'hover:bg-[#FFFFFF05]'
-                      }`}
-                    >
-                      <td className="pl-4 pr-3 py-3 align-middle text-[#838388] text-[13px] tabular-nums whitespace-nowrap">
-                        {clockTime(item.publishedAt, item.time)}
-                      </td>
-                      <td className="px-3 py-3 align-middle">
-                        <span className="inline-flex items-center gap-2 text-[13px] text-white/80">
-                          <span
-                            className="w-2 h-2 rounded-full flex-shrink-0"
-                            style={{ backgroundColor: sourceColor(item.source) }}
-                          />
-                          <span className="truncate max-w-[120px]">{item.source}</span>
-                        </span>
-                      </td>
-                      <td className="pr-4 pl-3 py-3 align-middle">
-                        <div className="flex items-start justify-between gap-3">
-                          <p className="text-white text-[14px] sm:text-[15px] leading-[20px] font-medium">
-                            {item.url ? (
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="hover:underline"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                {item.title}
-                              </a>
-                            ) : (
-                              item.title
+          <div className="relative flex-1 min-h-0 bg-[#16161F] border border-[#FFFFFF0D]">
+            <div className="absolute inset-0 overflow-y-auto overflow-x-auto dashboard-scroll">
+              <table className="w-full border-collapse min-w-[640px]">
+                <thead className="sticky top-0 z-10 bg-[#16161F]">
+                  <tr className="border-b border-[#FFFFFF0D]">
+                    <th className="pl-4 pr-3 py-2.5 text-left text-[#838388] text-[11px] font-medium w-[72px]">
+                      Time
+                    </th>
+                    <th className="px-3 py-2.5 text-left text-[#838388] text-[11px] font-medium w-[140px]">
+                      Source
+                    </th>
+                    <th className="pr-4 pl-3 py-2.5 text-left text-[#838388] text-[11px] font-medium">
+                      Headline
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((item, i) => {
+                    const rowId = item.id || `row-${i}`
+                    const active = selectedId === rowId
+                    const live = isLive(item)
+                    return (
+                      <tr
+                        key={rowId}
+                        onClick={() => setSelectedId(rowId)}
+                        className={`border-b border-[#FFFFFF08] last:border-0 cursor-pointer transition-colors ${
+                          active ? 'bg-[#FFFFFF0A]' : 'hover:bg-[#FFFFFF05]'
+                        }`}
+                      >
+                        <td className="pl-4 pr-3 py-3 align-middle text-[#838388] text-[13px] tabular-nums whitespace-nowrap">
+                          {clockTime(item.publishedAt, item.time)}
+                        </td>
+                        <td className="px-3 py-3 align-middle">
+                          <span className="inline-flex items-center gap-2 text-[13px] text-white/80">
+                            <span
+                              className="w-2 h-2 rounded-full flex-shrink-0"
+                              style={{ backgroundColor: sourceColor(item.source) }}
+                            />
+                            <span className="truncate max-w-[120px]">{item.source}</span>
+                          </span>
+                        </td>
+                        <td className="pr-4 pl-3 py-3 align-middle">
+                          <div className="flex items-start justify-between gap-3">
+                            <p className="text-white text-[14px] sm:text-[15px] leading-[20px] font-medium">
+                              {item.url ? (
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="hover:underline"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  {item.title}
+                                </a>
+                              ) : (
+                                item.title
+                              )}
+                            </p>
+                            {live && (
+                              <span className="flex-shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-[#E25C3F] text-white text-[10px] leading-[14px] font-medium">
+                                Live
+                              </span>
                             )}
-                          </p>
-                          {live && (
-                            <span className="flex-shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-[#E25C3F] text-white text-[10px] leading-[14px] font-medium">
-                              Live
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

@@ -519,7 +519,7 @@ export default function DashboardTopBar({ navigating = false, onNavigate }: Dash
                   setOpenGroup(null)
                   setSearchOpen(true)
                 }}
-                className={`inline-flex items-center gap-2 h-8 w-[200px] xl:w-[240px] px-2.5 rounded-lg border text-left transition-colors cursor-pointer ${
+                className={`inline-flex items-center gap-2 h-8 w-[280px] xl:w-[340px] px-2.5 rounded-lg border text-left transition-colors cursor-pointer ${
                   isLight
                     ? 'border-[#E4E7EE] bg-white text-[#838388] hover:border-[#C9CED8]'
                     : 'border-white/[0.08] bg-white/[0.04] text-white/40 hover:border-white/15 hover:text-white/55'
@@ -527,19 +527,19 @@ export default function DashboardTopBar({ navigating = false, onNavigate }: Dash
                 aria-label="Search desk pages"
               >
                 <IconSearch />
-                <span className="flex-1 text-[12px] truncate">Search articles, guides…</span>
+                <span className="flex-1 text-[12px] sm:text-[13px] truncate">Search articles, guides…</span>
                 <kbd
-                  className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${
+                  className={`text-[12px] sm:text-[13px] font-medium px-1.5 py-0.5 rounded border leading-none ${
                     isLight
                       ? 'border-[#E4E7EE] bg-[#F8F9FB] text-[#838388]'
-                      : 'border-white/10 bg-white/[0.03] text-white/35'
+                      : 'border-white/10 bg-white/[0.03] text-white/55'
                   }`}
                 >
                   {shortcutLabel}
                 </kbd>
               </button>
             ) : (
-              <div className={`absolute right-0 top-0 w-[280px] xl:w-[300px] rounded-lg overflow-hidden z-[110] ${panelClass}`}>
+              <div className={`absolute right-0 top-0 w-[320px] xl:w-[380px] rounded-lg overflow-hidden z-[110] ${panelClass}`}>
                 <div
                   className={`flex items-center gap-2 px-2.5 h-8 border-b ${
                     isLight ? 'border-[#E4E7EE]' : 'border-white/[0.08]'
@@ -620,7 +620,7 @@ export default function DashboardTopBar({ navigating = false, onNavigate }: Dash
             >
               <span className="relative shrink-0">
                 <span
-                  className={`w-7 h-7 rounded-full border flex items-center justify-center text-[11px] font-semibold ${
+                  className={`w-8 h-8 rounded-full border flex items-center justify-center text-[12px] font-semibold ${
                     isLight
                       ? 'bg-white border-[#E4E7EE] text-[#5B6472]'
                       : 'bg-white/[0.06] border-white/15 text-white/70'
@@ -628,11 +628,6 @@ export default function DashboardTopBar({ navigating = false, onNavigate }: Dash
                 >
                   {initials}
                 </span>
-                <span
-                  className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#62A381] border ${
-                    isLight ? 'border-[#F8F9FB]' : 'border-[#0B0B14]'
-                  }`}
-                />
               </span>
               <span className="hidden lg:block text-left min-w-0 max-w-[100px]">
                 <span

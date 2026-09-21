@@ -171,7 +171,7 @@ export default function ChatWidget() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close chat' : 'Open chat'}
-        className={`ml-auto flex h-14 w-14 items-center justify-center rounded-full border transition-colors cursor-pointer ${
+        className={`ml-auto flex h-14 w-14 items-center justify-center rounded-full border transition-colors cursor-pointer overflow-hidden ${
           open
             ? 'bg-[#16161F] border-[#FFFFFF1A] text-white hover:bg-[#1E1E2A]'
             : 'bg-[#0D1115] border-[#88C4FF55] shadow-[0_8px_32px_rgba(136,196,255,0.28)] hover:border-[#88C4FF]'
@@ -182,10 +182,13 @@ export default function ChatWidget() {
             <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         ) : (
-          <svg width="26" height="22" viewBox="0 0 35 30" fill="none" aria-hidden>
-            <path d="M25.148 20.725 22.639 27.567c-.425 1.252-1.621 2.128-2.943 2.155H3.172C1.388 29.663-.055 28.123.002 26.338V14.552c-.004-1.341.818-2.588 2.052-3.112l5.886-2.398v11.697l17.208-.014Z" fill="#88C4FF" />
-            <path d="m32.755 18.326-5.658 2.399h6.879c.224 0 .44.089.598.247.159.159.248.374.248.599v7.305c-.004.46-.387.842-.846.846h-6.327c-.46-.004-.842-.387-.846-.846V9.012H7.91L10.47 2.207C10.956.898 12.238.004 13.634 0H31.438C33.281 0 34.822 1.541 34.822 3.384v11.771c.011.675-.18 1.337-.549 1.902-.369.565-.898 1.007-1.518 1.269Z" fill="#88C4FF" />
-          </svg>
+          <Image
+            src="/assets/chat.png"
+            alt=""
+            width={56}
+            height={56}
+            className="w-full h-full object-cover"
+          />
         )}
       </button>
     </div>

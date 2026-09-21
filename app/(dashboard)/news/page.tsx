@@ -1,12 +1,5 @@
 import News from '@/app/components/Dashboard/News/News'
-import React from 'react'
 
-const page = () => {
-    return (
-        <div>
-            <News/>
-        </div>
-    )
+export default function Page() {
+  return <News />
 }
-
-export default page

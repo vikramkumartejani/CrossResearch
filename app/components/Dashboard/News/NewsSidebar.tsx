@@ -117,14 +117,13 @@ export default function NewsSidebar() {
   const nextLabel = `Next In ${Math.floor(nextIn / 60)}:${String(nextIn % 60).padStart(2, '0')}`
 
   return (
-    <div className="h-full min-h-0 flex flex-col gap-3 sm:gap-4 overflow-hidden">
+    <div className="flex flex-col gap-3 sm:gap-4">
       <div className="shrink-0">
-        <BloombergTv height={200} />
+        <BloombergTv height={140} />
       </div>
 
-      {/* Market Signals - above Most Read */}
-      <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col min-h-0 flex-[1.1] overflow-hidden">
-        <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2 shrink-0">
+      <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+        <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
           <p className="text-white text-[16px] leading-[19px] font-medium">Market Signals</p>
           <span className="text-white/50 text-[11px] sm:text-[12px] leading-[14px]">Live · FRED / Yahoo</span>
         </div>
@@ -136,9 +135,9 @@ export default function NewsSidebar() {
         )}
 
         {!loading && !error && signals.length > 0 && (
-          <div className="flex-1 min-h-0 overflow-y-auto dashboard-scroll">
+          <div className="overflow-x-auto">
             <table className="w-full min-w-[480px] border-collapse">
-              <thead className="sticky top-0 bg-[#16161F] z-10">
+              <thead>
                 <tr className="text-[#838388] text-[10px] sm:text-[11px] leading-[14px]">
                   <th className="text-left font-medium pb-2 pr-3">Signal</th>
                   <th className="text-right font-medium pb-2 px-1.5">Last</th>
@@ -192,16 +191,15 @@ export default function NewsSidebar() {
         )}
       </div>
 
-      {/* Today's Most Read */}
-      <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col min-h-0 flex-1 overflow-hidden">
-        <div className="flex items-center justify-between gap-2 mb-3 shrink-0">
+      <div className="bg-[#16161F] p-3 sm:p-4 flex flex-col">
+        <div className="flex items-center justify-between gap-2 mb-3">
           <p className="text-white text-[16px] leading-[19px] font-medium">Today&apos;s Most Read</p>
           <span className="text-white/60 text-[12px] leading-[14px]">{nextLabel}</span>
         </div>
 
-        <div className="flex flex-col gap-2.5 sm:gap-3 flex-1 min-h-0 overflow-y-auto dashboard-scroll pr-1">
+        <div className="flex flex-col gap-2.5 sm:gap-3">
           {mostRead.map((item) => (
-            <div key={item.num} className="flex gap-2 sm:gap-3 cursor-pointer group shrink-0">
+            <div key={item.num} className="flex gap-2 sm:gap-3 cursor-pointer group">
               <span className="text-[#88C4FF] text-[14px] leading-[17px] font-medium flex-shrink-0 mt-0.5">
                 {item.num}
               </span>

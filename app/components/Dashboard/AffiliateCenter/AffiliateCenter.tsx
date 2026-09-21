@@ -241,20 +241,6 @@ const ICONS = {
   churn: 'M23 18l-9.5-9.5-5 5L1 6M17 18h6v-6',
 }
 
-function PartnerDeskIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M12 15v-1.5A3 3 0 0 0 9 10.5H4.5a3 3 0 0 0-3 3V15M6.75 7.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM16.5 15v-1.5a3 3 0 0 0-2.25-2.9M11.25 1.6a3 3 0 0 1 0 5.81"
-        stroke="#838388"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
 export default function AffiliateCenter() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -388,10 +374,6 @@ export default function AffiliateCenter() {
     <div className="border-b border-[#FFFFFF0D] pb-6 mb-5 px-4 lg:px-6">
       <div className="mb-3 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="mb-3 flex items-center gap-1.5">
-            <PartnerDeskIcon />
-            <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Partner Desk</span>
-          </div>
           <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
             Affiliate Center
           </h1>

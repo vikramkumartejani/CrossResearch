@@ -61,7 +61,7 @@ export default function KeyNowcastsTable() {
     highlight === col ? 'text-[#88C4FF]' : 'text-white'
 
   return (
-    <div className="bg-[#16161F] flex flex-col min-h-0 h-full">
+    <div className="bg-[#16161F] flex flex-col min-h-0">
       <div className="flex items-start justify-between gap-3 px-3 sm:px-4 py-3 border-b border-[#FFFFFF08] flex-wrap">
         <div>
           <h3 className="text-white text-[16px] leading-[20px] font-semibold">Key Nowcasts</h3>
@@ -99,7 +99,7 @@ export default function KeyNowcastsTable() {
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-auto">
+      <div className="overflow-x-auto">
         {loading && <ChartLoader className="min-h-[140px]" />}
         {error && !loading && <p className="px-4 py-6 text-[#E25C3F] text-[12px]">{error}</p>}
         {!loading && !error && rows.length === 0 && (
@@ -108,7 +108,7 @@ export default function KeyNowcastsTable() {
 
         {!loading && !error && rows.length > 0 && (
           <table className="w-full border-collapse min-w-[560px]">
-            <thead className="sticky top-0 bg-[#16161F] z-10">
+            <thead className="bg-[#16161F]">
               <tr className="border-b border-[#FFFFFF08]">
                 <th className="pl-4 py-2.5 text-left text-[#838388] text-[12px] font-semibold">Indicator</th>
                 <th className="px-2 py-2.5 text-left text-[#838388] text-[12px] font-semibold">Nowcast</th>

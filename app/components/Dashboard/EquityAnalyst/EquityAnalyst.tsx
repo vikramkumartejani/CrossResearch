@@ -315,28 +315,9 @@ export default function EquityAnalyst() {
 
   return (
     <div>
-      <div className="border-b border-[#FFFFFF0D] pb-4 sm:pb-6 mb-4 sm:mb-5 px-4 lg:px-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div className="min-w-0">
-          <div className="mb-3 flex items-center gap-1">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-              <path
-                d="M3.75 3.75h10.5v10.5H3.75V3.75Z"
-                stroke="#838388"
-                strokeWidth="1.2"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M6 7.5h6M6 9.75h6M6 12h4.5"
-                stroke="#838388"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span className="text-[#838388] text-[12px] leading-[14px] font-medium">
-              Equity Research Desk
-            </span>
-          </div>
-          <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2">
+      <div className="border-b border-[#FFFFFF0D] pb-3 mb-3 px-4 lg:px-6 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+        <div className="min-w-0 pt-0.5">
+          <h1 className="text-white text-[24px] sm:text-[32px] font-medium leading-[30px] sm:leading-[38px] mb-1.5">
             Equity Analyst
           </h1>
           <p className="text-[#838388] text-[12px] leading-[17px] max-w-[640px]">
@@ -398,8 +379,8 @@ export default function EquityAnalyst() {
         </div>
       </div>
 
-      <div className="px-4 lg:px-6 pb-6">
-        <LockedSection title="Research dashboard" keepTitle>
+      <div className="px-4 lg:px-6 pb-4 pt-0">
+        <LockedSection title="Research dashboard" showHeading={false} keepTitle={false}>
           <div className="border border-[#FFFFFF0D] bg-[#070711] overflow-hidden min-h-[78vh]">
             {loading && !html ? (
               <ChartLoader className="min-h-[78vh]" />
@@ -407,7 +388,7 @@ export default function EquityAnalyst() {
               <iframe
                 title={`${active} equity analyst`}
                 srcDoc={html}
-                className="w-full min-h-[82vh] h-[calc(100dvh-11rem)] border-0 bg-[#070711]"
+                className="w-full min-h-[82vh] h-[calc(100dvh-9.5rem)] border-0 bg-[#070711]"
                 sandbox="allow-scripts allow-same-origin"
               />
             ) : (

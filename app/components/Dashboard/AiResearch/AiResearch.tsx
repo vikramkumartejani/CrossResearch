@@ -394,25 +394,6 @@ export default function AiResearch() {
           </div>
 
           <div className="mx-auto w-full max-w-[820px] flex flex-col items-center text-center">
-            <div className="mb-3 flex items-center justify-center gap-1">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-                <path
-                  d="M8 1.5l1.05 3.2L12.4 5.7 9.05 7.05 8 10.5 6.95 7.05 3.6 5.7l3.35-1L8 1.5Z"
-                  stroke="#838388"
-                  strokeWidth="1.2"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M13.5 10.5l.4 1.2 1.2.4-1.2.4-.4 1.2-.4-1.2-1.2-.4 1.2-.4.4-1.2Z"
-                  stroke="#838388"
-                  strokeWidth="1.1"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span className="text-[#838388] text-[12px] leading-[14px] font-medium">
-                Quantitative Market Intelligence
-              </span>
-            </div>
             <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 sm:mb-3 xl:mb-2">
               CrossResearch AI
             </h1>
@@ -468,25 +449,6 @@ export default function AiResearch() {
             <div className={`shrink-0 ${inThread ? 'mt-auto pt-2' : ''}`}>
               {!inThread && (
                 <div className="flex flex-col items-center text-center mb-6">
-                  <div className="mb-3 flex items-center justify-center gap-1">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-                      <path
-                        d="M8 1.5l1.05 3.2L12.4 5.7 9.05 7.05 8 10.5 6.95 7.05 3.6 5.7l3.35-1L8 1.5Z"
-                        stroke="#838388"
-                        strokeWidth="1.2"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M13.5 10.5l.4 1.2 1.2.4-1.2.4-.4 1.2-.4-1.2-1.2-.4 1.2-.4.4-1.2Z"
-                        stroke="#838388"
-                        strokeWidth="1.1"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span className="text-[#838388] text-[12px] leading-[14px] font-medium">
-                      Quantitative Market Intelligence
-                    </span>
-                  </div>
                   <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 sm:mb-3">
                     CrossResearch AI
                   </h1>

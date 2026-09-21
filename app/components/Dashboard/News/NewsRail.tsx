@@ -87,7 +87,7 @@ export default function NewsRail({
   onChange: (next: NewsRailFilters) => void
 }) {
   return (
-    <aside className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4 h-full min-h-0 overflow-y-auto dashboard-scroll">
+    <aside className="bg-[#16161F] border border-[#FFFFFF0D] p-3 sm:p-4">
       <div className="mb-5">
         <p className="text-[#838388] text-[11px] leading-[14px] font-medium mb-2 normal-case">
           News

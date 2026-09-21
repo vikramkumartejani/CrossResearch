@@ -299,23 +299,6 @@ export default function SettingsPage() {
 
   return (
     <div className="px-4 lg:px-6 pb-10">
-      <div className="mb-3 flex items-center gap-1.5">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-          <path
-            d="M9 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z"
-            stroke="#838388"
-            strokeWidth="1.2"
-          />
-          <path
-            d="M14.4 9.7v-1.4l-1.5-.3a4.8 4.8 0 00-.4-1l.9-1.3-1-1-1.3.9a4.8 4.8 0 00-1-.4L9.7 3.6H8.3l-.3 1.5a4.8 4.8 0 00-1 .4l-1.3-.9-1 1 .9 1.3a4.8 4.8 0 00-.4 1l-1.5.3v1.4l1.5.3c.1.35.24.68.4 1l-.9 1.3 1 1 1.3-.9c.32.16.65.3 1 .4l.3 1.5h1.4l.3-1.5c.35-.1.68-.24 1-.4l1.3.9 1-1-.9-1.3c.16-.32.3-.65.4-1l1.5-.3z"
-            stroke="#838388"
-            strokeWidth="1.2"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <span className="text-[#838388] text-[12px] leading-[14px] font-medium">Account</span>
-      </div>
-
       <h1 className={`text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 ${ink(theme)}`}>
         Settings
       </h1>

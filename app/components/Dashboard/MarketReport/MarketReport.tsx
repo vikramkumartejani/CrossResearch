@@ -204,7 +204,7 @@ export default function MarketReport() {
   const publications = useMemo(() => {
     const list = [...railReports]
     if (pubTab === 'read') list.sort((a, b) => Number(b.id) - Number(a.id))
-    return list
+    return list.slice(0, 4)
   }, [railReports, pubTab])
 
   return (
@@ -217,12 +217,9 @@ export default function MarketReport() {
 
       {!loading && (
         <>
-          <div className="px-4 lg:px-6 pt-1 pb-6 mb-5 border-b border-white/[0.06]">
-            <div className="flex flex-col xl:flex-row xl:items-stretch xl:justify-between gap-6">
+          <div className="px-4 lg:px-6 pt-1 pb-5 mb-4 border-b border-white/[0.06]">
+            <div className="flex flex-col xl:flex-row xl:items-stretch xl:justify-between gap-5">
               <div className="max-w-[520px] shrink-0 flex flex-col justify-center">
-                <p className="text-[#838388] text-[12px] leading-[14px] font-medium mb-2 normal-case">
-                  {formatLabel(page.eyebrow || 'Global Macro Research')}
-                </p>
                 <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 normal-case">
                   {page.title || 'Research & Strategy Desk'}
                 </h1>
@@ -385,7 +382,14 @@ export default function MarketReport() {
                         ))}
                       </div>
                     ) : (
-                      <div className="flex flex-col flex-1 min-h-0 overflow-y-auto dashboard-scroll pr-1">
+                      <div
+                        className="grid flex-1 min-h-0 overflow-hidden pr-1"
+                        style={
+                          publications.length > 0
+                            ? { gridTemplateRows: `repeat(${publications.length}, minmax(0, 1fr))` }
+                            : undefined
+                        }
+                      >
                         {publications.length === 0 && (
                           <p className="text-[#8B8B93] text-[12px] py-8">No publications yet.</p>
                         )}
@@ -394,7 +398,7 @@ export default function MarketReport() {
                             key={r.id}
                             type="button"
                             onClick={() => setSelected(r)}
-                            className="flex items-start gap-3 py-3.5 border-b border-white/[0.06] last:border-0 text-left hover:bg-white/[0.02] transition-colors cursor-pointer w-full shrink-0"
+                            className="flex items-center gap-3 py-2.5 border-b border-white/[0.06] last:border-0 text-left hover:bg-white/[0.02] transition-colors cursor-pointer w-full min-h-0 h-full"
                           >
                             {r.chartImage ? (
                               // eslint-disable-next-line @next/next/no-img-element
