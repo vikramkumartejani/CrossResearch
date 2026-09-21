@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { type CurrencyPair } from './Chart'
 import { useDashboardTheme } from '../DashboardTheme'
 
@@ -23,15 +24,52 @@ export default function AnalysisHeader({
   const { theme } = useDashboardTheme()
   const isLight = theme === 'light'
   const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
+  const [menuPos, setMenuPos] = useState<{ top: number; left: number } | null>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const btnRef = useRef<HTMLButtonElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
+    setMounted(true)
   }, [])
+
+  useLayoutEffect(() => {
+    if (!open || !btnRef.current) {
+      setMenuPos(null)
+      return
+    }
+    const place = () => {
+      const r = btnRef.current!.getBoundingClientRect()
+      setMenuPos({ top: r.bottom + 8, left: r.left })
+    }
+    place()
+    window.addEventListener('resize', place)
+    window.addEventListener('scroll', place, true)
+    return () => {
+      window.removeEventListener('resize', place)
+      window.removeEventListener('scroll', place, true)
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    function onDoc(e: MouseEvent) {
+      const t = e.target as Node
+      if (rootRef.current?.contains(t)) return
+      if (menuRef.current?.contains(t)) return
+      setOpen(false)
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('mousedown', onDoc)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDoc)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
 
   const title = `${selectedPair.baseName} / ${selectedPair.quoteName}`
   const muted = isLight ? 'text-[#838388]' : 'text-white/50'
@@ -48,18 +86,75 @@ export default function AnalysisHeader({
     { label: 'Prev close', value: selectedPair.prevClose },
   ]
 
-  const changeText = selectedPair.change.startsWith('+') || selectedPair.change.startsWith('-')
-    ? selectedPair.change
-    : `${selectedPair.changePositive ? '+' : '-'}${selectedPair.change.replace(/^[+-]/, '')}`
+  const changeText =
+    selectedPair.change.startsWith('+') || selectedPair.change.startsWith('-')
+      ? selectedPair.change
+      : `${selectedPair.changePositive ? '+' : '-'}${selectedPair.change.replace(/^[+-]/, '')}`
+
+  const menu =
+    open && mounted && menuPos
+      ? createPortal(
+          <div
+            ref={menuRef}
+            role="listbox"
+            className={`fixed z-[9999] w-[280px] max-h-80 overflow-y-auto rounded border shadow-[0_8px_24px_rgba(0,0,0,0.35)] dashboard-scroll ${
+              isLight ? 'bg-white border-[#D5D8E0]' : 'bg-[#1E1E2A] border-[#FFFFFF14]'
+            }`}
+            style={{ top: menuPos.top, left: menuPos.left }}
+          >
+            {pairs.map((pair) => (
+              <button
+                key={pair.symbol}
+                type="button"
+                role="option"
+                aria-selected={pair.symbol === selectedPair.symbol}
+                onClick={() => {
+                  setSelectedPair(pair)
+                  setOpen(false)
+                }}
+                className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
+                  selectedPair.symbol === pair.symbol
+                    ? isLight
+                      ? 'bg-[#F3F5F8]'
+                      : 'bg-[#FFFFFF0A]'
+                    : isLight
+                      ? 'hover:bg-[#F7F8FA]'
+                      : 'hover:bg-[#FFFFFF08]'
+                }`}
+              >
+                <div>
+                  <p className={`text-[13px] font-semibold ${strong}`}>{pair.symbol}</p>
+                  <p className={`text-[11px] mt-0.5 ${muted}`}>
+                    {pair.baseName} / {pair.quoteName}
+                  </p>
+                </div>
+                <span
+                  className={`text-[12px] font-medium ${
+                    pair.changePositive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'
+                  }`}
+                >
+                  {pair.change.split(' ')[0]}
+                </span>
+              </button>
+            ))}
+          </div>,
+          document.body
+        )
+      : null
 
   return (
-    <div className="mb-5 sm:mb-6 min-w-0">
-      <div className="flex items-center gap-4 sm:gap-5 min-w-0 overflow-x-auto dashboard-scroll pb-0.5">
-        {/* Ticker + name + badge */}
-        <div ref={ref} className="relative shrink-0">
+    <div className="mb-5 sm:mb-6 min-w-0 overflow-visible">
+      <div className="flex items-center gap-4 sm:gap-5 min-w-0 overflow-x-auto overflow-y-visible dashboard-scroll pb-0.5">
+        <div ref={rootRef} className="relative shrink-0 overflow-visible">
           <button
+            ref={btnRef}
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            aria-haspopup="listbox"
+            aria-expanded={open}
+            onClick={(e) => {
+              e.stopPropagation()
+              setOpen((v) => !v)
+            }}
             className="flex items-center gap-2.5 text-left cursor-pointer group"
           >
             <div className="min-w-0">
@@ -93,59 +188,21 @@ export default function AnalysisHeader({
               {assetBadge(selectedPair.symbol)}
             </span>
           </button>
-
-          {open && (
-            <div
-              className={`absolute top-[calc(100%+8px)] left-0 z-50 w-[280px] max-h-80 overflow-y-auto rounded border shadow-[0_8px_24px_rgba(0,0,0,0.35)] ${
-                isLight ? 'bg-white border-[#D5D8E0]' : 'bg-[#1E1E2A] border-[#FFFFFF14]'
-              }`}
-            >
-              {pairs.map((pair) => (
-                <button
-                  key={pair.symbol}
-                  type="button"
-                  onClick={() => {
-                    setSelectedPair(pair)
-                    setOpen(false)
-                  }}
-                  className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
-                    selectedPair.symbol === pair.symbol
-                      ? isLight
-                        ? 'bg-[#F3F5F8]'
-                        : 'bg-[#FFFFFF0A]'
-                      : isLight
-                        ? 'hover:bg-[#F7F8FA]'
-                        : 'hover:bg-[#FFFFFF08]'
-                  }`}
-                >
-                  <div>
-                    <p className={`text-[13px] font-semibold ${strong}`}>{pair.symbol}</p>
-                    <p className={`text-[11px] mt-0.5 ${muted}`}>
-                      {pair.baseName} / {pair.quoteName}
-                    </p>
-                  </div>
-                  <span
-                    className={`text-[12px] font-medium ${
-                      pair.changePositive ? 'text-[#2CB37B]' : 'text-[#E25C3F]'
-                    }`}
-                  >
-                    {pair.change.split(' ')[0]}
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
+          {menu}
         </div>
 
         <div className={`w-px self-stretch shrink-0 ${divider}`} aria-hidden />
 
-        {/* Prev OHLC */}
         <div className="flex items-center gap-4 sm:gap-5 shrink-0">
           {stats.map((stat, i) => (
             <div key={stat.label} className="flex items-center gap-4 sm:gap-5">
-              {i > 0 && <div className={`w-px self-stretch min-h-[36px] shrink-0 ${divider}`} aria-hidden />}
+              {i > 0 && (
+                <div className={`w-px self-stretch min-h-[36px] shrink-0 ${divider}`} aria-hidden />
+              )}
               <div className="flex flex-col">
-                <span className={`text-[15px] sm:text-[16px] font-semibold leading-none tabular-nums ${strong}`}>
+                <span
+                  className={`text-[15px] sm:text-[16px] font-semibold leading-none tabular-nums ${strong}`}
+                >
                   {stat.value}
                 </span>
                 <span className={`mt-1.5 text-[11px] leading-none ${muted}`}>{stat.label}</span>
@@ -156,7 +213,6 @@ export default function AnalysisHeader({
 
         <div className="flex-1 min-w-2" aria-hidden />
 
-        {/* Live price */}
         <div className="flex flex-col items-end shrink-0 ml-auto pl-2">
           <div className="flex items-center gap-2">
             <span className={`text-[22px] sm:text-[24px] font-semibold leading-none tabular-nums ${strong}`}>

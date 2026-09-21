@@ -2,7 +2,6 @@
 
 import Watchlist from './Watchlist'
 import ProbabilityMovers from './ProbabilityMovers'
-import AlertsDetail from './AlertsDetail'
 import SentimentHeatmap from './SentimentHeatmap'
 import ImpliedProbability from './ImpliedProbability'
 import LockedSection from '../LockedSection'
@@ -74,22 +73,19 @@ function ReliefSignalsContent() {
 
             <div className="px-4 lg:px-6 flex flex-col xl:flex-row gap-4 items-stretch">
                 <div className="flex-1 min-w-0 flex flex-col gap-4">
-                    <div className="h-[420px] xl:h-[520px] min-h-0">
+                    <div className="h-[420px] xl:h-[520px] min-h-0 shrink-0">
                         <ProbabilityMovers />
                     </div>
                     <SentimentHeatmap />
                 </div>
 
-                <div className="w-full xl:w-[420px] 2xl:w-[460px] flex flex-col gap-4 flex-shrink-0">
-                    <LockedSection title="Watchlist" className="min-h-0 h-[280px]">
+                <div className="w-full xl:w-[420px] 2xl:w-[460px] flex flex-col gap-4 flex-shrink-0 min-h-0">
+                    <LockedSection title="Watchlist" className="min-h-0 h-[280px] shrink-0">
                         <Watchlist />
                     </LockedSection>
-                    <div className="min-h-[260px]">
+                    <div className="flex-1 min-h-[280px]">
                         <ImpliedProbability />
                     </div>
-                    <LockedSection title="Alerts" className="min-h-0 h-[300px]">
-                        <AlertsDetail />
-                    </LockedSection>
                 </div>
             </div>
         </div>

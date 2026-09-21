@@ -7,7 +7,13 @@ import { useNowcastData } from './nowcastData'
 
 const PAGE_SIZE = 2
 
-export default function NowcastsGrid({ compact = false }: { compact?: boolean }) {
+export default function NowcastsGrid({
+  compact = false,
+  fillHeight = false,
+}: {
+  compact?: boolean
+  fillHeight?: boolean
+}) {
   const { cards, loading, error } = useNowcastData()
   const [page, setPage] = useState(0)
 
@@ -23,7 +29,15 @@ export default function NowcastsGrid({ compact = false }: { compact?: boolean })
   }, [cards, page])
 
   return (
-    <div className={compact ? 'h-full min-h-0 flex flex-col' : 'mb-4 sm:mb-5'}>
+    <div
+      className={
+        fillHeight
+          ? 'h-full min-h-0 flex flex-col'
+          : compact
+            ? 'flex flex-col'
+            : 'mb-4 sm:mb-5'
+      }
+    >
       {!compact && (
         <>
           <h2 className="text-white text-[18px] font-medium leading-[22px] mb-2">Nowcasts</h2>
@@ -43,13 +57,20 @@ export default function NowcastsGrid({ compact = false }: { compact?: boolean })
         <>
           <div
             className={
-              compact
+              fillHeight
                 ? 'grid grid-cols-1 xl:grid-cols-2 gap-4 items-stretch flex-1 min-h-0'
-                : 'grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch'
+                : compact
+                  ? 'grid grid-cols-1 xl:grid-cols-2 gap-4 items-stretch'
+                  : 'grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch'
             }
           >
             {pageCards.map((card, i) => (
-              <NowcastCard key={`${card.region}-${card.indicator}-${page}-${i}`} {...card} />
+              <div
+                key={`${card.region}-${card.indicator}-${page}-${i}`}
+                className={fillHeight ? 'min-h-0 h-full' : undefined}
+              >
+                <NowcastCard {...card} />
+              </div>
             ))}
           </div>
 
