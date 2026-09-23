@@ -113,10 +113,15 @@ export default function MacroEventStress() {
     }, [])
 
     return (
-        <div className="bg-[#16161F] p-3 sm:p-5 flex flex-col h-full">
-            <div className="flex items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5">
-                <h3 className="text-white text-[16px] leading-[19px] font-semibold">{title}</h3>
-                <button className="transition-colors" type="button" aria-label="Info">
+        <div className="bg-[#16161F] p-3 sm:p-5 flex flex-col h-full min-h-0">
+            <div className="flex items-start justify-between gap-3 sm:gap-4 shrink-0 mb-3 sm:mb-4 min-h-[48px]">
+                <div className="min-w-0">
+                    <h3 className="text-white text-[16px] sm:text-[18px] leading-[22px] font-semibold">{title}</h3>
+                    <p className="text-[#838388] text-[12px] sm:text-[14px] leading-[17px] mt-1">
+                        Upcoming catalysts · dealer stress windows
+                    </p>
+                </div>
+                <button className="transition-colors shrink-0 mt-0.5" type="button" aria-label="Info">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M9.9974 18.3337C14.5998 18.3337 18.3307 14.6027 18.3307 10.0003C18.3307 5.39795 14.5998 1.66699 9.9974 1.66699C5.39502 1.66699 1.66406 5.39795 1.66406 10.0003C1.66406 14.6027 5.39502 18.3337 9.9974 18.3337Z"
@@ -149,7 +154,7 @@ export default function MacroEventStress() {
             {loading && <ChartLoader className="min-h-[80px] mb-3" />}
             {error && <p className="text-[#E25C3F] text-[13px] mb-3">{error}</p>}
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 min-h-0 overflow-y-auto dashboard-scroll">
                 {!loading && !error && events.length === 0 && (
                     <p className="text-white/40 text-[13px]">No macro events published yet.</p>
                 )}
@@ -184,7 +189,7 @@ export default function MacroEventStress() {
             </div>
 
             {footerNote && (
-                <div className="flex items-start gap-2">
+                <div className="flex items-start gap-2 mt-auto pt-3 shrink-0">
                     <svg width="20" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M6.82535 3.64183L1.17868 13.0685C1.06226 13.2701 1.00066 13.4987 1.00001 13.7315C0.999353 13.9643 1.05967 14.1932 1.17496 14.3955C1.29025 14.5978 1.4565 14.7663 1.65715 14.8844C1.85781 15.0025 2.08588 15.0659 2.31868 15.0685H13.612C13.8448 15.0659 14.0729 15.0025 14.2735 14.8844C14.4742 14.7663 14.6404 14.5978 14.7557 14.3955C14.871 14.1932 14.9313 13.9643 14.9307 13.7315C14.93 13.4987 14.8684 13.2701 14.752 13.0685L9.10535 3.64183C8.9865 3.4459 8.81916 3.28391 8.61948 3.17149C8.41979 3.05906 8.1945 3 7.96535 3C7.73619 3 7.5109 3.05906 7.31122 3.17149C7.11153 3.28391 6.94419 3.4459 6.82535 3.64183Z"

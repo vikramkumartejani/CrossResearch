@@ -74,7 +74,7 @@ export default function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60]">
+    <div className="fixed bottom-5 right-5 sm:bottom-7 sm:right-7 z-[60]">
       {open && (
         <div className="mb-3 w-[min(100vw-2rem,380px)] h-[min(72vh,520px)] flex flex-col overflow-hidden rounded-[16px] border border-[#FFFFFF14] bg-[#101018] shadow-[0_24px_80px_rgba(0,0,0,0.55)]">
           {/* Header */}
@@ -171,23 +171,23 @@ export default function ChatWidget() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close chat' : 'Open chat'}
-        className={`ml-auto flex h-14 w-14 items-center justify-center rounded-full border transition-colors cursor-pointer overflow-hidden ${
+        className={`ml-auto flex h-12 w-12 items-center justify-center rounded-full border transition-colors cursor-pointer overflow-hidden p-1 ${
           open
             ? 'bg-[#16161F] border-[#FFFFFF1A] text-white hover:bg-[#1E1E2A]'
             : 'bg-[#0D1115] border-[#88C4FF55] shadow-[0_8px_32px_rgba(136,196,255,0.28)] hover:border-[#88C4FF]'
         }`}
       >
         {open ? (
-          <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         ) : (
           <Image
             src="/assets/chat.png"
             alt=""
-            width={56}
-            height={56}
-            className="w-full h-full object-cover"
+            width={40}
+            height={40}
+            className="w-full h-full object-contain"
           />
         )}
       </button>

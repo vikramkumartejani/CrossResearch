@@ -191,8 +191,8 @@ export default function SectorGammaDashboard() {
   }, [sectors])
 
   return (
-    <div className="mb-4 sm:mb-5 bg-[#16161F] p-3 sm:p-5 grow h-full min-h-0 flex flex-col">
-      <div className="mb-3 sm:mb-4">
+    <div className="bg-[#16161F] p-3 sm:p-5 h-full min-h-0 flex flex-col">
+      <div className="shrink-0 mb-3 sm:mb-4 min-h-[48px]">
         <h2 className="text-white text-[16px] sm:text-[18px] leading-[22px] font-semibold tracking-wide uppercase">
           Sector Gamma Matrix
         </h2>
@@ -287,7 +287,7 @@ export default function SectorGammaDashboard() {
             </table>
           </div>
 
-          <div className="mt-4 sm:mt-5 pt-4 border-t border-[#FFFFFF0D]">
+          <div className="mt-auto pt-4 border-t border-[#FFFFFF0D]">
             <h3 className="text-white text-[16px] sm:text-[18px] leading-[22px] font-medium mb-2 sm:mb-3">
               Composite Narrative
             </h3>

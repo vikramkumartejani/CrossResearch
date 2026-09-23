@@ -217,9 +217,9 @@ export default function MarketReport() {
 
       {!loading && (
         <>
-          <div className="px-4 lg:px-6 pt-1 pb-5 mb-4 border-b border-white/[0.06]">
-            <div className="flex flex-col xl:flex-row xl:items-stretch xl:justify-between gap-5">
-              <div className="max-w-[520px] shrink-0 flex flex-col justify-center">
+          <div className="px-4 lg:px-6 pb-5 mb-4 border-b border-white/[0.06]">
+            <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+              <div className="max-w-[520px] shrink-0">
                 <h1 className="text-white text-[24px] sm:text-[35px] font-medium leading-[30px] sm:leading-[42px] mb-2 normal-case">
                   {page.title || 'Research & Strategy Desk'}
                 </h1>
